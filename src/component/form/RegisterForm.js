@@ -1,4 +1,12 @@
-import { Button, Form, Grid, Header, Input, Segment } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Input,
+  Segment,
+  Select
+} from 'semantic-ui-react';
 import * as React from 'react';
 
 class RegisterForm extends React.Component {
@@ -16,6 +24,7 @@ class RegisterForm extends React.Component {
       }
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(e, { name, value }) {
@@ -24,6 +33,9 @@ class RegisterForm extends React.Component {
     this.setState({ data });
   }
 
+  handleSubmit() {
+    console.log(this.state.data);
+  }
   render() {
     let {
       username,
@@ -42,7 +54,7 @@ class RegisterForm extends React.Component {
               Register
             </Header>
             <Segment attached>
-              <Form>
+              <Form onSubmit={this.handleSubmit}>
                 <Form.Field>
                   <label>Username</label>
                   <Input
@@ -58,16 +70,28 @@ class RegisterForm extends React.Component {
                     placeholder={'Password'}
                     name={'password'}
                     type={'password'}
+                    value={password}
+                    onChange={this.handleChange}
                   />
                 </Form.Field>
                 <Form.Group widths={'equal'}>
                   <Form.Field>
                     <label>First name</label>
-                    <Input placeholder={'First name'} name={'firstName'} />
+                    <Input
+                      placeholder={'First name'}
+                      name={'firstName'}
+                      value={firstName}
+                      onChange={this.handleChange}
+                    />
                   </Form.Field>
                   <Form.Field>
                     <label>Last name</label>
-                    <Input placeholder={'Last name'} name={'lastName'} />
+                    <Input
+                      placeholder={'Last name'}
+                      name={'lastName'}
+                      value={lastName}
+                      onChange={this.handleChange}
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths={'equal'}>
@@ -77,16 +101,32 @@ class RegisterForm extends React.Component {
                       placeholder={'Birth day'}
                       type={'date'}
                       name={'birthDay'}
+                      value={birthDay}
+                      onChange={this.handleChange}
                     />
                   </Form.Field>
                   <Form.Field>
                     <label>Gender</label>
-                    <Input placeholder={'Gender'} name={'gender'} />
+                    <Select
+                      placeholder={'Gender'}
+                      name={'gender'}
+                      options={[
+                        { text: 'Male', value: 1 },
+                        { text: 'Female', value: 2 }
+                      ]}
+                      value={gender}
+                      onChange={this.handleChange}
+                    />
                   </Form.Field>
                 </Form.Group>
                 <Form.Field>
                   <label>Workplace</label>
-                  <Input placeholder={'workplace'} name={'workplace'} />
+                  <Input
+                    placeholder={'workplace'}
+                    name={'workplace'}
+                    value={workplace}
+                    onChange={this.handleChange}
+                  />
                 </Form.Field>
                 <Button primary type={'submit'}>
                   Submit

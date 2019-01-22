@@ -1,9 +1,9 @@
-import React from "react";
-import Button from "semantic-ui-react/dist/commonjs/elements/Button/Button";
-import TopNav from "./component/TopNav";
-import { BrowserRouter } from "react-router-dom";
-import { Route, Switch } from "react-router";
-import Register from "./page/Register";
+import React from 'react';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
+import TopNav from './component/TopNav';
+import { BrowserRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router';
+import Register from './page/Register';
 
 class App extends React.Component {
   render() {
