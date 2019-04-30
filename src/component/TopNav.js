@@ -1,5 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 import { Button, Container, Menu } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class TopNav extends React.Component {
   render() {
@@ -10,10 +11,14 @@ class TopNav extends React.Component {
           <Menu.Item name={'articles'} />
           <Menu.Menu position={'right'}>
             <Menu.Item>
-              <Button primary>Sign up</Button>
+              <Button primary as={Link} to={'/register'}>
+                Sign up
+              </Button>
             </Menu.Item>
             <Menu.Item>
-              <Button>Log in</Button>
+              <Button as={Link} to={'/login'}>
+                Log in
+              </Button>
             </Menu.Item>
           </Menu.Menu>
         </Container>
