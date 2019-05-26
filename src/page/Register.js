@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { RegisterForm } from '../component/form/RegisterForm';
-import withRouter from 'react-router/es/withRouter';
+import { withRouter } from 'react-router';
 
-class Register extends React.Component {
+class BaseRegister extends React.Component {
   constructor(props) {
     super(props);
     this.handleRegisterSuccess = this.handleRegisterSuccess.bind(this);
   }
 
   handleRegisterSuccess() {
-    this.props.history.push('/');
+    const { history } = this.props;
+    history.push('/login');
   }
 
   render() {
@@ -17,4 +18,4 @@ class Register extends React.Component {
   }
 }
 
-export default withRouter(Register);
+export const RegisterPage = withRouter(BaseRegister);

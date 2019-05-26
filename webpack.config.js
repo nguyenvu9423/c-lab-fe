@@ -28,12 +28,23 @@ const config = {
       }
     ]
   },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'bundle.js'
+  },
   devServer: {
     historyApiFallback: true,
     compress: true,
     port: 3000
   },
-  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+  plugins: [
+    new HtmlWebpackPlugin({
+      base: {
+        href: 'http://localhost:3000'
+      }
+    })
+  ],
   optimization: {
     splitChunks: {
       chunks: 'all'

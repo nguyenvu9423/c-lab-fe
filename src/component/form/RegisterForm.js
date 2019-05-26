@@ -9,167 +9,121 @@ import {
   Select
 } from 'semantic-ui-react';
 import * as React from 'react';
+import { withFormik } from 'formik';
+import * as yup from 'yup';
+import { FormErrorMessage } from './internalComponent/FormErrorMessage';
 import UserService from '../../service/UserService';
-import eventEmitter from '../../utility/EventEmitter';
-import PropTypes from 'prop-types';
-import ArrayUtils from '../../utility/ArrayUtils';
 
-class RegisterForm extends React.Component {
+class BaseRegisterForm extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      data: {
-        username: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        birthDay: '',
-        // gender: '',
-        workplace: ''
-      },
-      fieldErrors: this.getEmptyFieldErrors()
-    };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.ErrorMessage = this.ErrorMessage.bind(this);
   }
 
-  getEmptyFieldErrors() {
-    return {
-      username: [],
-      password: [],
-      firstName: [],
-      lastName: [],
-      email: [],
-      birthDay: [],
-      // gender: ,
-      workplace: []
-    };
+  isValid() {
+    return this.props.isValid && this.props.status.isValid;
   }
-  componentWillMount() {
-    eventEmitter.on('message', response => {
-      console.log('Emitted');
+
+  ErrorMessage({ name }) {
+    const { touched, errors } = this.props;
+    const { status } = this.props;
+    if (touched[name]) {
+      if (errors[name]) return <FormErrorMessage content={errors[name]} />;
+      if (status.errors[name]) {
+        return <FormErrorMessage content={status.errors[name]} />;
+      }
+    }
+    return null;
+  }
+
+  handleChange(e) {
+    const { setStatus, status, handleChange } = this.props;
+    const fieldName = e.target.name;
+    setStatus({
+      ...status,
+      errors: {
+        ...status.errors,
+        [fieldName]: ''
+      }
     });
-  }
-
-  handleChange(e, { name, value }) {
-    let { data, fieldErrors } = this.state;
-    data[name] = value;
-    fieldErrors[name] = [];
-    this.setState({ data, fieldErrors });
-  }
-
-  handleSubmit() {
-    UserService.register(this.state.data)
-      .then(response => {
-        this.props.onRegisterSuccess();
-      })
-      .catch(error => {
-        console.log(error.response);
-        const errorList = error.response.data;
-        let fieldErrors = this.getEmptyFieldErrors();
-        errorList.forEach(err => {
-          fieldErrors[err.field].push(err.defaultMessage);
-        });
-        this.setState({ fieldErrors });
-      });
+    handleChange(e);
   }
 
   render() {
-    const {
-      username,
-      password,
-      firstName,
-      lastName,
-      email,
-      birthDay,
-      workplace
-    } = this.state.data;
-    const { fieldErrors } = this.state;
+    const { values, handleBlur, handleSubmit, isSubmitting } = this.props;
+    const handleChange = this.handleChange;
     return (
       <Grid container>
         <Grid.Row centered columns={1}>
           <Grid.Column style={{ maxWidth: 560 }}>
-            <Header as={'h4'} attached={'top'} block>
+            <Header as={'h3'} attached={'top'} block>
               Register
             </Header>
             <Segment attached>
-              <Form onSubmit={this.handleSubmit} error={fieldErrors}>
+              <Form
+                onSubmit={handleSubmit}
+                error={!this.isValid()}
+                loading={isSubmitting}
+              >
                 <Form.Field>
-                  <label>Username</label>
+                  <label>Username*</label>
                   <Input
                     placeholder={'Username'}
                     name={'username'}
-                    value={username}
-                    onChange={this.handleChange}
+                    value={values.username}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
-                  <Message
-                    error
-                    hidden={ArrayUtils.isEmpty(fieldErrors.username)}
-                    list={fieldErrors.username}
-                  />
+                  <this.ErrorMessage name={'username'} />
                 </Form.Field>
-
                 <Form.Field>
-                  <label>Password</label>
+                  <label>Password*</label>
                   <Input
                     placeholder={'Password'}
                     name={'password'}
                     type={'password'}
-                    value={password}
-                    onChange={this.handleChange}
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
-                  <Message
-                    error
-                    hidden={ArrayUtils.isEmpty(fieldErrors.password)}
-                    list={fieldErrors.password}
-                  />
+                  <this.ErrorMessage name={'password'} />
                 </Form.Field>
                 <Form.Group widths={'equal'}>
                   <Form.Field>
-                    <label>First name</label>
+                    <label>First name*</label>
                     <Input
                       placeholder={'First name'}
                       name={'firstName'}
-                      value={firstName}
-                      onChange={this.handleChange}
+                      value={values.firstName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
-                    <Message
-                      error
-                      hidden={ArrayUtils.isEmpty(fieldErrors.firstName)}
-                      list={fieldErrors.firstName}
-                    />
+                    <this.ErrorMessage name={'firstName'} />
                   </Form.Field>
                   <Form.Field>
-                    <label>Last name</label>
+                    <label>Last name*</label>
                     <Input
                       placeholder={'Last name'}
                       name={'lastName'}
-                      value={lastName}
-                      onChange={this.handleChange}
+                      value={values.lastName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
-                    <Message
-                      error
-                      hidden={ArrayUtils.isEmpty(fieldErrors.lastName)}
-                      list={fieldErrors.lastName}
-                    />
+                    <this.ErrorMessage name={'lastName'} />
                   </Form.Field>
                 </Form.Group>
                 <Form.Field>
-                  <label>Email</label>
+                  <label>Email*</label>
                   <Input
                     placeholder={'Email'}
                     name={'email'}
-                    value={email}
-                    onChange={this.handleChange}
-                  />
-                  <Message
-                    error
-                    hidden={ArrayUtils.isEmpty(fieldErrors.email)}
-                    list={fieldErrors.email}
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
                 </Form.Field>
+                <this.ErrorMessage name={'email'} />
                 <Form.Group widths={'equal'}>
                   <Form.Field>
                     <label>Birthday</label>
@@ -177,8 +131,9 @@ class RegisterForm extends React.Component {
                       placeholder={'Birth day'}
                       type={'date'}
                       name={'birthDay'}
-                      value={birthDay}
-                      onChange={this.handleChange}
+                      value={values.birthDay}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
                   </Form.Field>
                   <Form.Field>
@@ -186,8 +141,9 @@ class RegisterForm extends React.Component {
                     <Input
                       placeholder={'Workplace'}
                       name={'workplace'}
-                      value={workplace}
-                      onChange={this.handleChange}
+                      value={values.workplace}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
                   </Form.Field>
                 </Form.Group>
@@ -203,8 +159,69 @@ class RegisterForm extends React.Component {
   }
 }
 
-RegisterForm.propTypes = {
-  onRegisterSuccess: PropTypes.func.isRequired
-};
+const RegisterForm = withFormik({
+  mapPropsToValues: props => {
+    return {
+      username: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      birthDay: '',
+      workplace: ''
+    };
+  },
+  mapPropsToStatus: () => {
+    return {
+      isValid: true,
+      errors: {}
+    };
+  },
+  handleSubmit: (values, bag) => {
+    UserService.register(values)
+      .then(value => {
+        bag.setSubmitting(false);
+        if (bag.props.onRegisterSuccess) bag.props.onRegisterSuccess(value);
+      })
+      .catch(error => {
+        const errors = {};
+        const errorList = error.response.data;
+        errorList.forEach(item => {
+          errors[item.field] = item.defaultMessage;
+        });
+        bag.setSubmitting(false);
+        bag.setStatus({
+          isValid: false,
+          errors
+        });
+      });
+  },
+  validationSchema: yup.object().shape({
+    username: yup
+      .string()
+      .required('Username is required')
+      .min(8, 'Username should be at least 8 characters')
+      .max(24, 'Username should be at most 24 characters'),
+    password: yup
+      .string()
+      .required('Password is required')
+      .min(8, 'Password should be at least 8 characters')
+      .max(24, 'Password should be at most 24 characters'),
+    firstName: yup
+      .string()
+      .required('First name is required')
+      .min(2, 'First name should be at least 2 characters')
+      .max(24, 'First name should be at most 64 characters'),
+    lastName: yup
+      .string()
+      .required('Last name is required')
+      .min(2, 'Last name should be at least 2 characters')
+      .max(24, 'Last name should be at most 64 characters'),
+    email: yup
+      .string()
+      .required('Email is required')
+      .email('Email is not valid')
+  })
+})(BaseRegisterForm);
 
 export { RegisterForm };

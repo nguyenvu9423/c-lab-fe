@@ -28,12 +28,17 @@ const config = {
       }
     ]
   },
+  output: {
+    publicPath: '/'
+  },
   devServer: {
     historyApiFallback: true,
     compress: true,
     port: 3000
   },
-  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+  plugins: [
+    new HtmlWebpackPlugin({ title: 'LogN', template: './src/index.html' })
+  ],
   optimization: {
     splitChunks: {
       chunks: 'all'

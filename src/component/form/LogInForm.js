@@ -9,54 +9,25 @@ import {
   Message,
   Segment
 } from 'semantic-ui-react';
+import { ErrorMessage, withFormik } from 'formik';
+import * as yup from 'yup';
+import { FormErrorMessage } from './internalComponent/FormErrorMessage';
 import UserService from '../../service/UserService';
-import ArrayUtils from '../../utility/ArrayUtils';
+import {setAccessToken} from "../../utility/Axios";
 
-class LogInForm extends React.Component {
+class BaseLogInForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: {
-        username: '',
-        password: ''
-      },
-      fieldErrors: this.getEmptyFieldErrors()
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  getEmptyFieldErrors() {
-    return {
-      username: [],
-      password: []
-    };
-  }
-  handleChange(e, { name, value }) {
-    let { data, fieldErrors } = this.state;
-    data[name] = value;
-    fieldErrors[name] = [];
-    this.setState({ data, fieldErrors });
-  }
-
-  handleSubmit() {
-    UserService.login(this.state.data)
-      .then(response => {
-        console.log('Success');
-      })
-      .catch(error => {
-        console.log(error.response);
-        const errorList = error.response.data;
-        let fieldErrors = this.getEmptyFieldErrors();
-        errorList.forEach(err => {
-          fieldErrors[err.field].push(err.defaultMessage);
-        });
-        this.setState({ fieldErrors });
-      });
   }
 
   render() {
-    const { username, password, fieldErrors } = this.state;
+    const {
+      isValid,
+      isSubmitting,
+      values,
+      handleChange,
+      handleSubmit
+    } = this.props;
     return (
       <Grid container>
         <Grid.Row centered column={1}>
@@ -65,19 +36,22 @@ class LogInForm extends React.Component {
               Login
             </Header>
             <Segment attached>
-              <Form onSubmit={this.handleSubmit} error={fieldErrors}>
+              <Form
+                onSubmit={handleSubmit}
+                loading={isSubmitting}
+                error={!isValid}
+              >
                 <Form.Field>
                   <label>Username</label>
                   <Input
                     placeholder={'Username'}
                     name={'username'}
-                    value={username}
-                    onChange={this.handleChange}
+                    value={values.username}
+                    onChange={handleChange}
                   />
-                  <Message
-                    error
-                    hidden={ArrayUtils.isEmpty(fieldErrors.username)}
-                    list={fieldErrors.username}
+                  <ErrorMessage
+                    render={msg => <FormErrorMessage content={msg} />}
+                    name={'username'}
                   />
                 </Form.Field>
                 <Form.Field>
@@ -86,13 +60,12 @@ class LogInForm extends React.Component {
                     placeholder={'Password'}
                     name={'password'}
                     type={'password'}
-                    value={password}
-                    onChange={this.handleChange}
+                    value={values.password}
+                    onChange={handleChange}
                   />
-                  <Message
-                    error
-                    hidden={ArrayUtils.isEmpty(fieldErrors.password)}
-                    list={fieldErrors.password}
+                  <ErrorMessage
+                    render={msg => <FormErrorMessage content={msg} />}
+                    name={'password'}
                   />
                 </Form.Field>
                 <div className={'clear-fix-container'}>
@@ -110,4 +83,42 @@ class LogInForm extends React.Component {
   }
 }
 
-export default LogInForm;
+const LoginForm = withFormik({
+  mapPropsToValues: () => {
+    return {
+      username: '',
+      password: ''
+    };
+  },
+  mapPropsToStatus: props => {
+    return { isValid: false, errors: [] };
+  },
+  handleSubmit: (values, bag) => {
+    const { props } = bag;
+    UserService.login(values)
+      .then(response => {
+        const { data } = response;
+        localStorage.setItem('token', JSON.stringify(data));
+        bag.setSubmitting(false);
+        props.onLoginSuccess();
+      })
+      .catch(error => {
+        console.log(error);
+        bag.setSubmitting(false);
+      });
+  },
+  validationSchema: yup.object().shape({
+    username: yup
+      .string()
+      .required('Username is required')
+      .min(8, 'Invalid username')
+      .max(24, 'Invalid username'),
+    password: yup
+      .string()
+      .required('Password is required')
+      .min(8, 'Invalid password')
+      .max(24, 'Invalid password')
+  })
+})(BaseLogInForm);
+
+export { LoginForm };

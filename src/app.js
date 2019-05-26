@@ -1,12 +1,11 @@
 import React from 'react';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import TopNav from './component/TopNav';
-import { BrowserRouter } from 'react-router-dom';
 import { Route, Switch } from 'react-router';
-import Register from './page/Register';
+import { RegisterPage } from './page/Register';
 import { toastGroup } from './component/toast/ToastGroup';
 import './style/all.styl';
-import LogIn from './page/LogIn';
+import { LoginPage } from './page/LogIn';
+import { UserProfile } from './page/UserProfile';
 
 class App extends React.Component {
   render() {
@@ -15,8 +14,9 @@ class App extends React.Component {
         <TopNav />
         <div className={'content'} style={{ marginTop: '7em' }}>
           <Switch>
-            <Route path={'/register'} component={Register} />
-            <Route path={'/login'} component={LogIn} />
+            <Route path={'/register'} component={RegisterPage} />
+            <Route path={'/login'} component={LoginPage} />
+            <Route path={'/users/:id'} component={UserProfile} />
           </Switch>
         </div>
         {toastGroup}
