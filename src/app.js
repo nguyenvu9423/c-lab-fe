@@ -1,11 +1,13 @@
 import React from 'react';
-import TopNav from './component/TopNav';
 import { Route, Switch } from 'react-router';
-import { RegisterPage } from './page/Register';
-import { toastGroup } from './component/toast/ToastGroup';
+import { RegisterPage } from './page/register';
 import './style/all.styl';
-import { LoginPage } from './page/LogIn';
-import { UserProfile } from './page/UserProfile';
+import { LoginPage } from './page/login';
+import { UserPage } from './page/users';
+import { toastGroup } from './page/common/ToastGroup';
+import TopNav from './page/common/TopNav';
+import { WriteArticlePage } from './page/write';
+import { ArticlePage } from './page/articles';
 
 class App extends React.Component {
   render() {
@@ -16,7 +18,9 @@ class App extends React.Component {
           <Switch>
             <Route path={'/register'} component={RegisterPage} />
             <Route path={'/login'} component={LoginPage} />
-            <Route path={'/users/:id'} component={UserProfile} />
+            <Route path={'/users/:username'} component={UserPage} />
+            <Route path={'/write'} component={WriteArticlePage} />
+            <Route path={'/articles'} component={ArticlePage} />
           </Switch>
         </div>
         {toastGroup}

@@ -11,7 +11,7 @@ const loginReducer = handleActions(
       const user = action.payload;
       return {
         isLogin: true,
-        loginUser: user
+        loginUser: user.id
       };
     }
   },

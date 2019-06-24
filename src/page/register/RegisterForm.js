@@ -11,8 +11,8 @@ import {
 import * as React from 'react';
 import { withFormik } from 'formik';
 import * as yup from 'yup';
-import { FormErrorMessage } from './internalComponent/FormErrorMessage';
 import UserService from '../../service/UserService';
+import { FormErrorMessage } from '../common/FormErrorMessage';
 
 class BaseRegisterForm extends React.Component {
   constructor(props) {
@@ -160,7 +160,7 @@ class BaseRegisterForm extends React.Component {
 }
 
 const RegisterForm = withFormik({
-  mapPropsToValues: props => {
+  mapPropsToValues: () => {
     return {
       username: '',
       password: '',

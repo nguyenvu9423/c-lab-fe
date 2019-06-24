@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { RegisterForm } from '../component/form/RegisterForm';
 import { withRouter } from 'react-router';
+import { RegisterForm } from './RegisterForm';
 
 class BaseRegister extends React.Component {
   constructor(props) {

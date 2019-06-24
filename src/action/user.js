@@ -1,12 +1,38 @@
 import { createAction, createActions } from 'redux-actions';
 
-const { fetchLoginUser } = createActions({
+const {
+  fetchUserById,
+  fetchLoginUser,
+  updateUserEntity,
+  fetchUserByUsername
+} = createActions({
+  fetchUserById: {
+    request: userId => {
+      return {
+        userId
+      };
+    },
+    response: user => user
+  },
+  fetchUserByUsername: {
+    request: username => {
+      return { username };
+    },
+    response: undefined
+  },
   fetchLoginUser: {
     request: payload => payload,
     response: user => user
-  }
+  },
+  updateUserEntity: undefined
 });
 
-const setLoginUser = createAction('SET_LOGIN_USER');
+const setLoginUser = createAction('setLoginUser');
 
-export { fetchLoginUser, setLoginUser };
+export {
+  fetchLoginUser,
+  setLoginUser,
+  fetchUserById,
+  fetchUserByUsername,
+  updateUserEntity
+};

@@ -1,5 +1,5 @@
 import * as qs from 'qs';
-const PUBLIC_USER_API_BASE_URL = '/public/users';
+
 const USER_API_BASE_URL = '/users';
 import { apiCaller } from '../utility/Axios';
 
@@ -8,8 +8,19 @@ class UserService {
     return apiCaller.get(USER_API_BASE_URL + '/me');
   }
 
+  static async getUserById(id) {
+    return apiCaller.get(`${USER_API_BASE_URL}/${id}`);
+  }
+
+  static async getUserByUsername(username) {
+    return apiCaller.get(USER_API_BASE_URL, {
+      params: {
+        username: username
+      }
+    });
+  }
   static async register(userDTO) {
-    return apiCaller.post(PUBLIC_USER_API_BASE_URL + '/register', userDTO);
+    return apiCaller.post(USER_API_BASE_URL + '/register', userDTO);
   }
 
   static async login(user) {

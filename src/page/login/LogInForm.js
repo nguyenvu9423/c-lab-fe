@@ -6,14 +6,11 @@ import {
   Grid,
   Header,
   Input,
-  Message,
   Segment
 } from 'semantic-ui-react';
 import { ErrorMessage, withFormik } from 'formik';
 import * as yup from 'yup';
-import { FormErrorMessage } from './internalComponent/FormErrorMessage';
 import UserService from '../../service/UserService';
-import {setAccessToken} from "../../utility/Axios";
 
 class BaseLogInForm extends React.Component {
   constructor(props) {

@@ -29,14 +29,14 @@ class UserControlMenu extends React.Component {
     return (
       <Fragment>
         <Menu.Item>
-          <Button icon>
+          <Button icon as={Link} to={'/write'}>
             <Icon name={'edit'} />
             Write
           </Button>
         </Menu.Item>
         <Dropdown item text={user.lastName}>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to={'users/me'}>
+            <Dropdown.Item as={Link} to={`/users/${user.username}`}>
               Profile
             </Dropdown.Item>
             <Dropdown.Item>Upload problem</Dropdown.Item>
@@ -53,7 +53,9 @@ class TopNav extends React.Component {
     return (
       <Menu fixed={'top'} size={'large'}>
         <Container>
-          <Menu.Item header>Log N</Menu.Item>
+          <Menu.Item header as={Link} to={'/'}>
+            Log N
+          </Menu.Item>
           <Menu.Item name={'articles'} />
           <Menu.Menu position={'right'}>
             {login.isLogin ? (
@@ -69,5 +71,7 @@ class TopNav extends React.Component {
 }
 
 export default connect(state => {
-  return { login: state.login };
+  const { login, entities } = state;
+  const { loginUser } = state.login;
+  return { login: { ...login, loginUser: entities.user[loginUser] } };
 })(TopNav);
