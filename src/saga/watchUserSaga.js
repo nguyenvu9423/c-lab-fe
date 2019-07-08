@@ -9,13 +9,16 @@ import {
 import UserService from '../service/UserService';
 import { userSchema } from '../entitySchema/userSchema';
 import { normalize } from 'normalizr';
+import { AuthProvider } from '../authentication/tokenProvider';
 
 function* fetchLoginUserSaga() {
-  try {
-    const response = yield call(UserService.getLoginUser);
-    yield put(fetchLoginUser.response(response.data));
-  } catch (e) {
-    yield put(fetchLoginUser.response(e));
+  if (AuthProvider.getToken()) {
+    try {
+      const response = yield call(UserService.getLoginUser);
+      yield put(fetchLoginUser.response(response.data));
+    } catch (e) {
+      yield put(fetchLoginUser.response(e));
+    }
   }
 }
 
@@ -64,7 +67,7 @@ function* fetchUserByUsernameResponseSaga(action) {
   }
 }
 
-function* watchUpdateUserSaga() {
+function* watchUserSaga() {
   yield takeEvery(fetchLoginUser.request, fetchLoginUserSaga);
   yield takeEvery(fetchLoginUser.response, fetchLoginUserResponseSaga);
   yield takeEvery(fetchUserById.request, fetchUserByIdSaga);
@@ -76,4 +79,4 @@ function* watchUpdateUserSaga() {
   );
 }
 
-export { watchUpdateUserSaga };
+export { watchUserSaga };

@@ -1,4 +1,4 @@
-import { fetchLoginUser, setLoginUser } from '../action/user';
+import { fetchLoginUser, logUserOut, setLoginUser } from '../action/user';
 import { handleActions } from 'redux-actions';
 
 const loginReducer = handleActions(
@@ -12,6 +12,12 @@ const loginReducer = handleActions(
       return {
         isLogin: true,
         loginUser: user.id
+      };
+    },
+    [logUserOut]: () => {
+      return {
+        isLogin: false,
+        loginUser: null
       };
     }
   },

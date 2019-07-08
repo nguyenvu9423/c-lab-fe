@@ -22,26 +22,6 @@ class UserService {
   static async register(userDTO) {
     return apiCaller.post(USER_API_BASE_URL + '/register', userDTO);
   }
-
-  static async login(user) {
-    return apiCaller.post(
-      '/oauth/token',
-      qs.stringify({
-        username: user.username,
-        password: user.password,
-        grant_type: 'password'
-      }),
-      {
-        auth: {
-          username: 'client',
-          password: '32199400'
-        },
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }
-    );
-  }
 }
 
 export default UserService;

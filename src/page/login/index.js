@@ -13,7 +13,7 @@ class BaseLogIn extends React.Component {
   handleLoginSuccess() {
     const { history, loadLoginUser } = this.props;
     loadLoginUser();
-    history.push('/');
+    history.goBack();
   }
 
   render() {

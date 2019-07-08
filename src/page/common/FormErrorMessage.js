@@ -8,4 +8,18 @@ class FormErrorMessage extends React.Component {
   }
 }
 
-export { FormErrorMessage };
+function connectProps(wrapper, BaseErrorMessage) {
+  return function(props) {
+    const { name } = props;
+    const { touched, errors, status } = wrapper.props;
+    if (touched[name]) {
+      if (errors[name]) return <BaseErrorMessage content={errors[name]} />;
+      if (status.errors[name]) {
+        return <BaseErrorMessage content={status.errors[name]} />;
+      }
+    }
+    return null;
+  };
+}
+
+export { FormErrorMessage, connectProps };

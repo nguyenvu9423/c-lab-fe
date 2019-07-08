@@ -28,6 +28,7 @@ class BaseEditArticlePage extends React.Component {
         params: { id }
       }
     } = this.props;
+    console.log(values);
     ArticleService.updateArticle(id, values)
       .then(res => {
         const { data: article } = res;

@@ -3,6 +3,8 @@ import { Button, Container, Dropdown, Icon, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Fragment } from 'react';
+import { fetchLoginUser } from '../../action/user';
+import { withRouter } from 'react-router';
 
 class NotLoginUserControlMenu extends React.Component {
   render() {
@@ -29,17 +31,29 @@ class UserControlMenu extends React.Component {
     return (
       <Fragment>
         <Menu.Item>
-          <Button icon as={Link} to={'/write'}>
-            <Icon name={'edit'} />
-            Write
-          </Button>
+          <Button
+            icon={'edit'}
+            as={Link}
+            to={'/articles/add'}
+            label={'Write'}
+          />
         </Menu.Item>
         <Dropdown item text={user.lastName}>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to={`/users/${user.username}`}>
-              Profile
-            </Dropdown.Item>
-            <Dropdown.Item>Upload problem</Dropdown.Item>
+            <Dropdown.Item
+              as={Link}
+              to={`/users/${user.username}`}
+              icon={'user'}
+              text={'Profile'}
+            />
+            <Dropdown.Item icon={'book'} text={'Upload problem'} />
+            <Dropdown.Divider />
+            <Dropdown.Item
+              icon={'sign-out'}
+              text={'Log out'}
+              as={Link}
+              to={'/logout'}
+            />
           </Dropdown.Menu>
         </Dropdown>
       </Fragment>
@@ -48,6 +62,18 @@ class UserControlMenu extends React.Component {
 }
 
 class TopNav extends React.Component {
+  componentDidMount() {
+    const { fetchLoginUser } = this.props;
+    fetchLoginUser();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location !== this.props.location) {
+      const { fetchLoginUser } = this.props;
+      fetchLoginUser();
+    }
+  }
+
   render() {
     const { login } = this.props;
     return (
@@ -70,8 +96,11 @@ class TopNav extends React.Component {
   }
 }
 
-export default connect(state => {
-  const { login, entities } = state;
-  const { loginUser } = state.login;
-  return { login: { ...login, loginUser: entities.user[loginUser] } };
-})(TopNav);
+export default connect(
+  state => {
+    const { login, entities } = state;
+    const { loginUser } = state.login;
+    return { login: { ...login, loginUser: entities.user[loginUser] } };
+  },
+  { fetchLoginUser: fetchLoginUser.request }
+)(withRouter(TopNav));

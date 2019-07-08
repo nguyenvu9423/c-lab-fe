@@ -1,14 +1,9 @@
 import { call, all } from 'redux-saga/effects';
-import { appStartedSaga } from './appStartedSaga';
-import { watchUpdateUserSaga } from './wahtUpdateUserSaga';
-import { watchUpdateArticleSaga } from './watchUpdateArticleSaga';
+import { watchUserSaga } from './watchUserSaga';
+import { watchArticleSaga } from './watchArticleSaga';
 
 function* rootSaga() {
-  yield all([
-    call(appStartedSaga),
-    call(watchUpdateUserSaga),
-    call(watchUpdateArticleSaga)
-  ]);
+  yield all([call(watchUserSaga), call(watchArticleSaga)]);
 }
 
 export default rootSaga;

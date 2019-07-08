@@ -22,17 +22,23 @@ const {
   },
   fetchLoginUser: {
     request: payload => payload,
-    response: user => user
+    response: res => {
+      return res;
+    }
   },
   updateUserEntity: undefined
 });
 
-const setLoginUser = createAction('setLoginUser');
+const { setLoginUser, logUserOut } = createActions({
+  setLoginUser: undefined,
+  logUserOut: undefined
+});
 
 export {
   fetchLoginUser,
   setLoginUser,
   fetchUserById,
   fetchUserByUsername,
-  updateUserEntity
+  updateUserEntity,
+  logUserOut
 };

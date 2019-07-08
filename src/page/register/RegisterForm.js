@@ -12,30 +12,19 @@ import * as React from 'react';
 import { withFormik } from 'formik';
 import * as yup from 'yup';
 import UserService from '../../service/UserService';
-import { FormErrorMessage } from '../common/FormErrorMessage';
+import { connectProps, FormErrorMessage } from '../common/FormErrorMessage';
 
 class BaseRegisterForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.ErrorMessage = this.ErrorMessage.bind(this);
   }
 
   isValid() {
     return this.props.isValid && this.props.status.isValid;
   }
 
-  ErrorMessage({ name }) {
-    const { touched, errors } = this.props;
-    const { status } = this.props;
-    if (touched[name]) {
-      if (errors[name]) return <FormErrorMessage content={errors[name]} />;
-      if (status.errors[name]) {
-        return <FormErrorMessage content={status.errors[name]} />;
-      }
-    }
-    return null;
-  }
+  ErrorMessage = connectProps(this, FormErrorMessage);
 
   handleChange(e) {
     const { setStatus, status, handleChange } = this.props;

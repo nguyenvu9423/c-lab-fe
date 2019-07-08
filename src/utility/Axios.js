@@ -1,4 +1,6 @@
 import * as axios from 'axios';
+import { AuthProvider } from '../authentication/tokenProvider';
+import { AuthService } from '../service/AuthService';
 
 const instance = axios.create({
   baseURL: 'http://localhost:8080',
@@ -6,15 +8,14 @@ const instance = axios.create({
     'Content-Type': 'application/json',
     Accept: 'application/json'
   },
-  timeout: 1000
+  timeout: 4000
 });
 
 instance.interceptors.request.use(
   config => {
-    const tokenDataJSON = localStorage.getItem('token');
-    if (tokenDataJSON) {
-      const tokenData = JSON.parse(tokenDataJSON);
-      config.headers['Authorization'] = `Bearer ${tokenData.access_token}`;
+    const token = AuthProvider.getToken();
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token.access_token}`;
     }
     return config;
   },
@@ -26,13 +27,54 @@ instance.interceptors.response.use(
     return response;
   },
   error => {
-    if (error.response) {
-      return Promise.reject(error);
-    } else if (error.request) {
-    } else {
-      console.log('Error', error.message);
+    const { response } = error;
+    const { data, status } = response;
+    if (status === 401 && data.error === 'invalid_token') {
+      return callAfterRefreshToken(error);
     }
+    return Promise.reject(error);
   }
 );
 
 export let apiCaller = instance;
+
+let requestQueue = [];
+let isRefreshingToken = false;
+async function callAfterRefreshToken(error) {
+  const {
+    response: { config }
+  } = error;
+  let token = AuthProvider.getToken();
+  const originalRequest = new Promise(resolve => {
+    addRequestToQueue(token => {
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token.access_token}`;
+      } else {
+        config.headers['Authorization'] = undefined;
+      }
+      resolve(axios.request(config));
+    });
+  });
+  if (!isRefreshingToken) {
+    isRefreshingToken = true;
+    try {
+      const newToken = await AuthService.refreshToken(token.refresh_token);
+      AuthProvider.setToken(newToken);
+    } catch {
+      AuthProvider.clearToken();
+    } finally {
+      processQueue();
+    }
+    isRefreshingToken = false;
+  }
+  return originalRequest;
+}
+function addRequestToQueue(request) {
+  requestQueue.push(request);
+}
+
+function processQueue() {
+  const token = AuthProvider.getToken();
+  requestQueue.forEach(callback => callback(token));
+  requestQueue = [];
+}

@@ -8,23 +8,36 @@ import {
   Input,
   Segment
 } from 'semantic-ui-react';
-import { ErrorMessage, withFormik } from 'formik';
+import { withFormik } from 'formik';
 import * as yup from 'yup';
-import UserService from '../../service/UserService';
+import { AuthProvider } from '../../authentication/tokenProvider';
+import { connectProps, FormErrorMessage } from '../common/FormErrorMessage';
+import { AuthService } from '../../service/AuthService';
 
 class BaseLogInForm extends React.Component {
   constructor(props) {
     super(props);
+    this.isValid = this.isValid.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  isValid() {
+    return this.props.isValid && this.props.status.isValid;
+  }
+
+  ErrorMessage = connectProps(this, FormErrorMessage);
+
+  handleChange(event) {
+    const { setStatus, handleChange } = this.props;
+    setStatus({
+      isValid: false,
+      errors: {}
+    });
+    handleChange(event);
   }
 
   render() {
-    const {
-      isValid,
-      isSubmitting,
-      values,
-      handleChange,
-      handleSubmit
-    } = this.props;
+    const { isSubmitting, values, handleSubmit, handleBlur } = this.props;
     return (
       <Grid container>
         <Grid.Row centered column={1}>
@@ -35,8 +48,8 @@ class BaseLogInForm extends React.Component {
             <Segment attached>
               <Form
                 onSubmit={handleSubmit}
+                error={!this.isValid()}
                 loading={isSubmitting}
-                error={!isValid}
               >
                 <Form.Field>
                   <label>Username</label>
@@ -44,12 +57,10 @@ class BaseLogInForm extends React.Component {
                     placeholder={'Username'}
                     name={'username'}
                     value={values.username}
-                    onChange={handleChange}
+                    onChange={this.handleChange}
+                    onBlur={handleBlur}
                   />
-                  <ErrorMessage
-                    render={msg => <FormErrorMessage content={msg} />}
-                    name={'username'}
-                  />
+                  <this.ErrorMessage name={'username'} />
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
@@ -58,13 +69,12 @@ class BaseLogInForm extends React.Component {
                     name={'password'}
                     type={'password'}
                     value={values.password}
-                    onChange={handleChange}
+                    onChange={this.handleChange}
+                    onBlur={handleBlur}
                   />
-                  <ErrorMessage
-                    render={msg => <FormErrorMessage content={msg} />}
-                    name={'password'}
-                  />
+                  <this.ErrorMessage name={'password'} />
                 </Form.Field>
+                <this.ErrorMessage name={'overall'} />
                 <div className={'clear-fix-container'}>
                   <Checkbox label={'Remember me'} />
                   <Button primary type={'submit'} floated={'right'}>
@@ -88,19 +98,30 @@ const LoginForm = withFormik({
     };
   },
   mapPropsToStatus: props => {
-    return { isValid: false, errors: [] };
+    return { isValid: false, errors: {} };
   },
   handleSubmit: (values, bag) => {
     const { props } = bag;
-    UserService.login(values)
+    AuthService.getToken(values)
       .then(response => {
         const { data } = response;
-        localStorage.setItem('token', JSON.stringify(data));
+        AuthProvider.setToken(data);
         bag.setSubmitting(false);
         props.onLoginSuccess();
       })
       .catch(error => {
-        console.log(error);
+        const {
+          response: { data, status }
+        } = error;
+        if (status === 400 && data.error === 'invalid_grant') {
+          bag.setFieldTouched('overall', true);
+          bag.setStatus({
+            isValid: false,
+            errors: {
+              overall: 'Incorrect username or password'
+            }
+          });
+        }
         bag.setSubmitting(false);
       });
   },

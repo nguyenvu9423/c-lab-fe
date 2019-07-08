@@ -1,9 +1,10 @@
 import { ArticleService } from '../service/ArticleService';
-import { put, call, takeEvery } from 'redux-saga/effects';
+import { take, put, call, takeEvery } from 'redux-saga/effects';
 import { articleSchema } from '../entitySchema/articleSchema';
 import { updateArticleEntity } from '../action/article';
 import { fetchArticle } from '../action/article';
 import { normalize } from 'normalizr';
+
 function* fetchArticleSaga(action) {
   try {
     const { articleId } = action.payload;
@@ -22,9 +23,9 @@ function* fetchArticleResponseSaga(action) {
   }
 }
 
-function* watchUpdateArticleSaga() {
+function* watchArticleSaga() {
   yield takeEvery(fetchArticle.request, fetchArticleSaga);
   yield takeEvery(fetchArticle.response, fetchArticleResponseSaga);
 }
 
-export { watchUpdateArticleSaga };
+export { watchArticleSaga };

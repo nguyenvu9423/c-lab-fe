@@ -5,6 +5,7 @@ import { Button, Form, Header, Segment } from 'semantic-ui-react';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import { withFormik } from 'formik';
 import { Editor } from './Editor';
+import { ArticleUtility } from '../../../utility/TextUtility';
 
 const validationSchema = yup.object().shape({
   title: yup
@@ -21,19 +22,15 @@ class BaseAddEditArticleForm extends React.Component {
     this.ErrorMessage = this.ErrorMessage.bind(this);
   }
 
-  handleInitEditor(editor) {
-    editor.conversion.for('downcast').elementToElement({
-      model: 'heading',
-      view: (modelElement, viewWriter) => {
-        console.log('called');
-        return viewWriter.createContainerElement('h3');
-      }
-    });
-  }
-
   handleEditorBlur(event, editor) {
     const { handleBlur, setValues, values } = this.props;
-    setValues({ ...values, content: editor.getData() });
+    const content = ArticleUtility.markupContent(editor.getData());
+    const contentTable = ArticleUtility.getContentTable(content);
+    setValues({
+      ...values,
+      content,
+      contentTable
+    });
     handleBlur(event);
   }
 
@@ -54,7 +51,6 @@ class BaseAddEditArticleForm extends React.Component {
       values,
       handleChange,
       handleSubmit,
-      isValid,
       handleBlur,
       isSubmitting
     } = this.props;
@@ -81,7 +77,6 @@ class BaseAddEditArticleForm extends React.Component {
             <label>Content</label>
             <CKEditor
               editor={Editor}
-              onInit={this.handleInitEditor}
               data={values.content}
               onBlur={this.handleEditorBlur}
             />

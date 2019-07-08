@@ -6,8 +6,8 @@ import { LoginPage } from './page/login';
 import { UserPage } from './page/users';
 import { toastGroup } from './page/common/ToastGroup';
 import TopNav from './page/common/TopNav';
-import { WriteArticlePage } from './page/write';
 import { ArticlePage } from './page/articles';
+import { LogoutPage } from './page/logout';
 
 class App extends React.Component {
   render() {
@@ -19,8 +19,8 @@ class App extends React.Component {
             <Route path={'/register'} component={RegisterPage} />
             <Route path={'/login'} component={LoginPage} />
             <Route path={'/users/:username'} component={UserPage} />
-            <Route path={'/write'} component={WriteArticlePage} />
             <Route path={'/articles'} component={ArticlePage} />
+            <Route path={'/logout'} component={LogoutPage} />
           </Switch>
         </div>
         {toastGroup}
