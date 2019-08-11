@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { fetchArticle } from '../../action/article';
 import {
   Button,
+  Container,
   Grid,
   Header,
   Icon,
+  Message,
   Ref,
   Segment,
   Sticky
@@ -14,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { ContentTable } from './internal/ContentTable';
 import { createRef } from 'react';
 
-class BaseSingleArticlePage extends React.Component {
+class BaseArticleDetailPage extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -26,7 +28,17 @@ class BaseSingleArticlePage extends React.Component {
   contextRef = createRef();
 
   render() {
-    const { article, match } = this.props;
+    const { article, articleState, match } = this.props;
+    if (articleState.error) {
+      return (
+        <Container>
+          <Message negative>
+            <Message.Header>Error</Message.Header>
+            <p>{articleState.error.message}</p>
+          </Message>
+        </Container>
+      );
+    }
     return (
       <Grid container>
         <Grid.Column width={12}>
@@ -79,17 +91,13 @@ class BaseSingleArticlePage extends React.Component {
   }
 }
 
-const SingleArticlePage = connect(
+const ArticleDetailPage = connect(
   (state, ownProps) => {
-    const {
-      match: {
-        params: { id }
-      }
-    } = ownProps;
-    const article = state.entities.article[id];
-    return { article };
+    const articleState = state.article;
+    const article = state.entities.article[articleState.articleId];
+    return { article, articleState };
   },
   { fetchArticleById: fetchArticle.request }
-)(BaseSingleArticlePage);
+)(BaseArticleDetailPage);
 
-export { SingleArticlePage };
+export { ArticleDetailPage };

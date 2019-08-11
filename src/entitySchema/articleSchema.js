@@ -1,5 +1,5 @@
 import { schema } from 'normalizr';
 
 const articleSchema = new schema.Entity('article');
-
-export { articleSchema };
+const articleListSchema = new schema.Array(articleSchema);
+export { articleSchema, articleListSchema };

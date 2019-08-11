@@ -1,11 +1,10 @@
 import { Button, Form, Grid, Header, Input, Segment } from 'semantic-ui-react';
 import * as React from 'react';
 import * as yup from 'yup';
-import UserService from '../../service/UserService';
-import { FormErrorMessage } from '../common/FormErrorMessage';
+import { FormErrorMessage } from '../../common/FormErrorMessage';
 import { withFormik } from 'formik';
 
-class BaseRegisterForm extends React.Component {
+class BaseEditUserDetailsForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -46,29 +45,6 @@ class BaseRegisterForm extends React.Component {
                 error={!this.isValid()}
                 loading={isSubmitting}
               >
-                <Form.Field>
-                  <label>Username*</label>
-                  <Input
-                    placeholder={'Username'}
-                    name={'username'}
-                    value={values.username}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <this.ErrorMessage name={'username'} />
-                </Form.Field>
-                <Form.Field>
-                  <label>Password*</label>
-                  <Input
-                    placeholder={'Password'}
-                    name={'password'}
-                    type={'password'}
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <this.ErrorMessage name={'password'} />
-                </Form.Field>
                 <Form.Group widths={'equal'}>
                   <Form.Field>
                     <label>First name*</label>
@@ -139,15 +115,19 @@ class BaseRegisterForm extends React.Component {
   }
 }
 
-const RegisterForm = withFormik({
+const EditUserDetailsForm = withFormik({
   mapPropsToValues: props => {
     const { initialUser } = props;
     if (initialUser) {
-      return initialUser;
+      return {
+        firstName: initialUser.firstName,
+        lastName: initialUser.lastName,
+        email: initialUser.email,
+        birthDay: initialUser.birthDay,
+        workplace: initialUser.workplace
+      };
     }
     return {
-      username: '',
-      password: '',
       firstName: '',
       lastName: '',
       email: '',
@@ -162,35 +142,11 @@ const RegisterForm = withFormik({
     };
   },
   handleSubmit: (values, bag) => {
-    UserService.register(values)
-      .then(value => {
-        bag.setSubmitting(false);
-        if (bag.props.onRegisterSuccess) bag.props.onRegisterSuccess(value);
-      })
-      .catch(error => {
-        const errors = {};
-        const errorList = error.response.data;
-        errorList.forEach(item => {
-          errors[item.field] = item.defaultMessage;
-        });
-        bag.setSubmitting(false);
-        bag.setStatus({
-          isValid: false,
-          errors
-        });
-      });
+    const { props } = bag;
+    console.log('called');
+    props.onSubmit(values, bag);
   },
   validationSchema: yup.object().shape({
-    username: yup
-      .string()
-      .required('Username is required')
-      .min(8, 'Username should be at least 8 characters')
-      .max(24, 'Username should be at most 24 characters'),
-    password: yup
-      .string()
-      .required('Password is required')
-      .min(8, 'Password should be at least 8 characters')
-      .max(24, 'Password should be at most 24 characters'),
     firstName: yup
       .string()
       .required('First name is required')
@@ -206,6 +162,6 @@ const RegisterForm = withFormik({
       .required('Email is required')
       .email('Email is not valid')
   })
-})(BaseRegisterForm);
+})(BaseEditUserDetailsForm);
 
-export { RegisterForm };
+export { EditUserDetailsForm };

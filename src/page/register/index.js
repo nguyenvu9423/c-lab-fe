@@ -2,7 +2,7 @@ import * as React from 'react';
 import { withRouter } from 'react-router';
 import { RegisterForm } from './RegisterForm';
 
-class BaseRegister extends React.Component {
+class BaseRegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleRegisterSuccess = this.handleRegisterSuccess.bind(this);
@@ -18,4 +18,4 @@ class BaseRegister extends React.Component {
   }
 }
 
-export const RegisterPage = withRouter(BaseRegister);
+export const RegisterPage = withRouter(BaseRegisterPage);

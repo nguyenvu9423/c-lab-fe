@@ -3,13 +3,13 @@ import {
   fetchLoginUser,
   fetchUserById,
   fetchUserByUsername,
-  setLoginUser,
-  updateUserEntity
+  setLoginUser
 } from '../action/user';
 import UserService from '../service/UserService';
 import { userSchema } from '../entitySchema/userSchema';
 import { normalize } from 'normalizr';
 import { AuthProvider } from '../authentication/tokenProvider';
+import { updateEntity } from '../action/entity';
 
 function* fetchLoginUserSaga() {
   if (AuthProvider.getToken()) {
@@ -25,8 +25,8 @@ function* fetchLoginUserSaga() {
 function* fetchLoginUserResponseSaga(action) {
   if (!action.error) {
     const { payload } = action;
-    const updatedEntities = normalize(payload, userSchema).entities;
-    yield put(updateUserEntity(updatedEntities.user));
+    const entities = normalize(payload, userSchema).entities;
+    yield put(updateEntity(entities));
     yield put(setLoginUser(payload));
   }
 }
@@ -45,7 +45,7 @@ function* fetchUserByIdResponseSaga(action) {
   if (!action.error) {
     const user = action.payload;
     const entities = normalize(user, userSchema).entities;
-    yield put(updateUserEntity(entities.user));
+    yield put(updateEntity(entities));
   }
 }
 
@@ -63,7 +63,7 @@ function* fetchUserByUsernameResponseSaga(action) {
   if (!action.error) {
     const user = action.payload;
     const entities = normalize(user, userSchema).entities;
-    yield put(updateUserEntity(entities.user));
+    yield put(updateEntity(entities));
   }
 }
 

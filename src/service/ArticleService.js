@@ -10,7 +10,7 @@ class ArticleService {
     });
   }
 
-  static async getAllArticle() {
+  static async getArticleList() {
     return apiCaller.get(ARTICLE_API_URL);
   }
 

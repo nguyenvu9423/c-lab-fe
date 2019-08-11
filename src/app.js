@@ -18,7 +18,7 @@ class App extends React.Component {
           <Switch>
             <Route path={'/register'} component={RegisterPage} />
             <Route path={'/login'} component={LoginPage} />
-            <Route path={'/users/:username'} component={UserPage} />
+            <Route path={'/users'} component={UserPage} />
             <Route path={'/articles'} component={ArticlePage} />
             <Route path={'/logout'} component={LogoutPage} />
           </Switch>

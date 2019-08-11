@@ -1,11 +1,6 @@
-import { createAction, createActions } from 'redux-actions';
+import { createActions } from 'redux-actions';
 
-const {
-  fetchUserById,
-  fetchLoginUser,
-  updateUserEntity,
-  fetchUserByUsername
-} = createActions({
+const { fetchUserById, fetchLoginUser, fetchUserByUsername } = createActions({
   fetchUserById: {
     request: userId => {
       return {
@@ -39,6 +34,5 @@ export {
   setLoginUser,
   fetchUserById,
   fetchUserByUsername,
-  updateUserEntity,
   logUserOut
 };

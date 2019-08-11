@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router';
-import { HomeArticlePage } from './HomeArticlePage';
-import { SingleArticlePage } from './SingleArticlePage';
+import { ArticleOverviewPage } from './ArticleOverviewPage';
+import { ArticleDetailPage } from './ArticleDetailPage';
 import { AddArticlePage } from './AddArticlePage';
 import { EditArticlePage } from './EditArticlePage';
 
@@ -16,8 +16,8 @@ class ArticlePage extends React.Component {
           path={`${match.path}/:id/edit`}
           component={EditArticlePage}
         />
-        <Route path={`${match.path}/:id`} component={SingleArticlePage} />
-        <Route path={`${match.path}`} component={HomeArticlePage} />
+        <Route path={`${match.path}/:id`} component={ArticleDetailPage} />
+        <Route path={`${match.path}`} component={ArticleOverviewPage} />
       </Switch>
     );
   }

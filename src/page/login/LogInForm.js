@@ -11,7 +11,7 @@ import {
 import { withFormik } from 'formik';
 import * as yup from 'yup';
 import { AuthProvider } from '../../authentication/tokenProvider';
-import { connectProps, FormErrorMessage } from '../common/FormErrorMessage';
+import { FormErrorMessage } from '../common/FormErrorMessage';
 import { AuthService } from '../../service/AuthService';
 
 class BaseLogInForm extends React.Component {
@@ -25,7 +25,7 @@ class BaseLogInForm extends React.Component {
     return this.props.isValid && this.props.status.isValid;
   }
 
-  ErrorMessage = connectProps(this, FormErrorMessage);
+  ErrorMessage = FormErrorMessage.connectProps(this, FormErrorMessage);
 
   handleChange(event) {
     const { setStatus, handleChange } = this.props;
