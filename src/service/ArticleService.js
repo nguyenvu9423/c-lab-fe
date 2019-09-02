@@ -10,8 +10,8 @@ class ArticleService {
     });
   }
 
-  static async getArticleList() {
-    return apiCaller.get(ARTICLE_API_URL);
+  static async getArticleList(page) {
+    return apiCaller.get(`${ARTICLE_API_URL}?page=${page}`);
   }
 
   static async getArticleById(id) {

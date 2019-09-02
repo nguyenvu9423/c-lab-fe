@@ -12,10 +12,7 @@ class UserProfilePanel extends React.Component {
         <Grid columns={2} divided doubling stackable>
           <Grid.Column width={3}>
             <Image
-              src={
-                user &&
-                `http://localhost:8080/resources/user-avatar/${user.avatarFileName}`
-              }
+              src={user && user.avatarLink}
               style={{ width: 128, height: 128 }}
               fluid
               centered

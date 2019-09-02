@@ -8,11 +8,12 @@ import { toastGroup } from './page/common/ToastGroup';
 import TopNav from './page/common/TopNav';
 import { ArticlePage } from './page/articles';
 import { LogoutPage } from './page/logout';
+import { ScrollToTop } from './page/common/ScrollToTop';
 
 class App extends React.Component {
   render() {
     return (
-      <React.Fragment>
+      <ScrollToTop>
         <TopNav />
         <div className={'content'} style={{ marginTop: '7em' }}>
           <Switch>
@@ -24,7 +25,7 @@ class App extends React.Component {
           </Switch>
         </div>
         {toastGroup}
-      </React.Fragment>
+      </ScrollToTop>
     );
   }
 }

@@ -27,7 +27,6 @@ class BaseUserSettingMenu extends React.Component {
       UserService.updateAvatar(user.username, formData).then(res => {
         const response = res.data;
         const entities = normalize(response, userSchema).entities;
-        console.log(response, entities);
         updateEntity(entities);
       });
     }

@@ -12,10 +12,8 @@ class BaseAddArticlePage extends React.Component {
 
   handleSubmit(values) {
     const { history } = this.props;
-    console.log('called');
     ArticleService.createArticle(values)
       .then(res => {
-        console.log('called');
         const { data: article } = res;
         history.push(`/articles/${article.id}`);
       })
@@ -33,4 +31,4 @@ class BaseAddArticlePage extends React.Component {
   }
 }
 
-export let AddArticlePage = withRouter(BaseAddArticlePage);
+export let AddArticlePage = BaseAddArticlePage;

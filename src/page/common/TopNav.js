@@ -82,7 +82,7 @@ class TopNav extends React.Component {
           <Menu.Item header as={Link} to={'/'}>
             Log N
           </Menu.Item>
-          <Menu.Item name={'articles'} />
+          <Menu.Item name={'articles'} as={Link} to={'/articles'} />
           <Menu.Menu position={'right'}>
             {login.isLogin ? (
               <UserControlMenu user={login.loginUser} />

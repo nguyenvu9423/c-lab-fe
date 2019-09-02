@@ -46,7 +46,6 @@ export const UserDetailPage = connect(
         params: { username }
       }
     } = ownProps;
-    console.log(username);
     const loginUserId = state.login.loginUser;
     const userList = state.entities.user;
     const user = Object.values(userList).find(

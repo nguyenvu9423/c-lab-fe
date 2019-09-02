@@ -11,11 +11,11 @@ const articleOverviewReducer = handleActions(
     },
     [fetchArticleList.response]: (state, action) => {
       if (!action.error) {
-        const {
-          payload: { articleList }
-        } = action;
+        const { articleList, totalPages, number } = action.payload;
         return {
           articleList,
+          totalPages,
+          number,
           isFetching: false,
           error: undefined
         };
@@ -25,7 +25,9 @@ const articleOverviewReducer = handleActions(
   {
     articleList: [],
     isFetching: false,
-    error: undefined
+    error: undefined,
+    totalPages: 0,
+    number: 0
   }
 );
 

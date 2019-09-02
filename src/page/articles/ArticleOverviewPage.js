@@ -1,22 +1,43 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { fetchArticleList } from '../../action/article';
-import { Grid, Card, Menu, Input } from 'semantic-ui-react';
+import { Card, Grid, Input, Menu, Pagination } from 'semantic-ui-react';
 import { OverviewArticleCard } from './components/OverviewArticleCard';
+import * as qs from 'qs';
 
 class BaseArticleOverviewPage extends React.Component {
   constructor() {
     super();
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentDidMount() {
-    const { fetchArticleList } = this.props;
-    fetchArticleList();
+    const { fetchArticleList, location } = this.props;
+    const params = qs.parse(location.search, { ignoreQueryPrefix: true });
+    fetchArticleList({
+      page: params.page - 1
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location !== this.props.location) {
+      const { fetchArticleList, location } = this.props;
+      const params = qs.parse(location.search, { ignoreQueryPrefix: true });
+      fetchArticleList({
+        page: params.page - 1
+      });
+    }
+  }
+
+  handlePageChange(e, data) {
+    const { activePage } = data;
+    const { history } = this.props;
+    history.push({ search: `?page=${activePage}` });
   }
 
   render() {
     const {
-      articleOverview: { articleList }
+      articleOverview: { articleList, totalPages, number }
     } = this.props;
     return (
       <Grid container columns={2}>
@@ -28,6 +49,13 @@ class BaseArticleOverviewPage extends React.Component {
                 ))
               : null}
           </Card.Group>
+          <div style={{ marginTop: 25, textAlign: 'center' }}>
+            <Pagination
+              totalPages={totalPages}
+              activePage={number + 1}
+              onPageChange={this.handlePageChange}
+            />
+          </div>
         </Grid.Column>
         <Grid.Column width={4}>
           <Menu vertical fluid>

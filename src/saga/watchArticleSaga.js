@@ -28,10 +28,14 @@ function* fetchArticleResponseSaga(action) {
 
 function* fetchArticleListSaga(action) {
   try {
-    const { data } = yield call(ArticleService.getArticleList);
+    const { page } = action.payload;
+    const { data } = yield call(ArticleService.getArticleList, page);
     const normalizedData = normalize(data.content, articleListSchema);
     yield put(
-      fetchArticleList.response({ articleList: normalizedData.result })
+      fetchArticleList.response({
+        ...data,
+        articleList: normalizedData.result
+      })
     );
     yield put(updateEntity(normalizedData.entities));
   } catch (e) {
