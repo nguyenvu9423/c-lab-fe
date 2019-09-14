@@ -83,7 +83,7 @@ class BaseArticleDetailPage extends React.Component {
         </Grid.Column>
         <Grid.Column width={4}>
           <Sticky context={this.contextRef} offset={76}>
-            <ContentTable cntext structure={article && article.contentTable} />
+            <ContentTable structure={article && article.contentTable} />
           </Sticky>
         </Grid.Column>
       </Grid>

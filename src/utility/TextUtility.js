@@ -8,7 +8,6 @@ class ArticleUtility {
       const id = Slugify.heading($(element).text());
       $(element).prepend(`<span class="anchor-tag" id="${id}"/>`);
     });
-    console.log($.html());
     return $.html();
   }
 
@@ -23,7 +22,7 @@ class ArticleUtility {
         level: parseInt(element.tagName.substring(1)) - 1
       });
     });
-    return table;
+    return JSON.stringify(table);
   }
 }
 

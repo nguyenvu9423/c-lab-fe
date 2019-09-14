@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Card, Image } from 'semantic-ui-react';
+import { Card, Image, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Grid } from 'semantic-ui-react/dist/commonjs/collections/Grid/Grid';
-
+import { Link } from 'react-router-dom';
 class BaseOverviewArticleCard extends React.Component {
   render() {
     const { article } = this.props;
@@ -29,22 +29,22 @@ class BaseOverviewArticleCard extends React.Component {
           <Card.Description>
             <div
               className={'article-container'}
-              style={{
-                maxHeight: 250,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis'
-              }}
               dangerouslySetInnerHTML={{
                 __html: article && article.content
               }}
             />
           </Card.Description>
         </Card.Content>
-        <Card.Content extra>Extra Content</Card.Content>
+        <Card.Content extra>
+          <Button as={Link} to={`articles/${article.id}`}>
+            Read more
+          </Button>
+        </Card.Content>
       </Card>
     );
   }
 }
+import { from } from 'rxjs';
 
 export const OverviewArticleCard = connect((state, ownProps) => {
   const { articleId } = ownProps;

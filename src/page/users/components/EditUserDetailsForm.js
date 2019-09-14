@@ -143,7 +143,6 @@ const EditUserDetailsForm = withFormik({
   },
   handleSubmit: (values, bag) => {
     const { props } = bag;
-    console.log('called');
     props.onSubmit(values, bag);
   },
   validationSchema: yup.object().shape({
