@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { fetchArticleList } from '../../action/article';
+import { fetchArticles } from '../../store/actions/article';
 import { Card, Grid, Input, Menu, Pagination } from 'semantic-ui-react';
 import { OverviewArticleCard } from './components/OverviewArticleCard';
 import * as qs from 'qs';
@@ -12,18 +12,18 @@ class BaseArticleOverviewPage extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchArticleList, location } = this.props;
+    const { fetchArticles, location } = this.props;
     const params = qs.parse(location.search, { ignoreQueryPrefix: true });
-    fetchArticleList({
+    fetchArticles({
       page: params.page - 1
     });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.location !== this.props.location) {
-      const { fetchArticleList, location } = this.props;
+      const { fetchArticles, location } = this.props;
       const params = qs.parse(location.search, { ignoreQueryPrefix: true });
-      fetchArticleList({
+      fetchArticles({
         page: params.page - 1
       });
     }
@@ -37,14 +37,14 @@ class BaseArticleOverviewPage extends React.Component {
 
   render() {
     const {
-      articleOverview: { articleList, totalPages, number }
+      articleOverview: { articles, totalPages, number }
     } = this.props;
     return (
       <Grid container columns={2}>
         <Grid.Column width={12}>
           <Card.Group>
-            {articleList
-              ? articleList.map(articleId => (
+            {articles
+              ? articles.map(articleId => (
                   <OverviewArticleCard key={articleId} articleId={articleId} />
                 ))
               : null}
@@ -82,6 +82,6 @@ export const ArticleOverviewPage = connect(
     };
   },
   {
-    fetchArticleList: fetchArticleList.request
+    fetchArticles: fetchArticles.request
   }
 )(BaseArticleOverviewPage);

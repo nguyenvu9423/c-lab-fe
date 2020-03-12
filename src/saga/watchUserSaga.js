@@ -1,15 +1,15 @@
-import { take, call, all, takeEvery, put } from 'redux-saga/effects';
+import { call, takeEvery, put } from 'redux-saga/effects';
 import {
   fetchLoginUser,
   fetchUserById,
   fetchUserByUsername,
-  setLoginUser
-} from '../action/user';
-import UserService from '../service/UserService';
-import { userSchema } from '../entitySchema/userSchema';
+  setLoginUser,
+  updateEntity
+} from '../actions/user';
+import UserService from '../../service/UserService';
+import { userSchema } from '../../entitySchema/userSchema';
 import { normalize } from 'normalizr';
-import { AuthProvider } from '../authentication/tokenProvider';
-import { updateEntity } from '../action/entity';
+import { AuthProvider } from '../../authentication/tokenProvider';
 
 function* fetchLoginUserSaga() {
   if (AuthProvider.getToken()) {

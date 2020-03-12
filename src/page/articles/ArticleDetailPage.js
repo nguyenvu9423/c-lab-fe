@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { fetchArticle } from '../../action/article';
+import { fetchArticle } from '../../store/actions/article';
 import {
   Button,
   Container,

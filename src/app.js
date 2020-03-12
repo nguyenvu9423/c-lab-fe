@@ -9,6 +9,8 @@ import TopNav from './page/common/TopNav';
 import { ArticlePage } from './page/articles';
 import { LogoutPage } from './page/logout';
 import { ScrollToTop } from './page/common/ScrollToTop';
+import { ProblemPage } from './page/problems';
+import { Modal } from './components/modals';
 
 class App extends React.Component {
   render() {
@@ -22,9 +24,11 @@ class App extends React.Component {
             <Route path={'/users'} component={UserPage} />
             <Route path={'/articles'} component={ArticlePage} />
             <Route path={'/logout'} component={LogoutPage} />
+            <Route path={'/problems'} component={ProblemPage} />
           </Switch>
         </div>
         {toastGroup}
+        <Modal />
       </ScrollToTop>
     );
   }

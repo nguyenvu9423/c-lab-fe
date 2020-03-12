@@ -3,8 +3,8 @@ import * as React from 'react';
 import { createRef } from 'react';
 import UserService from '../../../service/UserService';
 import { connect } from 'react-redux';
-import { updateEntity } from '../../../action/entity';
-import { userSchema } from '../../../entitySchema/userSchema';
+import { updateEntity } from '../../../store/actions/entity';
+import { userSchema } from '../../../entity-schemas/userSchema';
 import { normalize } from 'normalizr';
 import { Link } from 'react-router-dom';
 

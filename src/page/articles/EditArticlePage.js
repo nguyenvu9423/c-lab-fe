@@ -4,7 +4,7 @@ import { Container } from 'semantic-ui-react';
 import { AddEditArticleForm } from './internal/AddEditArticleForm';
 import { ArticleService } from '../../service/ArticleService';
 import { connect } from 'react-redux';
-import { fetchArticle } from '../../action/article';
+import { fetchArticle } from '../../store/actions/article';
 
 class BaseEditArticlePage extends React.Component {
   constructor(props) {

@@ -37,7 +37,7 @@ class BaseOverviewArticleCard extends React.Component {
         </Card.Content>
         <Card.Content extra>
           <Button as={Link} to={`articles/${article.id}`}>
-            Read more
+            Xem thêm
           </Button>
         </Card.Content>
       </Card>

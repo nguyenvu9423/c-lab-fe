@@ -1,12 +1,11 @@
-import { ArticleService } from '../service/ArticleService';
-import { take, put, call, takeEvery } from 'redux-saga/effects';
+import { ArticleService } from '../../service/ArticleService';
+import { put, call, takeEvery } from 'redux-saga/effects';
 import {
-  articleListSchema,
+  articleArraySchema,
   articleSchema
-} from '../entitySchema/articleSchema';
-import { fetchArticle, fetchArticleList } from '../action/article';
+} from '../../entitySchema/articleSchema';
+import { fetchArticle, fetchArticles, updateEntity } from '../actions';
 import { normalize } from 'normalizr';
-import { updateEntity } from '../action/entity';
 
 function* fetchArticleSaga(action) {
   try {
@@ -26,27 +25,27 @@ function* fetchArticleResponseSaga(action) {
   }
 }
 
-function* fetchArticleListSaga(action) {
+function* fetchArticlesSaga(action) {
   try {
     const { page } = action.payload;
-    const { data } = yield call(ArticleService.getArticleList, page);
-    const normalizedData = normalize(data.content, articleListSchema);
+    const { data } = yield call(ArticleService.getArticles, page);
+    const normalizedData = normalize(data.content, articleArraySchema);
     yield put(
-      fetchArticleList.response({
+      fetchArticles.response({
         ...data,
-        articleList: normalizedData.result
+        articles: normalizedData.result
       })
     );
     yield put(updateEntity(normalizedData.entities));
   } catch (e) {
-    yield put(fetchArticleList.response(e));
+    yield put(fetchArticles.response(e));
   }
 }
 
 function* watchArticleSaga() {
   yield takeEvery(fetchArticle.request, fetchArticleSaga);
   yield takeEvery(fetchArticle.response, fetchArticleResponseSaga);
-  yield takeEvery(fetchArticleList.request, fetchArticleListSaga);
+  yield takeEvery(fetchArticles.request, fetchArticlesSaga);
 }
 
 export { watchArticleSaga };

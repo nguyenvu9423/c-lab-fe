@@ -1,0 +1,9 @@
+export const ProgressStatusType = {
+  SUBMITTING: 'SUBMITTING',
+  COMPILING: 'COMPILING',
+  RUNNING: 'RUNNING',
+  //finished
+  DONE: 'DONE',
+  COMPILE_ERROR: 'COMPILE_ERROR',
+  SYSTEM_ERROR: 'SYSTEM_ERROR'
+};

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { UserProfilePanel } from './components/UserProfilePanel';
 import { UserSettingMenu } from './components/UserSettingMenu';
 import connect from 'react-redux/es/connect/connect';
-import { fetchUserByUsername } from '../../action/user';
+import { fetchUserByUsername } from '../../store/actions/user';
 import { Grid } from 'semantic-ui-react';
 
 class BaseUserDetailPage extends React.Component {

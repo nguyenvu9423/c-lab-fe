@@ -2,7 +2,7 @@ import * as React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { LoginForm } from './LogInForm';
-import { fetchLoginUser } from '../../action/user';
+import { fetchLoginUser } from '../../store/actions/user';
 
 class BaseLogIn extends React.Component {
   constructor() {

@@ -2,8 +2,10 @@ import * as axios from 'axios';
 import { AuthProvider } from '../authentication/tokenProvider';
 import { AuthService } from '../service/AuthService';
 
+export const apiURL = 'http://localhost:8080';
+
 const instance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: apiURL,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'

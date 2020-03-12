@@ -7,7 +7,7 @@ class ArticleService {
     return apiCaller.post(ARTICLE_API_URL, article);
   }
 
-  static async getArticleList(page) {
+  static async getArticles(page) {
     return apiCaller.get(`${ARTICLE_API_URL}?page=${page}`);
   }
 

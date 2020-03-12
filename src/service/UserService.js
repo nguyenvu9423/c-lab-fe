@@ -1,5 +1,3 @@
-import * as qs from 'qs';
-
 const USER_API_BASE_URL = '/users';
 import { apiCaller } from '../utility/Axios';
 

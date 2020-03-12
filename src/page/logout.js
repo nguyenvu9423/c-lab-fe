@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { AuthProvider } from '../authentication/tokenProvider';
-import { logUserOut } from '../action/user';
+import { logUserOut } from '../store/actions/user';
 import { connect } from 'react-redux';
 
 class BaseLogoutPage extends React.Component {

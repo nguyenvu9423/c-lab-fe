@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Header, List, Menu, Segment } from 'semantic-ui-react';
 import { HashLink } from 'react-router-hash-link';
 import { withRouter } from 'react-router';
-
+import { connect } from 'react-redux';
+import { from } from 'rxjs';
 class ContentTableHeading extends React.Component {
   render() {
     const { level, label, id } = this.props;
@@ -17,9 +18,7 @@ class ContentTableHeading extends React.Component {
 function BaseContentTable(props) {
   const { structure } = props;
   if (!structure) return null;
-  let parsedStructure = React.useMemo(() => JSON.parse(structure), [
-    structure
-  ]);
+  let parsedStructure = React.useMemo(() => JSON.parse(structure), [structure]);
   return (
     <Segment>
       <List link size={'small'}>

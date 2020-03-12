@@ -13,7 +13,6 @@ class AuthProvider {
 
   static clearToken() {
     localStorage.removeItem('token');
-    console.log(AuthProvider.getToken());
   }
 
   static getRefreshToken() {

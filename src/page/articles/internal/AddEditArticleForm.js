@@ -4,7 +4,7 @@ import { FormErrorMessage } from '../../common/FormErrorMessage';
 import { Button, Form, Header, Segment } from 'semantic-ui-react';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import { withFormik } from 'formik';
-import { Editor } from './Editor';
+import { Editor } from '../../common/Editor';
 import { ArticleUtility } from '../../../utility/TextUtility';
 
 const validationSchema = yup.object().shape({
