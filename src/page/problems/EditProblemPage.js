@@ -1,52 +1,69 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
+import { withRouter, useHistory } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 import { fetchProblemById } from '../../store/actions/problem';
-import { ProblemSelectors } from '../../store/selectors';
+import {
+  ProblemSelectors,
+  ProblemEditPageSelectors
+} from '../../store/selectors';
 import { EditProblemForm } from './components/EditProblemForm';
 import { fetchTestPackages } from '../../store/actions/testPackage';
+import { LoadingState } from '../../store/common';
+import { ErrorMessage, LoadingIndicator } from '../../components';
+import { Target } from '../../store/reducers/targets';
+import { useDispatch } from 'react-redux';
+import { resetState } from '../../store/actions/state';
 
-function BaseEditProblemPage(props) {
-  const { id, fetchProblemById, initialProblem, history } = props;
+export function ProblemEditPage(props) {
+  const {
+    match: {
+      params: { id }
+    }
+  } = props;
+  const dispatch = useDispatch(Target.PROBLEM_EDIT_PAGE);
+  const history = useHistory();
   React.useEffect(() => {
-    fetchProblemById({ id });
+    dispatch(
+      fetchProblemById.request(id, { target: Target.PROBLEM_EDIT_PAGE })
+    );
+    return () => {
+      dispatch(resetState({ target: Target.PROBLEM_EDIT_PAGE }));
+    };
   }, []);
 
   const handleSubmitSucess = React.useCallback(response => {
     const { data } = response;
     history.push(`/problems/${data.code}`);
   }, []);
-  if (!initialProblem) {
-    return null;
+
+  const problemData = useSelector(ProblemEditPageSelectors.problem());
+  const problem = useSelector(ProblemSelectors.byId(problemData.id));
+
+  const handleCancel = React.useCallback(() => {
+    if (problem) {
+      history.push(`/problems/${problem.code}`);
+    }
+  }, [history, problem]);
+
+  if (LoadingState.isInProgress(problemData.loadingState)) {
+    return <LoadingIndicator />;
   }
+  if (problemData.loadingState === LoadingState.ERROR) {
+    return (
+      <Container>
+        <ErrorMessage message={problemData.error.message} />
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <EditProblemForm
-        initialProblem={initialProblem}
+        initialProblem={problem}
         onSubmitSuccess={handleSubmitSucess}
+        onCancel={handleCancel}
       />
     </Container>
   );
 }
-
-export const EditProblemPage = withRouter(
-  connect(
-    (state, ownProps) => {
-      const {
-        match: {
-          params: { id }
-        }
-      } = ownProps;
-      const initialProblem = ProblemSelectors.byId(id)(state);
-      return {
-        id,
-        initialProblem
-      };
-    },
-    {
-      fetchProblemById: fetchProblemById.request,
-      fetchTestPackages: fetchTestPackages.request
-    }
-  )(BaseEditProblemPage)
-);

@@ -4,8 +4,7 @@ const {
   fetchSubmissionsByUserAndProblem,
   fetchSubmissionsByProblem,
   fetchSubmissionDetailsById,
-  createSubmission,
-  userSubmissionToProblem
+  createSubmission
 } = createActions({
   fetchSubmissionsByUserAndProblem: {
     request: (
@@ -30,9 +29,6 @@ const {
   createSubmission: {
     request: undefined,
     response: submissionId => ({ submissionId })
-  },
-  userSubmissionToProblem: {
-    resetState: undefined
   }
 });
 
@@ -40,6 +36,5 @@ export {
   fetchSubmissionsByUserAndProblem,
   fetchSubmissionsByProblem,
   fetchSubmissionDetailsById,
-  createSubmission,
-  userSubmissionToProblem
+  createSubmission
 };

@@ -1,46 +1,57 @@
 import * as React from 'react';
-import { Table, Pagination, Loader, Dimmer } from 'semantic-ui-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchSubmissionsByProblem } from '../../store/actions/submission';
-import { ProblemSubmissionsSelectors } from '../../store/selectors/ProblemSubmissionsSelectors';
-import { SubmissionSelector } from '../../store/selectors/SubmissionSelectors';
-import { SubmissionStatusLabel } from '../submission/components/SubmissionStatusLabel';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  problemUser,
+  SubmissionSelector,
+  UserSelectors,
+  ProblemUserSubmissionsSelectors
+} from '../../store/selectors';
+import { fetchSubmissionsByUserAndProblem } from '../../store/actions/submission';
+import { LoadingState } from '../../store/common';
 import { useSubmissionStream } from '../submission/hooks';
+import { Dimmer, Loader, Table, Pagination } from 'semantic-ui-react';
+import { SubmissionStatusLabel } from '../submission/components/SubmissionStatusLabel';
 import { SubmissionDetailsLink } from '../../domains/submission/components';
-import { SubmissionFilterSelectors } from '../../store/selectors';
+import { Link } from 'react-router-dom';
 
-export function ProblemStatusPage(props) {
+const PAGE_SIZE = 10;
+
+export function ProblemUserSubmissionsPage(props) {
   const { problemId } = props;
-  const dispatch = useDispatch();
-  const { filters } = useSelector(SubmissionFilterSelectors.state());
-  React.useEffect(() => {
-    dispatch(fetchSubmissionsByProblem.request(problemId, filters));
-  }, [filters]);
-
-  const handlePageChange = React.useCallback(
-    (event, { activePage }) => {
-      dispatch(
-        fetchSubmissionsByProblem.request(problemId, filters, {
-          pageNumber: activePage - 1
-        })
-      );
-    },
-    [filters]
-  );
-
-  const state = useSelector(ProblemSubmissionsSelectors.state());
+  const loginUser = useSelector(UserSelectors.loginUser());
   const {
+    loadingState,
     submissions: submissionIds,
-    isFetching,
     totalPages,
     activePage
-  } = state;
+  } = useSelector(ProblemUserSubmissionsSelectors.state());
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    // return () => dispatch(userSubmissionToProblem.resetState());
+  }, []);
+  React.useEffect(() => {
+    if (loadingState === LoadingState.LOAD_NEEDED) {
+      dispatch(
+        fetchSubmissionsByUserAndProblem.request(loginUser.id, problemId, {
+          pageNumber: activePage,
+          pageSize: PAGE_SIZE
+        })
+      );
+    }
+  }, [loadingState]);
   const submissions = useSelector(SubmissionSelector.byIds(submissionIds));
   useSubmissionStream(submissions);
+  const handlePageChange = React.useCallback((event, { activePage }) => {
+    dispatch(
+      fetchSubmissionsByUserAndProblem.request(loginUser.id, problemId, {
+        pageNumber: activePage - 1,
+        pageSize: PAGE_SIZE
+      })
+    );
+  }, []);
   return (
     <>
-      <Dimmer active={isFetching} inverted>
+      <Dimmer active={loadingState === LoadingState.LOADING} inverted>
         <Loader />
       </Dimmer>
 
@@ -77,6 +88,7 @@ export function ProblemStatusPage(props) {
           })}
         </Table.Body>
       </Table>
+
       <div style={{ textAlign: 'center' }}>
         <Pagination
           size={'tiny'}

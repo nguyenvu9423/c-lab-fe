@@ -1,41 +1,36 @@
 import * as React from 'react';
 import { Menu } from 'semantic-ui-react';
-import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
-export function ProblemNavMenu({ rootUrl, tabName }) {
-  const history = useHistory();
-  const handleMenuItemClicked = React.useCallback(
-    (event, { name }) => {
-      if (!name) {
-        history.push(rootUrl);
-      } else {
-        history.push(`${rootUrl}/${name}`);
-      }
-    },
-    [history, rootUrl]
-  );
+export function ProblemNavMenu({ baseUrl, tabName }) {
   return (
     <Menu pointing secondary attached="top">
-      <Menu.Item
-        name=""
-        active={tabName == undefined}
-        link
-        onClick={handleMenuItemClicked}
-      >
+      <Menu.Item as={Link} active={tabName == undefined} to={baseUrl}>
         Content
       </Menu.Item>
       <Menu.Item
-        name="submit"
-        link
+        as={Link}
         active={tabName == 'submit'}
-        onClick={handleMenuItemClicked}
-      />
+        to={`${baseUrl}/submit`}
+      >
+        Submit
+      </Menu.Item>
       <Menu.Item
-        name="status"
-        link
+        as={Link}
+        active={tabName == 'my'}
+        to={`${baseUrl}/my`}
+      >
+        My submissions
+      </Menu.Item>
+
+      <Menu.Item
+        as={Link}
         active={tabName == 'status'}
-        onClick={handleMenuItemClicked}
-      />
+        to={`${baseUrl}/status`}
+      >
+        Status
+      </Menu.Item>
     </Menu>
   );
 }

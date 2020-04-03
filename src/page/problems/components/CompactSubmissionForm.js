@@ -50,7 +50,6 @@ export function CompactCodeSubmissionForm(props) {
     }
   });
   const { values, handleSubmit, setFieldValue, isSubmitting } = formik;
-  const submissionInputRef = React.useRef(null);
   const onChange = React.useCallback(event => {
     const { files } = event.target;
     if (files.length == 1) {
@@ -76,11 +75,7 @@ export function CompactCodeSubmissionForm(props) {
           loading={isSubmitting}
         >
           <Form.Field>
-            <FileUploadInput
-              ref={submissionInputRef}
-              onChange={onChange}
-              file={values.codeFile}
-            />
+            <FileUploadInput onChange={onChange} file={values.codeFile} />
           </Form.Field>
           <Form.Field>
             <CodeLanguageInput

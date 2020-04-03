@@ -4,6 +4,7 @@ const {
   fetchProblems,
   fetchProblem,
   fetchProblemById,
+  fetchProblemByCode,
   updateProblem
 } = createActions({
   fetchProblems: {
@@ -12,11 +13,13 @@ const {
   },
   fetchProblem: {
     request: undefined,
-    response: undefined
+    response: [payload => payload, (payload, meta) => meta]
   },
   fetchProblemById: {
-    request: undefined,
-    response: undefined
+    request: [id => ({ params: { id } }), (id, meta) => meta]
+  },
+  fetchProblemByCode: {
+    request: [code => ({ params: { code } }), (code, meta) => meta]
   },
   updateProblem: {
     request: (id, problem) => ({ id, problem }),
@@ -24,4 +27,10 @@ const {
   }
 });
 
-export { fetchProblem, fetchProblemById, fetchProblems, updateProblem };
+export {
+  fetchProblem,
+  fetchProblemById,
+  fetchProblemByCode,
+  fetchProblems,
+  updateProblem
+};

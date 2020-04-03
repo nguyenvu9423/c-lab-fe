@@ -8,11 +8,8 @@ import {
   Loader
 } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchSubmissionsByUserAndProblem,
-  userSubmissionToProblem
-} from '../../../store/actions/submission';
-import { UserSubmissionsToProblemSelectors } from '../../../store/selectors/UserSubmissionsToProblemSelectors';
+import { fetchSubmissionsByUserAndProblem } from '../../../store/actions/submission';
+import { ProblemUserSubmissionsSelectors } from '../../../store/selectors';
 import { SubmissionStatusLabel } from '../../submission/components/SubmissionStatusLabel';
 import { SubmissionSelector } from '../../../store/selectors/SubmissionSelectors';
 import { LoadingState } from '../../../store/common';
@@ -22,17 +19,17 @@ import { ModalMap } from '../../../components/modals';
 import { SubmissionDetailsLink } from '../../../domains/submission/components';
 
 const PAGE_SIZE = 5;
-export function UserSubmissionToProblemCard(props) {
+export function ProblemUserSubmissionCard(props) {
   const { problemId, userId } = props;
   const {
     loadingState,
     submissions: submissionIds,
     totalPages,
     activePage
-  } = useSelector(UserSubmissionsToProblemSelectors.state());
+  } = useSelector(ProblemUserSubmissionsSelectors.state());
   const dispatch = useDispatch();
   React.useEffect(() => {
-    return () => dispatch(userSubmissionToProblem.resetState());
+    // return () => dispatch(userSubmissionToProblem.resetState());
   }, []);
   React.useEffect(() => {
     if (loadingState === LoadingState.LOAD_NEEDED) {
@@ -54,12 +51,13 @@ export function UserSubmissionToProblemCard(props) {
       })
     );
   }, []);
+
   return (
     <>
       <Header as="h2" attached="top">
         Bài đã nộp
       </Header>
-      <Segment attached style={{ minHeight: 240 }}>
+      <Segment attached>
         {loadingState === LoadingState.LOADING && (
           <Dimmer active inverted>
             <Loader inverted />
@@ -87,6 +85,7 @@ export function UserSubmissionToProblemCard(props) {
             })}
           </Table.Body>
         </Table>
+
         <div style={{ textAlign: 'center' }}>
           <Pagination
             size={'tiny'}

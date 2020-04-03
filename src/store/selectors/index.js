@@ -4,5 +4,6 @@ export * from './ProblemSubmissionsSelectors';
 export * from './SubmissionDetailsSelectors';
 export * from './SubmissionSelectors';
 export * from './UserSelectors';
-export * from './UserSubmissionsToProblemSelectors';
+export * from './ProblemUserSubmissionsSelectors';
 export * from './SubmissionFilterSelectors';
+export * from './pages';

@@ -15,7 +15,11 @@ export class ProblemService {
     return apiCaller.get(`${BASE_URL}?page=${page}`);
   }
 
-  static getProblem(params) {
+  static getProblem(id) {
+    return apiCaller.get(`${BASE_URL}/${id}`);
+  }
+
+  static getProblemByParams(params) {
     return apiCaller.get(BASE_URL, {
       params
     });

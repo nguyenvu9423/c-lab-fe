@@ -20,7 +20,7 @@ function* fetchTestPackagesSaga(action) {
   }
 }
 
-function* watchTestPackageSaga() {
+function* watchTestPackageSaga() {  
   yield takeEvery(fetchTestPackages.request, fetchTestPackagesSaga);
 }
 

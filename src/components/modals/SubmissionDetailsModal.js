@@ -21,7 +21,6 @@ const SubmissionDetailsModal = props => {
       onClose={() => {
         dispatch(hideModal());
       }}
-      scrolling
     >
       <UiModal.Header> Submission #{submissionId}</UiModal.Header>
       <UiModal.Content>

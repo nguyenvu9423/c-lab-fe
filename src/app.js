@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router';
 import { RegisterPage } from './page/register';
 import './style/all.styl';
 import { LoginPage } from './page/login';
@@ -19,6 +19,11 @@ class App extends React.Component {
         <TopNav />
         <div className={'content'} style={{ marginTop: '7em' }}>
           <Switch>
+            <Route path="/(.*)/" exact strict>
+              {({ match }) => {
+                return <Redirect to={match.url.slice(0, -1)} />;
+              }}
+            </Route>
             <Route path={'/register'} component={RegisterPage} />
             <Route path={'/login'} component={LoginPage} />
             <Route path={'/users'} component={UserPage} />

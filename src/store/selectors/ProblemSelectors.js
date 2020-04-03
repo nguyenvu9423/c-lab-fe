@@ -1,7 +1,7 @@
 export const ProblemSelectors = {
   byId(id) {
     return state => {
-      return state.entities.problem[id];
+      return id ? state.entities.problem[id] : undefined;
     };
   },
   byCode(code) {

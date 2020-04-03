@@ -1,20 +1,19 @@
 import * as React from 'react';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { ProblemOverviewPage } from './ProblemOverviewPage';
 import { ProblemDetailsPage } from './ProblemDetailsPage';
 import { AddProblemPage } from './AddProblemPage';
-import { EditProblemPage } from './EditProblemPage';
+import { ProblemEditPage } from './EditProblemPage';
+import { useRouteMatch } from 'react-router';
 
-function BaseProblemPage(props) {
-  const { match } = props;
+export function ProblemPage() {
+  const { url } = useRouteMatch();
   return (
     <Switch>
-      <Route path={`${match.path}/:id/edit`} component={EditProblemPage} />
-      <Route path={`${match.path}/add`} component={AddProblemPage} />
-      <Route path={`${match.path}/:code`} component={ProblemDetailsPage} />
-      <Route path={`${match.path}`} component={ProblemOverviewPage} />
+      <Route path={`${url}/:id/edit`} exact component={ProblemEditPage} />
+      <Route path={`${url}/add`} exact component={AddProblemPage} />
+      <Route path={`${url}/:code`} component={ProblemDetailsPage} />
+      <Route path={`${url}`} exact component={ProblemOverviewPage} />
     </Switch>
   );
 }
-
-export const ProblemPage = withRouter(BaseProblemPage);

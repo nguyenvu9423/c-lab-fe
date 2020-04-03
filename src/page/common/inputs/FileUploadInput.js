@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { Form, Button, Icon, Label } from 'semantic-ui-react';
 
-function BaseFileUploadInput(props, forwardRef) {
+export function FileUploadInput(props) {
   const { file, placeHolder = 'Chọn tệp...', onChange } = props;
+  const inputRef = React.useRef();
   return (
     <Button
       as="div"
       labelPosition="right"
       style={{ display: 'flex' }}
       onClick={() => {
-        forwardRef.current.click();
+        inputRef.current.click();
       }}
     >
       <Button type="button" icon>
@@ -19,9 +20,7 @@ function BaseFileUploadInput(props, forwardRef) {
       <Label basic pointing="left" style={{ flexGrow: '1' }}>
         {file ? file.name : placeHolder}
       </Label>
-      <input ref={forwardRef} type="file" hidden onChange={onChange} />
+      <input ref={inputRef} type="file" hidden onChange={onChange} />
     </Button>
   );
 }
-
-export const FileUploadInput = React.forwardRef(BaseFileUploadInput);

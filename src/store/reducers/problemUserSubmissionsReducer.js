@@ -1,9 +1,5 @@
 import handleActions from 'redux-actions/lib/handleActions';
-import {
-  fetchSubmissionsByUserAndProblem,
-  createSubmission,
-  userSubmissionToProblem
-} from '../actions';
+import { fetchSubmissionsByUserAndProblem, createSubmission } from '../actions';
 import { LoadingState } from '../common';
 
 const initialState = {
@@ -13,9 +9,9 @@ const initialState = {
   activePage: 0
 };
 
-const userSubmissionsToProblemReducer = handleActions(
+const problemUserSubmissionsReducer = handleActions(
   {
-    [createSubmission.request]: () => initialState,
+    [createSubmission.response]: () => initialState,
     [fetchSubmissionsByUserAndProblem.request]: state => {
       return { ...state, submissions: [], loadingState: LoadingState.LOADING };
     },
@@ -27,10 +23,9 @@ const userSubmissionsToProblemReducer = handleActions(
         totalPages,
         activePage
       };
-    },
-    [userSubmissionToProblem.resetState]: () => initialState
+    }
   },
   initialState
 );
 
-export { userSubmissionsToProblemReducer, initialState };
+export { problemUserSubmissionsReducer, initialState };

@@ -35,8 +35,7 @@ export const CodeSubmissionForm = props => {
         'submissionDTO',
         new Blob([JSON.stringify(submissionDTO)], { type: 'application/json' })
       );
-      formData.append('codeText', codeText);
-      setSubmitting(true);
+      formData.append('codeText', codeText);      
       SubmissionService.createSubmission(formData)
         .then(() => {
           setSubmitting(false);

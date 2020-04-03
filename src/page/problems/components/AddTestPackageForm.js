@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { withFormik } from 'formik';
+import * as yup from 'yup';
+import { withFormik, useFormik } from 'formik';
 import { connect } from 'react-redux';
 import { Modal, Form, Button } from 'semantic-ui-react';
 import { FileUploadInput } from '../../common/inputs/FileUploadInput';
@@ -8,7 +9,19 @@ import { normalize } from 'normalizr';
 import { updateEntity } from '../../../store/actions/entity';
 import { testPackageDTOSchema } from '../../../entity-schemas/testPackageDTOSchema';
 
-export function BaseAddTestPackageForm(props) {
+const validationSchema = yup.object().shape({
+  inputFileName: yup.string().required("Input file name is required")
+});
+
+export function A ddTestPackageForm(props) {
+  const {} = useFormik({
+    initialValues: {
+      inputFileName: '',
+      outputFileName: '',
+      testPackageFile: undefined
+    }, 
+    
+  });
   const {
     isOpen,
     isSubmitting,
@@ -84,49 +97,49 @@ export function BaseAddTestPackageForm(props) {
   );
 }
 
-export const AddTestPackageForm = connect(
-  undefined,
-  {
-    updateEntity
-  }
-)(
-  withFormik({
-    mapPropsToValues: props => {
-      return {
-        inputFileName: '',
-        outputFileName: '',
-        testPackageFile: undefined
-      };
-    },
-    handleSubmit: (values, bag) => {
-      const {
-        props: { problem, updateEntity, onClose },
-        setSubmitting
-      } = bag;
-      const { inputFileName, outputFileName } = values;
-      const formData = new FormData();
-      const testPackageBlob = new Blob(
-        [
-          JSON.stringify({
-            owningProblemId: problem.id,
-            inputFileName,
-            outputFileName
-          })
-        ],
-        {
-          type: 'application/json'
-        }
-      );
-      formData.append('testPackage', testPackageBlob);
-      formData.append('file', values.testPackageFile);
-      setSubmitting(true);
-      TestPackageService.create(formData).then(res => {
-        const { data } = res;
-        const normalizedData = normalize(data, testPackageDTOSchema);
-        updateEntity(normalizedData.entities);
-        setSubmitting(false);
-        onClose();
-      });
-    }
-  })(BaseAddTestPackageForm)
-);
+// export const AddTestPackageForm = connect(
+//   undefined,
+//   {
+//     updateEntity
+//   }
+// )(
+//   withFormik({
+//     mapPropsToValues: props => {
+//       return {
+//         inputFileName: '',
+//         outputFileName: '',
+//         testPackageFile: undefined
+//       };
+//     },
+//     handleSubmit: (values, bag) => {
+//       const {
+//         props: { problem, updateEntity, onClose },
+//         setSubmitting
+//       } = bag;
+//       const { inputFileName, outputFileName } = values;
+//       const formData = new FormData();
+//       const testPackageBlob = new Blob(
+//         [
+//           JSON.stringify({
+//             owningProblemId: problem.id,
+//             inputFileName,
+//             outputFileName
+//           })
+//         ],
+//         {
+//           type: 'application/json'
+//         }
+//       );
+//       formData.append('testPackage', testPackageBlob);
+//       formData.append('file', values.testPackageFile);
+//       setSubmitting(true);
+//       TestPackageService.create(formData).then(res => {
+//         const { data } = res;
+//         const normalizedData = normalize(data, testPackageDTOSchema);
+//         updateEntity(normalizedData.entities);
+//         setSubmitting(false);
+//         onClose();
+//       });
+//     }
+//   })(BaseAddTestPackageForm)
+// );

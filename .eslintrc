@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended"
-  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "env": {
     "browser": true,
     "es6": true
@@ -23,6 +20,7 @@
     "semi": ["error", "always"],
     "quotes": ["error", "single"],
     "prettier/prettier": ["error", { "singleQuote": true }],
-    "react/prop-types": [0]
+    "react/prop-types": [0],
+    "no-duplicate-imports": ["error", "always"]
   }
 }

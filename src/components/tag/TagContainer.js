@@ -13,11 +13,11 @@ export const TagContainer = props => {
         Tags
       </Header>
       <Segment attached="bottom">
-        {problem.tags.map(tag => (
-          <Label tag key={tag.id}>
-            {tag.name}
-          </Label>
-        ))}
+        <Label.Group tag>
+          {problem.tags.map(tag => (
+            <Label key={tag.id}>{tag.name}</Label>
+          ))}
+        </Label.Group>
       </Segment>
     </>
   );

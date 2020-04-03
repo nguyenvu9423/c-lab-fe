@@ -1,6 +1,5 @@
-import * as yup from 'yup';
 import * as React from 'react';
-import { FormErrorMessage } from '../../common/FormErrorMessage';
+import * as yup from 'yup';
 import {
   Segment,
   Form,
@@ -13,53 +12,137 @@ import {
 } from 'semantic-ui-react';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import { Editor } from '../../common/Editor';
-import { withFormik } from 'formik';
+import { withFormik, useFormik } from 'formik';
+import { useHistory } from 'react-router';
 import { fetchAllCodeLanguages } from '../../../store/actions/code-language';
 import { connect } from 'react-redux';
 import { TestPackageService } from '../../../service/TestPackageService';
 import { FileUploadInput } from '../../common/inputs/FileUploadInput';
 import { BaseAddTestPackageForm } from './AddTestPackageForm';
 import { ProblemService } from '../../../service/ProblemService';
+import { useCodeLanguageSelect } from '../../../domains/code-language';
+import { useFormErrorMessage } from '../../../components/form';
+import { useTagSelect } from '../../../domains/tag';
+import { ExceptionTypes } from '../../../exception/ExceptionTypes';
 
-function BaseAddProblemForm(props) {
+const validationSchema = yup.object().shape({
+  code: yup
+    .string()
+    .matches(
+      /^[A-Z0-9]*$/,
+      'Code should only contain uppercase letters and numbers'
+    )
+    .required('Code is required')
+    .min(3, 'Code should be at least 3 characters')
+    .max(12, 'Code shoud be at most 12 characters'),
+  title: yup
+    .string()
+    .strict()
+    .trim('Title should not contain leading and trailing whitespace')
+    .required('Title is required')
+    .min(3, 'Title should be at least 3 characters')
+    .max(64, 'Title should be at most 64 characters'),
+  definition: yup
+    .string()
+    .required('Definition is required')
+    .max(640000, 'Definition should only contain 64000 characters'),
+  activeTestPackage: yup
+    .mixed()
+    .required('At least one test package should be chosen for this problem'),
+  timeLimit: yup
+    .number()
+    .required('Time limit should be defined')
+    .min(1, 'Timelimit should be greater than 0ms')
+    .max(20000, 'Timelimit shoud be less than 20000ms'),
+  memoryLimit: yup
+    .number()
+    .required('Memory limit should be defined')
+    .min(1, 'Memorylimit should be greater than 32mb')
+    .max(20000, 'Memorylimit should be less than 1024mb'),
+  allowedLanguages: yup
+    .array()
+    .min(1, 'At least one languages should be defined'),
+  activeTestPackage: yup.object().shape({
+    inputFileName: yup.string().required('Input file name is required'),
+    outputFileName: yup.string().required('Output file name is required')
+  }),
+  testPackageFile: yup.mixed().required('Test package file is required')
+});
+
+export function AddProblemForm(props) {
+  const history = useHistory();
+
   const {
-    isValid,
-    isSubmitting,
     values,
-    setValues,
+    status,
+    setStatus,
     setFieldValue,
-    touched,
-    errors,
     handleChange,
     handleBlur,
     handleSubmit,
-    allowedLanguages,
-    fetchAllCodeLanguages
-  } = props;
-
-  React.useEffect(() => {
-    fetchAllCodeLanguages();
-  }, []);
-
-  const allowedLanguageOptions = React.useMemo(() => {
-    return allowedLanguages.map(lang => ({
-      key: lang.id,
-      text: lang.title,
-      value: lang.id
-    }));
-  }, [allowedLanguages]);
-
-  const handleEditorBlur = React.useCallback((event, editor) =>
-    setValues(
-      {
-        ...values,
-        definition: editor.getData()
+    touched,
+    errors,
+    isValid,
+    isSubmitting
+  } = useFormik({
+    initialValues: {
+      code: '',
+      title: '',
+      definition: '',
+      timeLimit: 2000,
+      memoryLimit: 256,
+      allowedLanguages: [],
+      tags: [],
+      activeTestPackage: {
+        inputFileName: '',
+        outputFileName: ''
       },
-      []
-    )
-  );
+      testPackageFile: undefined
+    },
+    initialStatus: {
+      errors: {}
+    },
+    validationSchema,
+    onSubmit: (values, { setSubmitting, setStatus }) => {
+      const { testPackageFile, ...problemDTO } = values;
+      const formData = new FormData();
+      formData.append('testPackageFile', testPackageFile);
+      const problemDTOBlob = new Blob([JSON.stringify(problemDTO)], {
+        type: 'application/json'
+      });
+      formData.append('problemDTO', problemDTOBlob);
+      ProblemService.create(formData)
+        .then(response => {
+          setSubmitting(false);
+          const { data } = response;
+          history.push(data.code);
+        })
+        .catch(ex => {
+          setSubmitting(false);
+          if (ex.response) {
+            const errors = {};
+            const body = ex.response.data;
+            if (body.type === ExceptionTypes.INVALID_FORM) {
+              body.errors.forEach(error => {
+                errors[error.field] = error.defaultMessage;
+              });
+              setStatus({ errors });
+            }
+          }
+        });
+    }
+  });
 
-  const testPackageInputRef = React.useRef(null);
+  const {
+    languageOptions,
+    mapLanguageToValue,
+    mapValueToLanguage
+  } = useCodeLanguageSelect();
+
+  const handleEditorBlur = React.useCallback(
+    (event, editor) => setFieldValue('definition', editor.getData()),
+    []
+  );
 
   const handleTestPackageChange = React.useCallback(event => {
     const { files } = event.target;
@@ -71,15 +154,27 @@ function BaseAddProblemForm(props) {
     }
   }, []);
 
-  const ErrorMessage = React.useMemo(() => {
-    return ({ name }) => {
-      if (touched[name]) {
-        if (errors[name]) return <FormErrorMessage content={errors[name]} />;
-      }
-      return null;
-    };
-  }, [errors, touched]);
+  const handleCodeChange = React.useCallback(
+    (event, data) => {
+      setFieldValue('code', data.value.toUpperCase());
+      setStatus({
+        ...status,
+        errors: { ...status.errors, ['code']: null }
+      });
+    },
+    [setFieldValue, setStatus, status]
+  );
 
+  const {
+    tagOptions,
+    mapTagToValue,
+    mapValueToTag,
+    isFetchingTags,
+    handleTagSearchChange,
+    handleAddOption
+  } = useTagSelect(values.tags);
+
+  const ErrorMessage = useFormErrorMessage(touched, errors, status);
   return (
     <>
       <Header as={'h2'} block attached="top">
@@ -87,7 +182,7 @@ function BaseAddProblemForm(props) {
       </Header>
       <Segment className="clear-fix-container" attached>
         <Header as={'h3'}>Details</Header>
-        <Form onSubmit={handleSubmit} error={!isValid} loading={isSubmitting}>
+        <Form onSubmit={handleSubmit} error={true} loading={isSubmitting}>
           <Form.Group>
             <Form.Field width={4}>
               <label>Code</label>
@@ -96,7 +191,7 @@ function BaseAddProblemForm(props) {
                 name="code"
                 value={values.code}
                 onBlur={handleBlur}
-                onChange={handleChange}
+                onChange={handleCodeChange}
               />
               <ErrorMessage name="code" />
             </Form.Field>
@@ -109,6 +204,7 @@ function BaseAddProblemForm(props) {
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
+              <ErrorMessage name="title" />
             </Form.Field>
           </Form.Group>
 
@@ -119,6 +215,7 @@ function BaseAddProblemForm(props) {
               data={values.definition}
               onBlur={handleEditorBlur}
             />
+            <ErrorMessage name="definition" />
           </Form.Field>
           <Form.Group widths="equal">
             <Form.Field>
@@ -132,6 +229,7 @@ function BaseAddProblemForm(props) {
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
+              <ErrorMessage name="timeLimit" />
             </Form.Field>
             <Form.Field>
               <label>Memory limit</label>
@@ -144,26 +242,51 @@ function BaseAddProblemForm(props) {
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
+              <ErrorMessage name="memoryLimit" />
             </Form.Field>
           </Form.Group>
-          <Form.Field>
-            <label>Allowed languages</label>
-            <Dropdown
-              selection
-              multiple
-              fluid
-              options={allowedLanguageOptions}
-              value={values.allowedLanguages.map(item => item.id)}
-              onChange={(event, data) => {
-                setFieldValue(
-                  'allowedLanguages',
-                  data.value.map(item => ({
-                    id: item
-                  }))
-                );
-              }}
-            />
-          </Form.Field>
+          <Form.Group widths="equal">
+            <Form.Field>
+              <label>Allowed languages</label>
+              <Dropdown
+                selection
+                multiple
+                fluid
+                options={languageOptions}
+                value={values.allowedLanguages.map(mapLanguageToValue)}
+                onChange={(event, data) => {
+                  setFieldValue(
+                    'allowedLanguages',
+                    data.value.map(mapValueToLanguage)
+                  );
+                }}
+              />
+              <ErrorMessage name="allowedLanguages" />
+            </Form.Field>
+            <Form.Field>
+              <label>Tags</label>
+              <Dropdown
+                selection
+                multiple
+                search
+                fluid
+                allowAdditions
+                loading={isFetchingTags}
+                options={tagOptions}
+                value={values.tags.map(mapTagToValue)}
+                onSearchChange={(event, { searchQuery }) => {
+                  handleTagSearchChange(searchQuery);
+                }}
+                onAddItem={(event, { value }) => {
+                  handleAddOption(value);
+                }}
+                onChange={(event, data) => {
+                  setFieldValue('tags', data.value.map(mapValueToTag));
+                }}
+              />
+            </Form.Field>
+          </Form.Group>
+
           <Header as={'h3'}>Testcases</Header>
           <Form.Group widths="equal">
             <Form.Field>
@@ -174,6 +297,7 @@ function BaseAddProblemForm(props) {
                 value={values.activeTestPackage.inputFileName}
                 onChange={handleChange}
               />
+              <ErrorMessage name="activeTestPackage.inputFileName" />
             </Form.Field>
             <Form.Field>
               <label>Output File Name</label>
@@ -183,14 +307,15 @@ function BaseAddProblemForm(props) {
                 value={values.activeTestPackage.outputFileName}
                 onChange={handleChange}
               />
+              <ErrorMessage name="activeTestPackage.outputFileName" />
             </Form.Field>
           </Form.Group>
           <Form.Field>
             <FileUploadInput
-              ref={testPackageInputRef}
               onChange={handleTestPackageChange}
               file={values.testPackageFile}
             />
+            <ErrorMessage name="testPackageFile" />
           </Form.Field>
           <Form.Button type="submit" floated="right" primary>
             Submit
@@ -200,68 +325,3 @@ function BaseAddProblemForm(props) {
     </>
   );
 }
-
-const validationSchema = yup.object().shape({
-  code: yup
-    .string()
-    .required('Problem code is required')
-    .min(3, 'Problem code sould be at least 3 characters')
-});
-
-export const AddProblemForm = connect(
-  state => {
-    const codeLanguageSet = state.entities.codeLanguage;
-    return {
-      allowedLanguages: Object.values(codeLanguageSet)
-    };
-  },
-  {
-    fetchAllCodeLanguages: fetchAllCodeLanguages.request
-  }
-)(
-  withFormik({
-    mapPropsToValues: props => {
-      const { initialProblem } = props;
-      if (initialProblem) {
-        return initialProblem;
-      }
-      return {
-        code: '',
-        title: '',
-        definition: '',
-        timeLimit: '',
-        memoryLimit: '',
-        activeTestPackage: {
-          inputFileName: '',
-          outputFileName: ''
-        },
-        allowedLanguages: [],
-        testPackageFile: undefined
-      };
-    },
-    validationSchema,
-    handleSubmit: (values, bag) => {
-      const { testPackageFile, ...problemDTO } = values;
-      const {
-        props: { onSubmitSuccess },
-        setSubmitting
-      } = bag;
-      const formData = new FormData();
-      formData.append('testPackageFile', testPackageFile);
-      const problemDTOBlob = new Blob([JSON.stringify(problemDTO)], {
-        type: 'application/json'
-      });
-      formData.append('problemDTO', problemDTOBlob);
-      setSubmitting(true);
-      ProblemService.create(formData)
-        .then(response => {
-          const { data } = response;
-          setSubmitting(false);
-          if (onSubmitSuccess) onSubmitSuccess(data);
-        })
-        .catch(e => {
-          setSubmitting(false);
-        });
-    }
-  })(BaseAddProblemForm)
-);

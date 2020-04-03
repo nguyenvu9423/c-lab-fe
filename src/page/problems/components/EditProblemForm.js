@@ -13,10 +13,10 @@ import { Editor } from '../../common/Editor';
 import { useFormik } from 'formik';
 import { AddTestPackageForm } from './AddTestPackageForm';
 import { TestPackageTable } from './TestPackageTable';
-import { CodeLanguageService } from '../../../service/CodeLanguageService';
 import { ProblemService } from '../../../service/ProblemService';
 import { Comparators } from '../../../utility/sort';
-import { TagService } from '../../../service/TagService';
+import { useCodeLanguageSelect } from '../../../domains/code-language';
+import { useTagSelect } from '../../../domains/tag';
 
 const validationSchema = yup.object().shape({
   code: yup
@@ -26,12 +26,22 @@ const validationSchema = yup.object().shape({
 });
 
 export function EditProblemForm(props) {
-  const { initialProblem, onSubmitSuccess, onSubmitError } = props;
-  const [languageOptions, setLanguageOptions] = React.useState([]);
+  const { initialProblem, onSubmitSuccess, onSubmitError, onCancel } = props;
   const [testPackageIds] = React.useState(
     [...initialProblem.testPackages].sort(Comparators.numberDesc)
   );
-  const formik = useFormik({
+  const [isTestPackageFormOpen, setTestPackageFormOpen] = React.useState(false);
+
+  const {
+    values,
+    setFieldValue,
+    setValues,
+    isValid,
+    isSubmitting,
+    handleSubmit,
+    handleBlur,
+    handleChange
+  } = useFormik({
     initialValues: {
       ...initialProblem
     },
@@ -55,50 +65,29 @@ export function EditProblemForm(props) {
     }
   });
 
-  const {
-    values,
-    setFieldValue,
-    setValues,
-    isValid,
-    isSubmitting,
-    handleSubmit,
-    handleBlur,
-    handleChange
-  } = formik;
-
-  React.useEffect(() => {
-    CodeLanguageService.getAll().then(({ data: langs }) => {
-      setLanguageOptions(
-        langs.map(lang => ({
-          text: lang.title,
-          value: lang.id,
-          fieldvalue: lang
-        }))
-      );
-    });
+  const handleEditorBlur = React.useCallback((event, editor) => {
+    setFieldValue('definition', editor.getData);
   }, []);
 
-  const handleEditorBlur = React.useCallback((event, editor) =>
-    setValues(
-      {
-        ...values,
-        definition: editor.getData()
-      },
-      []
-    )
-  );
+  const handleCancel = React.useCallback(() => {
+    if (onCancel) onCancel();
+  }, [onCancel]);
 
-  const [isTestPackageFormOpen, setTestPackageFormOpen] = React.useState(false);
+  const {
+    languageOptions,
+    mapValueToLanguage,
+    mapLanguageToValue
+  } = useCodeLanguageSelect();
 
-  const [isFetchingTags, setIsFetchingTags] = React.useState(false);
-  const tagFetchingTimeoutRef = React.useRef();
-  const [tagOptions, setTagOptions] = React.useState(
-    values.tags.map(tag => ({
-      text: tag.name,
-      value: tag.name,
-      fieldvalue: tag
-    }))
-  );
+  const {
+    tagOptions,
+    mapTagToValue,
+    mapValueToTag,
+    isFetchingTags,
+    handleTagSearchChange,
+    handleAddOption
+  } = useTagSelect(values.tags);
+
   return (
     <>
       <Header as={'h2'} block attached="top">
@@ -159,13 +148,11 @@ export function EditProblemForm(props) {
                 multiple
                 fluid
                 options={languageOptions}
-                value={values.allowedLanguages.map(item => item.id)}
+                value={values.allowedLanguages.map(mapLanguageToValue)}
                 onChange={(event, data) => {
                   setFieldValue(
                     'allowedLanguages',
-                    data.value.map(item => ({
-                      id: item
-                    }))
+                    data.value.map(mapValueToLanguage)
                   );
                 }}
               />
@@ -180,58 +167,15 @@ export function EditProblemForm(props) {
                 allowAdditions
                 loading={isFetchingTags}
                 options={tagOptions}
-                value={values.tags.map(tag => tag.name)}
+                value={values.tags.map(mapTagToValue)}
                 onSearchChange={(event, { searchQuery }) => {
-                  if (!searchQuery) return;
-                  if (tagFetchingTimeoutRef.current) {
-                    clearTimeout(tagFetchingTimeoutRef.current);
-                  }
-                  tagFetchingTimeoutRef.current = setTimeout(() => {
-                    setIsFetchingTags(true);
-                    TagService.getTagByContainedText(searchQuery)
-                      .then(({ data: { content } }) => {
-                        setTagOptions(prevTagOptions => {
-                          const tags = content.filter(item =>
-                            prevTagOptions.every(
-                              option => option.value !== item.name
-                            )
-                          );
-                          return [
-                            ...prevTagOptions,
-                            ...tags.map(tag => ({
-                              text: tag.name,
-                              value: tag.name,
-                              fieldvalue: tag
-                            }))
-                          ];
-                        });
-                        setIsFetchingTags(false);
-                      })
-                      .catch(() => {
-                        setIsFetchingTags(false);
-                      });
-                  }, 500);
+                  handleTagSearchChange(searchQuery);
                 }}
                 onAddItem={(event, { value }) => {
-                  setTagOptions(prevTagOptions => [
-                    ...prevTagOptions,
-                    { text: value, value, fieldvalue: { name: value } }
-                  ]);
+                  handleAddOption(value);
                 }}
                 onChange={(event, data) => {
-                  setFieldValue(
-                    'tags',
-                    data.value.map(value => {
-                      const option = tagOptions.find(
-                        item => item.value === value
-                      );
-                      if (option) {
-                        return option.fieldvalue;
-                      } else {
-                        return { name: value };
-                      }
-                    })
-                  );
+                  setFieldValue('tags', data.value.map(mapValueToTag));
                 }}
               />
             </Form.Field>
@@ -263,17 +207,22 @@ export function EditProblemForm(props) {
               }}
             />
           </Form.Field>
-
-          <Form.Button
-            type="button"
-            floated="right"
-            primary
-            onClick={handleSubmit}
-          >
-            Lưu
-          </Form.Button>
+          <Form.Field>
+            <Button
+              type="button"
+              primary
+              floated="right"
+              onClick={handleSubmit}
+            >
+              Lưu
+            </Button>
+            <Button type="button" floated="right" onClick={handleCancel}>
+              Hủy
+            </Button>
+          </Form.Field>
         </Form>
       </Segment>
     </>
   );
 }
+problem

@@ -1,13 +1,17 @@
 import { combineReducers } from 'redux';
 import { loginReducer } from './loginReducer';
-import { entityReducer } from './entityReducer';
+import { entityReducer } from './entity-reducers';
 import { articleReducer } from './articleReducer';
 import { articleOverviewReducer } from './articleOverviewReducer';
 import { problemOverviewReducer } from './problemOverviewReducer';
 import { problemSubmissionsReducer } from './problemSubmissionsReducer';
-import { userSubmissionsToProblemReducer } from './userSubmissionsToProblemReducer';
+import { problemUserSubmissionsReducer } from './problemUserSubmissionsReducer';
 import { modalReducer } from './modalReducer';
 import { submissionFilterReducer } from './submissionFilterReducer';
+import {
+  problemDetailsPageReducer,
+  editProblemPageReducer
+} from './page-reducers';
 
 const rootReducer = combineReducers({
   login: loginReducer,
@@ -17,8 +21,10 @@ const rootReducer = combineReducers({
   articleOverview: articleOverviewReducer,
   problemOverview: problemOverviewReducer,
   problemSubmissions: problemSubmissionsReducer,
-  userSubmissionsToProblem: userSubmissionsToProblemReducer,
-  submissionFilter: submissionFilterReducer
+  problemUserSubmissions: problemUserSubmissionsReducer,
+  submissionFilter: submissionFilterReducer,
+  problemDetailsPage: problemDetailsPageReducer,
+  editProblemPage: editProblemPageReducer
 });
 
 export { rootReducer };

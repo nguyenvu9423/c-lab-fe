@@ -33,7 +33,7 @@ class UserControlMenu extends React.Component {
         <Menu.Item>
           <Dropdown
             button
-            floatting
+            floating
             className="icon"
             labeled
             icon="edit"

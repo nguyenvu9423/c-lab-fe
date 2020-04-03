@@ -3,7 +3,8 @@ import {
   fetchProblem,
   fetchProblemById,
   updateProblem,
-  updateEntity
+  updateEntity,
+  fetchProblemByCode
 } from '../actions';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { ProblemService } from '../../service/ProblemService';
@@ -30,26 +31,23 @@ function* fetchProblemsSaga() {
 }
 
 function* fetchProblemSaga(action) {
-  const params = action.payload;
+  const {
+    payload: { params },
+    meta
+  } = action;
   try {
-    const { data } = yield call(ProblemService.getProblem, params);
-    const normalizedData = normalize(data, problemSchema);
+    let response;
+    if (params.id) {
+      response = yield call(ProblemService.getProblem, params.id);
+    } else {
+      response = yield call(ProblemService.getProblemByParams, params);
+    }
+    const problem = response.data;
+    const normalizedData = normalize(problem, problemSchema);
     yield put(updateEntity(normalizedData.entities));
-    yield put(fetchProblem.response(data));
-  } catch (e) {
-    yield put(fetchProblem.response(e));
-  }
-}
-
-function* fetchProblemByIdSaga(action) {
-  const { id } = action.payload;
-  try {
-    const { data } = yield call(ProblemService.getProblemById, id);
-    const normalizedData = normalize(data, problemSchema);
-    yield put(updateEntity(normalizedData.entities));
-    yield put(fetchProblemById.response(data));
-  } catch (e) {
-    yield put(fetchProblemById.response(e));
+    yield put(fetchProblem.response({ problem }, meta));
+  } catch (e) {    
+    yield put(fetchProblem.response(e, meta));
   }
 }
 
@@ -64,9 +62,12 @@ function* updateProblemSaga(action) {
     yield put(updateProblem.response(e));
   }
 }
+
 export function* watchProblemSaga() {
-  yield takeEvery(fetchProblems.request, fetchProblemsSaga);
   yield takeEvery(fetchProblem.request, fetchProblemSaga);
-  yield takeEvery(fetchProblemById.request, fetchProblemByIdSaga);
+  yield takeEvery(fetchProblemByCode.request, fetchProblemSaga);
+  yield takeEvery(fetchProblemById.request, fetchProblemSaga);
+
+  yield takeEvery(fetchProblems.request, fetchProblemsSaga);
   yield takeEvery(updateProblem.request, updateProblemSaga);
 }

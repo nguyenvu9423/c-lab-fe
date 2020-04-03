@@ -6,7 +6,11 @@ import { fetchProblems } from '../../store/actions/problem';
 import { connect } from 'react-redux';
 
 function BaseProblemOverviewPage(props) {
-  const { problems, fetchProblems } = props;
+  const {
+    problems,
+    fetchProblems,
+    match: { url }
+  } = props;
   React.useEffect(() => {
     fetchProblems();
   }, []);
@@ -23,7 +27,7 @@ function BaseProblemOverviewPage(props) {
           {problems.map(problem => (
             <Table.Row key={problem.id}>
               <Table.Cell>
-                <Link to={`problems/${problem.code}`}>{problem.code}</Link>
+                <Link to={`${url}/${problem.code}`}>{problem.code}</Link>
               </Table.Cell>
               <Table.Cell>{problem.title}</Table.Cell>
             </Table.Row>
