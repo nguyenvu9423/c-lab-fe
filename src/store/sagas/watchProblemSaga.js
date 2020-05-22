@@ -14,15 +14,17 @@ import {
   problemArraySchema
 } from '../../entity-schemas/problem';
 
-function* fetchProblemsSaga() {
+function* fetchProblemsSaga(action) {
+  const { pageable, filters } = action.payload;
   try {
-    const { data } = yield call(ProblemService.getProblems);
+    const { data } = yield call(ProblemService.getProblems, filters, pageable);
     const normalizedData = normalize(data.content, problemArraySchema);
     yield put(updateEntity(normalizedData.entities));
     yield put(
       fetchProblems.response({
-        ...data,
-        problems: normalizedData.result
+        problems: normalizedData.result,
+        totalPages: data.totalPages,
+        pageNumber: data.number
       })
     );
   } catch (e) {
@@ -46,7 +48,7 @@ function* fetchProblemSaga(action) {
     const normalizedData = normalize(problem, problemSchema);
     yield put(updateEntity(normalizedData.entities));
     yield put(fetchProblem.response({ problem }, meta));
-  } catch (e) {    
+  } catch (e) {
     yield put(fetchProblem.response(e, meta));
   }
 }

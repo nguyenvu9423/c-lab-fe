@@ -4,6 +4,9 @@ export const ProblemSelectors = {
       return id ? state.entities.problem[id] : undefined;
     };
   },
+  byIds(ids) {
+    return state => ids.map(id => state.entities.problem[id]);
+  },
   byCode(code) {
     return state => {
       return Object.values(state.entities.problem).find(

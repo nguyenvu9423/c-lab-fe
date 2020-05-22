@@ -4,7 +4,7 @@ const LoadingState = {
   LOADED: 'LOADED',
   WITHOUT: 'WITHOUT',
   ERROR: 'ERROR',
-  isDone: loadingState => {    
+  isDone: loadingState => {
     switch (loadingState) {
       case LoadingState.LOADED:
       case LoadingState.ERROR:

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Form, Button, Icon, Label } from 'semantic-ui-react';
 
 export function FileUploadInput(props) {
-  const { file, placeHolder = 'Chọn tệp...', onChange } = props;
+  const { file, placeHolder = 'Chọn tệp...', onChange, name } = props;
   const inputRef = React.useRef();
   return (
     <Button
@@ -20,7 +20,13 @@ export function FileUploadInput(props) {
       <Label basic pointing="left" style={{ flexGrow: '1' }}>
         {file ? file.name : placeHolder}
       </Label>
-      <input ref={inputRef} type="file" hidden onChange={onChange} />
+      <input
+        ref={inputRef}
+        type="file"
+        name={name}
+        hidden
+        onChange={onChange}
+      />
     </Button>
   );
 }

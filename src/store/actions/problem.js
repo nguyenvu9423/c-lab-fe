@@ -8,7 +8,7 @@ const {
   updateProblem
 } = createActions({
   fetchProblems: {
-    request: undefined,
+    request: payload => (payload ? payload : {}),
     response: undefined
   },
   fetchProblem: {

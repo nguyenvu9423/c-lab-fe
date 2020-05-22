@@ -12,10 +12,15 @@ class TestPackageService {
     });
   }
 
-  static getTestPackages(owningProblemId) {
+  static getTestPackagesByOwningProblem(
+    owningProblemId,
+    pageable = { pageNumber: 0, pageSize: 5 }
+  ) {
     return apiCaller.get(BASE_URL, {
       params: {
-        owningProblemId
+        owningProblemId,
+        page: pageable.pageNumber,
+        size: pageable.pageSize
       }
     });
   }

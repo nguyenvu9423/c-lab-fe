@@ -1,10 +1,12 @@
 import { createActions } from 'redux-actions';
 
-const { fetchTestPackages } = createActions({
+const { fetchTestPackages, fetchTestPackagesByOwningProblem } = createActions({
+  fetchTestPackagesByOwningProblem: {
+    request: (problemId, pageable) => ({ problemId, pageable })
+  },
   fetchTestPackages: {
-    request: undefined,
     response: undefined
   }
 });
 
-export { fetchTestPackages };
+export { fetchTestPackages, fetchTestPackagesByOwningProblem };

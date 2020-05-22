@@ -3,28 +3,32 @@ import { loginReducer } from './loginReducer';
 import { entityReducer } from './entity-reducers';
 import { articleReducer } from './articleReducer';
 import { articleOverviewReducer } from './articleOverviewReducer';
-import { problemOverviewReducer } from './problemOverviewReducer';
 import { problemSubmissionsReducer } from './problemSubmissionsReducer';
 import { problemUserSubmissionsReducer } from './problemUserSubmissionsReducer';
 import { modalReducer } from './modalReducer';
 import { submissionFilterReducer } from './submissionFilterReducer';
 import {
   problemDetailsPageReducer,
-  editProblemPageReducer
+  editProblemPageReducer,
+  problemsPageReducer
 } from './page-reducers';
+import { editProblemFormReducer } from './form-reducers';
+import { searchReducer } from './searchReducer';
 
 const rootReducer = combineReducers({
   login: loginReducer,
   modal: modalReducer,
+  search: searchReducer,
   entities: entityReducer,
   article: articleReducer,
   articleOverview: articleOverviewReducer,
-  problemOverview: problemOverviewReducer,
+  problemsPage: problemsPageReducer,
+  problemDetailsPage: problemDetailsPageReducer,
+  editProblemPage: editProblemPageReducer,
   problemSubmissions: problemSubmissionsReducer,
   problemUserSubmissions: problemUserSubmissionsReducer,
   submissionFilter: submissionFilterReducer,
-  problemDetailsPage: problemDetailsPageReducer,
-  editProblemPage: editProblemPageReducer
+  editProblemForm: editProblemFormReducer
 });
 
 export { rootReducer };

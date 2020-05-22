@@ -7,7 +7,7 @@ import {
   ProblemSelectors,
   ProblemEditPageSelectors
 } from '../../store/selectors';
-import { EditProblemForm } from './components/EditProblemForm';
+import { EditProblemForm } from '../../domains/problem/forms';
 import { fetchTestPackages } from '../../store/actions/testPackage';
 import { LoadingState } from '../../store/common';
 import { ErrorMessage, LoadingIndicator } from '../../components';
@@ -17,15 +17,13 @@ import { resetState } from '../../store/actions/state';
 
 export function ProblemEditPage(props) {
   const {
-    match: {
-      params: { id }
-    }
+    match: { params }
   } = props;
   const dispatch = useDispatch(Target.PROBLEM_EDIT_PAGE);
   const history = useHistory();
   React.useEffect(() => {
     dispatch(
-      fetchProblemById.request(id, { target: Target.PROBLEM_EDIT_PAGE })
+      fetchProblemById.request(params.id, { target: Target.PROBLEM_EDIT_PAGE })
     );
     return () => {
       dispatch(resetState({ target: Target.PROBLEM_EDIT_PAGE }));
@@ -33,8 +31,7 @@ export function ProblemEditPage(props) {
   }, []);
 
   const handleSubmitSucess = React.useCallback(response => {
-    const { data } = response;
-    history.push(`/problems/${data.code}`);
+    history.push(`/problems/${response.data.code}`);
   }, []);
 
   const problemData = useSelector(ProblemEditPageSelectors.problem());

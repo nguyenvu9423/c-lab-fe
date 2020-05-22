@@ -1,77 +1,27 @@
 import * as React from 'react';
-import * as yup from 'yup';
 import {
   Segment,
   Form,
   Header,
   Input,
-  Button,
   Dropdown,
-  Table,
-  Checkbox
+  Divider
 } from 'semantic-ui-react';
 import CKEditor from '@ckeditor/ckeditor5-react';
-import { Editor } from '../../common/Editor';
-import { withFormik, useFormik } from 'formik';
+import { Editor } from '../../../page/common/Editor';
+import { useFormik } from 'formik';
 import { useHistory } from 'react-router';
-import { fetchAllCodeLanguages } from '../../../store/actions/code-language';
-import { connect } from 'react-redux';
-import { TestPackageService } from '../../../service/TestPackageService';
-import { FileUploadInput } from '../../common/inputs/FileUploadInput';
-import { BaseAddTestPackageForm } from './AddTestPackageForm';
+import { FileUploadInput } from '../../../page/common/inputs/FileUploadInput';
 import { ProblemService } from '../../../service/ProblemService';
-import { useCodeLanguageSelect } from '../../../domains/code-language';
+import { useCodeLanguageSelect } from '../../code-language';
 import { useFormErrorMessage } from '../../../components/form';
-import { useTagSelect } from '../../../domains/tag';
+import { useTagSelect } from '../../tag';
 import { ExceptionTypes } from '../../../exception/ExceptionTypes';
+import { addProblemValidationSchema } from './Schemas';
+import { judgerOptions, Judger } from '../../judge-config';
 
-const validationSchema = yup.object().shape({
-  code: yup
-    .string()
-    .matches(
-      /^[A-Z0-9]*$/,
-      'Code should only contain uppercase letters and numbers'
-    )
-    .required('Code is required')
-    .min(3, 'Code should be at least 3 characters')
-    .max(12, 'Code shoud be at most 12 characters'),
-  title: yup
-    .string()
-    .strict()
-    .trim('Title should not contain leading and trailing whitespace')
-    .required('Title is required')
-    .min(3, 'Title should be at least 3 characters')
-    .max(64, 'Title should be at most 64 characters'),
-  definition: yup
-    .string()
-    .required('Definition is required')
-    .max(640000, 'Definition should only contain 64000 characters'),
-  activeTestPackage: yup
-    .mixed()
-    .required('At least one test package should be chosen for this problem'),
-  timeLimit: yup
-    .number()
-    .required('Time limit should be defined')
-    .min(1, 'Timelimit should be greater than 0ms')
-    .max(20000, 'Timelimit shoud be less than 20000ms'),
-  memoryLimit: yup
-    .number()
-    .required('Memory limit should be defined')
-    .min(1, 'Memorylimit should be greater than 32mb')
-    .max(20000, 'Memorylimit should be less than 1024mb'),
-  allowedLanguages: yup
-    .array()
-    .min(1, 'At least one languages should be defined'),
-  activeTestPackage: yup.object().shape({
-    inputFileName: yup.string().required('Input file name is required'),
-    outputFileName: yup.string().required('Output file name is required')
-  }),
-  testPackageFile: yup.mixed().required('Test package file is required')
-});
-
-export function AddProblemForm(props) {
+export function AddProblemForm() {
   const history = useHistory();
-
   const {
     values,
     status,
@@ -82,7 +32,6 @@ export function AddProblemForm(props) {
     handleSubmit,
     touched,
     errors,
-    isValid,
     isSubmitting
   } = useFormik({
     initialValues: {
@@ -93,24 +42,40 @@ export function AddProblemForm(props) {
       memoryLimit: 256,
       allowedLanguages: [],
       tags: [],
-      activeTestPackage: {
+      activeJudgeConfig: {
+        judger: judgerOptions[0].value,
         inputFileName: '',
-        outputFileName: ''
-      },
-      testPackageFile: undefined
+        outputFileName: '',
+        testPackageFile: undefined,
+        externalJudger: undefined
+      }
     },
     initialStatus: {
       errors: {}
     },
-    validationSchema,
+    validationSchema: addProblemValidationSchema,
     onSubmit: (values, { setSubmitting, setStatus }) => {
-      const { testPackageFile, ...problemDTO } = values;
+      const problemDTO = { ...values };
+      const activeJudgeConfig = { ...values.activeJudgeConfig };
+
       const formData = new FormData();
-      formData.append('testPackageFile', testPackageFile);
+
+      formData.append('testPackageFile', activeJudgeConfig.testPackageFile);
+      formData.append('externalJudger', activeJudgeConfig.externalJudger);
+
+      activeJudgeConfig.testPackageFile = undefined;
+      activeJudgeConfig.externalJudger = undefined;
+
+      if (activeJudgeConfig.judger === Judger.EXTERNAL) {
+        activeJudgeConfig.outputFileName = null;
+      }
+
+      problemDTO.activeJudgeConfig = activeJudgeConfig;
       const problemDTOBlob = new Blob([JSON.stringify(problemDTO)], {
         type: 'application/json'
       });
       formData.append('problemDTO', problemDTOBlob);
+
       ProblemService.create(formData)
         .then(response => {
           setSubmitting(false);
@@ -132,7 +97,6 @@ export function AddProblemForm(props) {
         });
     }
   });
-
   const {
     languageOptions,
     mapLanguageToValue,
@@ -146,12 +110,18 @@ export function AddProblemForm(props) {
 
   const handleTestPackageChange = React.useCallback(event => {
     const { files } = event.target;
-    if (files.length === 1) {
-      const file = files[0];
-      setFieldValue('testPackageFile', file);
-    } else {
-      setFieldValue('testPackageFile', undefined);
-    }
+    setFieldValue(
+      'activeJudgeConfig.testPackageFile',
+      files.length === 1 ? files[0] : undefined
+    );
+  }, []);
+
+  const handleExternalJudgerChange = React.useCallback(event => {
+    const { files } = event.target;
+    setFieldValue(
+      'activeJudgeConfig.externalJudger',
+      files.length === 1 ? files[0] : undefined
+    );
   }, []);
 
   const handleCodeChange = React.useCallback(
@@ -165,6 +135,8 @@ export function AddProblemForm(props) {
     [setFieldValue, setStatus, status]
   );
 
+  const isJudgerExternal = values.activeJudgeConfig.judger === Judger.EXTERNAL;
+
   const {
     tagOptions,
     mapTagToValue,
@@ -175,6 +147,7 @@ export function AddProblemForm(props) {
   } = useTagSelect(values.tags);
 
   const ErrorMessage = useFormErrorMessage(touched, errors, status);
+
   return (
     <>
       <Header as={'h2'} block attached="top">
@@ -287,36 +260,64 @@ export function AddProblemForm(props) {
             </Form.Field>
           </Form.Group>
 
-          <Header as={'h3'}>Testcases</Header>
-          <Form.Group widths="equal">
-            <Form.Field>
-              <label>Input File Name</label>
-              <Form.Input
-                type="text"
-                name="activeTestPackage.inputFileName"
-                value={values.activeTestPackage.inputFileName}
-                onChange={handleChange}
+          <Header as={'h3'}>Judge config</Header>
+          <Form.Group>
+            <Form.Field width={8}>
+              <label>Judger</label>
+              <Form.Select
+                compact
+                name={'activeJudgeConfig.judger'}
+                value={values.activeJudgeConfig.judger}
+                options={judgerOptions}
+                onChange={(e, { value }) =>
+                  setFieldValue('activeJudgeConfig.judger', value)
+                }
               />
-              <ErrorMessage name="activeTestPackage.inputFileName" />
             </Form.Field>
-            <Form.Field>
-              <label>Output File Name</label>
-              <Form.Input
-                type="text"
-                name="activeTestPackage.outputFileName"
-                value={values.activeTestPackage.outputFileName}
-                onChange={handleChange}
-              />
-              <ErrorMessage name="activeTestPackage.outputFileName" />
-            </Form.Field>
+            {isJudgerExternal && (
+              <Form.Field width={8}>
+                <label>External executable judger</label>
+                <FileUploadInput
+                  onChange={handleExternalJudgerChange}
+                  file={values.activeJudgeConfig.externalJudger}
+                />
+                <ErrorMessage name="activeJudgeConfig.externalJudger" />
+              </Form.Field>
+            )}
           </Form.Group>
-          <Form.Field>
-            <FileUploadInput
-              onChange={handleTestPackageChange}
-              file={values.testPackageFile}
-            />
-            <ErrorMessage name="testPackageFile" />
-          </Form.Field>
+          <Divider />
+          <Form.Group>
+            <Form.Field width={8}>
+              <label>Testcases</label>
+              <FileUploadInput
+                onChange={handleTestPackageChange}
+                file={values.activeJudgeConfig.testPackageFile}
+              />
+              <ErrorMessage name="activeJudgeConfig.testPackageFile" />
+            </Form.Field>
+            <Form.Field width={isJudgerExternal ? 8 : 4}>
+              <Form.Input
+                label="Input File Name"
+                type="text"
+                name="activeJudgeConfig.inputFileName"
+                value={values.activeJudgeConfig.inputFileName}
+                onChange={handleChange}
+              />
+              <ErrorMessage name="activeJudgeConfig.inputFileName" />
+            </Form.Field>
+            {!isJudgerExternal && (
+              <Form.Field width={4}>
+                <Form.Input
+                  label="Output File Name"
+                  type="text"
+                  name="activeJudgeConfig.outputFileName"
+                  value={values.activeJudgeConfig.outputFileName}
+                  onChange={handleChange}
+                />
+                <ErrorMessage name="activeJudgeConfig.outputFileName" />
+              </Form.Field>
+            )}
+          </Form.Group>
           <Form.Button type="submit" floated="right" primary>
             Submit
           </Form.Button>

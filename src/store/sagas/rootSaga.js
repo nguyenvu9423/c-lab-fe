@@ -5,6 +5,7 @@ import { watchProblemSaga } from './watchProblemSaga';
 import { watchCodeLanguageSaga } from './watchCodeLanguageSaga';
 import { watchTestPackageSaga } from './watchTestPackageSaga';
 import { watchSubmissionSaga } from './watchSubmissionSaga';
+import { watchSearchSaga } from './watchSearchSaga';
 
 function* rootSaga() {
   yield all([
@@ -13,7 +14,8 @@ function* rootSaga() {
     call(watchProblemSaga),
     call(watchCodeLanguageSaga),
     call(watchTestPackageSaga),
-    call(watchSubmissionSaga)
+    call(watchSubmissionSaga),
+    call(watchSearchSaga)
   ]);
 }
 

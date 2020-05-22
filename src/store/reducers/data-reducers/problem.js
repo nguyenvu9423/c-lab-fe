@@ -30,7 +30,7 @@ const problemReducer = handleActions(
           response: {
             data: { message }
           }
-        } = payload;        
+        } = payload;
         return {
           loadingState: LoadingState.ERROR,
           error: { message }

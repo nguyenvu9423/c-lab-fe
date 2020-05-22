@@ -6,36 +6,46 @@ import {
   Header,
   Input,
   Button,
-  Dropdown
+  Dropdown,
+  Label,
+  Dimmer,
+  Loader
 } from 'semantic-ui-react';
 import CKEditor from '@ckeditor/ckeditor5-react';
-import { Editor } from '../../common/Editor';
+import { Editor } from '../../../page/common/Editor';
 import { useFormik } from 'formik';
-import { AddTestPackageForm } from './AddTestPackageForm';
-import { TestPackageTable } from './TestPackageTable';
+import { AddTestPackageForm } from '../../../page/problems/components/AddTestPackageForm';
+import { TestPackageTable } from '../../../page/problems/components/TestPackageTable';
 import { ProblemService } from '../../../service/ProblemService';
 import { Comparators } from '../../../utility/sort';
-import { useCodeLanguageSelect } from '../../../domains/code-language';
-import { useTagSelect } from '../../../domains/tag';
+import { useCodeLanguageSelect } from '../../code-language';
+import { useTagSelect } from '../../tag';
+import { editProblemValidationSchema } from './Schemas';
+import { useFormErrorMessage } from '../../../components';
+import { useSelector, useDispatch } from 'react-redux';
+import { EditProblemFormSelectors } from '../../../store/selectors/EditProblemFormSelectors';
+import { TestPackageSelectors } from '../../../store/selectors/TestPackageSelectors';
+import { fetchTestPackagesByOwningProblem } from '../../../store/actions';
+import { LoadingState } from '../../../store/common';
 
-const validationSchema = yup.object().shape({
-  code: yup
-    .string()
-    .required('Problem code is required')
-    .min(3, 'Problem code sould be at least 3 characters')
-});
+const TEST_PACKAGES_PAGE_SIZE = 5;
 
 export function EditProblemForm(props) {
   const { initialProblem, onSubmitSuccess, onSubmitError, onCancel } = props;
-  const [testPackageIds] = React.useState(
-    [...initialProblem.testPackages].sort(Comparators.numberDesc)
-  );
   const [isTestPackageFormOpen, setTestPackageFormOpen] = React.useState(false);
+
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(fetchTestPackagesByOwningProblem.request(initialProblem.id));
+  }, []);
 
   const {
     values,
+    status,
+    touched,
+    errors,
+    setStatus,
     setFieldValue,
-    setValues,
     isValid,
     isSubmitting,
     handleSubmit,
@@ -45,12 +55,15 @@ export function EditProblemForm(props) {
     initialValues: {
       ...initialProblem
     },
-    validationSchema,
+    initialStatus: {
+      errors: {}
+    },
+    validationSchema: editProblemValidationSchema,
     onSubmit: (values, { setSubmitting }) => {
       const problem = {
         ...values,
         activeTestPackage: { id: values.activeTestPackage },
-        testPackages: values.testPackages.map(id => ({ id }))
+        testPackages: undefined
       };
       ProblemService.updateProblem(problem.id, problem).then(
         response => {
@@ -66,7 +79,7 @@ export function EditProblemForm(props) {
   });
 
   const handleEditorBlur = React.useCallback((event, editor) => {
-    setFieldValue('definition', editor.getData);
+    setFieldValue('definition', editor.getData());
   }, []);
 
   const handleCancel = React.useCallback(() => {
@@ -88,10 +101,12 @@ export function EditProblemForm(props) {
     handleAddOption
   } = useTagSelect(values.tags);
 
+  const state = useSelector(EditProblemFormSelectors.state());
+  const ErrorMessage = useFormErrorMessage(touched, errors, status);
   return (
     <>
       <Header as={'h2'} block attached="top">
-        Cập nhật
+        Chỉnh sửa <Label size="large">{values.code}</Label>
       </Header>
       <Segment className="clear-fix-container" attached>
         <Header as={'h3'}>Nội dung</Header>
@@ -105,6 +120,7 @@ export function EditProblemForm(props) {
               onBlur={handleBlur}
               onChange={handleChange}
             />
+            <ErrorMessage name="title" />
           </Form.Field>
           <Form.Field>
             <label>Đề bài</label>
@@ -113,6 +129,7 @@ export function EditProblemForm(props) {
               data={values.definition}
               onBlur={handleEditorBlur}
             />
+            <ErrorMessage name="definition" />
           </Form.Field>
           <Form.Group widths="equal">
             <Form.Field>
@@ -126,6 +143,7 @@ export function EditProblemForm(props) {
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
+              <ErrorMessage name="timeLimit" />
             </Form.Field>
             <Form.Field>
               <label>Giới hạn bộ nhớ</label>
@@ -138,6 +156,7 @@ export function EditProblemForm(props) {
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
+              <ErrorMessage name="memoryLimit" />
             </Form.Field>
           </Form.Group>
           <Form.Group widths="equal">
@@ -156,6 +175,7 @@ export function EditProblemForm(props) {
                   );
                 }}
               />
+              <ErrorMessage name="allowedLanguages" />
             </Form.Field>
             <Form.Field>
               <label>Tags</label>
@@ -191,21 +211,49 @@ export function EditProblemForm(props) {
             >
               Thêm
             </Button>
-            <AddTestPackageForm
-              problem={initialProblem}
-              isOpen={isTestPackageFormOpen}
-              onClose={() => setTestPackageFormOpen(false)}
-            />
-            <TestPackageTable
-              testPackageIds={testPackageIds}
-              activeTestPackageId={values.activeTestPackage}
-              onSetActiveTestPackage={testPackage => {
-                setValues({
-                  ...values,
-                  activeTestPackage: testPackage
-                });
-              }}
-            />
+            {isTestPackageFormOpen && (
+              <AddTestPackageForm
+                problem={initialProblem}
+                onClose={() => setTestPackageFormOpen(false)}
+                onSubmitSuccess={() => {
+                  setTestPackageFormOpen(false);
+                  dispatch(
+                    fetchTestPackagesByOwningProblem.request(
+                      initialProblem.id,
+                      {
+                        pageNumber: 0,
+                        pageSize: TEST_PACKAGES_PAGE_SIZE
+                      }
+                    )
+                  );
+                }}
+              />
+            )}
+            {state.testPackages.loadingState === LoadingState.LOADING ? (
+              <Loader active inline="centered" />
+            ) : (
+              <TestPackageTable
+                ids={state.testPackages.ids}
+                activeId={values.activeTestPackage}
+                totalPages={state.testPackages.totalPages}
+                pageNumber={state.testPackages.pageNumber}
+                onPageChange={(event, { activePage }) => {
+                  dispatch(
+                    fetchTestPackagesByOwningProblem.request(
+                      initialProblem.id,
+                      {
+                        pageNumber: activePage - 1,
+                        pageSize: TEST_PACKAGES_PAGE_SIZE
+                      }
+                    )
+                  );
+                }}
+                onActiveIdChange={id => {
+                  setFieldValue('activeTestPackage', id);
+                }}
+              />
+            )}
+            <ErrorMessage name="activeTestPackage" />
           </Form.Field>
           <Form.Field>
             <Button
@@ -225,4 +273,3 @@ export function EditProblemForm(props) {
     </>
   );
 }
-problem

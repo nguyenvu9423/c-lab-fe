@@ -26,6 +26,6 @@ export function StatelessFormErrorMessage({ touched, error, statusError }) {
   return null;
 }
 
-function FormErrorMessage({ content }) {
+export function FormErrorMessage({ content }) {
   return <Message size={'tiny'} error content={content} />;
 }

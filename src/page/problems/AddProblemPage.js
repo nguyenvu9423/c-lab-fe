@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Container } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import { AddProblemForm } from './components/AddProblemForm';
+import { AddProblemForm } from '../../domains/problem/forms';
 
 function BaseAddProblemPage(props) {
   const { history } = props;

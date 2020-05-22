@@ -48,7 +48,7 @@ export function ProblemDetailsPage() {
     return () => {
       dispatch(resetState({ target: Target.PROBLEM_DETAILS_PAGE }));
     };
-  }, []);
+  }, [params.code]);
 
   if (LoadingState.isInProgress(problem.loadingState)) {
     return <LoadingIndicator />;

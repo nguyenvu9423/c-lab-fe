@@ -1,19 +1,20 @@
 import * as React from 'react';
-import { Table, Checkbox, Dimmer, Loader } from 'semantic-ui-react';
+import { Table, Checkbox, Dimmer, Loader, Pagination } from 'semantic-ui-react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { TestPackageSelectors } from '../../../store/selectors/TestPackageSelectors';
 
 function TestPackageTable(props) {
-  const { testPackageIds, activeTestPackageId, onSetActiveTestPackage } = props;
-  const testPackages = useSelector(TestPackageSelectors.byIds(testPackageIds));
-
+  const {
+    ids,
+    activeId,
+    onActiveIdChange,
+    totalPages,
+    pageNumber,
+    onPageChange
+  } = props;
+  const testPackages = useSelector(TestPackageSelectors.byIds(ids));
   const rows = React.useMemo(() => {
-    if (!testPackages) {
-      <Dimmer active inverted>
-        <Loader size="medium">Loading</Loader>
-      </Dimmer>;
-    }
     return testPackages.map(testPackage => {
       const {
         id,
@@ -23,14 +24,14 @@ function TestPackageTable(props) {
         outputFileName,
         createdAt
       } = testPackage;
-      const isActive = id === activeTestPackageId;
+      const isActive = id === activeId;
       return (
         <Table.Row
           key={id}
           active={isActive}
           style={{ cursor: 'pointer' }}
           onClick={() => {
-            if (onSetActiveTestPackage) onSetActiveTestPackage(testPackage.id);
+            if (onActiveIdChange) onActiveIdChange(testPackage.id);
           }}
         >
           <Table.Cell>{originalFileName}</Table.Cell>
@@ -45,7 +46,8 @@ function TestPackageTable(props) {
         </Table.Row>
       );
     });
-  }, [testPackageIds, activeTestPackageId]);
+  }, [ids, activeId]);
+
   return (
     <Table selectable>
       <Table.Header>
@@ -58,6 +60,25 @@ function TestPackageTable(props) {
         </Table.Row>
       </Table.Header>
       <Table.Body>{rows}</Table.Body>
+      <Table.Footer>
+        <Table.Row>
+          <Table.HeaderCell colSpan="5">
+            <div>
+              <Pagination
+                size="tiny"
+                floated="right"
+                ellipsisItem={null}
+                firstItem={null}
+                lastItem={null}
+                boundaryRange={0}
+                activePage={pageNumber + 1}
+                totalPages={totalPages}
+                onPageChange={onPageChange}
+              />
+            </div>
+          </Table.HeaderCell>
+        </Table.Row>
+      </Table.Footer>
     </Table>
   );
 }

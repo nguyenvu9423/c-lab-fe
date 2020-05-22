@@ -10,7 +10,8 @@ import {
   Message,
   Ref,
   Segment,
-  Sticky
+  Sticky,
+  Divider
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { ContentTable } from './internal/ContentTable';
@@ -40,48 +41,21 @@ class BaseArticleDetailPage extends React.Component {
       );
     }
     return (
-      <Grid container>
-        <Grid.Column width={12}>
+      <Grid container divided relaxed>
+        <Grid.Column width="12">
           <Ref innerRef={this.contextRef}>
-            <Segment>
-              <Grid colums={2} divided={'vertically'}>
-                <Grid.Row>
-                  <Grid.Column width={8}>
-                    <Header as={'h1'}>{article && article.title}</Header>
-                  </Grid.Column>
-                  <Grid.Column
-                    width={8}
-                    verticalAlign={'middle'}
-                    textAlign={'right'}
-                  >
-                    <Button.Group>
-                      <Button
-                        icon
-                        labelPosition={'left'}
-                        as={Link}
-                        to={`${match.url}/edit`}
-                      >
-                        Edit
-                        <Icon name={'edit'} />
-                      </Button>
-                    </Button.Group>
-                  </Grid.Column>
-                </Grid.Row>
-                <Grid.Row>
-                  <Grid.Column>
-                    <div
-                      className={'article-container'}
-                      dangerouslySetInnerHTML={{
-                        __html: article && article.content
-                      }}
-                    />
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Segment>
+            <div className="text-container">
+              <Header as={'h1'}>{article && article.title}</Header>
+              <Divider />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: article && article.content
+                }}
+              />
+            </div>
           </Ref>
         </Grid.Column>
-        <Grid.Column width={4}>
+        <Grid.Column width="4">
           <Sticky context={this.contextRef} offset={76}>
             <ContentTable structure={article && article.contentTable} />
           </Sticky>
