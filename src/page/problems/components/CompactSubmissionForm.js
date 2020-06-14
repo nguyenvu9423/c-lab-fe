@@ -4,13 +4,12 @@ import { updateEntity } from '../../../store/actions/entity';
 import { FileUploadInput } from '../../common/inputs/FileUploadInput';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { UserSelectors } from '../../../store/selectors/UserSelectors';
 import ArrayUtils from '../../../utility/ArrayUtils';
 import { SubmissionService } from '../../../service/SubmissionService';
 import { normalize } from 'normalizr';
 import { submissionSchema } from '../../../entity-schemas/submissionSchema';
 import { ProblemSelectors } from '../../../store/selectors';
-import { CodeLanguageInput } from '../../submission/components/CodeLanguageInput';
+import { SubmissionLangInput } from '../../submission/components/SubmissionLangInput';
 import { createSubmission } from '../../../store/actions/submission';
 
 export function CompactCodeSubmissionForm(props) {
@@ -78,7 +77,7 @@ export function CompactCodeSubmissionForm(props) {
             <FileUploadInput onChange={onChange} file={values.codeFile} />
           </Form.Field>
           <Form.Field>
-            <CodeLanguageInput
+            <SubmissionLangInput
               options={problem.allowedLanguages}
               value={values.usedLanguage}
               onChange={lang => {

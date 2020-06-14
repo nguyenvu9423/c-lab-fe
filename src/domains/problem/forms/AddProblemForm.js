@@ -13,7 +13,7 @@ import { useFormik } from 'formik';
 import { useHistory } from 'react-router';
 import { FileUploadInput } from '../../../page/common/inputs/FileUploadInput';
 import { ProblemService } from '../../../service/ProblemService';
-import { useCodeLanguageSelect } from '../../code-language';
+import { useSubmissionLangSelect } from '../../submission-lang';
 import { useFormErrorMessage } from '../../../components/form';
 import { useTagSelect } from '../../tag';
 import { ExceptionTypes } from '../../../exception/ExceptionTypes';
@@ -101,7 +101,7 @@ export function AddProblemForm() {
     languageOptions,
     mapLanguageToValue,
     mapValueToLanguage
-  } = useCodeLanguageSelect();
+  } = useSubmissionLangSelect();
 
   const handleEditorBlur = React.useCallback(
     (event, editor) => setFieldValue('definition', editor.getData()),

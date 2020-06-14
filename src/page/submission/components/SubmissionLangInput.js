@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
-export const CodeLanguageInput = props => {
+export const SubmissionLangInput = props => {
   const { options, value, onChange } = props;
   const languageOptions = React.useMemo(
     () =>

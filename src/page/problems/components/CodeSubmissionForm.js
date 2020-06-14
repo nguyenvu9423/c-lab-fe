@@ -3,7 +3,7 @@ import { Form } from 'semantic-ui-react';
 import { FileUploadInput } from '../../common/inputs/FileUploadInput';
 import { useSelector } from 'react-redux';
 import { ProblemSelectors } from '../../../store/selectors';
-import { CodeLanguageInput } from '../../submission/components/CodeLanguageInput';
+import { SubmissionLangInput } from '../../submission/components/SubmissionLangInput';
 import { useFormik } from 'formik';
 import ArrayUtils from '../../../utility/ArrayUtils';
 import { UserSelectors } from '../../../store/selectors/UserSelectors';
@@ -35,7 +35,7 @@ export const CodeSubmissionForm = props => {
         'submissionDTO',
         new Blob([JSON.stringify(submissionDTO)], { type: 'application/json' })
       );
-      formData.append('codeText', codeText);      
+      formData.append('codeText', codeText);
       SubmissionService.createSubmission(formData)
         .then(() => {
           setSubmitting(false);
@@ -66,7 +66,7 @@ export const CodeSubmissionForm = props => {
       </Form.Field>
       <Form.Field>
         <label>Ngôn ngữ</label>
-        <CodeLanguageInput
+        <SubmissionLangInput
           options={problem.allowedLanguages}
           value={values.usedLanguage}
         />

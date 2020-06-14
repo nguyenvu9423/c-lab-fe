@@ -1,5 +1,5 @@
 export * from './article';
-export * from './code-language';
+export * from './submission-lang';
 export * from './entity';
 export * from './modal';
 export * from './problem';

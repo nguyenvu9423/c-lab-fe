@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Button, Icon, Label } from 'semantic-ui-react';
+import { Button, Icon, Label } from 'semantic-ui-react';
 
 export function FileUploadInput(props) {
   const { file, placeHolder = 'Chọn tệp...', onChange, name } = props;

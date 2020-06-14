@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import * as React from 'react';
 import {
   Segment,
@@ -8,7 +7,6 @@ import {
   Button,
   Dropdown,
   Label,
-  Dimmer,
   Loader
 } from 'semantic-ui-react';
 import CKEditor from '@ckeditor/ckeditor5-react';
@@ -17,14 +15,12 @@ import { useFormik } from 'formik';
 import { AddTestPackageForm } from '../../../page/problems/components/AddTestPackageForm';
 import { TestPackageTable } from '../../../page/problems/components/TestPackageTable';
 import { ProblemService } from '../../../service/ProblemService';
-import { Comparators } from '../../../utility/sort';
-import { useCodeLanguageSelect } from '../../code-language';
+import { useSubmissionLangSelect } from '../../submission-lang';
 import { useTagSelect } from '../../tag';
 import { editProblemValidationSchema } from './Schemas';
 import { useFormErrorMessage } from '../../../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { EditProblemFormSelectors } from '../../../store/selectors/EditProblemFormSelectors';
-import { TestPackageSelectors } from '../../../store/selectors/TestPackageSelectors';
 import { fetchTestPackagesByOwningProblem } from '../../../store/actions';
 import { LoadingState } from '../../../store/common';
 
@@ -44,7 +40,6 @@ export function EditProblemForm(props) {
     status,
     touched,
     errors,
-    setStatus,
     setFieldValue,
     isValid,
     isSubmitting,
@@ -90,7 +85,7 @@ export function EditProblemForm(props) {
     languageOptions,
     mapValueToLanguage,
     mapLanguageToValue
-  } = useCodeLanguageSelect();
+  } = useSubmissionLangSelect();
 
   const {
     tagOptions,

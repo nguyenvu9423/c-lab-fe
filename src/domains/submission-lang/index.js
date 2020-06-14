@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { CodeLanguageService } from '../../service/CodeLanguageService';
+import { SubmissionLangService } from '../../service/SubmissionLangService';
 
-export function useCodeLanguageSelect() {
+export function useSubmissionLangSelect() {
   const [languageOptions, setLanguageOptions] = React.useState([]);
   const mapValueToLanguage = React.useCallback(
     value => languageOptions.find(option => option.value == value).fieldvalue,
@@ -9,7 +9,7 @@ export function useCodeLanguageSelect() {
   );
   const mapLanguageToValue = React.useCallback(lang => lang.id, []);
   React.useEffect(() => {
-    CodeLanguageService.getAll().then(({ data: langs }) => {
+    SubmissionLangService.getAll().then(({ data: langs }) => {
       setLanguageOptions(
         langs.map(lang => ({
           text: lang.title,
