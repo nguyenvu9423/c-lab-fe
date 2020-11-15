@@ -1,0 +1,10 @@
+export const SubmissionProgressStatus = {
+  IN_QUEUE: 'IN_QUEUE',
+  INITIALIZING: 'INITIALIZING',
+  COMPILING: 'COMPILING',
+  TESTING: 'TESTING',
+  RUNNING_TEST: 'RUNNING_TEST',
+  //finished
+  SUCCESS: 'SUCCESS',
+  SYSTEM_ERROR: 'SYSTEM_ERROR'
+};

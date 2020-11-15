@@ -1,12 +1,8 @@
 import { createActions } from 'redux-actions';
 
-const { requestModal, showModal, hideModal } = createActions({
-  requestModal: {
-    request: undefined,
-    response: undefined
-  },
+const { showModal, hideModal } = createActions({
   showModal: undefined,
   hideModal: undefined
 });
 
-export { requestModal, showModal, hideModal };
+export { showModal, hideModal };

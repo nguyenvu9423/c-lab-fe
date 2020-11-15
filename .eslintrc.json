@@ -21,6 +21,10 @@
     "quotes": ["error", "single"],
     "prettier/prettier": ["error", { "singleQuote": true }],
     "react/prop-types": [0],
-    "no-duplicate-imports": ["error"]
+    "no-duplicate-imports": ["error"],
+    "no-import-assign": "off"
+  },
+  "globals": {
+    "CKFinder": "readonly"
   }
 }

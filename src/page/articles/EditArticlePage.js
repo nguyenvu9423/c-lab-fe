@@ -1,71 +1,33 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { Container } from 'semantic-ui-react';
-import { AddEditArticleForm } from './internal/AddEditArticleForm';
-import { ArticleService } from '../../service/ArticleService';
-import { connect } from 'react-redux';
-import { fetchArticle } from '../../store/actions/article';
+import { Container, Segment, Header } from 'semantic-ui-react';
+import { EditArticleForm } from '../../domains/article/EditArticleForm';
 
-class BaseEditArticlePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+export function EditArticlePage(props) {
+  const {
+    history,
+    match: {
+      params: { id }
+    }
+  } = props;
 
-  componentDidMount() {
-    const {
-      fetchArticleById,
-      match: {
-        params: { id }
-      }
-    } = this.props;
-    fetchArticleById(id);
-  }
+  const handleSuccess = () => {
+    history.push(`/articles/${id}`);
+  };
 
-  handleSubmit(values) {
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
-    ArticleService.updateArticle(id, values)
-      .then(res => {
-        const { data: article } = res;
-        const { history } = this.props;
-        history.push(`/articles/${article.id}`);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+  const handleCancel = () => {
+    history.goBack();
+  };
 
-  render() {
-    const { article } = this.props;
-    if (!article) return null;
-    return (
-      <Container>
-        <AddEditArticleForm
-          initialArticle={article}
-          onSubmit={this.handleSubmit}
+  return (
+    <Container>
+      <Segment clearing>
+        <Header as="h2">Write article</Header>
+        <EditArticleForm
+          articleId={id}
+          onSuccess={handleSuccess}
+          onCancel={handleCancel}
         />
-      </Container>
-    );
-  }
+      </Segment>
+    </Container>
+  );
 }
-
-export let EditArticlePage = connect(
-  (state, ownProps) => {
-    const {
-      entities: { article }
-    } = state;
-    const {
-      match: {
-        params: { id }
-      }
-    } = ownProps;
-    return { article: article[id] };
-  },
-  {
-    fetchArticleById: fetchArticle.request
-  }
-)(withRouter(BaseEditArticlePage));

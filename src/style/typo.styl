@@ -1,7 +1,20 @@
-.anchor-tag
-  margin-top -3.2em !important
-  padding-top 3.2em !important
-  display block
+
+.anchor-tag  
+  padding-top: 80px
+  margin-top: -80px
+  a
+    position: absolute
+    left: -2em
+    padding: 0 1em 1em
+    opacity: 0  
+    transition: opacity 0.2s
+
+h2, h3, h4
+  &:hover
+    .anchor-tag a
+      opacity 0.25
+      &:hover
+        opacity 1
 
 font-type(type)
   if type == h1

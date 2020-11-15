@@ -6,6 +6,10 @@ class UserService {
     return apiCaller.post(USER_API_BASE_URL + '/register', userDTO);
   }
 
+  static async getUsers(pageable) {
+    return apiCaller.get(USER_API_BASE_URL, { params: { pageable } });
+  }
+
   static async getLoginUser() {
     return apiCaller.get(USER_API_BASE_URL + '/me');
   }
@@ -22,12 +26,21 @@ class UserService {
     });
   }
 
+  static async getUsersByFilters(filters, pageable = { page: 0, size: 10 }) {
+    return apiCaller.get(USER_API_BASE_URL, {
+      params: {
+        filters,
+        ...pageable
+      }
+    });
+  }
+
   static async updateUserDetails(id, userDTO) {
     return apiCaller.put(`${USER_API_BASE_URL}/${id}`, userDTO);
   }
 
-  static async updateAvatar(username, formData) {
-    return apiCaller.post(`${USER_API_BASE_URL}/${username}/avatar`, formData, {
+  static async updateAvatar(formData) {
+    return apiCaller.post(`${USER_API_BASE_URL}/me/avatar`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

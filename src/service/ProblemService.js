@@ -1,5 +1,4 @@
 import { apiCaller } from '../utility/Axios';
-import { FilterConverter } from '../utility/filter/FilterConverter';
 
 const BASE_URL = '/problems';
 export class ProblemService {
@@ -12,12 +11,22 @@ export class ProblemService {
     });
   }
 
-  static getProblems(filters, pageable = { pageSize: 16, pageNumber: 0 }) {
+  static getProblems(
+    { query, pageable } = { query: {}, pageable: { size: 16, page: 0 } }
+  ) {
     return apiCaller.get(BASE_URL, {
       params: {
-        size: pageable.pageSize,
-        page: pageable.pageNumber,
-        filters: filters ? FilterConverter.toString(filters) : undefined
+        ...pageable,
+        query
+      }
+    });
+  }
+
+  static getProblemsByFilters(filters, pageable = { page: 0, size: 10 }) {
+    return apiCaller.get(BASE_URL, {
+      params: {
+        query: filters,
+        ...pageable
       }
     });
   }
@@ -38,5 +47,9 @@ export class ProblemService {
 
   static updateProblem(id, problem) {
     return apiCaller.put(`${BASE_URL}/${id}`, problem);
+  }
+
+  static deleteProblem(id) {
+    return apiCaller.delete(`${BASE_URL}/${id}`);
   }
 }

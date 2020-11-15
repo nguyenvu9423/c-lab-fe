@@ -38,22 +38,10 @@ const coreFieldsSchema = {
 };
 
 export const addProblemValidationSchema = yup.object().shape({
-  ...coreFieldsSchema,
-  activeJudgeConfig: yup.object({
-    externalJudger: yup.mixed().when('judger', {
-      is: Judger.EXTERNAL,
-      then: yup.mixed().required('External judger is required')
-    }),
-    inputFileName: yup.string().required('Input file name is required'),
-    outputFileName: yup.string().when('judger', {
-      is: value => value !== Judger.EXTERNAL,
-      then: yup.string().required('Output file name is required')
-    }),
-    testPackageFile: yup.mixed().required('Test package file is required')
-  })
+  ...coreFieldsSchema
 });
 
 export const editProblemValidationSchema = yup.object().shape({
   ...coreFieldsSchema,
-  activeTestPackage: yup.mixed().required('Testpackage is required')
+  activeJudgeConfig: yup.mixed().required('Judge config is required')
 });

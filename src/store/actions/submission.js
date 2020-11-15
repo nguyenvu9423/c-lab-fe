@@ -1,11 +1,18 @@
 import { createActions } from 'redux-actions';
 
 const {
+  fetchSubmissions,
   fetchSubmissionsByUserAndProblem,
   fetchSubmissionsByProblem,
   fetchSubmissionDetailsById,
+  fetchSubmissionResultLog,
+  fetchDetailedSubmissionById,
   createSubmission
 } = createActions({
+  fetchSubmissions: {
+    request: [payload => payload, (payload, meta) => meta],
+    response: [payload => payload, (payload, meta) => meta]
+  },
   fetchSubmissionsByUserAndProblem: {
     request: (
       userId,
@@ -26,6 +33,14 @@ const {
     request: submissionId => ({ submissionId }),
     response: submissionId => ({ submissionId })
   },
+  fetchSubmissionResultLog: {
+    request: submissionId => ({ submissionId }),
+    response: resultLog => ({ resultLog })
+  },
+  fetchDetailedSubmissionById: {
+    request: submissionId => ({ submissionId }),
+    response: undefined
+  },
   createSubmission: {
     request: undefined,
     response: submissionId => ({ submissionId })
@@ -33,8 +48,11 @@ const {
 });
 
 export {
+  fetchSubmissions,
   fetchSubmissionsByUserAndProblem,
   fetchSubmissionsByProblem,
   fetchSubmissionDetailsById,
+  fetchSubmissionResultLog,
+  fetchDetailedSubmissionById,
   createSubmission
 };

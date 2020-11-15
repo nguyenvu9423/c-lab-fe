@@ -1,12 +1,9 @@
 import { schema } from 'normalizr';
-import {
-  testPackageDTOArraySchema,
-  testPackageDTOSchema
-} from './testPackageDTOSchema';
+import { judgeConfigArraySchema, judgeConfigSchema } from './judgeConfigSchema';
 
 const problemSchema = new schema.Entity('problem', {
-  activeTestPackage: testPackageDTOSchema,
-  testPackages: testPackageDTOArraySchema
+  activeJudgeConfig: judgeConfigSchema,
+  judgeConfigs: judgeConfigArraySchema
 });
 const problemArraySchema = new schema.Array(problemSchema);
 

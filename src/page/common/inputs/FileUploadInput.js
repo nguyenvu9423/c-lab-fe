@@ -3,6 +3,7 @@ import { Button, Icon, Label } from 'semantic-ui-react';
 
 export function FileUploadInput(props) {
   const { file, placeHolder = 'Chọn tệp...', onChange, name } = props;
+
   const inputRef = React.useRef();
   return (
     <Button
@@ -25,7 +26,12 @@ export function FileUploadInput(props) {
         type="file"
         name={name}
         hidden
-        onChange={onChange}
+        onChange={event => {
+          const { files } = event.target;
+          if (files.length === 1) {
+            onChange?.(files[0]);
+          }
+        }}
       />
     </Button>
   );

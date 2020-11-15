@@ -6,6 +6,7 @@ import { Search } from 'semantic-ui-react';
 import { SearchSelectors } from '../../store/selectors/SearchSelectors';
 import { LoadingState } from '../../store/common';
 import { search } from '../../store/actions/search';
+import { SelectConfig } from '../select';
 
 export function SearchBar() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export function SearchBar() {
   const query = React.useCallback(
     Lodash.debounce(value => {
       dispatch(search.request(value));
-    }, 500),
+    }, SelectConfig.DELAY),
     []
   );
 

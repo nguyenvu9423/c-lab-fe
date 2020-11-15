@@ -1,39 +1,21 @@
-import { fetchSubmissionsByProblem } from '../actions/submission';
-import { handleActions } from 'redux-actions';
+import { combineReducers } from 'redux';
+import { filterActions } from 'redux-ignore';
+import { createTargetChecker, Target } from './target';
+import { submissionsReducer } from './data-reducers';
+import { submissionFilterReducer } from './ui-reducers';
 
-const initialState = {
-  submissions: [],
-  isFetching: false,
-  error: undefined,
-  totalPages: 0,
-  activePage: 0
-};
+const isWithTarget = createTargetChecker(Target.PROBLEM_SUBMISSIONS);
 
-const problemSubmissionsReducer = handleActions(
-  {
-    [fetchSubmissionsByProblem.request]: state => ({
-      ...state,
-      isFetching: true
+const problemSubmissionsReducer = filterActions(
+  combineReducers({
+    data: combineReducers({
+      submissions: submissionsReducer
     }),
-    [fetchSubmissionsByProblem.response]: (state, action) => {
-      if (!action.error) {
-        const { submissions, totalPages, activePage } = action.payload;
-        return {
-          submissions,
-          totalPages,
-          activePage,
-          isFetching: false,
-          error: undefined
-        };
-      } else {
-        return {
-          ...initialState,
-          error: 'This is error'
-        };
-      }
-    }
-  },
-  initialState
+    ui: combineReducers({
+      filters: submissionFilterReducer
+    })
+  }),
+  isWithTarget
 );
 
 export { problemSubmissionsReducer };

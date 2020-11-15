@@ -1,15 +1,18 @@
 import { createActions } from 'redux-actions';
+import * as uuid from 'uuid';
+import { defaultPayloadCreators } from './shared';
 
 const { fetchArticle, fetchArticles } = createActions({
   fetchArticles: {
-    request: undefined,
-    response: undefined
+    request: [
+      defaultPayloadCreators,
+      (payload, meta) => ({ ...meta, requestId: uuid.v4() })
+    ],
+    response: [payload => payload, (payload, meta) => meta]
   },
   fetchArticle: {
-    request: articleId => {
-      return { articleId };
-    },
-    response: undefined
+    request: [payload => payload, (payload, meta) => meta],
+    response: [payload => payload, (payload, meta) => meta]
   }
 });
 

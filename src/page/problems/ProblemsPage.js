@@ -1,21 +1,13 @@
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
-import {
-  Table,
-  Container,
-  Pagination,
-  Loader,
-  Segment,
-  Grid
-} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { Table, Segment, Grid } from 'semantic-ui-react';
 import { fetchProblems } from '../../store/actions/problem';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ProblemSelectors } from '../../store/selectors';
 import { LoadingState } from '../../store/common';
 import { LoadingIndicator } from '../../components/loading-indicator';
-import { TagFilterCard } from '../../components';
-import { Target } from '../../store/reducers/targets';
+import { TagFilterCard, Pagination } from '../../components';
+import { Target } from '../../store/reducers/target';
 import { resetState } from '../../store/actions/state';
 
 const PROBLEMS_PAGE_SIZE = 16;
@@ -25,35 +17,41 @@ export function ProblemsPage(props) {
     match: { url }
   } = props;
 
-  const { problems: problemsData } = useSelector(state => state.problemsPage);
-  const problems = useSelector(ProblemSelectors.byIds(problemsData.ids));
-  const handlePageChange = React.useCallback((event, { activePage }) => {
-    dispatch(
-      fetchProblems.request({
-        pageable: {
-          pageSize: PROBLEMS_PAGE_SIZE,
-          pageNumber: activePage - 1
-        }
-      })
-    );
-  }, []);
   const dispatch = useDispatch();
+  const { data } = useSelector(state => state.problemsPage);
 
-  React.useEffect(() => {
-    if (problemsData.loadingState === LoadingState.LOAD_NEEDED) {
+  const load = React.useCallback(
+    ({ pageable, query } = {}) => {
       dispatch(
-        fetchProblems.request({
-          pageable: {
-            pageSize: PROBLEMS_PAGE_SIZE,
-            pageNumber: problemsData.pageNumber
+        fetchProblems.request(
+          {
+            pageable: pageable ?? data.problems.pageable,
+            query: query ?? data.problems.query
           },
-          filters: problemsData.filters
-        })
+          { target: Target.PROBLEMS_PAGE }
+        )
       );
-    }
-  }, [problemsData]);
+    },
+    [data]
+  );
+
+  const problems = useSelector(ProblemSelectors.byIds(data.problems.ids));
+
+  const handlePageChange = React.useCallback(
+    (event, { activePage }) => {
+      load({ pageable: { page: activePage - 1, size: PROBLEMS_PAGE_SIZE } });
+    },
+    [load]
+  );
+
+  const handleFilterChange = React.useCallback(tags => {
+    const query =
+      tags.length > 0 ? `tags=include=(${tags.map(tag => tag.name)})` : '';
+    load({ query });
+  });
 
   React.useEffect(() => {
+    load({ pageable: { size: PROBLEMS_PAGE_SIZE, page: 0 } });
     return () => dispatch(resetState({ target: Target.PROBLEMS_PAGE }));
   }, []);
 
@@ -61,7 +59,7 @@ export function ProblemsPage(props) {
     <Grid container doubling padded="vertically" columns={2}>
       <Grid.Column width={12}>
         <Segment>
-          {problemsData.loadingState === LoadingState.LOADING && (
+          {data.problems.loadingState === LoadingState.LOADING && (
             <LoadingIndicator />
           )}
           <Table basic="very">
@@ -89,14 +87,9 @@ export function ProblemsPage(props) {
               <Table.Row>
                 <Table.HeaderCell colSpan="3">
                   <Pagination
-                    size={'tiny'}
                     floated="right"
-                    ellipsisItem={null}
-                    firstItem={null}
-                    lastItem={null}
-                    boundaryRange={0}
-                    activePage={problemsData.pageNumber + 1}
-                    totalPages={problemsData.totalPages}
+                    activePage={data.problems.pageable.page + 1}
+                    totalPages={data.problems.totalPages}
                     onPageChange={handlePageChange}
                   />
                 </Table.HeaderCell>
@@ -106,7 +99,7 @@ export function ProblemsPage(props) {
         </Segment>
       </Grid.Column>
       <Grid.Column width={4}>
-        <TagFilterCard target={Target.PROBLEMS_PAGE} />
+        <TagFilterCard onSubmit={handleFilterChange} />
       </Grid.Column>
     </Grid>
   );

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Route, Switch, withRouter } from 'react-router';
-import { ArticleOverviewPage } from './ArticleOverviewPage';
-import { ArticleDetailPage } from './ArticleDetailPage';
+import { ArticlePage } from './ArticlePage';
 import { AddArticlePage } from './AddArticlePage';
 import { EditArticlePage } from './EditArticlePage';
+import { ArticlesPage } from './ArticlesPage';
 
 class BaseArticlePage extends React.Component {
   render() {
@@ -16,11 +16,11 @@ class BaseArticlePage extends React.Component {
           path={`${match.path}/:id/edit`}
           component={EditArticlePage}
         />
-        <Route path={`${match.path}/:id`} component={ArticleDetailPage} />
-        <Route path={`${match.path}`} component={ArticleOverviewPage} />
+        <Route path={`${match.path}/:id`} component={ArticlePage} />
+        <Route path={`${match.path}`} component={ArticlesPage} />
       </Switch>
     );
   }
 }
 
-export const ArticlePage = withRouter(BaseArticlePage);
+export const ArticlePageRouter = withRouter(BaseArticlePage);

@@ -1,41 +1,41 @@
 import * as React from 'react';
 import { Form } from 'semantic-ui-react';
 import { FileUploadInput } from '../../common/inputs/FileUploadInput';
-import { useSelector } from 'react-redux';
-import { ProblemSelectors } from '../../../store/selectors';
 import { SubmissionLangInput } from '../../submission/components/SubmissionLangInput';
 import { useFormik } from 'formik';
 import ArrayUtils from '../../../utility/ArrayUtils';
-import { UserSelectors } from '../../../store/selectors/UserSelectors';
 import { SubmissionService } from '../../../service/SubmissionService';
 import { CodeEditor } from '../../../components/editors';
 
 export const CodeSubmissionForm = props => {
-  const { problemId } = props;
-  const problem = useSelector(ProblemSelectors.byId(problemId));
-  const loginUser = useSelector(UserSelectors.loginUser());
-
+  const { problem } = props;
   const { allowedLanguages } = problem;
   const formik = useFormik({
     initialValues: {
       codeText: '',
-      usedLanguage: ArrayUtils.isNotEmpty(allowedLanguages)
+      language: ArrayUtils.isNotEmpty(allowedLanguages)
         ? allowedLanguages[0]
-        : undefined
+        : undefined,
+      codeFile: undefined
     },
     onSubmit: (values, { setSubmitting }) => {
-      const { usedLanguage, codeText } = values;
+      const { language, codeText, codeFile } = values;
       const formData = new FormData();
       const submissionDTO = {
-        submittingUser: loginUser,
-        targetProblem: { id: problemId },
-        usedLanguage
+        problem: { id: problem.id },
+        language
       };
       formData.append(
         'submissionDTO',
         new Blob([JSON.stringify(submissionDTO)], { type: 'application/json' })
       );
-      formData.append('codeText', codeText);
+
+      if (codeFile) {
+        formData.append('codeFile', codeFile);
+      } else {
+        formData.append('codeText', codeText);
+      }
+
       SubmissionService.createSubmission(formData)
         .then(() => {
           setSubmitting(false);
@@ -45,11 +45,14 @@ export const CodeSubmissionForm = props => {
         });
     }
   });
-  if (!problem) return null;
-  if (!loginUser) return null;
   const { values, setFieldValue, handleSubmit, isSubmitting } = formik;
+
   return (
-    <Form onSubmit={handleSubmit} loading={isSubmitting}>
+    <Form
+      className={'clear-fix-container'}
+      onSubmit={handleSubmit}
+      loading={isSubmitting}
+    >
       <Form.Field>
         <label>Bài làm</label>
         <CodeEditor
@@ -62,17 +65,21 @@ export const CodeSubmissionForm = props => {
       </Form.Field>
       <Form.Field>
         <label>Nộp file</label>
-        <FileUploadInput />
+        <FileUploadInput
+          file={values.codeFile}
+          onChange={file => setFieldValue('codeFile', file)}
+        />
       </Form.Field>
       <Form.Field>
         <label>Ngôn ngữ</label>
         <SubmissionLangInput
-          options={problem.allowedLanguages}
-          value={values.usedLanguage}
+          problem={problem}
+          value={values.language}
+          onChange={lang => setFieldValue('language', lang)}
         />
       </Form.Field>
-      <Form.Button type="submit" primary>
-        Gửi
+      <Form.Button type="submit" primary floated="right">
+        Submit
       </Form.Button>
     </Form>
   );

@@ -1,6 +1,7 @@
-import { apiCaller, apiURL } from '../utility/Axios';
+import { apiCaller } from '../utility/Axios';
 import * as qs from 'qs';
 import { FilterConverter } from '../utility/filter';
+import { serverConfigs } from '../server';
 
 const BASE_URL = '/submission';
 
@@ -15,6 +16,24 @@ export class SubmissionService {
 
   static getSubmissionDetailsById(submissionId) {
     return apiCaller.get(`${BASE_URL}/${submissionId}/details`);
+  }
+
+  static getSubmissionResultLogById(submissionId) {
+    return apiCaller.get(`${BASE_URL}/${submissionId}/result-log`);
+  }
+
+  static getDetailedSubmissionById(submissionId) {
+    return apiCaller.get(`${BASE_URL}/${submissionId}/details`);
+  }
+
+  static getSubmissions(params, pageable = { page: 0, size: 10 }) {
+    return apiCaller.get(BASE_URL, {
+      params: {
+        ...params,
+        page: pageable.page,
+        size: pageable.size
+      }
+    });
   }
 
   static getSubmissionsByUserAndProblem(
@@ -52,6 +71,8 @@ export class SubmissionService {
       { ids: submissions.map(sub => sub.id) },
       { arrayFormat: 'comma' }
     );
-    return new EventSource(`${apiURL}/submission/stream?${queryString}`);
+    return new EventSource(
+      `${serverConfigs.getBaseURL()}${BASE_URL}/stream?${queryString}`
+    );
   }
 }

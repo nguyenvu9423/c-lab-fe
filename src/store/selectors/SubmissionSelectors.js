@@ -7,13 +7,15 @@ export const SubmissionSelector = {
       return ids.map(id => submission[id]);
     };
   },
+  byId(id) {
+    return state => state.entities.submission[id];
+  },
   byUserAndProblem(user, problem) {
     return state => {
       const submissionMap = state.entities.submission;
       return Object.values(submissionMap).filter(
         submission =>
-          submission.submittingUser.id === user.id &&
-          submission.targetProblem.id === problem.id
+          submission.user.id === user.id && submission.problem.id === problem.id
       );
     };
   },
@@ -22,7 +24,7 @@ export const SubmissionSelector = {
     return state => {
       const submissionMap = state.entities.submission;
       return Object.values(submissionMap).filter(
-        submission => submission.targetProblem.id == problemId
+        submission => submission.problem.id == problemId
       );
     };
   }

@@ -1,10 +1,9 @@
 import * as React from 'react';
 
-import { Container } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
-import { AddProblemForm } from '../../domains/problem/forms';
+import { Container, Segment, Header } from 'semantic-ui-react';
+import { AddProblemForm } from '../../domains/problem';
 
-function BaseAddProblemPage(props) {
+export function AddProblemPage(props) {
   const { history } = props;
 
   const handleSubmitSuccess = React.useCallback(
@@ -16,9 +15,10 @@ function BaseAddProblemPage(props) {
 
   return (
     <Container>
-      <AddProblemForm onSubmitSuccess={handleSubmitSuccess} />
+      <Segment clearing>
+        <Header as="h2">Add problem</Header>
+        <AddProblemForm onSuccess={handleSubmitSuccess} />
+      </Segment>
     </Container>
   );
 }
-
-export const AddProblemPage = withRouter(BaseAddProblemPage);

@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { Header, Segment, Label } from 'semantic-ui-react';
-import { useSelector } from 'react-redux';
-import { ProblemSelectors } from '../../store/selectors/ProblemSelectors';
 
 export const TagContainer = props => {
-  const { problemId } = props;
-  const problem = useSelector(ProblemSelectors.byId(problemId));
+  const { problem } = props;
   if (!problem) return null;
   return (
     <>

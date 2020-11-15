@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import { problemReducer } from '../data-reducers/problem';
+import { problemReducer } from '../data-reducers';
 import { filterActions } from 'redux-ignore';
-import { Target } from '../targets';
+import { Target } from '../target';
 
 export const editProblemPageReducer = combineReducers({
   problem: filterActions(

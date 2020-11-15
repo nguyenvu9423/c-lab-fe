@@ -1,49 +1,62 @@
 import * as React from 'react';
-import { Table, Pagination, Loader, Dimmer } from 'semantic-ui-react';
+import { Table, Pagination } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSubmissionsByProblem } from '../../store/actions/submission';
-import { ProblemSubmissionsSelectors } from '../../store/selectors/ProblemSubmissionsSelectors';
+import { fetchSubmissions } from '../../store/actions/submission';
 import { SubmissionSelector } from '../../store/selectors/SubmissionSelectors';
 import { SubmissionStatusLabel } from '../submission/components/SubmissionStatusLabel';
 import { Link } from 'react-router-dom';
 import { useSubmissionStream } from '../submission/hooks';
-import { SubmissionDetailsLink } from '../../domains/submission/components';
-import { SubmissionFilterSelectors } from '../../store/selectors';
+import { SubmissionDetailsLink } from '../../domains/submission';
+import { Target } from '../../store/reducers/target';
+import { LoadingState } from '../../store/common';
+import { LoadingIndicator } from '../../components/loading-indicator';
+
+const PAGE_SIZE = 10;
 
 export function ProblemStatusPage(props) {
-  const { problemId } = props;
+  const { problem, query } = props;
   const dispatch = useDispatch();
-  const { filters } = useSelector(SubmissionFilterSelectors.state());
-  React.useEffect(() => {
-    dispatch(fetchSubmissionsByProblem.request(problemId, filters));
-  }, [filters]);
+  const { data } = useSelector(state => state[Target.PROBLEM_SUBMISSIONS]);
 
-  const handlePageChange = React.useCallback(
-    (event, { activePage }) => {
+  const load = React.useCallback(
+    ({ pageable } = {}) => {
       dispatch(
-        fetchSubmissionsByProblem.request(problemId, filters, {
-          pageNumber: activePage - 1
-        })
+        fetchSubmissions.request(
+          {
+            problemId: problem.id,
+            query,
+            pageable: pageable ? pageable : data.submissions.pageable
+          },
+          { target: Target.PROBLEM_SUBMISSIONS }
+        )
       );
     },
-    [filters]
+    [data, problem, query]
   );
 
-  const state = useSelector(ProblemSubmissionsSelectors.state());
-  const {
-    submissions: submissionIds,
-    isFetching,
-    totalPages,
-    activePage
-  } = state;
-  const submissions = useSelector(SubmissionSelector.byIds(submissionIds));
+  React.useEffect(() => {
+    load({ pageable: { page: 0, size: PAGE_SIZE } });
+  }, [query]);
+
+  const handlePageChange = React.useCallback((event, { activePage }) => {
+    load({ pageable: { page: activePage - 1, size: PAGE_SIZE } });
+  }, []);
+
+  const { ids, loadingState, totalPages, pageable } = data.submissions;
+
+  const submissions = useSelector(SubmissionSelector.byIds(ids));
   useSubmissionStream(submissions);
+
+  if (loadingState === LoadingState.LOADING) {
+    return (
+      <div style={{ minHeight: 150 }}>
+        <LoadingIndicator />
+      </div>
+    );
+  }
+
   return (
     <>
-      <Dimmer active={isFetching} inverted>
-        <Loader />
-      </Dimmer>
-
       <Table basic="very">
         <Table.Header>
           <Table.Row>
@@ -56,16 +69,14 @@ export function ProblemStatusPage(props) {
         </Table.Header>
         <Table.Body>
           {submissions.map(submission => {
-            const { id, targetProblem, submittingUser, result } = submission;
+            const { id, user, result } = submission;
             return (
               <Table.Row key={submission.id}>
                 <Table.Cell>
                   <SubmissionDetailsLink submissionId={id} />
                 </Table.Cell>
                 <Table.Cell>
-                  <Link to={`/users/${submittingUser.username}`}>
-                    {submittingUser.username}
-                  </Link>
+                  <Link to={`/users/${user.username}`}>{user.username}</Link>
                 </Table.Cell>
                 <Table.Cell>
                   <SubmissionStatusLabel submission={submission} />
@@ -84,7 +95,7 @@ export function ProblemStatusPage(props) {
           firstItem={null}
           lastItem={null}
           boundaryRange={0}
-          activePage={activePage + 1}
+          activePage={pageable.page + 1}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />

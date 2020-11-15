@@ -4,25 +4,41 @@ import { Slugify } from './Slugify';
 class ArticleUtility {
   static markupContent(str) {
     const $ = cherrio.load(str);
-    $('h1,h2,h3').each((index, element) => {
+    $('h2,h3,h4').each((index, element) => {
       const id = Slugify.heading($(element).text());
-      $(element).prepend(`<span class="anchor-tag" id="${id}"/>`);
+      $(element).prepend(
+        `<span class="anchor-tag" id="${id}"><a href="#${id}">#</a></span>`
+      );
     });
     return $.html();
   }
 
   static getContentTable(str) {
-    const table = [];
+    const root = { parent: null, children: [], tagName: '' };
+    let nearestNode = root;
     const $ = cherrio.load(str);
-    $('h1,h2,h3').each((index, element) => {
+    $('h2,h3,h4').each((index, element) => {
       const id = Slugify.heading($(element).text());
-      table.push({
+      const node = {
         id,
         label: $(element).text(),
-        level: parseInt(element.tagName.substring(1)) - 1
-      });
+        tagName: element.tagName,
+        children: []
+      };
+      if (node.tagName > nearestNode.tagName) {
+        node.parent = nearestNode;
+        nearestNode.children.push(node);
+      } else {
+        let currentNode = nearestNode;
+        while (node.tagName <= currentNode.tagName && currentNode.parent) {
+          currentNode = currentNode.parent;
+        }
+        node.parent = currentNode;
+        currentNode.children.push(node);
+      }
+      nearestNode = node;
     });
-    return JSON.stringify(table);
+    return root;
   }
 }
 

@@ -1,34 +1,48 @@
 import { combineReducers } from 'redux';
 import { loginReducer } from './loginReducer';
 import { entityReducer } from './entity-reducers';
-import { articleReducer } from './articleReducer';
-import { articleOverviewReducer } from './articleOverviewReducer';
 import { problemSubmissionsReducer } from './problemSubmissionsReducer';
 import { problemUserSubmissionsReducer } from './problemUserSubmissionsReducer';
 import { modalReducer } from './modalReducer';
-import { submissionFilterReducer } from './submissionFilterReducer';
 import {
   problemDetailsPageReducer,
   editProblemPageReducer,
-  problemsPageReducer
+  problemsPageReducer,
+  articlePageReducer,
+  editArticlePageReducer,
+  articlesPageReducer,
+  userPageReducer,
+  adminPageReducer
 } from './page-reducers';
-import { editProblemFormReducer } from './form-reducers';
+import {
+  editProblemFormReducer,
+  editTagFormReducer,
+  editArticleFormReducer,
+  editUserFormReducer
+} from './form-reducers';
 import { searchReducer } from './searchReducer';
+import { detailedSubmissionModalReducer } from './modal-reducers';
 
 const rootReducer = combineReducers({
   login: loginReducer,
-  modal: modalReducer,
   search: searchReducer,
   entities: entityReducer,
-  article: articleReducer,
-  articleOverview: articleOverviewReducer,
+  modal: modalReducer,
+  detailedSubmissionModal: detailedSubmissionModalReducer,
+  userPage: userPageReducer,
+  articlesPage: articlesPageReducer,
+  articlePage: articlePageReducer,
+  editArticlePage: editArticlePageReducer,
+  editArticleForm: editArticleFormReducer,
   problemsPage: problemsPageReducer,
   problemDetailsPage: problemDetailsPageReducer,
   editProblemPage: editProblemPageReducer,
+  adminPage: adminPageReducer,
   problemSubmissions: problemSubmissionsReducer,
   problemUserSubmissions: problemUserSubmissionsReducer,
-  submissionFilter: submissionFilterReducer,
-  editProblemForm: editProblemFormReducer
+  editProblemForm: editProblemFormReducer,
+  editTagForm: editTagFormReducer,
+  editUserForm: editUserFormReducer
 });
 
 export { rootReducer };

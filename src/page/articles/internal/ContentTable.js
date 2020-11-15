@@ -1,45 +1,38 @@
 import * as React from 'react';
 import { Header, List } from 'semantic-ui-react';
+import { ArticleUtility } from '../../../utility/TextUtility';
+import ArrayUtils from '../../../utility/ArrayUtils';
 import { HashLink } from 'react-router-hash-link';
-import { withRouter } from 'react-router';
 
-class ContentTableHeading extends React.Component {
-  render() {
-    const { level, label, id } = this.props;
+function renderNode(node) {
+  const renderedChildren = !ArrayUtils.isEmpty(node.children)
+    ? node.children.map(child => renderNode(child))
+    : null;
+  if (!node.parent) {
+    return renderedChildren;
+  } else {
     return (
-      <List.Item as={HashLink} to={`#${id}`} smooth>
-        {label}
+      <List.Item>
+        <HashLink to={`#${node.id}`}>{node.label}</HashLink>
+        {renderedChildren && <List.List>{renderedChildren}</List.List>}
       </List.Item>
     );
   }
 }
 
-function BaseContentTable(props) {
-  const { structure } = props;
-  if (!structure) return null;
-  let parsedStructure = React.useMemo(() => JSON.parse(structure), [structure]);
+export function ContentTable(props) {
+  const { article } = props;
+  const rootNode = React.useMemo(
+    () => ArticleUtility.getContentTable(article.content),
+    [article]
+  );
+
   return (
     <>
-      <Header as="h4" style={{ textTransform: 'uppercase' }}>
-        Contents
-      </Header>
-      <List bulleted link size={'medium'} className={'text-container'}>
-        {/* {parsedStructure.map((obj, index) => {
-          return <ContentTableHeading key={index} {...obj} />;
-        })} */}
-        <List.Item>Gaining Access</List.Item>
-        <List.Item>Inviting Friends</List.Item>
-        <List.Item>
-          Benefits
-          <List.List>
-            <List.Item>Link to somewhere</List.Item>
-            <List.Item>Rebates</List.Item>
-            <List.Item>Discounts</List.Item>
-          </List.List>
-        </List.Item>
-        <List.Item>Warranty</List.Item>
+      <Header as="h4">Table of contents</Header>
+      <List size={'medium'} className={'text-container'} bulleted>
+        {renderNode(rootNode)}
       </List>
     </>
   );
 }
-export let ContentTable = withRouter(BaseContentTable);

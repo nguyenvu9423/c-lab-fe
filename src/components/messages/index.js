@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, Message } from 'semantic-ui-react';
+import { Message } from 'semantic-ui-react';
 
 export function ErrorMessage({ message }) {
   return (
@@ -12,7 +12,7 @@ export function ErrorMessage({ message }) {
   );
 }
 
-export function NotFoundPageMessage(params) {
+export function NotFoundPageMessage() {
   return (
     <Message
       icon="warning circle"

@@ -1,4 +1,6 @@
 import { createActions } from 'redux-actions';
+import * as uuid from 'uuid';
+import { defaultCreators } from './shared';
 
 const {
   fetchProblems,
@@ -8,12 +10,18 @@ const {
   updateProblem
 } = createActions({
   fetchProblems: {
-    request: payload => (payload ? payload : {}),
-    response: undefined
+    request: [
+      payload => ({
+        ...payload,
+        query: payload.query ? payload.query : undefined
+      }),
+      (payload, meta) => ({ ...meta, requestId: uuid.v4() })
+    ],
+    response: defaultCreators
   },
   fetchProblem: {
-    request: undefined,
-    response: [payload => payload, (payload, meta) => meta]
+    request: defaultCreators,
+    response: defaultCreators
   },
   fetchProblemById: {
     request: [id => ({ params: { id } }), (id, meta) => meta]

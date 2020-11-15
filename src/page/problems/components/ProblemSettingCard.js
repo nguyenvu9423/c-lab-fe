@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { Segment, Header, Menu, Icon } from 'semantic-ui-react';
+import { Header, Menu, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { ProblemSelectors } from '../../../store/selectors/ProblemSelectors';
 
 export function ProblemSettingCard(props) {
-  const { problemId } = props;
-  const problem = useSelector(ProblemSelectors.byId(problemId));
+  const { problem } = props;
   if (!problem) return null;
   return (
     <>

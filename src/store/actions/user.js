@@ -1,6 +1,25 @@
 import { createActions } from 'redux-actions';
+import { defaultCreators, defaultPayloadCreators } from './shared';
+import * as uuid from 'uuid';
 
-const { fetchUserById, fetchLoginUser, fetchUserByUsername } = createActions({
+const {
+  fetchUsers,
+  fetchUser,
+  fetchUserById,
+  fetchLoginUser,
+  fetchUserByUsername
+} = createActions({
+  fetchUsers: {
+    request: [
+      defaultPayloadCreators,
+      (payload, meta) => ({ ...meta, requestId: uuid.v4() })
+    ],
+    response: defaultCreators
+  },
+  fetchUser: {
+    request: defaultCreators,
+    response: defaultCreators
+  },
   fetchUserById: {
     request: userId => {
       return {
@@ -30,6 +49,8 @@ const { setLoginUser, logUserOut } = createActions({
 });
 
 export {
+  fetchUsers,
+  fetchUser,
   fetchLoginUser,
   setLoginUser,
   fetchUserById,

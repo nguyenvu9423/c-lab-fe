@@ -67,7 +67,7 @@ class UserControlMenu extends React.Component {
             <Dropdown.Item icon={'book'} text={'Upload problem'} />
             <Dropdown.Divider />
             <Dropdown.Item
-              icon={'sign-out'}
+              icon={'angle double right'}
               text={'Log out'}
               as={Link}
               to={'/logout'}
@@ -95,14 +95,13 @@ class TopNav extends React.Component {
   render() {
     const { login } = this.props;
     return (
-      <Menu fixed={'top'} size={'large'}>
+      <Menu fixed={'top'}>
         <Container>
           <Menu.Item header as={Link} to={'/'}>
             Log N
           </Menu.Item>
-          <Menu.Item as={Link} to={'/articles'}>
-            Bài viết
-          </Menu.Item>
+          <Menu.Item as={Link} to={'/articles'} content="Bài viết" />
+
           <Menu.Item as={Link} to={'/problems'}>
             Bài tập
           </Menu.Item>

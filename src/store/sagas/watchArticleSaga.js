@@ -1,42 +1,46 @@
-import { ArticleService } from '../../service/ArticleService';
 import { put, call, takeEvery } from 'redux-saga/effects';
+import { normalize } from 'normalizr';
+import { ArticleService } from '../../service/ArticleService';
 import {
   articleArraySchema,
   articleSchema
 } from '../../entity-schemas/articleSchema';
 import { fetchArticle, fetchArticles, updateEntity } from '../actions';
-import { normalize } from 'normalizr';
 
 function* fetchArticleSaga(action) {
   try {
-    const { articleId } = action.payload;
-    const response = yield call(ArticleService.getArticleById, articleId);
-    yield put(fetchArticle.response(response));
+    const { id } = action.payload;
+    let response;
+    if (id) {
+      response = yield call(ArticleService.getArticle, id);
+    }
+    const article = response.data;
+    const normalizedData = normalize(article, articleSchema);
+    yield put(updateEntity(normalizedData.entities));
+    yield put(fetchArticle.response({ article }, action.meta));
   } catch (e) {
-    yield put(fetchArticle.response(e));
-  }
-}
-
-function* fetchArticleResponseSaga(action) {
-  if (!action.error) {
-    const { data: article } = action.payload;
-    const entities = normalize(article, articleSchema).entities;
-    yield put(updateEntity(entities));
+    yield put(fetchArticle.response(e, action.meta));
   }
 }
 
 function* fetchArticlesSaga(action) {
   try {
-    const { page } = action.payload;
-    const { data } = yield call(ArticleService.getArticles, page);
+    const { pageable, query } = action.payload;
+    const { data } = yield call(ArticleService.getArticles, {
+      pageable,
+      query
+    });
     const normalizedData = normalize(data.content, articleArraySchema);
-    yield put(
-      fetchArticles.response({
-        ...data,
-        articles: normalizedData.result
-      })
-    );
     yield put(updateEntity(normalizedData.entities));
+    yield put(
+      fetchArticles.response(
+        {
+          articles: normalizedData.result,
+          totalPages: data.totalPages
+        },
+        action.meta
+      )
+    );
   } catch (e) {
     yield put(fetchArticles.response(e));
   }
@@ -44,7 +48,6 @@ function* fetchArticlesSaga(action) {
 
 function* watchArticleSaga() {
   yield takeEvery(fetchArticle.request, fetchArticleSaga);
-  yield takeEvery(fetchArticle.response, fetchArticleResponseSaga);
   yield takeEvery(fetchArticles.request, fetchArticlesSaga);
 }
 

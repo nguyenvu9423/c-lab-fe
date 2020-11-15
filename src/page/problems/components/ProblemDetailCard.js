@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { Header } from 'semantic-ui-react';
-import { ProblemSelectors } from '../../../store/selectors/ProblemSelectors';
-import { useSelector } from 'react-redux';
 
 export function ProblemDetailCard(props) {
-  const { problemId } = props;
-  const problem = useSelector(ProblemSelectors.byId(problemId));
+  const { problem } = props;
   if (!problem) return null;
   return (
     <>

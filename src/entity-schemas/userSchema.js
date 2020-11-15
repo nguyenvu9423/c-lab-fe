@@ -2,4 +2,6 @@ import { schema } from 'normalizr';
 
 const userSchema = new schema.Entity('user');
 
-export { userSchema };
+const usersSchema = new schema.Array(userSchema);
+
+export { userSchema, usersSchema };

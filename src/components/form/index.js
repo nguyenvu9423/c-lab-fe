@@ -1,29 +1,24 @@
 import * as React from 'react';
-import { Message } from 'semantic-ui-react';
 import * as Lodash from 'lodash';
+import { Message } from 'semantic-ui-react';
 
-export function useFormErrorMessage(touched, errors, status) {
-  const ErrorMessage = ({ name }) => {
-    if (Lodash.get(touched, name)) {
-      const error = Lodash.get(errors, name);
-      if (error) return <FormErrorMessage content={error} />;
-      else if (status && status.errors[name]) {
-        return <FormErrorMessage content={status.errors[name]} />;
+export function useErrorMessageRenderer({ touched, errors, status }) {
+  const renderer = React.useCallback(
+    name => {
+      if (Lodash.get(touched, name)) {
+        const error = Lodash.get(errors, name);
+        if (error) {
+          return <FormErrorMessage content={error} />;
+        } else if (status && status.errors[name]) {
+          return <FormErrorMessage content={status.errors[name]} />;
+        }
       }
-    }
-    return null;
-  };
-  return ErrorMessage;
-}
+      return null;
+    },
+    [touched, errors, status]
+  );
 
-export function StatelessFormErrorMessage({ touched, error, statusError }) {
-  if (touched) {
-    if (error) return <FormErrorMessage content={error} />;
-    else if (statusError) {
-      return <FormErrorMessage content={statusError} />;
-    }
-  }
-  return null;
+  return renderer;
 }
 
 export function FormErrorMessage({ content }) {

@@ -1,11 +1,10 @@
 import * as axios from 'axios';
 import { AuthProvider } from '../authentication/tokenProvider';
 import { AuthService } from '../service/AuthService';
-
-export const apiURL = 'http://localhost:8080';
+import { serverConfigs } from '../server';
 
 const instance = axios.create({
-  baseURL: apiURL,
+  baseURL: serverConfigs.getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'

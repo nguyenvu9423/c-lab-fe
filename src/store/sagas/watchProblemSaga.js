@@ -15,32 +15,36 @@ import {
 } from '../../entity-schemas/problem';
 
 function* fetchProblemsSaga(action) {
-  const { pageable, filters } = action.payload;
+  const { payload, meta } = action;
   try {
-    const { data } = yield call(ProblemService.getProblems, filters, pageable);
+    const { pageable, query } = payload;
+    const { data } = yield call(ProblemService.getProblems, {
+      query,
+      pageable
+    });
     const normalizedData = normalize(data.content, problemArraySchema);
     yield put(updateEntity(normalizedData.entities));
     yield put(
-      fetchProblems.response({
-        problems: normalizedData.result,
-        totalPages: data.totalPages,
-        pageNumber: data.number
-      })
+      fetchProblems.response(
+        {
+          problems: normalizedData.result,
+          totalPages: data.totalPages
+        },
+        meta
+      )
     );
   } catch (e) {
-    yield put(fetchProblems.response(e));
+    yield put(fetchProblems.response(e, meta));
   }
 }
 
 function* fetchProblemSaga(action) {
-  const {
-    payload: { params },
-    meta
-  } = action;
+  const { payload, meta } = action;
   try {
+    const { id, ...params } = payload;
     let response;
-    if (params.id) {
-      response = yield call(ProblemService.getProblem, params.id);
+    if (id) {
+      response = yield call(ProblemService.getProblem, id);
     } else {
       response = yield call(ProblemService.getProblemByParams, params);
     }

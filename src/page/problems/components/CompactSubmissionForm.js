@@ -1,32 +1,24 @@
 import * as React from 'react';
 import { Form, Header, Segment } from 'semantic-ui-react';
-import { updateEntity } from '../../../store/actions/entity';
 import { FileUploadInput } from '../../common/inputs/FileUploadInput';
 import { useFormik } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
 import ArrayUtils from '../../../utility/ArrayUtils';
 import { SubmissionService } from '../../../service/SubmissionService';
-import { normalize } from 'normalizr';
-import { submissionSchema } from '../../../entity-schemas/submissionSchema';
-import { ProblemSelectors } from '../../../store/selectors';
 import { SubmissionLangInput } from '../../submission/components/SubmissionLangInput';
-import { createSubmission } from '../../../store/actions/submission';
 
 export function CompactCodeSubmissionForm(props) {
-  const { problemId } = props;
-  const problem = useSelector(ProblemSelectors.byId(problemId));
-  const dispatch = useDispatch();
+  const { problem, onSubmitDone } = props;
   const formik = useFormik({
     initialValues: {
-      usedLanguage: undefined,
+      language: undefined,
       codeFile: undefined
     },
     onSubmit: (values, { setSubmitting }) => {
-      const { usedLanguage, codeFile } = values;
+      const { language, codeFile } = values;
       const formData = new FormData();
       const submissionDTO = {
-        targetProblem: { id: problem.id },
-        usedLanguage
+        problem: { id: problem.id },
+        language
       };
       formData.append(
         'submissionDTO',
@@ -34,14 +26,10 @@ export function CompactCodeSubmissionForm(props) {
       );
       formData.append('codeFile', codeFile);
       setSubmitting(true);
-      dispatch(createSubmission.request());
       SubmissionService.createSubmissionByFile(formData)
         .then(response => {
           setSubmitting(false);
-          const { data } = response;
-          const normalizedData = normalize(data, submissionSchema);
-          dispatch(updateEntity(normalizedData.entities));
-          dispatch(createSubmission.response(normalizedData.result));
+          onSubmitDone?.(response.data);
         })
         .catch(() => {
           setSubmitting(false);
@@ -49,16 +37,10 @@ export function CompactCodeSubmissionForm(props) {
     }
   });
   const { values, handleSubmit, setFieldValue, isSubmitting } = formik;
-  const onChange = React.useCallback(event => {
-    const { files } = event.target;
-    if (files.length == 1) {
-      setFieldValue('codeFile', files[0]);
-    }
-  }, []);
 
   React.useEffect(() => {
     if (!ArrayUtils.isEmpty(problem.allowedLanguages)) {
-      setFieldValue('usedLanguage', problem.allowedLanguages[0]);
+      setFieldValue('language', problem.allowedLanguages[0]);
     }
   }, [problem.allowedLanguages]);
 
@@ -74,14 +56,17 @@ export function CompactCodeSubmissionForm(props) {
           loading={isSubmitting}
         >
           <Form.Field>
-            <FileUploadInput onChange={onChange} file={values.codeFile} />
+            <FileUploadInput
+              onChange={file => setFieldValue('codeFile', file)}
+              file={values.codeFile}
+            />
           </Form.Field>
           <Form.Field>
             <SubmissionLangInput
-              options={problem.allowedLanguages}
-              value={values.usedLanguage}
+              problem={problem}
+              value={values.language}
               onChange={lang => {
-                setFieldValue('usedLanguage', lang);
+                setFieldValue('language', lang);
               }}
             />
           </Form.Field>

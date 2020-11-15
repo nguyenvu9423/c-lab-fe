@@ -10,12 +10,13 @@ const entityReducer = handleAction(
       article: { ...state.article, ...payload.article },
       problem: { ...state.problem, ...payload.problem },
       codeLanguage: { ...state.codeLanguage, ...payload.codeLanguage },
-      testPackage: { ...state.testPackage, ...payload.testPackage },
+      judgeConfig: { ...state.judgeConfig, ...payload.judgeConfig },
       submission: { ...state.submission, ...payload.submission },
       submissionDetails: {
         ...state.submissionDetails,
         ...payload.submissionDetails
-      }
+      },
+      tag: { ...state.tag, ...payload.tag }
     };
   },
   {
@@ -23,7 +24,7 @@ const entityReducer = handleAction(
     article: {},
     problem: {},
     codeLanguage: {},
-    testPackage: {},
+    judgeConfig: {},
     submission: {},
     submissionDetails: {}
   }

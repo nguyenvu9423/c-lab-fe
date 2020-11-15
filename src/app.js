@@ -3,19 +3,19 @@ import { Route, Switch, Redirect } from 'react-router';
 import { RegisterPage } from './page/register';
 import './style/all.styl';
 import { LoginPage } from './page/login';
-import { UserPage } from './page/users';
+import { UserPageRouter } from './page/users';
 import { toastGroup } from './page/common/ToastGroup';
 import TopNav from './page/common/TopNav';
-import { ArticlePage } from './page/articles';
+import { ArticlePageRouter } from './page/articles';
 import { LogoutPage } from './page/logout';
-import { ScrollToTop } from './page/common/ScrollToTop';
-import { ProblemPage } from './page/problems';
+import { ProblemPageRouter } from './page/problems';
 import { Modal } from './components/modals';
+import { AdminPage } from './page/admin';
 
 class App extends React.Component {
   render() {
     return (
-      <ScrollToTop>
+      <>
         <TopNav />
         <div className={'content'} style={{ marginTop: '7em' }}>
           <Switch>
@@ -26,15 +26,16 @@ class App extends React.Component {
             </Route>
             <Route path={'/register'} component={RegisterPage} />
             <Route path={'/login'} component={LoginPage} />
-            <Route path={'/users'} component={UserPage} />
-            <Route path={'/articles'} component={ArticlePage} />
+            <Route path={'/users'} component={UserPageRouter} />
+            <Route path={'/articles'} component={ArticlePageRouter} />
             <Route path={'/logout'} component={LogoutPage} />
-            <Route path={'/problems'} component={ProblemPage} />
+            <Route path={'/problems'} component={ProblemPageRouter} />
+            <Route path={'/admin'} component={AdminPage} />
           </Switch>
         </div>
         {toastGroup}
         <Modal />
-      </ScrollToTop>
+      </>
     );
   }
 }

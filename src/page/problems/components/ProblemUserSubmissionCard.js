@@ -8,47 +8,59 @@ import {
   Loader
 } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSubmissionsByUserAndProblem } from '../../../store/actions/submission';
-import { ProblemUserSubmissionsSelectors } from '../../../store/selectors';
+import { fetchSubmissions, resetState } from '../../../store/actions';
 import { SubmissionStatusLabel } from '../../submission/components/SubmissionStatusLabel';
 import { SubmissionSelector } from '../../../store/selectors/SubmissionSelectors';
 import { LoadingState } from '../../../store/common';
 import { useSubmissionStream } from '../../submission/hooks';
-import { requestModal } from '../../../store/actions/modal';
-import { ModalMap } from '../../../components/modals';
-import { SubmissionDetailsLink } from '../../../domains/submission/components';
+import { SubmissionDetailsLink } from '../../../domains/submission';
+import { Target } from '../../../store/reducers/target';
 
-const PAGE_SIZE = 5;
+export const PAGE_SIZE = 5;
+
 export function ProblemUserSubmissionCard(props) {
-  const { problemId, userId } = props;
-  const {
-    loadingState,
-    submissions: submissionIds,
-    totalPages,
-    activePage
-  } = useSelector(ProblemUserSubmissionsSelectors.state());
+  const { problem, userId } = props;
   const dispatch = useDispatch();
+  const { data } = useSelector(state => state[Target.PROBLEM_USER_SUBMISSIONS]);
+  const { loadingState, ids, totalPages, activePage } = data.submissions;
+
   React.useEffect(() => {
-    // return () => dispatch(userSubmissionToProblem.resetState());
+    return () =>
+      dispatch(resetState({ target: Target.PROBLEM_USER_SUBMISSIONS }));
   }, []);
+
   React.useEffect(() => {
     if (loadingState === LoadingState.LOAD_NEEDED) {
       dispatch(
-        fetchSubmissionsByUserAndProblem.request(userId, problemId, {
-          pageNumber: activePage,
-          pageSize: PAGE_SIZE
-        })
+        fetchSubmissions.request(
+          {
+            userId,
+            problemId: problem.id,
+            pageable: {
+              pageNumber: activePage,
+              pageSize: PAGE_SIZE
+            }
+          },
+          { target: Target.PROBLEM_USER_SUBMISSIONS }
+        )
       );
     }
   }, [loadingState]);
-  const submissions = useSelector(SubmissionSelector.byIds(submissionIds));
+  const submissions = useSelector(SubmissionSelector.byIds(ids));
   useSubmissionStream(submissions);
   const handlePageChange = React.useCallback((event, { activePage }) => {
     dispatch(
-      fetchSubmissionsByUserAndProblem.request(userId, problemId, {
-        pageNumber: activePage - 1,
-        pageSize: PAGE_SIZE
-      })
+      fetchSubmissions.request(
+        {
+          userId,
+          problemId: problem.id,
+          pageable: {
+            pageNumber: activePage - 1,
+            pageSize: PAGE_SIZE
+          }
+        },
+        { target: Target.PROBLEM_USER_SUBMISSIONS }
+      )
     );
   }, []);
 

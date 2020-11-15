@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { requestModal } from '../../../store/actions/modal';
+import { showModal } from '../../../store/actions/modal';
 import { ModalMap } from '../../../components/modals';
 
 export const SubmissionDetailsLink = props => {
@@ -11,9 +11,11 @@ export const SubmissionDetailsLink = props => {
       style={{ cursor: 'pointer' }}
       onClick={() => {
         dispatch(
-          requestModal.request({
+          showModal({
             modalType: ModalMap.SUBMISSION_DETAILS.type,
-            submissionId
+            modalProps: {
+              submissionId
+            }
           })
         );
       }}

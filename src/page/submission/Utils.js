@@ -1,36 +1,37 @@
 import {
-  SubmissionStatusType,
-  ProgressStatusType
-} from '../../domains/submission/components';
+  SubmissionProgressType,
+  SubmissionProgressStatus
+} from '../../domains/submission';
 
 const submissionStatusParser = {
   parse(submission) {
-    let status, message;
+    let output = {};
     const { progress, result } = submission;
-    const { progressStatus, currentTest } = progress;
-    if (progressStatus.inProgress) {
-      status = SubmissionStatusType.IN_PROGRESS;
-      if (progressStatus.name === ProgressStatusType.RUNNING) {
-        message = `Running on test ${currentTest}`;
+    const { status, runningTest } = progress;
+    output.status = status.type;
+
+    if (output.status === SubmissionProgressType.IN_PROGRESS) {
+      if (status.name === SubmissionProgressStatus.RUNNING) {
+        output.message = `Running on test ${runningTest}`;
       } else {
-        message = progressStatus.description;
+        output.message = status.description;
       }
     } else {
-      if (progressStatus.name === ProgressStatusType.DONE) {
+      if (status.name === SubmissionProgressStatus.DONE) {
         if (!result.error) {
-          status = SubmissionStatusType.ACCEPTED;
-          message = 'Accepted';
+          output.status = SubmissionProgressType.SUCCESS;
+          output.message = 'Accepted';
         } else {
           const { error } = result;
-          status = SubmissionStatusType.ERROR;
-          message = `${error.status.description} on test ${error.testId}`;
+          output.status = SubmissionProgressType.ERROR;
+          output.message = `${error.status.description} on test ${error.testId}`;
         }
       } else {
-        status = SubmissionStatusType.ERROR;
-        message = progressStatus.description;
+        output.status = SubmissionProgressType.ERROR;
+        output.message = status.description;
       }
     }
-    return { status, message };
+    return output;
   }
 };
 

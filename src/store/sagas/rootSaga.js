@@ -3,9 +3,10 @@ import { watchUserSaga } from './watchUserSaga';
 import { watchArticleSaga } from './watchArticleSaga';
 import { watchProblemSaga } from './watchProblemSaga';
 import { watchSubmissionLangSaga } from './watchSubmissionLangSaga';
-import { watchTestPackageSaga } from './watchTestPackageSaga';
+import { watchJudgeConfigSaga } from './watchJudgeConfigSaga';
 import { watchSubmissionSaga } from './watchSubmissionSaga';
 import { watchSearchSaga } from './watchSearchSaga';
+import { watchTagSaga } from './watchTagSaga';
 
 function* rootSaga() {
   yield all([
@@ -13,9 +14,10 @@ function* rootSaga() {
     call(watchArticleSaga),
     call(watchProblemSaga),
     call(watchSubmissionLangSaga),
-    call(watchTestPackageSaga),
+    call(watchJudgeConfigSaga),
     call(watchSubmissionSaga),
-    call(watchSearchSaga)
+    call(watchSearchSaga),
+    call(watchTagSaga)
   ]);
 }
 

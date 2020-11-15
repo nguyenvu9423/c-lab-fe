@@ -1,52 +1,64 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  problemUser,
-  SubmissionSelector,
-  UserSelectors,
-  ProblemUserSubmissionsSelectors
-} from '../../store/selectors';
-import { fetchSubmissionsByUserAndProblem } from '../../store/actions/submission';
+import { SubmissionSelector, UserSelectors } from '../../store/selectors';
+import { fetchSubmissions } from '../../store/actions/submission';
 import { LoadingState } from '../../store/common';
 import { useSubmissionStream } from '../submission/hooks';
 import { Dimmer, Loader, Table, Pagination } from 'semantic-ui-react';
 import { SubmissionStatusLabel } from '../submission/components/SubmissionStatusLabel';
-import { SubmissionDetailsLink } from '../../domains/submission/components';
+import { SubmissionDetailsLink } from '../../domains/submission';
 import { Link } from 'react-router-dom';
+import { Target } from '../../store/reducers/target';
+import { resetState } from '../../store/actions';
 
 const PAGE_SIZE = 10;
 
 export function ProblemUserSubmissionsPage(props) {
-  const { problemId } = props;
+  const { problem } = props;
   const loginUser = useSelector(UserSelectors.loginUser());
-  const {
-    loadingState,
-    submissions: submissionIds,
-    totalPages,
-    activePage
-  } = useSelector(ProblemUserSubmissionsSelectors.state());
+  const { data } = useSelector(state => state.problemUserSubmissions);
+  const { loadingState, ids, totalPages, activePage } = data.submissions;
   const dispatch = useDispatch();
   React.useEffect(() => {
-    // return () => dispatch(userSubmissionToProblem.resetState());
+    return () =>
+      dispatch(resetState({ target: Target.PROBLEM_USER_SUBMISSIONS }));
   }, []);
   React.useEffect(() => {
     if (loadingState === LoadingState.LOAD_NEEDED) {
       dispatch(
-        fetchSubmissionsByUserAndProblem.request(loginUser.id, problemId, {
-          pageNumber: activePage,
-          pageSize: PAGE_SIZE
-        })
+        fetchSubmissions.request(
+          {
+            user: loginUser.id,
+            problemId: problem.id,
+            pageable: {
+              pageNumber: activePage,
+              pageSize: PAGE_SIZE
+            }
+          },
+          {
+            target: Target.PROBLEM_USER_SUBMISSIONS
+          }
+        )
       );
     }
   }, [loadingState]);
-  const submissions = useSelector(SubmissionSelector.byIds(submissionIds));
+  const submissions = useSelector(SubmissionSelector.byIds(ids));
   useSubmissionStream(submissions);
   const handlePageChange = React.useCallback((event, { activePage }) => {
     dispatch(
-      fetchSubmissionsByUserAndProblem.request(loginUser.id, problemId, {
-        pageNumber: activePage - 1,
-        pageSize: PAGE_SIZE
-      })
+      fetchSubmissions.request(
+        {
+          userId: loginUser.id,
+          problemId: problem.id,
+          pageable: {
+            pageNumber: activePage - 1,
+            pageSize: PAGE_SIZE
+          }
+        },
+        {
+          target: Target.PROBLEM_USER_SUBMISSIONS
+        }
+      )
     );
   }, []);
   return (
@@ -67,16 +79,14 @@ export function ProblemUserSubmissionsPage(props) {
         </Table.Header>
         <Table.Body>
           {submissions.map(submission => {
-            const { id, targetProblem, submittingUser, result } = submission;
+            const { id, user, result } = submission;
             return (
               <Table.Row key={submission.id}>
                 <Table.Cell>
                   <SubmissionDetailsLink submissionId={id} />
                 </Table.Cell>
                 <Table.Cell>
-                  <Link to={`/users/${submittingUser.username}`}>
-                    {submittingUser.username}
-                  </Link>
+                  <Link to={`/users/${user.username}`}>{user.username}</Link>
                 </Table.Cell>
                 <Table.Cell>
                   <SubmissionStatusLabel submission={submission} />
@@ -91,11 +101,6 @@ export function ProblemUserSubmissionsPage(props) {
 
       <div style={{ textAlign: 'center' }}>
         <Pagination
-          size={'tiny'}
-          ellipsisItem={null}
-          firstItem={null}
-          lastItem={null}
-          boundaryRange={0}
           activePage={activePage + 1}
           totalPages={totalPages}
           onPageChange={handlePageChange}

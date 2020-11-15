@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router';
-import { UserDetailPage } from './UserDetailPage';
+import { UserPage } from './UserPage';
 import { EditUserPage } from './EditUserPage';
 import { ChangeUserPasswordPage } from './ChangeUserPasswordPage';
 
-class UserPage extends React.Component {
+class UserPageRouter extends React.Component {
   render() {
     const { match } = this.props;
     return (
@@ -14,10 +14,10 @@ class UserPage extends React.Component {
           component={ChangeUserPasswordPage}
         />
         <Route path={`${match.path}/:username/edit`} component={EditUserPage} />
-        <Route path={`${match.path}/:username`} component={UserDetailPage} />
+        <Route path={`${match.path}/:username`} component={UserPage} />
       </Switch>
     );
   }
 }
 
-export { UserPage };
+export { UserPageRouter };
