@@ -10,6 +10,7 @@ import { SubmissionDetailsLink } from '../../domains/submission';
 import { Target } from '../../store/reducers/target';
 import { LoadingState } from '../../store/common';
 import { LoadingIndicator } from '../../components/loading-indicator';
+import { formatResourceTime, formatResourceMemory } from './utils';
 
 const PAGE_SIZE = 10;
 
@@ -81,8 +82,12 @@ export function ProblemStatusPage(props) {
                 <Table.Cell>
                   <SubmissionStatusLabel submission={submission} />
                 </Table.Cell>
-                <Table.Cell>{result?.time} ms</Table.Cell>
-                <Table.Cell>{result?.memory} mb</Table.Cell>
+                <Table.Cell>
+                  {formatResourceTime(result?.resource?.time)}
+                </Table.Cell>
+                <Table.Cell>
+                  {formatResourceMemory(result?.resource?.memory)}
+                </Table.Cell>
               </Table.Row>
             );
           })}

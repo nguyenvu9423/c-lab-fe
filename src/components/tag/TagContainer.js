@@ -1,21 +1,32 @@
 import * as React from 'react';
-import { Header, Segment, Label } from 'semantic-ui-react';
+import { Segment, Label, Accordion, Icon, Header } from 'semantic-ui-react';
 
 export const TagContainer = props => {
   const { problem } = props;
-  if (!problem) return null;
+  const [expanded, setExpanded] = React.useState(false);
   return (
-    <>
-      <Header as="h3" attached="top">
-        Tags
-      </Header>
-      <Segment attached="bottom">
-        <Label.Group tag>
-          {problem.tags.map(tag => (
-            <Label key={tag.id}>{tag.name}</Label>
-          ))}
-        </Label.Group>
-      </Segment>
-    </>
+    <Segment>
+      <Accordion>
+        <Accordion.Title
+          as={Header}
+          active={expanded}
+          onClick={() => setExpanded(!expanded)}
+        >
+          <Icon name="dropdown" />
+          Tags
+        </Accordion.Title>
+        {expanded ? (
+          <Accordion.Content active={true}>
+            <Label.Group tag>
+              {problem.tags.map(tag => (
+                <Label key={tag.id}>{tag.name}</Label>
+              ))}
+            </Label.Group>
+          </Accordion.Content>
+        ) : (
+          undefined
+        )}
+      </Accordion>
+    </Segment>
   );
 };

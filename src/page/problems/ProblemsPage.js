@@ -66,8 +66,8 @@ export function ProblemsPage(props) {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-                <Table.HeaderCell width={10}>Tiêu đề</Table.HeaderCell>
-                <Table.HeaderCell width={4}>Mã</Table.HeaderCell>
+                <Table.HeaderCell width={8}>Tiêu đề</Table.HeaderCell>
+                <Table.HeaderCell width={6}>Mã</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>

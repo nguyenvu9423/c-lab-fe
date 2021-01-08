@@ -10,6 +10,7 @@ import { SubmissionDetailsLink } from '../../domains/submission';
 import { Link } from 'react-router-dom';
 import { Target } from '../../store/reducers/target';
 import { resetState } from '../../store/actions';
+import { formatResourceTime, formatResourceMemory } from './utils';
 
 const PAGE_SIZE = 10;
 
@@ -19,48 +20,42 @@ export function ProblemUserSubmissionsPage(props) {
   const { data } = useSelector(state => state.problemUserSubmissions);
   const { loadingState, ids, totalPages, activePage } = data.submissions;
   const dispatch = useDispatch();
-  React.useEffect(() => {
-    return () =>
-      dispatch(resetState({ target: Target.PROBLEM_USER_SUBMISSIONS }));
-  }, []);
-  React.useEffect(() => {
-    if (loadingState === LoadingState.LOAD_NEEDED) {
+
+  const load = React.useCallback(
+    ({ pageable } = {}) => {
       dispatch(
         fetchSubmissions.request(
           {
-            user: loginUser.id,
+            userId: loginUser.id,
             problemId: problem.id,
-            pageable: {
-              pageNumber: activePage,
-              pageSize: PAGE_SIZE
-            }
+            pageable: pageable ?? data.submissions.pageable
           },
           {
             target: Target.PROBLEM_USER_SUBMISSIONS
           }
         )
       );
-    }
-  }, [loadingState]);
-  const submissions = useSelector(SubmissionSelector.byIds(ids));
-  useSubmissionStream(submissions);
-  const handlePageChange = React.useCallback((event, { activePage }) => {
-    dispatch(
-      fetchSubmissions.request(
-        {
-          userId: loginUser.id,
-          problemId: problem.id,
-          pageable: {
-            pageNumber: activePage - 1,
-            pageSize: PAGE_SIZE
-          }
-        },
-        {
-          target: Target.PROBLEM_USER_SUBMISSIONS
-        }
-      )
-    );
+    },
+    [data]
+  );
+
+  React.useEffect(() => {
+    return () =>
+      dispatch(resetState({ target: Target.PROBLEM_USER_SUBMISSIONS }));
   }, []);
+
+  React.useEffect(() => {
+    load({ page: 0, size: PAGE_SIZE });
+  }, []);
+
+  const submissions = useSelector(SubmissionSelector.byIds(ids));
+
+  useSubmissionStream(submissions);
+
+  const handlePageChange = React.useCallback((event, { activePage }) => {
+    dispatch(load({ pageable: { page: activePage - 1, size: PAGE_SIZE } }));
+  }, []);
+
   return (
     <>
       <Dimmer active={loadingState === LoadingState.LOADING} inverted>
@@ -80,6 +75,7 @@ export function ProblemUserSubmissionsPage(props) {
         <Table.Body>
           {submissions.map(submission => {
             const { id, user, result } = submission;
+
             return (
               <Table.Row key={submission.id}>
                 <Table.Cell>
@@ -91,8 +87,12 @@ export function ProblemUserSubmissionsPage(props) {
                 <Table.Cell>
                   <SubmissionStatusLabel submission={submission} />
                 </Table.Cell>
-                <Table.Cell>{result?.time} ms</Table.Cell>
-                <Table.Cell>{result?.memory} mb</Table.Cell>
+                <Table.Cell>
+                  {formatResourceTime(result?.resource?.time)}
+                </Table.Cell>
+                <Table.Cell>
+                  {formatResourceMemory(result?.resource?.memory)}
+                </Table.Cell>
               </Table.Row>
             );
           })}
@@ -101,7 +101,7 @@ export function ProblemUserSubmissionsPage(props) {
 
       <div style={{ textAlign: 'center' }}>
         <Pagination
-          activePage={activePage + 1}
+          activePage={data.submissions.pageable.page + 1}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />

@@ -18,32 +18,41 @@ import { SubmissionSelector } from '../../../store/selectors';
 import { TestResultLabel } from '../../../page/submission/components/test-result-labels';
 import { SubmissionVerdict } from '../result/SubmissionVerdict';
 import { ErrorStatusLabel } from '../../../page/submission/components/status-labels';
+import {
+  formatResourceTime,
+  formatResourceMemory
+} from '../../../page/problems/utils';
 
 const DetailedSubmissionModal = props => {
   const dispatch = useDispatch();
   const { submissionId } = props;
   const slice = useSelector(state => state.detailedSubmissionModal);
+
   React.useEffect(() => {
     dispatch(fetchDetailedSubmissionById.request(submissionId));
   }, []);
+
   const { detailedSubmission } = slice;
   const { code, resultLog } = detailedSubmission;
   const submission = useSelector(SubmissionSelector.byId(submissionId));
+  const { result } = submission;
+  const handleClose = React.useCallback(() => {
+    dispatch(hideModal());
+  }, []);
+
   if (detailedSubmission.loadingState != LoadingState.LOADED) {
     return <LoadingIndicator />;
   }
+
   return (
     <UiModal
       open={true}
       closeIcon
       closeOnEscape
       closeOnDimmerClick
-      onClose={() => {
-        dispatch(hideModal());
-      }}
+      onClose={handleClose}
     >
       <Header color="blue">Submission #{submission.id}</Header>
-      <div style={{ clear: 'both' }} />
       <UiModal.Content>
         <Grid>
           <Grid.Row>
@@ -53,7 +62,9 @@ const DetailedSubmissionModal = props => {
             </Grid.Column>
             <Grid.Column width={8}>
               <Header as="h4">Resource</Header>
-              <span>500ms - 100mb</span>
+              {/* <span>{`
+              ${formatResourceTime(result?.resource.time)} - 
+              ${formatResourceMemory(result?.resource.memory)}`}</span> */}
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -105,17 +116,23 @@ function ResultLog(props) {
                 <Header as="h5" attached="top">
                   Input
                 </Header>
-                <Segment attached>{test.input}</Segment>
+                <Segment attached>
+                  <pre>{test.input}</pre>
+                </Segment>
 
                 <Header as="h5" attached>
                   Output
                 </Header>
-                <Segment attached="bottom">{test.userOutput}</Segment>
+                <Segment attached="bottom">
+                  <pre>{test.userOutput}</pre>
+                </Segment>
 
                 <Header as="h5" attached="top">
                   Answer
                 </Header>
-                <Segment attached="bottom">{test.output}</Segment>
+                <Segment attached="bottom">
+                  <pre>{test.output}</pre>
+                </Segment>
               </List.Content>
             </List.Item>
           );
