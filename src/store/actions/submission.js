@@ -2,7 +2,6 @@ import { createActions } from 'redux-actions';
 
 const {
   fetchSubmissions,
-  fetchSubmissionsByUserAndProblem,
   fetchSubmissionsByProblem,
   fetchSubmissionDetailsById,
   fetchSubmissionResultLog,
@@ -12,14 +11,6 @@ const {
   fetchSubmissions: {
     request: [payload => payload, (payload, meta) => meta],
     response: [payload => payload, (payload, meta) => meta]
-  },
-  fetchSubmissionsByUserAndProblem: {
-    request: (
-      userId,
-      problemId,
-      pageable = { pageNumber: 0, pageSize: 10 }
-    ) => ({ userId, problemId, pageable }),
-    response: undefined
   },
   fetchSubmissionsByProblem: {
     request: (problemId, filters, pageable) => ({
@@ -49,7 +40,6 @@ const {
 
 export {
   fetchSubmissions,
-  fetchSubmissionsByUserAndProblem,
   fetchSubmissionsByProblem,
   fetchSubmissionDetailsById,
   fetchSubmissionResultLog,

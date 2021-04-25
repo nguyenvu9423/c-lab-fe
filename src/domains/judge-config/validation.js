@@ -1,17 +1,18 @@
 import * as yup from 'yup';
-import { Judger } from './types';
+import { JudgerType } from './types';
 
 const objectShape = {
-  inputFileName: yup.string().required('Input file name is required'),
-  outputFileName: yup.string().when('judger', {
-    is: value => value !== Judger.EXTERNAL,
-    then: yup.string().required('Output file name is required')
+  customJudgerFile: yup.mixed().when('judgerType', {
+    is: JudgerType.CUSTOM,
+    then: yup.mixed().when('customJudger', {
+      is: value => value == null,
+      then: yup.mixed().required('Custom judger is required')
+    })
   }),
-  externalJudger: yup.mixed().when('judger', {
-    is: Judger.EXTERNAL,
-    then: yup.mixed().required('External judger is required')
-  }),
-  testPackageFile: yup.mixed().required('Test package file is required')
+  testPackageFile: yup.mixed().when('testPackage', {
+    is: value => value == null,
+    then: yup.mixed().required('Test package is required')
+  })
 };
 
 export const JudgeConfigValidation = {

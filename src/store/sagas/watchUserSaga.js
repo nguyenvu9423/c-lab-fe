@@ -1,15 +1,8 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import {
-  fetchUser,
-  fetchLoginUser,
-  setLoginUser,
-  updateEntity,
-  fetchUsers
-} from '../actions';
-import UserService from '../../service/UserService';
+import { fetchUser, updateEntity, fetchUsers } from '../actions';
+import { UserService } from '../../service/UserService';
 import { userSchema, usersSchema } from '../../entity-schemas/userSchema';
 import { normalize } from 'normalizr';
-import { AuthProvider } from '../../authentication/tokenProvider';
 
 function* fetchUsersSaga(action) {
   const { payload, meta } = action;
@@ -32,35 +25,17 @@ function* fetchUsersSaga(action) {
   }
 }
 
-function* fetchLoginUserSaga() {
-  if (AuthProvider.getToken()) {
-    try {
-      const response = yield call(UserService.getLoginUser);
-      yield put(fetchLoginUser.response(response.data));
-    } catch (e) {
-      yield put(fetchLoginUser.response(e));
-    }
-  }
-}
-
-function* fetchLoginUserResponseSaga(action) {
-  if (!action.error) {
-    const { payload } = action;
-    const entities = normalize(payload, userSchema).entities;
-    yield put(updateEntity(entities));
-    yield put(setLoginUser(payload));
-  }
-}
-
 function* fetchUserSaga(action) {
   const { payload, meta } = action;
   try {
-    const { id, username } = payload;
+    const { id, username, isPrincipal } = payload;
     let response;
     if (id) {
       response = yield call(UserService.getUserById, id);
     } else if (username) {
       response = yield call(UserService.getUserByUsername, username);
+    } else if (isPrincipal) {
+      response = yield call(UserService.getLoginUser);
     }
     const { result, entities } = normalize(response.data, userSchema);
     yield put(updateEntity(entities));
@@ -71,10 +46,8 @@ function* fetchUserSaga(action) {
 }
 
 function* watchUserSaga() {
-  yield takeEvery(fetchUsers.request, fetchUsersSaga);
-  yield takeEvery(fetchLoginUser.request, fetchLoginUserSaga);
-  yield takeEvery(fetchLoginUser.response, fetchLoginUserResponseSaga);
   yield takeEvery(fetchUser.request, fetchUserSaga);
+  yield takeEvery(fetchUsers.request, fetchUsersSaga);
 }
 
 export { watchUserSaga };

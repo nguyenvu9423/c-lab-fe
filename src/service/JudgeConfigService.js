@@ -12,12 +12,19 @@ class JudgeConfigService {
     });
   }
 
-  static getJudgeConfigs({ problemId }, pageable = { page: 0, size: 5 }) {
+  static getJudgeConfig({ problemId }) {
     return apiCaller.get(BASE_URL, {
-      params: {
-        problemId,
-        ...pageable
-      }
+      params: { problemId }
+    });
+  }
+
+  static createOrUpdateJudgeConfigOfProblem({ problemId, formData }) {
+    return apiCaller.post(BASE_URL, formData, {
+      params: { problemId },
+      headers: {
+        'Content-Type': undefined
+      },
+      timeout: 120000
     });
   }
 }

@@ -1,6 +1,5 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import {
-  fetchSubmissionsByUserAndProblem,
   fetchSubmissionsByProblem,
   updateEntity,
   fetchSubmissionResultLog,
@@ -40,31 +39,6 @@ function* fetchSubmissionsSaga(action) {
     );
   } catch (e) {
     yield put(fetchSubmissions.response(e, action.meta));
-  }
-}
-
-function* fetchSubmissionsByUserAndProblemSaga(action) {
-  const { userId, problemId, pageable } = action.payload;
-  try {
-    const response = yield call(
-      SubmissionService.getSubmissionsByUserAndProblem,
-      userId,
-      problemId,
-      pageable
-    );
-    const { data } = response;
-    const { content, number: activePage, totalPages } = data;
-    const normalizedData = normalize(content, submissionListSchema);
-    yield put(updateEntity(normalizedData.entities));
-    yield put(
-      fetchSubmissionsByUserAndProblem.response({
-        submissions: normalizedData.result,
-        totalPages,
-        activePage
-      })
-    );
-  } catch (e) {
-    yield put(fetchSubmissionsByUserAndProblem.response(e));
   }
 }
 
@@ -122,7 +96,7 @@ function* fetchDetailedSubmissionByIdSaga(action) {
       fetchDetailedSubmissionById.response({
         submissionId: result.submission,
         code: result.code,
-        resultLog: result.resultLog
+        detailedResult: result.detailedResult
       })
     );
   } catch (e) {
@@ -132,10 +106,7 @@ function* fetchDetailedSubmissionByIdSaga(action) {
 
 function* watchSubmissionSaga() {
   yield takeEvery(fetchSubmissions.request, fetchSubmissionsSaga);
-  yield takeEvery(
-    fetchSubmissionsByUserAndProblem.request,
-    fetchSubmissionsByUserAndProblemSaga
-  );
+
   yield takeEvery(
     fetchSubmissionsByProblem.request,
     fetchSubmissionsByProblemSaga

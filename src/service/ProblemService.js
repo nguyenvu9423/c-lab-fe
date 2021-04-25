@@ -49,6 +49,12 @@ export class ProblemService {
     return apiCaller.put(`${BASE_URL}/${id}`, problem);
   }
 
+  static updateJudgeConfig(id, formData) {
+    return apiCaller.post(`${BASE_URL}/${id}/judge-config`, formData, {
+      timeout: 120000
+    });
+  }
+
   static deleteProblem(id) {
     return apiCaller.delete(`${BASE_URL}/${id}`);
   }

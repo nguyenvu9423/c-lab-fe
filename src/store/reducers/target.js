@@ -1,4 +1,5 @@
 export const Target = {
+  AUTHENTICATION: 'authentication',
   USER_PAGE: 'userPage',
   ARTICLE_PAGE: 'articlePage',
   ARTICLES_PAGE: 'articlesPage',

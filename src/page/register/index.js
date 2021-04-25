@@ -1,21 +1,28 @@
 import * as React from 'react';
-import { withRouter } from 'react-router';
+import { Grid, Header, Segment } from 'semantic-ui-react';
+import { useHistory } from 'react-router-dom';
+
 import { RegisterForm } from './RegisterForm';
 
-class BaseRegisterPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleRegisterSuccess = this.handleRegisterSuccess.bind(this);
-  }
+export function RegisterPage() {
+  const history = useHistory();
 
-  handleRegisterSuccess() {
-    const { history } = this.props;
+  const handleSuccess = React.useCallback(() => {
     history.push('/login');
-  }
+  }, [history]);
 
-  render() {
-    return <RegisterForm onRegisterSuccess={this.handleRegisterSuccess} />;
-  }
+  return (
+    <Grid container>
+      <Grid.Row centered columns={1}>
+        <Grid.Column style={{ maxWidth: 560 }}>
+          <Header as="h3" attached="top" block>
+            Register
+          </Header>
+          <Segment attached>
+            <RegisterForm onSuccess={handleSuccess} />
+          </Segment>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  );
 }
-
-export const RegisterPage = withRouter(BaseRegisterPage);

@@ -3,7 +3,7 @@ import { Table, Pagination } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubmissions } from '../../store/actions/submission';
 import { SubmissionSelector } from '../../store/selectors/SubmissionSelectors';
-import { SubmissionStatusLabel } from '../submission/components/SubmissionStatusLabel';
+import { SubmissionStatusLabel } from '../submission/components';
 import { Link } from 'react-router-dom';
 import { useSubmissionStream } from '../submission/hooks';
 import { SubmissionDetailsLink } from '../../domains/submission';

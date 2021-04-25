@@ -1,36 +1,27 @@
 import * as React from 'react';
 import { SubmissionProgressType } from '../../../domains/submission';
-import { SubmissionVerdict } from '../../../domains/submission/result/SubmissionVerdict';
-import {
-  LoadingStatusLabel,
-  ErrorStatusLabel,
-  AcceptedStatusLabel
-} from './status-labels';
-import { SubmissionTestResultLabel } from './test-result-labels';
+import { SubmissionResultLabel } from './SubmissionResultLabel';
+import { SubmissionInProgressLabel } from './SubmissionInProgressLabel';
+import { SubmissionErrorLabel } from './SubmissionErrorLabel';
 
-function SubmissionStatusLabel(props) {
+export function SubmissionStatusLabel(props) {
+  const { submission } = props;
   const {
-    submission: { progress, result }
-  } = props;
-  const { status } = progress;
-  switch (status.type) {
+    progress,
+    result,
+    judgeConfig: { scoringType }
+  } = submission;
+
+  switch (progress.status.type) {
     case SubmissionProgressType.IN_PROGRESS:
-      return <LoadingStatusLabel message={progress.description} />;
+      return <SubmissionInProgressLabel progress={progress} />;
     case SubmissionProgressType.SUCCESS:
-      if (SubmissionVerdict.COMPILE_ERROR.isInstance(result.verdict)) {
-        return <ErrorStatusLabel message="Compile error" />;
-      } else if (SubmissionVerdict.ACCEPTED.isInstance(result.verdict)) {
-        return <AcceptedStatusLabel message={'Accepted'} />;
-      } else if (SubmissionVerdict.TEST_ERROR.isInstance(result.verdict)) {
-        return <SubmissionTestResultLabel testResult={result.testError} />;
-      } else {
-        throw new Error('Invalid status');
-      }
+      return (
+        <SubmissionResultLabel result={result} scoringType={scoringType} />
+      );
     case SubmissionProgressType.ERROR:
-      return <ErrorStatusLabel message={progress.description} />;
+      return <SubmissionErrorLabel progress={progress} />;
     default:
       throw new Error('Invalid submission verdict');
   }
 }
-
-export { SubmissionStatusLabel };

@@ -17,11 +17,11 @@ const detailedSubmissionReducer = handleActions(
     }),
     [fetchDetailedSubmissionById.response]: (state, { error, payload }) => {
       if (!error) {
-        const { submissionId, code, resultLog } = payload;
+        const { submissionId, code, detailedResult } = payload;
         return {
           submissionId,
           code,
-          resultLog,
+          detailedResult,
           loadingState: LoadingState.LOADED
         };
       } else {

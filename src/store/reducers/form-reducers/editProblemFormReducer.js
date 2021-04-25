@@ -1,9 +1,6 @@
 import { combineReducers } from 'redux';
-import { judgeConfigsReducer, problemReducer } from '../data-reducers';
+import { problemReducer } from '../data-reducers';
 
 export const editProblemFormReducer = combineReducers({
-  data: combineReducers({
-    judgeConfigs: judgeConfigsReducer,
-    problem: problemReducer
-  })
+  data: combineReducers({ problem: problemReducer })
 });

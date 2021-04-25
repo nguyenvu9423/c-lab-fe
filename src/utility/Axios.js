@@ -1,7 +1,8 @@
 import * as axios from 'axios';
 import { AuthProvider } from '../authentication/tokenProvider';
-import { AuthService } from '../service/AuthService';
+import { AuthenticationService } from '../service/AuthenticationService';
 import { serverConfigs } from '../server';
+import { currentToken } from '../store';
 
 const instance = axios.create({
   baseURL: serverConfigs.getBaseURL(),
@@ -14,9 +15,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   config => {
-    const token = AuthProvider.getToken();
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token.access_token}`;
+    if (currentToken) {
+      config.headers['Authorization'] = `Bearer ${currentToken.access_token}`;
     }
     return config;
   },
@@ -41,6 +41,7 @@ export let apiCaller = instance;
 
 let requestQueue = [];
 let isRefreshingToken = false;
+
 async function callAfterRefreshToken(error) {
   const {
     response: { config }
@@ -59,7 +60,9 @@ async function callAfterRefreshToken(error) {
   if (!isRefreshingToken) {
     isRefreshingToken = true;
     try {
-      const newToken = await AuthService.refreshToken(token.refresh_token);
+      const newToken = await AuthenticationService.refreshToken(
+        token.refresh_token
+      );
       AuthProvider.setToken(newToken);
     } catch {
       AuthProvider.clearToken();

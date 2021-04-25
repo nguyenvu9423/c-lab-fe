@@ -1,11 +1,7 @@
 const USER_API_BASE_URL = '/users';
 import { apiCaller } from '../utility/Axios';
 
-class UserService {
-  static async register(userDTO) {
-    return apiCaller.post(USER_API_BASE_URL + '/register', userDTO);
-  }
-
+export class UserService {
   static async getUsers(pageable) {
     return apiCaller.get(USER_API_BASE_URL, { params: { pageable } });
   }
@@ -54,5 +50,3 @@ class UserService {
     );
   }
 }
-
-export default UserService;

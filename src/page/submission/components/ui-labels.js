@@ -2,7 +2,7 @@ import * as React from 'react';
 import { colorMap } from '../../../utility/ColorMap';
 import { Loader, Icon } from 'semantic-ui-react';
 
-export function LoadingStatusLabel(props) {
+export function InProgressLabel(props) {
   const { message } = props;
   return (
     <span className="status-label loading">
@@ -12,7 +12,7 @@ export function LoadingStatusLabel(props) {
   );
 }
 
-export function AcceptedStatusLabel(props) {
+export function AcceptedLabel(props) {
   const { message } = props;
   return (
     <span>
@@ -22,7 +22,16 @@ export function AcceptedStatusLabel(props) {
   );
 }
 
-export function ErrorStatusLabel(props) {
+export function ScoreLabel(props) {
+  const { score, style } = props;
+  return (
+    <span>
+      <span style={{ color: colorMap.get('green'), ...style }}>{score}</span>
+    </span>
+  );
+}
+
+export function ErrorLabel(props) {
   const { message } = props;
   return (
     <span>

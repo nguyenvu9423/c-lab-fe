@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Form } from 'semantic-ui-react';
 import { FileUploadInput } from '../../common/inputs/FileUploadInput';
-import { SubmissionLangInput } from '../../submission/components/SubmissionLangInput';
+import { SubmissionLangInput } from '../../submission/components';
 import { useFormik } from 'formik';
 import ArrayUtils from '../../../utility/ArrayUtils';
 import { SubmissionService } from '../../../service/SubmissionService';

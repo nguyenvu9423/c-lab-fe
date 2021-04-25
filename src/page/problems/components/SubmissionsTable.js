@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Table, Pagination } from 'semantic-ui-react';
-import { SubmissionStatusLabel } from '../../submission/components/SubmissionStatusLabel';
+import { SubmissionStatusLabel } from '../../submission/components';
 import ArrayUtils from '../../../utility/ArrayUtils';
 import { SubmissionService } from '../../../service/SubmissionService';
 import { normalize } from 'normalizr';

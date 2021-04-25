@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { SubmissionSelector, UserSelectors } from '../../store/selectors';
+import {
+  SubmissionSelector,
+  AuthenticationSelectors
+} from '../../store/selectors';
 import { fetchSubmissions } from '../../store/actions/submission';
 import { LoadingState } from '../../store/common';
 import { useSubmissionStream } from '../submission/hooks';
 import { Dimmer, Loader, Table, Pagination } from 'semantic-ui-react';
-import { SubmissionStatusLabel } from '../submission/components/SubmissionStatusLabel';
+import { SubmissionStatusLabel } from '../submission/components';
 import { SubmissionDetailsLink } from '../../domains/submission';
 import { Link } from 'react-router-dom';
 import { Target } from '../../store/reducers/target';
@@ -16,7 +19,7 @@ const PAGE_SIZE = 10;
 
 export function ProblemUserSubmissionsPage(props) {
   const { problem } = props;
-  const loginUser = useSelector(UserSelectors.loginUser());
+  const principal = useSelector(AuthenticationSelectors.principal());
   const { data } = useSelector(state => state.problemUserSubmissions);
   const { loadingState, ids, totalPages, activePage } = data.submissions;
   const dispatch = useDispatch();
@@ -26,7 +29,7 @@ export function ProblemUserSubmissionsPage(props) {
       dispatch(
         fetchSubmissions.request(
           {
-            userId: loginUser.id,
+            userId: principal.id,
             problemId: problem.id,
             pageable: pageable ?? data.submissions.pageable
           },

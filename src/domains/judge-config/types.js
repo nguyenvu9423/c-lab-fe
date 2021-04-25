@@ -1,15 +1,15 @@
-export const Judger = {
+export const JudgerType = {
   LINES_WORDS_CASE: 'LinesWordsCase',
-  EXTERNAL: 'External'
+  CUSTOM: 'Custom'
 };
 
 export const judgerOptions = [
   {
     text: 'Default Judger',
-    value: Judger.LINES_WORDS_CASE
+    value: JudgerType.LINES_WORDS_CASE
   },
   {
-    text: 'External Judger',
-    value: Judger.EXTERNAL
+    text: 'Custom Judger',
+    value: JudgerType.CUSTOM
   }
 ];

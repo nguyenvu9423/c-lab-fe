@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Header, Input, Dropdown, Divider } from 'semantic-ui-react';
+import { Form, Input, Dropdown } from 'semantic-ui-react';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import { Editor } from '../../../page/common/Editor';
 import { useFormik } from 'formik';
@@ -9,20 +9,11 @@ import { useErrorMessageRenderer } from '../../../components/form';
 import { useTagSelect } from '../../tag';
 import { ExceptionTypes } from '../../../exception/ExceptionTypes';
 import { addProblemValidationSchema } from './Schemas';
-import {
-  Judger,
-  useJudgeConfigForm,
-  StatelessJudgeConfigForm
-} from '../../judge-config';
 import { SubmitButton, CancelButton } from '../../../components/button';
-import { ObjectUtils } from '../../../utility';
 
 export function AddProblemForm(props) {
   const { onSuccess, onCancel } = props;
   const [isSubmitting, setSubmitting] = React.useState(false);
-
-  const judgeConfigForm = useJudgeConfigForm();
-
   const {
     values,
     status,
@@ -31,10 +22,9 @@ export function AddProblemForm(props) {
     setFieldTouched,
     handleChange,
     handleBlur,
+    handleSubmit,
     touched,
-    setTouched,
-    errors,
-    validateForm
+    errors
   } = useFormik({
     initialValues: {
       code: '',
@@ -48,8 +38,29 @@ export function AddProblemForm(props) {
     initialStatus: {
       errors: {}
     },
-    validationSchema: addProblemValidationSchema
+    validationSchema: addProblemValidationSchema,
+    onSubmit: values => {
+      ProblemService.create(values)
+        .then(({ data }) => {
+          setSubmitting(false);
+          onSuccess?.(data);
+        })
+        .catch(ex => {
+          setSubmitting(false);
+          if (ex.response) {
+            const errors = {};
+            const body = ex.response.data;
+            if (body.type === ExceptionTypes.INVALID_FORM) {
+              body.errors.forEach(error => {
+                errors[error.field] = error.defaultMessage;
+              });
+              setStatus({ errors });
+            }
+          }
+        });
+    }
   });
+
   const {
     languageOptions,
     mapLanguageToValue,
@@ -79,82 +90,9 @@ export function AddProblemForm(props) {
     status
   });
 
-  const handleSubmit = React.useCallback((rawProblem, rawJudgeConfig) => {
-    console.log('submit called');
-    const activeJudgeConfig = {
-      ...rawJudgeConfig,
-      testPackageFile: undefined,
-      externalJudger: undefined,
-      outputFileName:
-        rawJudgeConfig.judger === Judger.EXTERNAL
-          ? null
-          : rawJudgeConfig.outputFileName
-    };
-
-    const problem = {
-      ...rawProblem,
-      activeJudgeConfig
-    };
-
-    const formData = new FormData();
-
-    formData.append(
-      'problem',
-      new Blob([JSON.stringify(problem)], {
-        type: 'application/json'
-      })
-    );
-
-    formData.append('testPackageFile', rawJudgeConfig.testPackageFile);
-    if (rawJudgeConfig.externalJudger) {
-      formData.append('externalJudger', rawJudgeConfig.externalJudger);
-    }
-
-    console.log(rawProblem);
-    ProblemService.create(formData)
-      .then(({ data }) => {
-        setSubmitting(false);
-        onSuccess?.(data);
-      })
-      .catch(ex => {
-        setSubmitting(false);
-        if (ex.response) {
-          const errors = {};
-          const body = ex.response.data;
-          if (body.type === ExceptionTypes.INVALID_FORM) {
-            body.errors.forEach(error => {
-              errors[error.field] = error.defaultMessage;
-            });
-            setStatus({ errors });
-          }
-        }
-      });
-  }, []);
-
-  const onSubmit = React.useCallback(() => {
-    const touched = Object.keys(values).reduce((touched, cur) => {
-      touched[cur] = true;
-      return touched;
-    }, {});
-    setTouched(touched, false);
-
-    judgeConfigForm.setAllTouched();
-
-    Promise.all([validateForm(), judgeConfigForm.validateForm()]).then(
-      ([errors, judgeConfigErrors]) => {
-        if (
-          ObjectUtils.isEmpty(errors) &&
-          ObjectUtils.isEmpty(judgeConfigErrors)
-        ) {
-          handleSubmit(values, judgeConfigForm.values);
-        }
-      }
-    );
-  }, [values, judgeConfigForm.values, handleSubmit]);
-
   return (
     <>
-      <Form onSubmit={onSubmit} error={true} loading={isSubmitting}>
+      <Form onSubmit={handleSubmit} error={true} loading={isSubmitting}>
         <Form.Group>
           <Form.Field width={4}>
             <label>Code</label>
@@ -256,16 +194,8 @@ export function AddProblemForm(props) {
           <input type="submit" style={{ display: 'none' }} />
         </Form.Group>
       </Form>
-      <Divider />
-      <Header as="h3">Judge config</Header>
 
-      <StatelessJudgeConfigForm
-        {...judgeConfigForm}
-        embedded
-        onSubmit={onSubmit}
-      />
-
-      <SubmitButton floated="right" onClick={onSubmit} />
+      <SubmitButton floated="right" onClick={handleSubmit} />
       <CancelButton floated="right" onClick={() => onCancel?.()} />
     </>
   );

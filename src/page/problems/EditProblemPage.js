@@ -1,31 +1,82 @@
 import * as React from 'react';
-import { Container, Segment, Header } from 'semantic-ui-react';
+import { Segment, Header, Grid, Menu } from 'semantic-ui-react';
 import { EditProblemForm } from '../../domains/problem';
+import { Link, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
+import { UpdateJudgeConfigForm } from '../../domains/judge-config/UpdateJudgeConfigForm';
 
 export function ProblemEditPage(props) {
+  const baseURL = props.match.url;
+  const {
+    params: { activePage }
+  } = useRouteMatch({ path: `${baseURL}/:activePage?`, strict: true });
   const {
     history,
     match: { params }
   } = props;
 
-  const handleSuccess = React.useCallback(data => {
-    history.push(`/problems/${data.code}`);
-  }, []);
+  // const handleSuccess = React.useCallback(data => {
+  //   history.push(`/problems/${data.code}`);
+  // }, []);
 
   const handleCancel = React.useCallback(() => {
     history.goBack();
   }, []);
 
+  let content;
+  switch (activePage) {
+    case 'definition':
+      content = (
+        <Segment clearing>
+          <Header as="h2">Problem definition</Header>
+          <EditProblemForm problemId={params.id} onCancel={handleCancel} />
+        </Segment>
+      );
+      break;
+    case 'judge-config':
+      content = (
+        <Segment clearing>
+          <Header as="h2">Judge config</Header>
+          <UpdateJudgeConfigForm problemId={params.id} />
+        </Segment>
+      );
+      break;
+    default:
+      content = undefined;
+  }
+
   return (
-    <Container>
-      <Segment clearing>
-        <Header as="h2">Edit problem</Header>
-        <EditProblemForm
-          problemId={params.id}
-          onSuccess={handleSuccess}
-          onCancel={handleCancel}
-        />
-      </Segment>
-    </Container>
+    <Grid container>
+      <Grid.Column width={4}>
+        <SectionMenu baseURL={baseURL} activePage={activePage} />
+      </Grid.Column>
+      <Grid.Column width={12}>{content}</Grid.Column>
+    </Grid>
+  );
+}
+
+function SectionMenu(props) {
+  const { baseURL, activePage } = props;
+  return (
+    <Menu vertical fluid size="large">
+      <Menu.Item>
+        <Menu.Header>Settings</Menu.Header>
+        <Menu.Menu>
+          <Menu.Item
+            as={Link}
+            link
+            name="definition"
+            to={`${baseURL}/definition`}
+            active={activePage === 'definition'}
+          />
+          <Menu.Item
+            as={Link}
+            link
+            name="judge-config"
+            to={`${baseURL}/judge-config`}
+            active={activePage === 'judge-config'}
+          />
+        </Menu.Menu>
+      </Menu.Item>
+    </Menu>
   );
 }

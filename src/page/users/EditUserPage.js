@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { EditUserDetailsForm } from './components/EditUserDetailsForm';
-import UserService from '../../service/UserService';
+import { UserService } from '../../service/UserService';
 
 class BaseEditUserPage extends React.Component {
   constructor() {

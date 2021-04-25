@@ -1,19 +1,12 @@
 import * as React from 'react';
 import moment from 'moment';
-import {
-  Grid,
-  Header,
-  Segment,
-  Table,
-  Dimmer,
-  Button
-} from 'semantic-ui-react';
+import { Header, Table, Dimmer, Button } from 'semantic-ui-react';
 import { normalize } from 'normalizr';
 import { useDispatch } from 'react-redux';
 import { updateEntity } from '../../../store/actions';
 import { DateFormat } from '../../../constant/DateFormat';
 import { Avatar } from '../../../components/avatar/Avatar';
-import UserService from '../../../service/UserService';
+import { UserService } from '../../../service/UserService';
 import { userSchema } from '../../../entity-schemas/userSchema';
 
 export function UserProfilePanel(props) {

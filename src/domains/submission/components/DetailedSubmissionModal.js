@@ -11,13 +11,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../../store/actions/modal';
 import { LoadingState } from '../../../store/common';
 import { CodeEditor } from '../../../components/editors';
-import { SubmissionStatusLabel } from '../../../page/submission/components/SubmissionStatusLabel';
+import {
+  SubmissionStatusLabel,
+  TestResultLabel,
+  ErrorLabel
+} from '../../../page/submission/components';
 import { fetchDetailedSubmissionById } from '../../../store/actions';
 import { LoadingIndicator } from '../../../components/loading-indicator';
 import { SubmissionSelector } from '../../../store/selectors';
-import { TestResultLabel } from '../../../page/submission/components/test-result-labels';
 import { SubmissionVerdict } from '../result/SubmissionVerdict';
-import { ErrorStatusLabel } from '../../../page/submission/components/status-labels';
 import {
   formatResourceTime,
   formatResourceMemory
@@ -31,11 +33,10 @@ const DetailedSubmissionModal = props => {
   React.useEffect(() => {
     dispatch(fetchDetailedSubmissionById.request(submissionId));
   }, []);
-
   const { detailedSubmission } = slice;
-  const { code, resultLog } = detailedSubmission;
+  const { code, detailedResult } = detailedSubmission;
   const submission = useSelector(SubmissionSelector.byId(submissionId));
-  const { result } = submission;
+  const { result, judgeConfig } = submission;
   const handleClose = React.useCallback(() => {
     dispatch(hideModal());
   }, []);
@@ -62,9 +63,9 @@ const DetailedSubmissionModal = props => {
             </Grid.Column>
             <Grid.Column width={8}>
               <Header as="h4">Resource</Header>
-              {/* <span>{`
+              <span>{`
               ${formatResourceTime(result?.resource.time)} - 
-              ${formatResourceMemory(result?.resource.memory)}`}</span> */}
+              ${formatResourceMemory(result?.resource.memory)}`}</span>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -73,11 +74,14 @@ const DetailedSubmissionModal = props => {
               <CodeEditor style={{ maxHeight: 720 }} value={code} readOnly />
             </Grid.Column>
           </Grid.Row>
-          {resultLog && (
+          {detailedResult && (
             <Grid.Row>
               <Grid.Column width={16}>
                 <Header as="h4">Result Log</Header>
-                <ResultLog resultLog={resultLog} />
+                <DetailedResult
+                  detailedResult={detailedResult}
+                  scoringType={judgeConfig.scoringType}
+                />
               </Grid.Column>
             </Grid.Row>
           )}
@@ -87,51 +91,57 @@ const DetailedSubmissionModal = props => {
   );
 };
 
-function ResultLog(props) {
-  const { resultLog } = props;
-  const { verdict: verdictName, testResults } = resultLog;
-  const verdict = SubmissionVerdict.getByName(verdictName);
+function DetailedResult(props) {
+  const { detailedResult, scoringType } = props;
+  const { verdict, testResults } = detailedResult;
+
   if (verdict === SubmissionVerdict.COMPILE_ERROR) {
-    const message = resultLog.message;
+    const message = detailedResult.message;
     return (
       <span>
         <strong>Compilation</strong>
-        <ErrorStatusLabel message="Compile error" />
+        <ErrorLabel message="Compile error" />
         <Message negative>{message}</Message>
       </span>
     );
   } else
     return (
-      <List className="result-log-list">
-        {testResults.map(test => {
+      <List className="result-log-list" size={'mini'}>
+        {testResults.map(testResult => {
+          const { test } = testResult;
           return (
-            <List.Item key={test.testId}>
+            <List.Item key={test.id}>
               <List.Content>
-                <Header as="h5" style={{ display: 'inline-block' }}>
-                  Test {test.testId}
-                </Header>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Header as="h5" style={{ display: 'inline-block' }}>
+                    Test {test.id}
+                  </Header>
 
-                <TestResultLabel testResult={test} />
+                  <TestResultLabel
+                    testResult={testResult}
+                    scoringType={scoringType}
+                  />
+                </div>
 
-                <Header as="h5" attached="top">
+                <Header as="h5" attached="top" size="mini">
                   Input
                 </Header>
-                <Segment attached>
-                  <pre>{test.input}</pre>
+                <Segment attached size="mini">
+                  <pre>{test.input.overview}</pre>
                 </Segment>
 
-                <Header as="h5" attached>
+                <Header as="h5" attached size="mini">
                   Output
                 </Header>
-                <Segment attached="bottom">
-                  <pre>{test.userOutput}</pre>
+                <Segment attached="bottom" size="mini">
+                  <pre>{testResult.outputOverview}</pre>
                 </Segment>
 
-                <Header as="h5" attached="top">
+                <Header as="h5" attached="top" size="mini">
                   Answer
                 </Header>
-                <Segment attached="bottom">
-                  <pre>{test.output}</pre>
+                <Segment attached="bottom" size="mini">
+                  <pre>{test.output.overview}</pre>
                 </Segment>
               </List.Content>
             </List.Item>

@@ -1,4 +1,5 @@
 export * from './ArticleSelectors';
+export * from './AuthenticationSelectors';
 export * from './ModalSelectors';
 export * from './ProblemSelectors';
 export * from './SubmissionSelectors';

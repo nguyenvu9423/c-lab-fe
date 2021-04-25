@@ -4,7 +4,7 @@ import { FileUploadInput } from '../../common/inputs/FileUploadInput';
 import { useFormik } from 'formik';
 import ArrayUtils from '../../../utility/ArrayUtils';
 import { SubmissionService } from '../../../service/SubmissionService';
-import { SubmissionLangInput } from '../../submission/components/SubmissionLangInput';
+import { SubmissionLangInput } from '../../submission/components';
 
 export function CompactCodeSubmissionForm(props) {
   const { problem, onSubmitDone } = props;

@@ -10,7 +10,7 @@ export function ProblemPageRouter() {
   const { url } = useRouteMatch();
   return (
     <Switch>
-      <Route path={`${url}/:id/edit`} exact component={ProblemEditPage} />
+      <Route path={`${url}/:id/edit`} component={ProblemEditPage} />
       <Route path={`${url}/add`} exact component={AddProblemPage} />
       <Route path={`${url}/:code`} component={ProblemPage} />
       <Route path={`${url}`} exact component={ProblemsPage} />

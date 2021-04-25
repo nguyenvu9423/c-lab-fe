@@ -1,28 +1,39 @@
 import * as React from 'react';
-import {
-  Header,
-  Segment,
-  Table,
-  Pagination,
-  Dimmer,
-  Loader
-} from 'semantic-ui-react';
+import { Header, Segment, Pagination, Dimmer, Loader } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubmissions, resetState } from '../../../store/actions';
-import { SubmissionStatusLabel } from '../../submission/components/SubmissionStatusLabel';
 import { SubmissionSelector } from '../../../store/selectors/SubmissionSelectors';
 import { LoadingState } from '../../../store/common';
 import { useSubmissionStream } from '../../submission/hooks';
-import { SubmissionDetailsLink } from '../../../domains/submission';
 import { Target } from '../../../store/reducers/target';
+import { CompactSubmissionTable } from './CompactSubmissionsTable';
 
 export const PAGE_SIZE = 5;
 
 export function ProblemUserSubmissionCard(props) {
-  const { problem, userId } = props;
   const dispatch = useDispatch();
+
+  const { problemId, userId } = props;
   const { data } = useSelector(state => state[Target.PROBLEM_USER_SUBMISSIONS]);
-  const { loadingState, ids, totalPages, activePage } = data.submissions;
+  const submissions = useSelector(
+    SubmissionSelector.byIds(data.submissions.ids)
+  );
+
+  const load = React.useCallback(
+    ({ pageable } = {}) => {
+      dispatch(
+        fetchSubmissions.request(
+          {
+            problemId,
+            userId,
+            pageable: pageable ?? data.submissions.pageable
+          },
+          { target: Target.PROBLEM_USER_SUBMISSIONS }
+        )
+      );
+    },
+    [userId, problemId, data.submissions.pageable]
+  );
 
   React.useEffect(() => {
     return () =>
@@ -30,38 +41,12 @@ export function ProblemUserSubmissionCard(props) {
   }, []);
 
   React.useEffect(() => {
-    if (loadingState === LoadingState.LOAD_NEEDED) {
-      dispatch(
-        fetchSubmissions.request(
-          {
-            userId,
-            problemId: problem.id,
-            pageable: {
-              pageNumber: activePage,
-              pageSize: PAGE_SIZE
-            }
-          },
-          { target: Target.PROBLEM_USER_SUBMISSIONS }
-        )
-      );
-    }
-  }, [loadingState]);
-  const submissions = useSelector(SubmissionSelector.byIds(ids));
+    load({ pageable: { page: 0, size: PAGE_SIZE } });
+  }, []);
+
   useSubmissionStream(submissions);
   const handlePageChange = React.useCallback((event, { activePage }) => {
-    dispatch(
-      fetchSubmissions.request(
-        {
-          userId,
-          problemId: problem.id,
-          pageable: {
-            pageNumber: activePage - 1,
-            pageSize: PAGE_SIZE
-          }
-        },
-        { target: Target.PROBLEM_USER_SUBMISSIONS }
-      )
-    );
+    load({ pageable: { page: activePage - 1, size: PAGE_SIZE } });
   }, []);
 
   return (
@@ -70,34 +55,12 @@ export function ProblemUserSubmissionCard(props) {
         Bài đã nộp
       </Header>
       <Segment attached>
-        {loadingState === LoadingState.LOADING && (
+        {data.submissions.loadingState === LoadingState.LOADING && (
           <Dimmer active inverted>
             <Loader inverted />
           </Dimmer>
         )}
-        <Table basic="very">
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>ID</Table.HeaderCell>
-              <Table.HeaderCell>Kết quả</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {submissions.map(submission => {
-              return (
-                <Table.Row key={submission.id}>
-                  <Table.Cell>
-                    <SubmissionDetailsLink submissionId={submission.id} />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <SubmissionStatusLabel submission={submission} />
-                  </Table.Cell>
-                </Table.Row>
-              );
-            })}
-          </Table.Body>
-        </Table>
-
+        <CompactSubmissionTable submissions={submissions} />
         <div style={{ textAlign: 'center' }}>
           <Pagination
             size={'tiny'}
@@ -105,8 +68,8 @@ export function ProblemUserSubmissionCard(props) {
             firstItem={null}
             lastItem={null}
             boundaryRange={0}
-            activePage={activePage + 1}
-            totalPages={totalPages}
+            activePage={data.submissions.pageable.page + 1}
+            totalPages={data.submissions.totalPages}
             onPageChange={handlePageChange}
           />
         </div>

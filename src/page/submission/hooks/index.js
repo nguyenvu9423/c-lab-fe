@@ -18,7 +18,6 @@ const useSubmissionStream = submissions => {
       eventSource.addEventListener('updateEntity', event => {
         const data = JSON.parse(event.data);
         const normalizedData = normalize(data, submissionListSchema);
-        console.log(normalizedData.entities);
         dispatch(updateEntity(normalizedData.entities));
       });
 

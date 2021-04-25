@@ -1,32 +1,20 @@
 import * as React from 'react';
-import {
-  Form,
-  Header,
-  Input,
-  Button,
-  Modal,
-  Dimmer,
-  Loader
-} from 'semantic-ui-react';
+import { Form, Input, Dimmer, Loader } from 'semantic-ui-react';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import { Editor } from '../../../page/common/Editor';
 import { useFormik } from 'formik';
-import { JudgeConfigTable } from '../../../page/problems/components/JudgeConfigTable';
 import { ProblemService } from '../../../service/ProblemService';
 import { SubmissionLangSelect } from '../../submission-lang';
 import { TagSelect } from '../../tag';
 import { editProblemValidationSchema } from './Schemas';
 import { useErrorMessageRenderer, LoadingIndicator } from '../../../components';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProblem, fetchJudgeConfigs } from '../../../store/actions';
+import { fetchProblem } from '../../../store/actions';
 import { LoadingState } from '../../../store/common';
 import { Target } from '../../../store/reducers/target';
 import { ProblemSelectors } from '../../../store/selectors';
-import { AddJudgeConfigForm } from '../../judge-config';
 import { JudgeConfigSelectors } from '../../../store/selectors/JudgeConfigSelectors';
 import { CancelButton, SubmitButton } from '../../../components/button';
-
-const JUDGE_CONFIG_PAGE_SIZE = 5;
 
 export function EditProblemForm(props) {
   const dispatch = useDispatch();
@@ -39,18 +27,6 @@ export function EditProblemForm(props) {
     dispatch(
       fetchProblem.request(
         { id: problemId },
-        { target: Target.EDIT_PROBLEM_FORM }
-      )
-    );
-    dispatch(
-      fetchJudgeConfigs.request(
-        {
-          problemId,
-          pageable: {
-            page: 0,
-            size: JUDGE_CONFIG_PAGE_SIZE
-          }
-        },
         { target: Target.EDIT_PROBLEM_FORM }
       )
     );
@@ -196,13 +172,13 @@ function ProblemForm(props) {
         </Form.Group>
       </Form>
 
-      <JudgeConfigSection
+      {/* <JudgeConfigSection
         onActiveJudgeConfigChange={judgeConfig =>
           setFieldValue('activeJudgeConfig', judgeConfig)
         }
         activeJudgeConfig={values.activeJudgeConfig}
-      />
-      {errorMessageRenderer('activeJudgeConfig')}
+      /> */}
+      {/* {errorMessageRenderer('activeJudgeConfig')} */}
 
       <SubmitButton type="button" floated="right" onClick={handleSubmit} />
       <CancelButton floated="right" onClick={handleCancel} />
@@ -214,75 +190,75 @@ function ProblemForm(props) {
   );
 }
 
-function JudgeConfigSection(props) {
-  const { onActiveJudgeConfigChange, activeJudgeConfig } = props;
-  const dispatch = useDispatch();
-  const { data } = useSelector(state => state.editProblemForm);
-  const problem = useSelector(ProblemSelectors.byId(data.problem.id));
+// function JudgeConfigSection(props) {
+//   const { onActiveJudgeConfigChange, activeJudgeConfig } = props;
+//   const dispatch = useDispatch();
+//   const { data } = useSelector(state => state.editProblemForm);
+//   const problem = useSelector(ProblemSelectors.byId(data.problem.id));
 
-  const judgeConfigs = useSelector(
-    JudgeConfigSelectors.byIds(data.judgeConfigs.ids)
-  );
+//   const judgeConfigs = useSelector(
+//     JudgeConfigSelectors.byIds(data.judgeConfigs.ids)
+//   );
 
-  const load = React.useCallback(
-    ({ pageable } = {}) => {
-      dispatch(
-        fetchJudgeConfigs.request(
-          {
-            problemId: problem.id,
-            pageable: pageable ? pageable : data.judgeConfigs.pageable
-          },
-          { target: Target.EDIT_PROBLEM_FORM }
-        )
-      );
-    },
-    [problem.id, data.judgeConfigs]
-  );
+//   const load = React.useCallback(
+//     ({ pageable } = {}) => {
+//       dispatch(
+//         fetchJudgeConfigs.request(
+//           {
+//             problemId: problem.id,
+//             pageable: pageable ? pageable : data.judgeConfigs.pageable
+//           },
+//           { target: Target.EDIT_PROBLEM_FORM }
+//         )
+//       );
+//     },
+//     [problem.id, data.judgeConfigs]
+//   );
 
-  const [openAddForm, setOpenAddForm] = React.useState();
+//   const [openAddForm, setOpenAddForm] = React.useState();
 
-  return (
-    <>
-      <Header as={'h3'}>Bộ tests</Header>
-      <Button primary type="button" onClick={() => setOpenAddForm(true)}>
-        Thêm
-      </Button>
-      <Modal
-        open={openAddForm}
-        className="clear-fix-container"
-        onClose={() => setOpenAddForm(false)}
-      >
-        <Modal.Header>Add Judge Config</Modal.Header>
-        <Modal.Content>
-          <AddJudgeConfigForm
-            problemId={problem.id}
-            onCancel={() => setOpenAddForm(false)}
-            onSuccess={() => {
-              console.log('called');
-              setOpenAddForm(false);
-              load();
-            }}
-          />
-        </Modal.Content>
-      </Modal>
-      <JudgeConfigTable
-        loading={LoadingState.isInProgress(data.judgeConfigs.loadingState)}
-        judgeConfigs={judgeConfigs}
-        activeJudgeConfig={activeJudgeConfig}
-        totalPages={data.judgeConfigs.totalPages}
-        activePage={data.judgeConfigs.pageable.page + 1}
-        onPageChange={(event, { activePage }) => {
-          load({
-            pageable: {
-              ...data.judgeConfigs.pageable,
-              page: activePage - 1
-            }
-          });
-        }}
-        onActiveJudgeConfigChange={judgeConfig => {
-          onActiveJudgeConfigChange(judgeConfig);
-        }}
-      />
-    </>
-  );
-}
+//   return (
+//     <>
+//       <Header as={'h3'}>Bộ tests</Header>
+//       <Button primary type="button" onClick={() => setOpenAddForm(true)}>
+//         Thêm
+//       </Button>
+//       <Modal
+//         open={openAddForm}
+//         className="clear-fix-container"
+//         onClose={() => setOpenAddForm(false)}
+//       >
+//         <Modal.Header>Add Judge Config</Modal.Header>
+//         <Modal.Content>
+//           <AddJudgeConfigForm
+//             problemId={problem.id}
+//             onCancel={() => setOpenAddForm(false)}
+//             onSuccess={() => {
+//               console.log('called');
+//               setOpenAddForm(false);
+//               load();
+//             }}
+//           />
+//         </Modal.Content>
+//       </Modal>
+//       <JudgeConfigTable
+//         loading={LoadingState.isInProgress(data.judgeConfigs.loadingState)}
+//         judgeConfigs={judgeConfigs}
+//         activeJudgeConfig={activeJudgeConfig}
+//         totalPages={data.judgeConfigs.totalPages}
+//         activePage={data.judgeConfigs.pageable.page + 1}
+//         onPageChange={(event, { activePage }) => {
+//           load({
+//             pageable: {
+//               ...data.judgeConfigs.pageable,
+//               page: activePage - 1
+//             }
+//           });
+//         }}
+//         onActiveJudgeConfigChange={judgeConfig => {
+//           onActiveJudgeConfigChange(judgeConfig);
+//         }}
+//       />
+//     </>
+//   );
+// }

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { CodeSubmissionForm } from './components/CodeSubmissionForm';
 import { useSelector } from 'react-redux';
-import { UserSelectors } from '../../store/selectors';
+import { AuthenticationSelectors } from '../../store/selectors';
 
 export function ProblemSubmitPage(props) {
   const { problem } = props;
-  const user = useSelector(UserSelectors.loginUser());
+  const user = useSelector(AuthenticationSelectors.principal());
 
   return user ? (
     <CodeSubmissionForm problem={problem} user={user} />

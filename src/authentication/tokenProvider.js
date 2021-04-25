@@ -14,9 +14,5 @@ class AuthProvider {
   static clearToken() {
     localStorage.removeItem('token');
   }
-
-  static getRefreshToken() {
-    return AuthProvider.getToken().refresh_token;
-  }
 }
 export { AuthProvider };

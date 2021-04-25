@@ -1,37 +1,55 @@
 import * as React from 'react';
 import { TestVerdict } from '../../../domains/submission/result/TestVerdict';
-import { AcceptedStatusLabel, ErrorStatusLabel } from './status-labels';
+import { AcceptedLabel, ErrorLabel, ScoreLabel } from './ui-labels';
+import { ScoringType } from '../../../domains/judge-config/ScoringType';
 
-function SubmissionTestResultLabel(props) {
+export function SubmissionTestResultLabel(props) {
   const { testResult } = props;
-  const verdict = TestVerdict.valueOf(testResult.verdict);
-  const message = `${verdict.description} on test ${testResult.testId}`;
+  const { verdict, testId } = testResult;
+
+  const message = `${TestVerdict.getMessage(verdict)} on test ${testId}`;
   if (verdict === TestVerdict.AC) {
-    return <AcceptedStatusLabel message={message} />;
+    return <AcceptedLabel message={message} />;
   } else {
-    return <ErrorStatusLabel message={message} />;
+    return <ErrorLabel message={message} />;
   }
 }
 
-function TestResultLabel(props) {
-  const { testResult } = props;
-  const { verdict: verdictName, resource } = testResult;
-  const verdict = TestVerdict.getByName(verdictName);
-  const message = verdict.description;
+export function TestResultLabel(props) {
+  const { testResult, scoringType } = props;
 
-  if (verdict === TestVerdict.AC) {
-    return (
-      <span>
-        <AcceptedStatusLabel message={message} />
-        <span floated="right">
-          {' '}
-          | Time: {resource.time} ms, Memory: {resource.memory} mb
+  switch (scoringType) {
+    case ScoringType.OI: {
+      const { score, resource } = testResult;
+      return (
+        <span>
+          <ScoreLabel style={{ marginLeft: 8 }} score={score * 100} />
+          <span floated="right">
+            {' '}
+            | Time: {resource.time} ms, Memory: {resource.memory} mb
+          </span>
         </span>
-      </span>
-    );
-  } else {
-    return <ErrorStatusLabel message={message} />;
+      );
+    }
+    case ScoringType.ACM: {
+      const { verdict, resource } = testResult;
+      const message = TestVerdict.getMessage(verdict);
+
+      if (verdict === TestVerdict.AC) {
+        return (
+          <span>
+            <AcceptedLabel message={message} />
+            <span floated="right">
+              {' '}
+              | Time: {resource.time} ms, Memory: {resource.memory} mb
+            </span>
+          </span>
+        );
+      } else {
+        return <ErrorLabel message={message} />;
+      }
+    }
+    default:
+      throw new Error('Unknown scoring type');
   }
 }
-
-export { SubmissionTestResultLabel, TestResultLabel };

@@ -2,16 +2,16 @@ import * as React from 'react';
 import { Button, Icon, Label } from 'semantic-ui-react';
 
 export function FileUploadInput(props) {
-  const { file, placeHolder = 'Chọn tệp...', onChange, name } = props;
+  const { file, placeHolder = 'Chọn tệp...', onChange, name, style } = props;
 
   const inputRef = React.useRef();
   return (
     <Button
       as="div"
       labelPosition="right"
-      style={{ display: 'flex' }}
+      style={{ display: 'flex', ...style }}
       onClick={() => {
-        inputRef.current.click();
+        inputRef.current?.click();
       }}
     >
       <Button type="button" icon>

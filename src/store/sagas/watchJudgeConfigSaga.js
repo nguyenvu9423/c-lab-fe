@@ -1,39 +1,35 @@
-import { fetchJudgeConfigs } from '../actions/judgeConfig';
+import { fetchJudgeConfig } from '../actions/judgeConfig';
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { JudgeConfigService } from '../../service/JudgeConfigService';
 import { normalize } from 'normalizr';
-import { judgeConfigArraySchema } from '../../entity-schemas/judgeConfigSchema';
 import { updateEntity } from '../actions/entity';
+import { judgeConfigSchema } from '../../entity-schemas/judgeConfigSchema';
 
-function* fetchJudgeConfigsSaga(action) {
+function* fetchJudgeConfigSaga(action) {
   const { payload, meta } = action;
 
   try {
-    const { problemId, pageable } = payload;
-    const { data } = yield call(
-      JudgeConfigService.getJudgeConfigs,
-      { problemId },
-      pageable
-    );
-    const normalizedData = normalize(data.content, judgeConfigArraySchema);
-    yield put(updateEntity(normalizedData.entities));
-    yield put(
-      fetchJudgeConfigs.response(
-        {
-          judgeConfigs: normalizedData.result,
-          totalPages: data.totalPages,
-          pageNumber: data.number
-        },
-        meta
-      )
-    );
+    const { problemId } = payload;
+    const { data } = yield call(JudgeConfigService.getJudgeConfig, {
+      problemId
+    });
+    let judgeConfig;
+    if (data === '') {
+      judgeConfig = null;
+    } else {
+      const normalizedData = normalize(data, judgeConfigSchema);
+      yield put(updateEntity(normalizedData.entities));
+      judgeConfig = normalizedData.result;
+    }
+
+    yield put(fetchJudgeConfig.response({ judgeConfig }, meta));
   } catch (err) {
-    yield put(fetchJudgeConfigs.response(err, meta));
+    yield put(fetchJudgeConfig.response(err, meta));
   }
 }
 
 function* watchJudgeConfigSaga() {
-  yield takeEvery(fetchJudgeConfigs.request, fetchJudgeConfigsSaga);
+  yield takeEvery(fetchJudgeConfig.request, fetchJudgeConfigSaga);
 }
 
 export { watchJudgeConfigSaga };

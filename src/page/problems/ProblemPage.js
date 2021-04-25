@@ -17,7 +17,10 @@ import {
 } from './components/ProblemUserSubmissionCard';
 import { UserSelectors } from '../../store/selectors/UserSelectors';
 import { TagContainer } from '../../components/tag';
-import { ProblemSelectors } from '../../store/selectors';
+import {
+  ProblemSelectors,
+  AuthenticationSelectors
+} from '../../store/selectors';
 import { LoadingState } from '../../store/common';
 import {
   ErrorMessage,
@@ -34,7 +37,7 @@ export function ProblemPage() {
   const dispatch = useDispatch();
   const { data } = useSelector(state => state[Target.PROBLEM_DETAILS_PAGE]);
   const problem = useSelector(ProblemSelectors.byId(data.problem.id));
-  const loginUser = useSelector(UserSelectors.loginUser());
+  const principal = useSelector(AuthenticationSelectors.principal());
 
   const load = React.useCallback(() => {
     dispatch(
@@ -52,17 +55,17 @@ export function ProblemPage() {
       dispatch(
         fetchSubmissions.request(
           {
-            userId: loginUser.id,
+            userId: principal.id,
             problemId: data.problem.id,
             pageable: {
-              pageNumber: 0,
-              pageSize: CARD_PAGE_SIZE
+              page: 0,
+              size: CARD_PAGE_SIZE
             }
           },
           { target: Target.PROBLEM_USER_SUBMISSIONS }
         )
       ),
-    [loginUser, data.problem.id]
+    [principal, data.problem.id]
   );
 
   React.useEffect(() => {
@@ -100,10 +103,10 @@ export function ProblemPage() {
                     problem={problem}
                     onSubmitDone={handleSubmitDone}
                   />
-                  {loginUser && (
+                  {principal && (
                     <ProblemUserSubmissionCard
-                      problem={problem}
-                      userId={loginUser.id}
+                      problemId={problem.id}
+                      userId={principal.id}
                     />
                   )}
                   <TagContainer problem={problem} />

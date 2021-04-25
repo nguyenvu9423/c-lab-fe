@@ -6,7 +6,7 @@ import { UserSelectors } from '../../store/selectors';
 import { LoadingIndicator } from '../../components';
 import { LoadingState } from '../../store/common';
 import { UserForm } from './UserForm';
-import UserService from '../../service/UserService';
+import { UserService } from '../../service/UserService';
 
 export function EditUserForm(props) {
   const { userId, onCancel, onSuccess } = props;

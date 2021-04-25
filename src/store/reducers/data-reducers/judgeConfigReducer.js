@@ -1,37 +1,29 @@
 import { handleActions } from 'redux-actions';
 import { LoadingState } from '../../common';
-import { fetchJudgeConfigs } from '../../actions';
+import { fetchJudgeConfig } from '../../actions';
 
 const initialState = {
-  ids: [],
+  id: undefined,
   loadingState: LoadingState.LOAD_NEEDED,
-  totalPages: 0,
-  pageable: {
-    page: 0,
-    size: 0
-  },
   error: undefined,
   currentRequestId: undefined
 };
 
 export const judgeConfigsReducer = handleActions(
   {
-    [fetchJudgeConfigs.request]: (state, { payload }) => {
-      const { pageable } = payload;
+    [fetchJudgeConfig.request]: state => {
       return {
         ...state,
-        loadingState: LoadingState.LOADING,
-        pageable
+        loadingState: LoadingState.LOADING
       };
     },
-    [fetchJudgeConfigs.response]: (state, action) => {
+    [fetchJudgeConfig.response]: (state, action) => {
       if (!action.error) {
-        const { judgeConfigs, totalPages } = action.payload;
+        const { judgeConfig } = action.payload;
         return {
           ...state,
-          ids: judgeConfigs,
+          id: judgeConfig,
           loadingState: LoadingState.LOADED,
-          totalPages,
           error: undefined
         };
       } else {

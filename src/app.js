@@ -1,16 +1,17 @@
 import React from 'react';
+import './style/all.styl';
+
 import { Route, Switch, Redirect } from 'react-router';
 import { RegisterPage } from './page/register';
-import './style/all.styl';
 import { LoginPage } from './page/login';
 import { UserPageRouter } from './page/users';
 import { toastGroup } from './page/common/ToastGroup';
-import TopNav from './page/common/TopNav';
 import { ArticlePageRouter } from './page/articles';
 import { LogoutPage } from './page/logout';
 import { ProblemPageRouter } from './page/problems';
 import { Modal } from './components/modals';
 import { AdminPage } from './page/admin';
+import { TopNav } from './page/common/TopNav';
 
 class App extends React.Component {
   render() {

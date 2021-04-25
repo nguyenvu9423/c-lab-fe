@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
 import { LoadingState } from '../../common';
-import { fetchUser } from '../../actions';
+import { fetchUser, clearUser } from '../../actions';
 
 const initialState = {
   id: undefined,
@@ -34,6 +34,9 @@ export const userReducer = handleActions(
           }
         };
       }
+    },
+    [clearUser]: () => {
+      return { loadingState: LoadingState.LOAD_NEEDED };
     }
   },
   initialState

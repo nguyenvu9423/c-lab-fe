@@ -7,7 +7,8 @@ const {
   fetchUser,
   fetchUserById,
   fetchLoginUser,
-  fetchUserByUsername
+  fetchUserByUsername,
+  clearUser
 } = createActions({
   fetchUsers: {
     request: [
@@ -35,12 +36,11 @@ const {
     response: undefined
   },
   fetchLoginUser: {
-    request: payload => payload,
-    response: res => {
-      return res;
-    }
+    request: () => ({}),
+    response: defaultCreators
   },
-  updateUserEntity: undefined
+  updateUserEntity: undefined,
+  clearUser: defaultCreators
 });
 
 const { setLoginUser, logUserOut } = createActions({
@@ -55,5 +55,6 @@ export {
   setLoginUser,
   fetchUserById,
   fetchUserByUsername,
-  logUserOut
+  logUserOut,
+  clearUser
 };

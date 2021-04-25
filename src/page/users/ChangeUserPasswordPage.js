@@ -3,7 +3,7 @@ import { withFormik } from 'formik';
 import { Button, Form, Grid, Header, Input, Segment } from 'semantic-ui-react';
 import * as yup from 'yup';
 import { FormErrorMessage } from '../common/FormErrorMessage';
-import UserService from '../../service/UserService';
+import { UserService } from '../../service/UserService';
 
 class BaseChangeUserPasswordForm extends React.Component {
   constructor() {

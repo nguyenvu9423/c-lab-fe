@@ -1,27 +1,27 @@
 import * as React from 'react';
-import { withRouter } from 'react-router';
-import { connect } from 'react-redux';
 import { LoginForm } from './LogInForm';
-import { fetchLoginUser } from '../../store/actions/user';
+import { Grid, Header, Segment } from 'semantic-ui-react';
+import { useHistory } from 'react-router-dom';
 
-class BaseLogIn extends React.Component {
-  constructor() {
-    super();
-    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
-  }
+export function LoginPage() {
+  const history = useHistory();
 
-  handleLoginSuccess() {
-    const { history, loadLoginUser } = this.props;
-    loadLoginUser();
+  const handleSuccess = React.useCallback(() => {
     history.goBack();
-  }
+  }, [history]);
 
-  render() {
-    return <LoginForm onLoginSuccess={this.handleLoginSuccess} />;
-  }
+  return (
+    <Grid container>
+      <Grid.Row centered column={1}>
+        <Grid.Column style={{ maxWidth: 480 }}>
+          <Header as="h4" attached="top" block>
+            Login
+          </Header>
+          <Segment attached>
+            <LoginForm onSuccess={handleSuccess} />
+          </Segment>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  );
 }
-
-export const LoginPage = connect(
-  null,
-  { loadLoginUser: fetchLoginUser.request }
-)(withRouter(BaseLogIn));

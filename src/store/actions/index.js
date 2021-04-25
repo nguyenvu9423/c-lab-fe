@@ -9,3 +9,4 @@ export * from './user';
 export * from './submissionFilter';
 export * from './state';
 export * from './tag';
+export * from './authentication';

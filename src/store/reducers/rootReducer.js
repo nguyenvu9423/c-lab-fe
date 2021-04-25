@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { loginReducer } from './loginReducer';
 import { entityReducer } from './entity-reducers';
 import { problemSubmissionsReducer } from './problemSubmissionsReducer';
 import { problemUserSubmissionsReducer } from './problemUserSubmissionsReducer';
@@ -18,13 +17,17 @@ import {
   editProblemFormReducer,
   editTagFormReducer,
   editArticleFormReducer,
-  editUserFormReducer
+  editUserFormReducer,
+  updateJudgeConfigFormReducer
 } from './form-reducers';
 import { searchReducer } from './searchReducer';
 import { detailedSubmissionModalReducer } from './modal-reducers';
+import { tokenReducer } from './tokenReducer';
+import { authenticationReducer } from './authenticationReducer';
 
 const rootReducer = combineReducers({
-  login: loginReducer,
+  token: tokenReducer,
+  authentication: authenticationReducer,
   search: searchReducer,
   entities: entityReducer,
   modal: modalReducer,
@@ -42,7 +45,8 @@ const rootReducer = combineReducers({
   problemUserSubmissions: problemUserSubmissionsReducer,
   editProblemForm: editProblemFormReducer,
   editTagForm: editTagFormReducer,
-  editUserForm: editUserFormReducer
+  editUserForm: editUserFormReducer,
+  updateJudgeConfigForm: updateJudgeConfigFormReducer
 });
 
 export { rootReducer };
