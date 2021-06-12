@@ -11,23 +11,25 @@ import {
   editArticlePageReducer,
   articlesPageReducer,
   userPageReducer,
-  adminPageReducer
+  adminPageReducer,
+  problemRejudgePageReducer
 } from './page-reducers';
 import {
   editProblemFormReducer,
   editTagFormReducer,
   editArticleFormReducer,
   editUserFormReducer,
-  updateJudgeConfigFormReducer
+  updateJudgeConfigFormReducer,
+  editRoleFormReducer
 } from './form-reducers';
 import { searchReducer } from './searchReducer';
 import { detailedSubmissionModalReducer } from './modal-reducers';
-import { tokenReducer } from './tokenReducer';
-import { authenticationReducer } from './authenticationReducer';
+import { authenticationReducer } from './authentication';
+import { principalReducer } from './authentication/principalReducer';
 
 const rootReducer = combineReducers({
-  token: tokenReducer,
   authentication: authenticationReducer,
+  principal: principalReducer,
   search: searchReducer,
   entities: entityReducer,
   modal: modalReducer,
@@ -40,12 +42,14 @@ const rootReducer = combineReducers({
   problemsPage: problemsPageReducer,
   problemDetailsPage: problemDetailsPageReducer,
   editProblemPage: editProblemPageReducer,
+  problemRejudgePage: problemRejudgePageReducer,
   adminPage: adminPageReducer,
   problemSubmissions: problemSubmissionsReducer,
   problemUserSubmissions: problemUserSubmissionsReducer,
   editProblemForm: editProblemFormReducer,
   editTagForm: editTagFormReducer,
   editUserForm: editUserFormReducer,
+  editRoleForm: editRoleFormReducer,
   updateJudgeConfigForm: updateJudgeConfigFormReducer
 });
 

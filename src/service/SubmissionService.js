@@ -1,25 +1,41 @@
-import { apiCaller } from '../utility/Axios';
 import * as qs from 'qs';
+import { apiCaller } from '../utility/Axios';
 import { FilterConverter } from '../utility/filter';
 import { serverConfigs } from '../server';
 
 const BASE_URL = '/submission';
 
 export class SubmissionService {
-  static createSubmission(formData) {
-    return apiCaller.post(BASE_URL, formData);
+  static submit({ problemId, languageName, codeFile, codeText }) {
+    const formData = new FormData();
+    if (codeFile) {
+      formData.append('codeFile', codeFile);
+    } else {
+      formData.append('codeText', codeText);
+    }
+
+    return apiCaller.post(BASE_URL, formData, {
+      params: {
+        problemId,
+        languageName
+      }
+    });
   }
 
-  static createSubmissionByFile(formData) {
-    return apiCaller.post(BASE_URL, formData, { params: { type: 'file' } });
+  static rejudgeSubmission(submissionId) {
+    return apiCaller.post(`${BASE_URL}/${submissionId}/rejudge`);
+  }
+
+  static cancelJudge(submissionId) {
+    return apiCaller.post(`${BASE_URL}/${submissionId}/cancel-judge`);
   }
 
   static getSubmissionDetailsById(submissionId) {
     return apiCaller.get(`${BASE_URL}/${submissionId}/details`);
   }
 
-  static getSubmissionResultLogById(submissionId) {
-    return apiCaller.get(`${BASE_URL}/${submissionId}/result-log`);
+  static getDetailedResult(submissionId) {
+    return apiCaller.get(`${BASE_URL}/${submissionId}/detailed-result`);
   }
 
   static getDetailedSubmissionById(submissionId) {

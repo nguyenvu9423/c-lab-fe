@@ -1,7 +1,5 @@
 import React from 'react';
 import { Button, Header, Segment, Form } from 'semantic-ui-react';
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { withFormik } from 'formik';
 import * as yup from 'yup';
 import { FormErrorMessage } from '../common/FormErrorMessage';
@@ -70,12 +68,7 @@ class BaseWriteArticleComponent extends React.Component {
           </Form.Field>
           <Form.Field>
             <label>Content</label>
-            <CKEditor
-              editor={ClassicEditor}
-              disalbe={true}
-              data={values.content}
-              onBlur={this.handleEditorBlur}
-            />
+            {'Add editor here'}
             <this.ErrorMessage name={'content'} />
           </Form.Field>
           <Button

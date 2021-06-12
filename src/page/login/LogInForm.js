@@ -6,7 +6,7 @@ import { AuthenticationService } from '../../service/AuthenticationService';
 import { useErrorMessageRenderer } from '../../components';
 import { validationSchema } from './validation-schema';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../../store/actions/token';
+import { login } from '../../store/actions';
 
 export function LoginForm(props) {
   const { onSuccess } = props;
@@ -15,9 +15,8 @@ export function LoginForm(props) {
   const onSubmit = React.useCallback(
     auth => {
       AuthenticationService.login(auth).then(response => {
-        console.log(response);
         const token = response.data;
-        dispatch(setToken(token));
+        dispatch(login(token));
         onSuccess?.();
       });
     },
@@ -78,82 +77,3 @@ export function LoginForm(props) {
     </Form>
   );
 }
-
-// class BaseLogInForm extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.isValid = this.isValid.bind(this);
-//     this.handleChange = this.handleChange.bind(this);
-//   }
-
-//   isValid() {
-//     return this.props.isValid && this.props.status.isValid;
-//   }
-
-//   ErrorMessage = FormErrorMessage.connectProps(this, FormErrorMessage);
-
-//   handleChange(event) {
-//     const { setStatus, handleChange } = this.props;
-//     setStatus({
-//       isValid: false,
-//       errors: {}
-//     });
-//     handleChange(event);
-//   }
-
-//   render() {
-//     const { isSubmitting, values, handleSubmit, handleBlur } = this.props;
-//     return (
-//       <Grid container>
-//         <Grid.Row centered column={1}>
-//           <Grid.Column style={{ maxWidth: 480 }}>
-//             <Header as={'h4'} attached={'top'} block>
-//               Login
-//             </Header>
-//             <Segment attached></Segment>
-//           </Grid.Column>
-//         </Grid.Row>
-//       </Grid>
-//     );
-//   }
-// }
-
-// const LoginForm = withFormik({
-//   mapPropsToValues: () => {
-//     return {
-//       username: '',
-//       password: ''
-//     };
-//   },
-//   mapPropsToStatus: props => {
-//     return { isValid: false, errors: {} };
-//   },
-//   handleSubmit: (values, bag) => {
-//     const { props } = bag;
-//     AuthService.getToken(values)
-//       .then(response => {
-//         const { data } = response;
-//         AuthProvider.setToken(data);
-//         bag.setSubmitting(false);
-//         props.onLoginSuccess();
-//       })
-//       .catch(error => {
-//         const {
-//           response: { data, status }
-//         } = error;
-//         if (status === 400 && data.error === 'invalid_grant') {
-//           bag.setFieldTouched('overall', true);
-//           bag.setStatus({
-//             isValid: false,
-//             errors: {
-//               overall: 'Incorrect username or password'
-//             }
-//           });
-//         }
-//         bag.setSubmitting(false);
-//       });
-//   },
-//   validationSchema
-// })(BaseLogInForm);
-
-// export { LoginForm };

@@ -13,6 +13,8 @@ export function JudgeConfigForm(props) {
   const mergedInitialValues = React.useMemo(
     () => ({
       id: initialValues?.id,
+      timeLimit: initialValues?.timeLimit ?? 2000,
+      memoryLimit: initialValues?.memoryLimit ?? 256,
       judgerType: initialValues?.judgerType ?? JudgerType.LINES_WORDS_CASE,
       scoringType: initialValues?.scoringType ?? 'ACM',
       testPackage: initialValues?.testPackage,
@@ -30,7 +32,8 @@ export function JudgeConfigForm(props) {
     isSubmitting,
     setFieldValue,
     handleSubmit,
-    handleBlur
+    handleBlur,
+    handleChange
   } = useFormik({
     initialValues: mergedInitialValues,
     validationSchema: JudgeConfigValidation.schema,
@@ -85,6 +88,34 @@ export function JudgeConfigForm(props) {
             onBlur={handleBlur}
             onChange={(e, { value }) => setFieldValue('scoringType', value)}
           />
+        </Form.Field>
+      </Form.Group>
+      <Form.Group widths="equal">
+        <Form.Field>
+          <label>Time limit</label>
+          <Form.Input
+            type="number"
+            name="timeLimit"
+            label="ms"
+            labelPosition="right"
+            value={values.timeLimit}
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />
+          {errorMessageRenderer('timeLimit')}
+        </Form.Field>
+        <Form.Field>
+          <label>Memory limit</label>
+          <Form.Input
+            type="number"
+            name="memoryLimit"
+            label="mb"
+            labelPosition="right"
+            value={values.memoryLimit}
+            onBlur={handleBlur}
+            onChange={handleChange}
+          />
+          {errorMessageRenderer('memoryLimit')}
         </Form.Field>
       </Form.Group>
 

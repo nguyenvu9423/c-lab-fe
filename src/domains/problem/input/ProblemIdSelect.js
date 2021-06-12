@@ -16,7 +16,7 @@ export function ProblemIdSelect(props) {
       if (searchQuery !== undefined) {
         setIsFetching(true);
         const query = searchQuery ? `id==${searchQuery}` : undefined;
-        ProblemService.getProblemsByFilters(query).then(
+        ProblemService.getProblemByQuery(query).then(
           ({ data: { content } }) => {
             setProblems(prevProblems => {
               const newProblems = [...prevProblems];

@@ -1,6 +1,3 @@
-const CKEditorWebpackPlugin = require('@ckeditor/ckeditor5-dev-webpack-plugin');
-const { styles } = require('@ckeditor/ckeditor5-dev-utils');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
@@ -9,33 +6,6 @@ const config = {
   entry: './src/index.js',
   module: {
     rules: [
-      {
-        test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-        use: ['raw-loader']
-      },
-      {
-        test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              injectType: 'singletonStyleTag',
-              attributes: {
-                'data-cke': true
-              }
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: styles.getPostCssConfig({
-              themeImporter: {
-                themePath: require.resolve('@ckeditor/ckeditor5-theme-lark')
-              },
-              minify: true
-            })
-          }
-        ]
-      },
       {
         test: /\.js$/,
         use: ['babel-loader']
@@ -72,10 +42,7 @@ const config = {
     }
   },
   plugins: [
-    new HtmlWebpackPlugin({ title: 'LogN', template: './src/index.html' }),
-    new CKEditorWebpackPlugin({
-      language: 'en'
-    })
+    new HtmlWebpackPlugin({ title: 'LogN', template: './src/index.html' })
   ],
   optimization: {
     splitChunks: {

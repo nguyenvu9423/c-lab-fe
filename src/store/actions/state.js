@@ -1,7 +1,7 @@
 import { createActions } from 'redux-actions';
 
 const { resetState } = createActions({
-  resetState: [undefined, meta => meta]
+  resetState: [() => ({}), meta => meta]
 });
 
 export { resetState };

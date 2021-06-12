@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubmissions, resetState } from '../../../store/actions';
 import { SubmissionSelector } from '../../../store/selectors/SubmissionSelectors';
 import { LoadingState } from '../../../store/common';
-import { useSubmissionStream } from '../../submission/hooks';
 import { Target } from '../../../store/reducers/target';
 import { CompactSubmissionTable } from './CompactSubmissionsTable';
+import { useJudgesStream } from '../../../domains/judge';
 
 export const PAGE_SIZE = 5;
 
@@ -44,7 +44,8 @@ export function ProblemUserSubmissionCard(props) {
     load({ pageable: { page: 0, size: PAGE_SIZE } });
   }, []);
 
-  useSubmissionStream(submissions);
+  useJudgesStream(submissions.map(sub => sub.judge));
+
   const handlePageChange = React.useCallback((event, { activePage }) => {
     load({ pageable: { page: activePage - 1, size: PAGE_SIZE } });
   }, []);

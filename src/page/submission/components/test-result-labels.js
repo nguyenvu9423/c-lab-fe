@@ -1,6 +1,10 @@
 import * as React from 'react';
-import { TestVerdict } from '../../../domains/submission/result/TestVerdict';
-import { AcceptedLabel, ErrorLabel, ScoreLabel } from './ui-labels';
+import { TestVerdict } from '../../../domains/judge/TestVerdict';
+import {
+  AcceptedLabel,
+  ErrorLabel,
+  ScoreLabel
+} from '../../../domains/judge/ui-labels';
 import { ScoringType } from '../../../domains/judge-config/ScoringType';
 
 export function SubmissionTestResultLabel(props) {

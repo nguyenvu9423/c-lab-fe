@@ -6,3 +6,4 @@ export * from './editArticlePageReducer';
 export * from './articlesPageReducer';
 export * from './userPageReducer';
 export * from './adminPageReducer';
+export * from './problem-setting-pages/problemRejudgePageReducer';

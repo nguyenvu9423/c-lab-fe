@@ -1,6 +1,5 @@
 import React from 'react';
 import * as yup from 'yup';
-import CKEditor from '@ckeditor/ckeditor5-react';
 
 import { Button, Form, Segment, TextArea, Image } from 'semantic-ui-react';
 import { useFormik } from 'formik';
@@ -8,9 +7,8 @@ import DefaultThumbnail from '../../../public/images/default-thumbnail.png';
 import { ArticleStatus } from '.';
 import { TagSelect } from '../tag';
 import { serverPath } from '../../server';
-import { Editor } from '../../page/common/Editor';
 import { SubmitButton, CancelButton } from '../../components/button';
-import { useErrorMessageRenderer } from '../../components';
+import { useErrorMessageRenderer, RichTextEditor } from '../../components';
 
 const validationSchema = yup.object().shape({
   title: yup
@@ -135,17 +133,11 @@ export function ArticleForm(props) {
           />
         </Form.Field>
       </Form.Group>
-
       <Form.Field>
         <label>Content</label>
-        <CKEditor
-          editor={Editor}
-          data={values.content}
-          onBlur={handleEditorBlur}
-        />
+        <RichTextEditor />
         {errorMessageRender('content')}
       </Form.Field>
-
       <Form.Field>
         <label>Description</label>
         <Form.Field>
@@ -182,7 +174,6 @@ export function ArticleForm(props) {
           />
         </div>
       </Form.Field>
-
       <SubmitButton floated="right" disabled={isSubmitting} />
       <CancelButton floated="right" onClick={() => onCancel?.()} />
     </Form>

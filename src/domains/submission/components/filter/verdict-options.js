@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ComparisonOperator } from '../../../../utility/filter';
-import { SubmissionVerdict } from '../../result/SubmissionVerdict';
-import { TestVerdict } from '../../result/TestVerdict';
+import { JudgeVerdict } from '../../../judge/JudgerVerdict';
+import { TestVerdict } from '../../../judge/TestVerdict';
 
 export function useVerdictOptions() {
   const verdictOptions = React.useMemo(
@@ -24,11 +24,11 @@ const VerdictTypes = [
   { title: 'Any' },
   {
     title: 'Accepted',
-    query: `result.verdict${ComparisonOperator.EQUAL}${SubmissionVerdict.ACCEPTED.name}`
+    query: `result.verdict${ComparisonOperator.EQUAL}${JudgeVerdict.ACCEPTED.name}`
   },
   {
     title: 'Compile error',
-    query: `result.verdict${ComparisonOperator.EQUAL}${SubmissionVerdict.COMPILE_ERROR.name}`
+    query: `result.verdict${ComparisonOperator.EQUAL}${JudgeVerdict.COMPILE_ERROR.name}`
   },
   {
     title: 'Wrong answer',

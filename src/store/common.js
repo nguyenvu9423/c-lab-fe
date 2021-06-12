@@ -16,7 +16,8 @@ const LoadingState = {
   },
   isInProgress: loadingState => {
     return !LoadingState.isDone(loadingState);
-  }
+  },
+  isLoaded: loadingState => loadingState === this.LOADED
 };
 
 export { LoadingState };

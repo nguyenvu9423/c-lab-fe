@@ -22,16 +22,6 @@ const coreFieldsSchema = {
     .string()
     .required('Definition is required')
     .max(640000, 'Definition should only contain 64000 characters'),
-  timeLimit: yup
-    .number()
-    .required('Time limit should be defined')
-    .min(1, 'Timelimit should be greater than 0ms')
-    .max(20000, 'Timelimit shoud be less than 20000ms'),
-  memoryLimit: yup
-    .number()
-    .required('Memory limit should be defined')
-    .min(1, 'Memorylimit should be greater than 32mb')
-    .max(20000, 'Memorylimit should be less than 1024mb'),
   allowedLanguages: yup
     .array()
     .min(1, 'At least one languages should be defined')
@@ -42,6 +32,5 @@ export const addProblemValidationSchema = yup.object().shape({
 });
 
 export const editProblemValidationSchema = yup.object().shape({
-  ...coreFieldsSchema,
-  activeJudgeConfig: yup.mixed().required('Judge config is required')
+  ...coreFieldsSchema
 });

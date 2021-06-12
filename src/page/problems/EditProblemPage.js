@@ -3,11 +3,12 @@ import { Segment, Header, Grid, Menu } from 'semantic-ui-react';
 import { EditProblemForm } from '../../domains/problem';
 import { Link, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import { UpdateJudgeConfigForm } from '../../domains/judge-config/UpdateJudgeConfigForm';
+import { ProblemRejudgeSegment } from './components/ProblemRejudgeSegment';
 
 export function ProblemEditPage(props) {
   const baseURL = props.match.url;
   const {
-    params: { activePage }
+    params: { activePage = 'definition' }
   } = useRouteMatch({ path: `${baseURL}/:activePage?`, strict: true });
   const {
     history,
@@ -37,6 +38,14 @@ export function ProblemEditPage(props) {
         <Segment clearing>
           <Header as="h2">Judge config</Header>
           <UpdateJudgeConfigForm problemId={params.id} />
+        </Segment>
+      );
+      break;
+    case 'rejudge':
+      content = (
+        <Segment clearing>
+          <Header as="h2">Rejudge</Header>
+          <ProblemRejudgeSegment problemId={params.id} />
         </Segment>
       );
       break;
@@ -74,6 +83,18 @@ function SectionMenu(props) {
             name="judge-config"
             to={`${baseURL}/judge-config`}
             active={activePage === 'judge-config'}
+          />
+        </Menu.Menu>
+      </Menu.Item>
+      <Menu.Item>
+        <Menu.Header>Jobs</Menu.Header>
+        <Menu.Menu>
+          <Menu.Item
+            as={Link}
+            link
+            name="rejudge"
+            to={`${baseURL}/rejudge`}
+            active={activePage === 'rejudge'}
           />
         </Menu.Menu>
       </Menu.Item>

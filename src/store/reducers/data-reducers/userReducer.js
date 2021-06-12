@@ -8,36 +8,36 @@ const initialState = {
   error: undefined
 };
 
-export const userReducer = handleActions(
-  {
-    [fetchUser.request]: () => {
+export const userReducerMap = {
+  [fetchUser.request]: () => {
+    return {
+      loadingState: LoadingState.LOADING
+    };
+  },
+  [fetchUser.response]: (state, { error, payload }) => {
+    if (!error) {
+      const { user } = payload;
       return {
-        loadingState: LoadingState.LOADING
+        id: user,
+        loadingState: LoadingState.LOADED
       };
-    },
-    [fetchUser.response]: (state, { error, payload }) => {
-      if (!error) {
-        const { user } = payload;
-        return {
-          id: user,
-          loadingState: LoadingState.LOADED
-        };
-      } else {
-        const {
-          response: {
-            data: { message }
-          }
-        } = payload;
-        return {
-          error: {
-            message
-          }
-        };
-      }
-    },
-    [clearUser]: () => {
-      return { loadingState: LoadingState.LOAD_NEEDED };
+    } else {
+      const {
+        response: {
+          data: { message }
+        }
+      } = payload;
+      return {
+        loadingState: LoadingState.ERROR,
+        error: {
+          message
+        }
+      };
     }
   },
-  initialState
-);
+  [clearUser]: () => {
+    return { loadingState: LoadingState.LOAD_NEEDED };
+  }
+};
+
+export const userReducer = handleActions(userReducerMap, initialState);

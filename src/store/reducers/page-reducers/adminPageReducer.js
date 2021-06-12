@@ -4,7 +4,8 @@ import {
   tagsReducer,
   articlesReducer,
   problemsReducer,
-  usersReducer
+  usersReducer,
+  rolesReducer
 } from '../data-reducers';
 
 import { createTargetChecker, Target } from '../target';
@@ -35,5 +36,13 @@ export const adminPageReducer = combineReducers({
       })
     }),
     createTargetChecker(Target.ADMIN_PAGE.USER)
+  ),
+  role: filterActions(
+    combineReducers({
+      data: combineReducers({
+        roles: rolesReducer
+      })
+    }),
+    createTargetChecker(Target.ADMIN_PAGE.ROLE)
   )
 });

@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router';
 
 import { ProblemDetailCard } from './components/ProblemDetailCard';
-import { CompactCodeSubmissionForm } from './components/CompactSubmissionForm';
 import { ProblemSettingCard } from './components/ProblemSettingCard';
 import { fetchProblem } from '../../store/actions/problem';
 import { ProblemNavMenu } from './components/ProblemNavMenu';
@@ -15,12 +14,8 @@ import {
   ProblemUserSubmissionCard,
   PAGE_SIZE as CARD_PAGE_SIZE
 } from './components/ProblemUserSubmissionCard';
-import { UserSelectors } from '../../store/selectors/UserSelectors';
 import { TagContainer } from '../../components/tag';
-import {
-  ProblemSelectors,
-  AuthenticationSelectors
-} from '../../store/selectors';
+import { ProblemSelectors, PrincipalSelectors } from '../../store/selectors';
 import { LoadingState } from '../../store/common';
 import {
   ErrorMessage,
@@ -31,13 +26,14 @@ import { Target } from '../../store/reducers/target';
 import { ProblemUserSubmissionsPage } from './ProblemUserSubmissionsPage';
 import { fetchSubmissions } from '../../store/actions';
 import { SubmissionFilterCard } from '../../domains/submission';
+import { SubmissionCard } from './components/SubmissionCard';
 
 export function ProblemPage() {
   const { url, params } = useRouteMatch();
   const dispatch = useDispatch();
   const { data } = useSelector(state => state[Target.PROBLEM_DETAILS_PAGE]);
   const problem = useSelector(ProblemSelectors.byId(data.problem.id));
-  const principal = useSelector(AuthenticationSelectors.principal());
+  const principal = useSelector(PrincipalSelectors.principal());
 
   const load = React.useCallback(() => {
     dispatch(
@@ -99,7 +95,7 @@ export function ProblemPage() {
               <Grid.Column width={4}>
                 <Route path={`${url}`} exact>
                   <ProblemSettingCard problem={problem} />
-                  <CompactCodeSubmissionForm
+                  <SubmissionCard
                     problem={problem}
                     onSubmitDone={handleSubmitDone}
                   />
@@ -122,7 +118,7 @@ export function ProblemPage() {
                 </Segment>
               </Grid.Column>
               <Grid.Column width={4}>
-                <TagContainer problemId={problem.id} />
+                <TagContainer problem={problem} />
               </Grid.Column>
             </Route>
 
@@ -134,7 +130,7 @@ export function ProblemPage() {
                 </Segment>
               </Grid.Column>
               <Grid.Column width={4}>
-                <CompactCodeSubmissionForm
+                <SubmissionCard
                   problem={problem}
                   onSubmitDone={handleSubmitDone}
                 />

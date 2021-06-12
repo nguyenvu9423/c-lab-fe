@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { Form, Input, Dropdown } from 'semantic-ui-react';
-import CKEditor from '@ckeditor/ckeditor5-react';
-import { Editor } from '../../../page/common/Editor';
 import { useFormik } from 'formik';
 import { ProblemService } from '../../../service/ProblemService';
 import { useSubmissionLangSelect } from '../../submission-lang';
@@ -10,6 +8,7 @@ import { useTagSelect } from '../../tag';
 import { ExceptionTypes } from '../../../exception/ExceptionTypes';
 import { addProblemValidationSchema } from './Schemas';
 import { SubmitButton, CancelButton } from '../../../components/button';
+import { MarkdownEditor } from '../../../components';
 
 export function AddProblemForm(props) {
   const { onSuccess, onCancel } = props;
@@ -30,8 +29,6 @@ export function AddProblemForm(props) {
       code: '',
       title: '',
       definition: '',
-      timeLimit: 2000,
-      memoryLimit: 256,
       allowedLanguages: [],
       tags: []
     },
@@ -67,8 +64,8 @@ export function AddProblemForm(props) {
     mapValueToLanguage
   } = useSubmissionLangSelect();
 
-  const handleDescriptionChange = React.useCallback((event, editor) => {
-    setFieldValue('definition', editor.getData());
+  const handleDefinitionChange = React.useCallback(content => {
+    setFieldValue('definition', content);
     setFieldTouched('definition');
   }, []);
 
@@ -120,41 +117,10 @@ export function AddProblemForm(props) {
 
         <Form.Field>
           <label>Definition</label>
-          <CKEditor
-            editor={Editor}
-            data={values.definition}
-            onBlur={handleDescriptionChange}
-          />
+          <MarkdownEditor onChange={handleDefinitionChange} />
           {errorMessageRenderer('definition')}
         </Form.Field>
-        <Form.Group widths="equal">
-          <Form.Field>
-            <label>Time limit</label>
-            <Input
-              type="number"
-              name="timeLimit"
-              label="ms"
-              labelPosition="right"
-              value={values.timeLimit}
-              onBlur={handleBlur}
-              onChange={handleChange}
-            />
-            {errorMessageRenderer('timeLimit')}
-          </Form.Field>
-          <Form.Field>
-            <label>Memory limit</label>
-            <Input
-              type="number"
-              name="memoryLimit"
-              label="mb"
-              labelPosition="right"
-              value={values.memoryLimit}
-              onBlur={handleBlur}
-              onChange={handleChange}
-            />
-            {errorMessageRenderer('memoryLimit')}
-          </Form.Field>
-        </Form.Group>
+
         <Form.Group widths="equal">
           <Form.Field>
             <label>Allowed languages</label>

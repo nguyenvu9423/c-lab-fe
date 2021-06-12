@@ -1,11 +1,11 @@
 import { createActions } from 'redux-actions';
+import { defaultCreators } from './shared';
 
 const {
   fetchSubmissions,
   fetchSubmissionsByProblem,
   fetchSubmissionDetailsById,
-  fetchSubmissionResultLog,
-  fetchDetailedSubmissionById,
+  fetchDetailedSubmission,
   createSubmission
 } = createActions({
   fetchSubmissions: {
@@ -24,13 +24,9 @@ const {
     request: submissionId => ({ submissionId }),
     response: submissionId => ({ submissionId })
   },
-  fetchSubmissionResultLog: {
-    request: submissionId => ({ submissionId }),
-    response: resultLog => ({ resultLog })
-  },
-  fetchDetailedSubmissionById: {
-    request: submissionId => ({ submissionId }),
-    response: undefined
+  fetchDetailedSubmission: {
+    request: defaultCreators,
+    response: defaultCreators
   },
   createSubmission: {
     request: undefined,
@@ -38,11 +34,20 @@ const {
   }
 });
 
+const { fetchDetailedResult, clearDetailedResult } = createActions({
+  fetchDetailedResult: {
+    request: defaultCreators,
+    response: defaultCreators
+  },
+  clearDetailedResult: defaultCreators
+});
+
 export {
   fetchSubmissions,
   fetchSubmissionsByProblem,
   fetchSubmissionDetailsById,
-  fetchSubmissionResultLog,
-  fetchDetailedSubmissionById,
-  createSubmission
+  fetchDetailedSubmission,
+  createSubmission,
+  fetchDetailedResult,
+  clearDetailedResult
 };

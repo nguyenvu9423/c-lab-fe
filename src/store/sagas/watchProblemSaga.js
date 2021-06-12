@@ -49,7 +49,6 @@ function* fetchProblemSaga(action) {
       response = yield call(ProblemService.getProblemByParams, params);
     }
     const problem = response.data;
-    console.log(problem, meta);
     const normalizedData = normalize(problem, problemSchema);
     yield put(updateEntity(normalizedData.entities));
     yield put(fetchProblem.response({ problem }, meta));

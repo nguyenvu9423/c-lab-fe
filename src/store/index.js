@@ -17,7 +17,7 @@ sagaMiddleware.run(rootSaga);
 let currentToken = null;
 
 const handleTokenChange = () => {
-  const newToken = store.getState().token;
+  const newToken = store.getState().authentication.token;
   if (currentToken != newToken) {
     AuthProvider.setToken(newToken);
     currentToken = newToken;
@@ -26,4 +26,4 @@ const handleTokenChange = () => {
 
 store.subscribe(handleTokenChange);
 
-export { store, currentToken };
+export { store };

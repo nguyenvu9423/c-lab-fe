@@ -5,45 +5,128 @@ import {
   Grid,
   List,
   Message,
-  Segment
+  Segment,
+  Button
 } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../../store/actions/modal';
 import { LoadingState } from '../../../store/common';
 import { CodeEditor } from '../../../components/editors';
 import {
-  SubmissionStatusLabel,
+  JudgeStatusLabel,
   TestResultLabel,
-  ErrorLabel
-} from '../../../page/submission/components';
-import { fetchDetailedSubmissionById } from '../../../store/actions';
+  ErrorLabel,
+  JudgeProgressType,
+  useJudgesStream
+} from '../../judge';
+import {
+  fetchDetailedSubmission,
+  updateEntity,
+  clearDetailedResult,
+  fetchDetailedJudge
+} from '../../../store/actions';
 import { LoadingIndicator } from '../../../components/loading-indicator';
 import { SubmissionSelector } from '../../../store/selectors';
-import { SubmissionVerdict } from '../result/SubmissionVerdict';
+import { JudgeVerdict } from '../../judge/JudgerVerdict';
 import {
   formatResourceTime,
   formatResourceMemory
 } from '../../../page/problems/utils';
+import { SubmissionService } from '../../../service/SubmissionService';
+import { normalize } from 'normalizr';
+import { submissionSchema } from '../../../entity-schemas/submission-schemas';
+import { Target } from '../../../store/reducers/target';
+import { JudgeSelectors } from '../../../store/selectors/JudgeSelectors';
+import { JudgeService } from '../../../service/JudgeService';
 
 const DetailedSubmissionModal = props => {
-  const dispatch = useDispatch();
   const { submissionId } = props;
-  const slice = useSelector(state => state.detailedSubmissionModal);
+  const { data } = useSelector(state => state.detailedSubmissionModal);
+
+  const submission = useSelector(
+    data.submission.id
+      ? SubmissionSelector.byId(data.submission.id)
+      : () => undefined
+  );
+
+  const code = data.code.code;
+  const detailedResult = data.detailedResult.detailedResult;
+
+  const dispatch = useDispatch();
+
+  const loadDetailedSubmission = React.useCallback(() => {
+    dispatch(
+      fetchDetailedSubmission.request(
+        { submissionId },
+        { target: Target.DETAILED_SUBMISSION_MODAL }
+      )
+    );
+  }, []);
+
+  const loadDetailedResult = React.useCallback(() => {
+    dispatch(
+      fetchDetailedJudge.request(
+        { submissionId },
+        { target: Target.DETAILED_SUBMISSION_MODAL }
+      )
+    );
+  }, []);
 
   React.useEffect(() => {
-    dispatch(fetchDetailedSubmissionById.request(submissionId));
+    loadDetailedSubmission();
+    loadDetailedResult();
   }, []);
-  const { detailedSubmission } = slice;
-  const { code, detailedResult } = detailedSubmission;
-  const submission = useSelector(SubmissionSelector.byId(submissionId));
-  const { result, judgeConfig } = submission;
+
+  const judgeId = submission?.judge;
+  const judge = useSelector(JudgeSelectors.byId(judgeId));
+
+  const currentProgress = React.useRef(judge?.progress.status.type);
+
+  React.useEffect(() => {
+    if (
+      currentProgress.current === JudgeProgressType.IN_PROGRESS &&
+      judge?.progress.status.type === JudgeProgressType.SUCCESS
+    ) {
+      console.log('called');
+      loadDetailedResult();
+    }
+    currentProgress.current = judge?.progress.status.type;
+  }, [judge?.progress.status.type]);
+
+  useJudgesStream(judge ? [judge.id] : []);
+
+  const rejudge = React.useCallback(() => {
+    dispatch(
+      clearDetailedResult({}, { target: Target.DETAILED_SUBMISSION_MODAL })
+    );
+    SubmissionService.rejudgeSubmission(submission.id).then(({ data }) => {
+      const { entities } = normalize(data, submissionSchema);
+      dispatch(updateEntity(entities));
+    });
+  }, [submission]);
+
+  const [isCancellingJudge, setIsCancellingJudge] = React.useState(false);
+
+  const cancelJudge = React.useCallback(() => {
+    if (judgeId) {
+      setIsCancellingJudge(true);
+      JudgeService.cancel(judgeId).then(() => {
+        setIsCancellingJudge(false);
+      });
+    }
+  }, [judgeId]);
+
   const handleClose = React.useCallback(() => {
     dispatch(hideModal());
   }, []);
 
-  if (detailedSubmission.loadingState != LoadingState.LOADED) {
+  if (data.submission.loadingState !== LoadingState.LOADED) {
     return <LoadingIndicator />;
   }
+
+  const { result, config: judgeConfig } = judge;
+  const inProgress =
+    judge.progress.status.type == JudgeProgressType.IN_PROGRESS;
 
   return (
     <UiModal
@@ -57,9 +140,32 @@ const DetailedSubmissionModal = props => {
       <UiModal.Content>
         <Grid>
           <Grid.Row>
+            <Grid.Column>
+              <>
+                <Button
+                  content="Rejudge"
+                  icon="redo"
+                  labelPosition="left"
+                  onClick={rejudge}
+                  disabled={inProgress}
+                />{' '}
+                {inProgress && (
+                  <Button
+                    icon="stop"
+                    content="Stop"
+                    negative
+                    disabled={isCancellingJudge}
+                    onClick={cancelJudge}
+                  />
+                )}
+              </>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
             <Grid.Column width={8}>
               <Header as="h4">Result</Header>
-              <SubmissionStatusLabel submission={submission} />
+              <JudgeStatusLabel judgeId={judgeId} />
             </Grid.Column>
             <Grid.Column width={8}>
               <Header as="h4">Resource</Header>
@@ -95,7 +201,7 @@ function DetailedResult(props) {
   const { detailedResult, scoringType } = props;
   const { verdict, testResults } = detailedResult;
 
-  if (verdict === SubmissionVerdict.COMPILE_ERROR) {
+  if (verdict === JudgeVerdict.COMPILE_ERROR) {
     const message = detailedResult.message;
     return (
       <span>

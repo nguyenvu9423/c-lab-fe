@@ -1,15 +1,26 @@
 import * as React from 'react';
-import { CodeSubmissionForm } from './components/CodeSubmissionForm';
+import { useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
-import { AuthenticationSelectors } from '../../store/selectors';
+import { CodeSubmissionForm } from './components/CodeSubmissionForm';
+import { PrincipalSelectors } from '../../store/selectors';
 
 export function ProblemSubmitPage(props) {
   const { problem } = props;
-  const user = useSelector(AuthenticationSelectors.principal());
+  const history = useHistory();
+  const user = useSelector(PrincipalSelectors.principal());
+
+  const handleSuccess = React.useCallback(
+    sub => history.push('my', { highlightSubId: sub.id }),
+    []
+  );
 
   return user ? (
-    <CodeSubmissionForm problem={problem} user={user} />
+    <CodeSubmissionForm
+      problem={problem}
+      user={user}
+      onSuccess={handleSuccess}
+    />
   ) : (
-    <div>Please login to submit</div>
+    <p>Please login to submit</p>
   );
 }

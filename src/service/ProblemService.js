@@ -22,10 +22,10 @@ export class ProblemService {
     });
   }
 
-  static getProblemsByFilters(filters, pageable = { page: 0, size: 10 }) {
+  static getProblemByQuery(query, pageable = { page: 0, size: 10 }) {
     return apiCaller.get(BASE_URL, {
       params: {
-        query: filters,
+        query,
         ...pageable
       }
     });
@@ -53,6 +53,14 @@ export class ProblemService {
     return apiCaller.post(`${BASE_URL}/${id}/judge-config`, formData, {
       timeout: 120000
     });
+  }
+
+  static rejudgeProblem(problemId) {
+    return apiCaller.post(`${BASE_URL}/${problemId}/rejudge`);
+  }
+
+  static getProblemRejudge(problemId) {
+    return apiCaller.get(`${BASE_URL}/${problemId}/rejudge`);
   }
 
   static deleteProblem(id) {

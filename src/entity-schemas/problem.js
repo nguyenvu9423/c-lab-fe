@@ -5,6 +5,7 @@ const problemSchema = new schema.Entity('problem', {
   activeJudgeConfig: judgeConfigSchema,
   judgeConfigs: judgeConfigArraySchema
 });
+
 const problemArraySchema = new schema.Array(problemSchema);
 
 export { problemSchema, problemArraySchema };

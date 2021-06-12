@@ -1,14 +1,32 @@
 import * as React from 'react';
-import { LoginForm } from './LogInForm';
-import { Grid, Header, Segment } from 'semantic-ui-react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+import { Grid, Header, Segment } from 'semantic-ui-react';
+import { LoginForm } from './LogInForm';
+import { AuthenticationSelectors } from '../../store/selectors';
 
 export function LoginPage() {
   const history = useHistory();
 
   const handleSuccess = React.useCallback(() => {
-    history.goBack();
+    const prevPath = history.location.state.prevPath;
+    if (prevPath) {
+      history.goBack();
+    } else {
+      history.push('/');
+    }
   }, [history]);
+
+  const authenticated = useSelector(AuthenticationSelectors.isAuthenticated());
+
+  React.useEffect(() => {
+    if (authenticated) {
+      history.push('/');
+    }
+  }, [authenticated]);
+
+  if (authenticated || authenticated === undefined) return null;
 
   return (
     <Grid container>

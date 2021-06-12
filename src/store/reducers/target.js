@@ -1,5 +1,6 @@
 export const Target = {
   AUTHENTICATION: 'authentication',
+  PRINCIPAL: 'principal',
   USER_PAGE: 'userPage',
   ARTICLE_PAGE: 'articlePage',
   ARTICLES_PAGE: 'articlesPage',
@@ -15,11 +16,14 @@ export const Target = {
     TAG: 'adminPage.tag',
     ARTICLE: 'adminPage.article',
     PROBLEM: 'adminPage.problem',
-    USER: 'adminPage.user'
+    USER: 'adminPage.user',
+    ROLE: 'adminPage.role'
   },
   EDIT_PROBLEM_FORM: 'editProblemForm',
   EDIT_TAG_FORM: 'editTagForm',
-  EDIT_USER_FORM: 'editUserForm'
+  EDIT_USER_FORM: 'editUserForm',
+  EDIT_ROLE_FORM: 'editRoleForm',
+  DETAILED_SUBMISSION_MODAL: 'detailedSubmissionModal'
 };
 
 export function createTargetChecker(target) {

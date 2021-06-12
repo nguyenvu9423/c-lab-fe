@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Header } from 'semantic-ui-react';
+import { MarkdownView } from '../../../components';
 
 export function ProblemDetailCard(props) {
   const { problem } = props;
@@ -12,12 +13,10 @@ export function ProblemDetailCard(props) {
           {problem.timeLimit} ms / {problem.memoryLimit} mb
         </Header.Subheader>
       </Header>
-      <div
-        className={'article-container'}
-        dangerouslySetInnerHTML={{
-          __html: problem && problem.definition
-        }}
-      />
+
+      <div className={'article-container'}>
+        <MarkdownView>{problem.definition}</MarkdownView>
+      </div>
     </>
   );
 }

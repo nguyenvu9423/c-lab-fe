@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { Grid, Menu } from 'semantic-ui-react';
+import { Grid, Menu, Divider } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useRouteMatch } from 'react-router';
 import { TagPage } from './entity-pages/TagPage';
 import { ArticlePage } from './entity-pages/ArticlePage';
 import { ProblemPage } from './entity-pages/ProblemPage';
 import { UserPage } from './entity-pages/UserPage';
+import { RolePage } from './entity-pages/RolePage';
 
 export function AdminPage(props) {
   const baseURL = props.match.url;
   const {
-    params: { activePage }
+    params: { activePage = 'users' }
   } = useRouteMatch({
     path: `${baseURL}/:activePage?`,
     strict: true
@@ -28,6 +29,9 @@ export function AdminPage(props) {
       break;
     case 'users':
       content = <UserPage />;
+      break;
+    case 'roles':
+      content = <RolePage />;
       break;
     default:
       content = undefined;
@@ -47,7 +51,7 @@ function ControlMenu(props) {
   return (
     <Menu vertical fluid size="large">
       <Menu.Item>
-        <Menu.Header>Entities</Menu.Header>
+        <Menu.Header>Data</Menu.Header>
         <Menu.Menu>
           <Menu.Item
             as={Link}
@@ -76,6 +80,17 @@ function ControlMenu(props) {
             name="articles"
             to={`${baseURL}/articles`}
             active={activePage === 'articles'}
+          />
+        </Menu.Menu>
+      </Menu.Item>
+      <Menu.Item>
+        <Menu.Header>Authorization</Menu.Header>
+        <Menu.Menu>
+          <Menu.Item
+            as={Link}
+            name="roles"
+            to={`${baseURL}/roles`}
+            active={activePage === 'roles'}
           />
         </Menu.Menu>
       </Menu.Item>

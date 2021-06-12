@@ -3,42 +3,30 @@ import { Form } from 'semantic-ui-react';
 import { FileUploadInput } from '../../common/inputs/FileUploadInput';
 import { SubmissionLangInput } from '../../submission/components';
 import { useFormik } from 'formik';
-import ArrayUtils from '../../../utility/ArrayUtils';
 import { SubmissionService } from '../../../service/SubmissionService';
 import { CodeEditor } from '../../../components/editors';
 
 export const CodeSubmissionForm = props => {
-  const { problem } = props;
-  const { allowedLanguages } = problem;
+  const { problem, onSuccess } = props;
+
   const formik = useFormik({
     initialValues: {
+      language: problem.allowedLanguages[0],
       codeText: '',
-      language: ArrayUtils.isNotEmpty(allowedLanguages)
-        ? allowedLanguages[0]
-        : undefined,
       codeFile: undefined
     },
     onSubmit: (values, { setSubmitting }) => {
       const { language, codeText, codeFile } = values;
-      const formData = new FormData();
-      const submissionDTO = {
-        problem: { id: problem.id },
-        language
-      };
-      formData.append(
-        'submissionDTO',
-        new Blob([JSON.stringify(submissionDTO)], { type: 'application/json' })
-      );
-
-      if (codeFile) {
-        formData.append('codeFile', codeFile);
-      } else {
-        formData.append('codeText', codeText);
-      }
-
-      SubmissionService.createSubmission(formData)
-        .then(() => {
+      SubmissionService.submit({
+        problemId: problem.id,
+        languageName: language.name,
+        codeFile,
+        codeText
+      })
+        .then(({ data }) => {
           setSubmitting(false);
+          console.log(data);
+          onSuccess?.(data);
         })
         .catch(() => {
           setSubmitting(false);
@@ -58,9 +46,9 @@ export const CodeSubmissionForm = props => {
         <CodeEditor
           style={{ maxHeight: 420 }}
           value={values.codeText}
-          onBlur={(event, editor) => {
-            setFieldValue('codeText', editor.getValue());
-          }}
+          onBlur={(event, editor) =>
+            setFieldValue('codeText', editor.getValue())
+          }
         />
       </Form.Field>
       <Form.Field>

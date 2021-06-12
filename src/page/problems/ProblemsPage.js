@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Segment, Grid } from 'semantic-ui-react';
+
+import { Table, Segment, Grid, Icon } from 'semantic-ui-react';
 import { fetchProblems } from '../../store/actions/problem';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProblemSelectors } from '../../store/selectors';
+import { ProblemSelectors, PrincipalSelectors } from '../../store/selectors';
 import { LoadingState } from '../../store/common';
 import { LoadingIndicator } from '../../components/loading-indicator';
 import { TagFilterCard, Pagination } from '../../components';
@@ -17,8 +18,11 @@ export function ProblemsPage(props) {
     match: { url }
   } = props;
 
-  const dispatch = useDispatch();
+  const principal = useSelector(PrincipalSelectors.principal());
+
   const { data } = useSelector(state => state.problemsPage);
+
+  const dispatch = useDispatch();
 
   const load = React.useCallback(
     ({ pageable, query } = {}) => {
@@ -51,9 +55,10 @@ export function ProblemsPage(props) {
   });
 
   React.useEffect(() => {
+    console.log(principal?.id);
     load({ pageable: { size: PROBLEMS_PAGE_SIZE, page: 0 } });
     return () => dispatch(resetState({ target: Target.PROBLEMS_PAGE }));
-  }, []);
+  }, [principal?.id]);
 
   return (
     <Grid container doubling padded="vertically" columns={2}>
@@ -66,8 +71,11 @@ export function ProblemsPage(props) {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-                <Table.HeaderCell width={8}>Tiêu đề</Table.HeaderCell>
+                <Table.HeaderCell width={6}>Tiêu đề</Table.HeaderCell>
                 <Table.HeaderCell width={6}>Mã</Table.HeaderCell>
+                {principal && (
+                  <Table.HeaderCell width={2}>Solved</Table.HeaderCell>
+                )}
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -79,6 +87,11 @@ export function ProblemsPage(props) {
                   <Table.Cell>{problem.title}</Table.Cell>
                   <Table.Cell>
                     <Link to={`${url}/${problem.code}`}>{problem.code}</Link>
+                  </Table.Cell>
+                  <Table.Cell>
+                    {principal && problem.solvedByPrincipal && (
+                      <Icon name="check" color="green" />
+                    )}
                   </Table.Cell>
                 </Table.Row>
               ))}

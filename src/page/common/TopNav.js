@@ -1,13 +1,18 @@
 import * as React from 'react';
 import { Button, Container, Dropdown, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { fetchUser, clearUser } from '../../store/actions/user';
 import { SearchBar } from '../../components/search/SearchBar';
-import { Target } from '../../store/reducers/target';
 import { useSelector, useDispatch } from 'react-redux';
-import { UserSelectors } from '../../store/selectors/UserSelectors';
+import { logout } from '../../store/actions';
+import {
+  AuthenticationSelectors,
+  PermissionSelectors,
+  PrincipalSelectors
+} from '../../store/selectors';
+import { LoadingState } from '../../store/common';
+import { LoginButton } from './buttons/LoginButton';
 
-function NotLoginUserControlMenu() {
+function AnonymousControlMenu() {
   return (
     <>
       <Menu.Item>
@@ -16,9 +21,7 @@ function NotLoginUserControlMenu() {
         </Button>
       </Menu.Item>
       <Menu.Item>
-        <Button as={Link} to={'/login'}>
-          Đăng Nhập
-        </Button>
+        <LoginButton />
       </Menu.Item>
     </>
   );
@@ -26,49 +29,71 @@ function NotLoginUserControlMenu() {
 
 function UserControlMenu(props) {
   const { user } = props;
+  const dispatch = useDispatch();
+
+  const handleLogOut = React.useCallback(() => {
+    dispatch(logout());
+  }, []);
+
+  const canAddArticle = useSelector(PermissionSelectors.canCreateArticle());
+  const canAddProblem = useSelector(PermissionSelectors.canCreateProblem());
+  const hasAdminRole = useSelector(PermissionSelectors.hasAdminRole());
+
   return (
     <>
-      <Menu.Item>
-        <Dropdown
-          button
-          floating
-          className="icon"
-          labeled
-          icon="edit"
-          text="Create"
-        >
-          <Dropdown.Menu>
-            <Dropdown.Item
-              as={Link}
-              to={'/articles/add'}
-              text={'Article'}
-              icon="book"
-            />
-            <Dropdown.Item
-              as={Link}
-              to={'/problems/add'}
-              text={'Problem'}
-              icon="tasks"
-            />
-          </Dropdown.Menu>
-        </Dropdown>
-      </Menu.Item>
+      {(canAddArticle || canAddProblem) && (
+        <Menu.Item>
+          <Dropdown
+            button
+            floating
+            className="icon"
+            labeled
+            icon="edit"
+            text="Create"
+          >
+            <Dropdown.Menu>
+              {canAddArticle && (
+                <Dropdown.Item
+                  as={Link}
+                  to="/articles/add"
+                  text="Article"
+                  icon="book"
+                />
+              )}
+              {canAddProblem && (
+                <Dropdown.Item
+                  as={Link}
+                  to="/problems/add"
+                  text="Problem"
+                  icon="tasks"
+                />
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
+        </Menu.Item>
+      )}
 
       <Dropdown item text={user.lastName}>
         <Dropdown.Menu>
           <Dropdown.Item
             as={Link}
-            to={`/users/${user.username}`}
-            icon={'user'}
-            text={'Profile'}
+            to="/users/${user.username}"
+            icon="user"
+            text="Profile"
           />
-          <Dropdown.Item icon={'book'} text={'Upload problem'} />
           <Dropdown.Divider />
+          {hasAdminRole && (
+            <Dropdown.Item
+              as={Link}
+              to="/admin"
+              icon="setting"
+              text="Admin panel"
+            />
+          )}
           <Dropdown.Item
-            icon={'angle double right'}
-            text={'Log out'}
-            as={Link}
-            to={'/logout'}
+            icon="angle double right"
+            text="Log out"
+            onClick={handleLogOut}
           />
         </Dropdown.Menu>
       </Dropdown>
@@ -77,32 +102,12 @@ function UserControlMenu(props) {
 }
 
 export function TopNav() {
-  const dispatch = useDispatch();
-  const token = useSelector(state => state.token);
-  const state = useSelector(state => state.authentication);
-
-  const principal = useSelector(UserSelectors.byId(state.user.id));
-
-  const loadUser = React.useCallback(() => {
-    dispatch(
-      fetchUser.request(
-        { isPrincipal: true },
-        { target: Target.AUTHENTICATION }
-      )
-    );
-  }, []);
-
-  const clear = React.useCallback(() => {
-    dispatch(clearUser(undefined, { target: Target.AUTHENTICATION }));
-  }, []);
-
-  React.useEffect(() => {
-    if (token) loadUser();
-    else clear();
-  }, [token]);
+  const { loadingState, principal } = useSelector(
+    PrincipalSelectors.principalDataHolder()
+  );
 
   return (
-    <Menu fixed={'top'}>
+    <Menu fixed="top">
       <Container>
         <Menu.Item header as={Link} to={'/'}>
           Log N
@@ -117,10 +122,15 @@ export function TopNav() {
           <Menu.Item>
             <SearchBar />
           </Menu.Item>
-          {principal ? (
-            <UserControlMenu user={principal} />
+
+          {LoadingState.isDone(loadingState) ? (
+            principal ? (
+              <UserControlMenu user={principal} />
+            ) : (
+              <AnonymousControlMenu />
+            )
           ) : (
-            <NotLoginUserControlMenu />
+            undefined
           )}
         </Menu.Menu>
       </Container>

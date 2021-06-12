@@ -14,7 +14,7 @@ export function ProblemCodeSelect(props) {
     Lodash.debounce(searchQuery => {
       if (searchQuery) {
         setIsFetching(true);
-        ProblemService.getProblemsByFilters(`code==*${searchQuery}*`).then(
+        ProblemService.getProblemByQuery(`code==*${searchQuery}*`).then(
           ({ data: { content } }) => {
             setProblems(content);
             setIsFetching(false);

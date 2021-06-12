@@ -2,14 +2,16 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import {
   fetchSubmissionsByProblem,
   updateEntity,
-  fetchSubmissionResultLog,
-  fetchDetailedSubmissionById,
-  fetchSubmissions
+  fetchDetailedSubmission,
+  fetchSubmissions,
+  fetchDetailedResult
 } from '../actions';
 import { SubmissionService } from '../../service/SubmissionService';
 import { normalize } from 'normalizr';
-import { submissionListSchema } from '../../entity-schemas/submissionSchema';
-import { detailedSubmissionSchema } from '../../entity-schemas/detailedSubmissionSchema';
+import {
+  submissionsSchema,
+  detailedSubmissionSchema
+} from '../../entity-schemas';
 
 function* fetchSubmissionsSaga(action) {
   const { userId, problemId, query, pageable } = action.payload;
@@ -25,7 +27,7 @@ function* fetchSubmissionsSaga(action) {
     );
     const { data } = response;
     const { content, number: activePage, totalPages } = data;
-    const normalizedData = normalize(content, submissionListSchema);
+    const normalizedData = normalize(content, submissionsSchema);
     yield put(updateEntity(normalizedData.entities));
     yield put(
       fetchSubmissions.response(
@@ -53,7 +55,7 @@ function* fetchSubmissionsByProblemSaga(action) {
     );
     const { data } = response;
     const { content, number: activePage, totalPages } = data;
-    const normalizedData = normalize(content, submissionListSchema);
+    const normalizedData = normalize(content, submissionsSchema);
     yield put(updateEntity(normalizedData.entities));
 
     yield put(
@@ -68,39 +70,38 @@ function* fetchSubmissionsByProblemSaga(action) {
   }
 }
 
-function* fetchSubmissionResultLogSaga(action) {
-  const { submissionId } = action.payload;
+function* fetchDetailedResultSaga(action) {
+  const { meta, payload } = action;
+  const { submissionId } = payload;
   try {
     const response = yield call(
-      SubmissionService.getSubmissionResultLogById,
+      SubmissionService.getDetailedResult,
       submissionId
     );
     const { data } = response;
-    yield put(fetchSubmissionResultLog.response(data));
+    yield put(fetchDetailedResult.response({ detailedResult: data }, meta));
   } catch (e) {
-    yield put(fetchSubmissionResultLog.response(e));
+    yield put(fetchDetailedResult.response(e, meta));
   }
 }
 
-function* fetchDetailedSubmissionByIdSaga(action) {
+function* fetchDetailedSubmissionSaga(action) {
   const { submissionId } = action.payload;
+  const meta = action.meta;
   try {
     const response = yield call(
       SubmissionService.getDetailedSubmissionById,
       submissionId
     );
-    const { data } = response;
-    const { entities, result } = normalize(data, detailedSubmissionSchema);
-    yield put(updateEntity(entities));
-    yield put(
-      fetchDetailedSubmissionById.response({
-        submissionId: result.submission,
-        code: result.code,
-        detailedResult: result.detailedResult
-      })
+    const { data: detailedSubmission } = response;
+    const { entities } = normalize(
+      detailedSubmission,
+      detailedSubmissionSchema
     );
+    yield put(updateEntity(entities));
+    yield put(fetchDetailedSubmission.response({ detailedSubmission }, meta));
   } catch (e) {
-    yield put(fetchDetailedSubmissionById.response(e));
+    yield put(fetchDetailedSubmission.response(e, meta));
   }
 }
 
@@ -111,14 +112,8 @@ function* watchSubmissionSaga() {
     fetchSubmissionsByProblem.request,
     fetchSubmissionsByProblemSaga
   );
-  yield takeEvery(
-    fetchSubmissionResultLog.request,
-    fetchSubmissionResultLogSaga
-  );
-  yield takeEvery(
-    fetchDetailedSubmissionById.request,
-    fetchDetailedSubmissionByIdSaga
-  );
+  yield takeEvery(fetchDetailedResult.request, fetchDetailedResultSaga);
+  yield takeEvery(fetchDetailedSubmission.request, fetchDetailedSubmissionSaga);
 }
 
 export { watchSubmissionSaga };
