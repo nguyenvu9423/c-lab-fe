@@ -1,7 +1,5 @@
-import { createActions } from 'redux-actions';
+import { createAction } from '@reduxjs/toolkit';
 
-const { setSubmissionFilter } = createActions({
-  setSubmissionFilter: undefined
-});
+const setSubmissionFilter = createAction('setSubmissionFilter');
 
 export { setSubmissionFilter };

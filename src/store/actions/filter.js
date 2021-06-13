@@ -1,8 +1,13 @@
-import { createActions } from 'redux-actions';
+import { createAction } from '@reduxjs/toolkit';
+import { defaultPrepare } from './shared';
 
-const { applyFilters, resetFilters } = createActions({
-  applyFilters: [filters => ({ filters }), (filters, meta) => meta],
-  resetFilters: [() => {}, meta => meta]
-});
+const applyFilters = createAction('applyFilters', (filters, meta) => ({
+  payload: {
+    filters
+  },
+  meta
+}));
+
+const resetFilters = createAction('resetFilters', defaultPrepare);
 
 export { applyFilters, resetFilters };

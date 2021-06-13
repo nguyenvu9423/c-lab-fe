@@ -1,10 +1,9 @@
-import { createActions } from 'redux-actions';
+import { createAction } from '@reduxjs/toolkit';
+import { defaultPrepare } from './shared';
 
-const { fetchAllSubmissionLangs } = createActions({
-  fetchAllSubmissionLangs: {
-    request: undefined,
-    response: undefined
-  }
-});
+const fetchAllSubmissionLangs = {
+  request: createAction('fetchAllSubmissionLangs/request', defaultPrepare),
+  response: createAction('fetchAllSubmissionLangs/response', defaultPrepare)
+};
 
 export { fetchAllSubmissionLangs };

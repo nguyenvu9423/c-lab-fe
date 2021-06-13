@@ -1,11 +1,4 @@
-import {
-  fetchProblems,
-  fetchProblem,
-  fetchProblemById,
-  updateProblem,
-  updateEntity,
-  fetchProblemByCode
-} from '../actions';
+import { fetchProblems, fetchProblem, updateEntity } from '../actions';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { ProblemService } from '../../service/ProblemService';
 import { normalize } from 'normalizr';
@@ -57,23 +50,7 @@ function* fetchProblemSaga(action) {
   }
 }
 
-function* updateProblemSaga(action) {
-  const { id, problem } = action.payload;
-  try {
-    const { data } = yield call(ProblemService.updateProblem(id, problem));
-    const normalizedData = normalize(data, problemSchema);
-    yield put(updateEntity(normalizedData.entities));
-    yield put(updateProblem.response(data));
-  } catch (e) {
-    yield put(updateProblem.response(e));
-  }
-}
-
 export function* watchProblemSaga() {
   yield takeEvery(fetchProblem.request, fetchProblemSaga);
-  yield takeEvery(fetchProblemByCode.request, fetchProblemSaga);
-  yield takeEvery(fetchProblemById.request, fetchProblemSaga);
-
   yield takeEvery(fetchProblems.request, fetchProblemsSaga);
-  yield takeEvery(updateProblem.request, updateProblemSaga);
 }

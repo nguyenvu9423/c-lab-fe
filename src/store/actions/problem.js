@@ -1,44 +1,18 @@
-import { createActions } from 'redux-actions';
+import { createAction } from '@reduxjs/toolkit';
 import * as uuid from 'uuid';
-import { defaultCreators } from './shared';
+import { defaultPrepare } from './shared';
 
-const {
-  fetchProblems,
-  fetchProblem,
-  fetchProblemById,
-  fetchProblemByCode,
-  updateProblem
-} = createActions({
-  fetchProblems: {
-    request: [
-      payload => ({
-        ...payload,
-        query: payload.query ? payload.query : undefined
-      }),
-      (payload, meta) => ({ ...meta, requestId: uuid.v4() })
-    ],
-    response: defaultCreators
-  },
-  fetchProblem: {
-    request: defaultCreators,
-    response: defaultCreators
-  },
-  fetchProblemById: {
-    request: [id => ({ params: { id } }), (id, meta) => meta]
-  },
-  fetchProblemByCode: {
-    request: [code => ({ params: { code } }), (code, meta) => meta]
-  },
-  updateProblem: {
-    request: (id, problem) => ({ id, problem }),
-    response: undefined
-  }
-});
-
-export {
-  fetchProblem,
-  fetchProblemById,
-  fetchProblemByCode,
-  fetchProblems,
-  updateProblem
+const fetchProblem = {
+  request: createAction('fetchProblem/request', defaultPrepare),
+  response: createAction('fetchProblem/response', defaultPrepare)
 };
+
+const fetchProblems = {
+  request: createAction('fetchProblems/request', (payload, meta) => ({
+    payload: { ...payload, query: payload.query ? payload.query : undefined },
+    meta: { ...meta, requestId: uuid.v4() }
+  })),
+  response: createAction('fetchProblems/response', defaultPrepare)
+};
+
+export { fetchProblem, fetchProblems };

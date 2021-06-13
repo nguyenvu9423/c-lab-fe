@@ -1,11 +1,9 @@
-import { createActions } from 'redux-actions';
-import { defaultCreators } from './shared';
+import { createAction } from '@reduxjs/toolkit';
+import { defaultPrepare } from './shared';
 
-const { fetchJudgeConfig } = createActions({
-  fetchJudgeConfig: {
-    request: defaultCreators,
-    response: defaultCreators
-  }
-});
+const fetchJudgeConfig = {
+  request: createAction('fetchJudgeConfig/request', defaultPrepare),
+  response: createAction('fetchJudgeConfig/response', defaultPrepare)
+};
 
 export { fetchJudgeConfig };

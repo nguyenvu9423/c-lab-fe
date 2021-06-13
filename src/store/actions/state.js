@@ -1,7 +1,6 @@
-import { createActions } from 'redux-actions';
+import { createAction } from '@reduxjs/toolkit';
+import { defaultPrepare } from './shared';
 
-const { resetState } = createActions({
-  resetState: [() => ({}), meta => meta]
-});
+const resetState = createAction('resetState', defaultPrepare);
 
 export { resetState };

@@ -1,60 +1,20 @@
-import { createActions } from 'redux-actions';
-import { defaultCreators, defaultPayloadCreators } from './shared';
+import { createAction } from '@reduxjs/toolkit';
+import { defaultPrepare } from './shared';
 import * as uuid from 'uuid';
 
-const {
-  fetchUsers,
-  fetchUser,
-  fetchUserById,
-  fetchLoginUser,
-  fetchUserByUsername,
-  clearUser
-} = createActions({
-  fetchUsers: {
-    request: [
-      defaultPayloadCreators,
-      (payload, meta) => ({ ...meta, requestId: uuid.v4() })
-    ],
-    response: defaultCreators
-  },
-  fetchUser: {
-    request: defaultCreators,
-    response: defaultCreators
-  },
-  fetchUserById: {
-    request: userId => {
-      return {
-        userId
-      };
-    },
-    response: user => user
-  },
-  fetchUserByUsername: {
-    request: username => {
-      return { username };
-    },
-    response: undefined
-  },
-  fetchLoginUser: {
-    request: () => ({}),
-    response: defaultCreators
-  },
-  updateUserEntity: undefined,
-  clearUser: defaultCreators
-});
-
-const { setLoginUser, logUserOut } = createActions({
-  setLoginUser: undefined,
-  logUserOut: undefined
-});
-
-export {
-  fetchUsers,
-  fetchUser,
-  fetchLoginUser,
-  setLoginUser,
-  fetchUserById,
-  fetchUserByUsername,
-  logUserOut,
-  clearUser
+const fetchUser = {
+  request: createAction('fetchUser/request', defaultPrepare),
+  response: createAction('fetchUser/response', defaultPrepare)
 };
+
+const fetchUsers = {
+  request: createAction('fetchUsers/request', (payload, meta) => ({
+    payload,
+    meta: { ...meta, requestId: uuid.v4() }
+  })),
+  response: createAction('fetchUsers/response', defaultPrepare)
+};
+
+const clearUser = createAction('clearUser', defaultPrepare);
+
+export { fetchUsers, fetchUser, clearUser };

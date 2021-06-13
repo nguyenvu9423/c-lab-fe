@@ -1,15 +1,14 @@
-import { createActions } from 'redux-actions';
-import { defaultCreators } from './shared';
+import { createAction } from '@reduxjs/toolkit';
+import { defaultPrepare } from './shared';
 
-const { fetchRole, fetchRoles } = createActions({
-  fetchRole: {
-    request: defaultCreators,
-    response: defaultCreators
-  },
-  fetchRoles: {
-    request: defaultCreators,
-    response: defaultCreators
-  }
-});
+const fetchRole = {
+  request: createAction('fetchRole/request', defaultPrepare),
+  response: createAction('fetchRole/response', defaultPrepare)
+};
+
+const fetchRoles = {
+  request: createAction('fetchRoles/request', defaultPrepare),
+  response: createAction('fetchRoles/response', defaultPrepare)
+};
 
 export { fetchRoles, fetchRole };

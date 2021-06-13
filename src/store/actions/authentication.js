@@ -1,29 +1,10 @@
-import { createActions } from 'redux-actions';
 import { createAction } from '@reduxjs/toolkit';
-import { defaultCreators } from './shared';
-import { Target } from '../reducers/target';
 
-const authActionCreators = [
-  payload => payload,
-  () => ({ target: Target.AUTHENTICATION })
-];
-
-const {
-  fetchPrincipal,
-  login,
-  logout,
-  clearToken,
-  refreshToken
-} = createActions({
-  login: authActionCreators,
-  logout: authActionCreators,
-  fetchPrincipal: defaultCreators,
-  clearToken: authActionCreators,
-  refreshToken: {
-    failed: authActionCreators
-  }
-});
+const login = createAction('login');
+const logout = createAction('logout');
 
 const setToken = createAction('setToken');
+const clearToken = createAction('clearToken');
+const refreshToken = { failed: createAction('refreshToken/failed') };
 
-export { fetchPrincipal, login, logout, setToken, clearToken, refreshToken };
+export { login, logout, setToken, clearToken, refreshToken };

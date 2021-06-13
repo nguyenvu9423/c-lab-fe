@@ -1,10 +1,10 @@
-import { createActions } from 'redux-actions';
+import { createAction } from '@reduxjs/toolkit';
 
-const { search } = createActions({
-  search: {
-    request: searchString => ({ searchString }),
-    response: undefined
-  }
-});
+const search = {
+  request: createAction('search/request', searchString => ({
+    payload: { searchString }
+  })),
+  response: createAction('search/response')
+};
 
 export { search };

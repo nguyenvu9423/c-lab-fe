@@ -1,53 +1,26 @@
-import { createActions } from 'redux-actions';
-import { defaultCreators } from './shared';
+import { createAction } from '@reduxjs/toolkit';
+import { defaultPrepare } from './shared';
 
-const {
-  fetchSubmissions,
-  fetchSubmissionsByProblem,
-  fetchSubmissionDetailsById,
-  fetchDetailedSubmission,
-  createSubmission
-} = createActions({
-  fetchSubmissions: {
-    request: [payload => payload, (payload, meta) => meta],
-    response: [payload => payload, (payload, meta) => meta]
-  },
-  fetchSubmissionsByProblem: {
-    request: (problemId, filters, pageable) => ({
-      problemId,
-      filters,
-      pageable
-    }),
-    response: undefined
-  },
-  fetchSubmissionDetailsById: {
-    request: submissionId => ({ submissionId }),
-    response: submissionId => ({ submissionId })
-  },
-  fetchDetailedSubmission: {
-    request: defaultCreators,
-    response: defaultCreators
-  },
-  createSubmission: {
-    request: undefined,
-    response: submissionId => ({ submissionId })
-  }
-});
+const fetchSubmissions = {
+  request: createAction('fetchSubmissions/request', defaultPrepare),
+  response: createAction('fetchSubmissions/response', defaultPrepare)
+};
 
-const { fetchDetailedResult, clearDetailedResult } = createActions({
-  fetchDetailedResult: {
-    request: defaultCreators,
-    response: defaultCreators
-  },
-  clearDetailedResult: defaultCreators
-});
+const fetchDetailedSubmission = {
+  request: createAction('fetchDetailedSubmission/request', defaultPrepare),
+  response: createAction('fetchDetailedSubmission/response', defaultPrepare)
+};
+
+const fetchDetailedResult = {
+  request: createAction('fetchDetailedResult/request', defaultPrepare),
+  response: createAction('fetchDetailedResult/response', defaultPrepare)
+};
+
+const clearDetailedResult = createAction('clearDetailedResult', defaultPrepare);
 
 export {
   fetchSubmissions,
-  fetchSubmissionsByProblem,
-  fetchSubmissionDetailsById,
   fetchDetailedSubmission,
-  createSubmission,
   fetchDetailedResult,
   clearDetailedResult
 };

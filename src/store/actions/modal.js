@@ -1,8 +1,6 @@
-import { createActions } from 'redux-actions';
+import { createAction } from '@reduxjs/toolkit';
 
-const { showModal, hideModal } = createActions({
-  showModal: undefined,
-  hideModal: undefined
-});
+const showModal = createAction('showModal');
+const hideModal = createAction('hideModal');
 
 export { showModal, hideModal };

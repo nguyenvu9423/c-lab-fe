@@ -1,6 +1,5 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import {
-  fetchSubmissionsByProblem,
   updateEntity,
   fetchDetailedSubmission,
   fetchSubmissions,
@@ -44,32 +43,6 @@ function* fetchSubmissionsSaga(action) {
   }
 }
 
-function* fetchSubmissionsByProblemSaga(action) {
-  const { problemId, filters, pageable } = action.payload;
-  try {
-    const response = yield call(
-      SubmissionService.getSubmissionsByProblem,
-      problemId,
-      filters,
-      pageable
-    );
-    const { data } = response;
-    const { content, number: activePage, totalPages } = data;
-    const normalizedData = normalize(content, submissionsSchema);
-    yield put(updateEntity(normalizedData.entities));
-
-    yield put(
-      fetchSubmissionsByProblem.response({
-        submissions: normalizedData.result,
-        totalPages,
-        activePage
-      })
-    );
-  } catch (e) {
-    yield put(fetchSubmissionsByProblem.response(e));
-  }
-}
-
 function* fetchDetailedResultSaga(action) {
   const { meta, payload } = action;
   const { submissionId } = payload;
@@ -107,11 +80,6 @@ function* fetchDetailedSubmissionSaga(action) {
 
 function* watchSubmissionSaga() {
   yield takeEvery(fetchSubmissions.request, fetchSubmissionsSaga);
-
-  yield takeEvery(
-    fetchSubmissionsByProblem.request,
-    fetchSubmissionsByProblemSaga
-  );
   yield takeEvery(fetchDetailedResult.request, fetchDetailedResultSaga);
   yield takeEvery(fetchDetailedSubmission.request, fetchDetailedSubmissionSaga);
 }
