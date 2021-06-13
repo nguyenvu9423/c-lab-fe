@@ -6,35 +6,30 @@ import { UserStatus, userStatusValues } from './UserStatus';
 
 export function UserForm(props) {
   const { isSubmitting, initialValues, onSubmit, onCancel } = props;
-  const {
-    values,
-    setFieldValue,
-    handleSubmit,
-    handleBlur,
-    handleChange
-  } = useFormik({
-    initialValues: initialValues
-      ? {
-          status: initialValues.status || undefined,
-          firstName: initialValues.firstName || '',
-          lastName: initialValues.lastName || '',
-          email: initialValues.email || '',
-          birthDay: initialValues.birthDay || undefined,
-          workplace: initialValues.workplace || undefined
-        }
-      : {
-          status: undefined,
-          firstName: '',
-          lastName: '',
-          email: '',
-          birthDay: undefined,
-          workplace: undefined
-        },
-    validationSchema,
-    onSubmit: values => {
-      onSubmit?.(values);
-    }
-  });
+  const { values, setFieldValue, handleSubmit, handleBlur, handleChange } =
+    useFormik({
+      initialValues: initialValues
+        ? {
+            status: initialValues.status || undefined,
+            firstName: initialValues.firstName || '',
+            lastName: initialValues.lastName || '',
+            email: initialValues.email || '',
+            birthDay: initialValues.birthDay || undefined,
+            workplace: initialValues.workplace || undefined,
+          }
+        : {
+            status: undefined,
+            firstName: '',
+            lastName: '',
+            email: '',
+            birthDay: undefined,
+            workplace: undefined,
+          },
+      validationSchema,
+      onSubmit: (values) => {
+        onSubmit?.(values);
+      },
+    });
 
   return (
     <Form onSubmit={handleSubmit} error={true} loading={isSubmitting}>
@@ -129,13 +124,10 @@ const validationSchema = yup.object().shape({
     .required('Last name is required')
     .min(2, 'Last name should be at least 2 characters')
     .max(24, 'Last name should be at most 64 characters'),
-  email: yup
-    .string()
-    .required('Email is required')
-    .email('Email is not valid')
+  email: yup.string().required('Email is required').email('Email is not valid'),
 });
 
-const statusOptions = userStatusValues.map(item => ({
+const statusOptions = userStatusValues.map((item) => ({
   value: item.name,
-  text: item.title
+  text: item.title,
 }));

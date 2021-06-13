@@ -4,7 +4,7 @@ const LoadingState = {
   LOADED: 'LOADED',
   WITHOUT: 'WITHOUT',
   ERROR: 'ERROR',
-  isDone: loadingState => {
+  isDone: (loadingState) => {
     switch (loadingState) {
       case LoadingState.LOADED:
       case LoadingState.ERROR:
@@ -14,10 +14,10 @@ const LoadingState = {
         return false;
     }
   },
-  isInProgress: loadingState => {
+  isInProgress: (loadingState) => {
     return !LoadingState.isDone(loadingState);
   },
-  isLoaded: loadingState => loadingState === this.LOADED
+  isLoaded: (loadingState) => loadingState === this.LOADED,
 };
 
 export { LoadingState };

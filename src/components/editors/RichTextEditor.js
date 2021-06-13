@@ -17,7 +17,7 @@ export const RichTextEditor = () => {
             'embedded',
             'emoji',
             'image',
-            'history'
+            'history',
           ],
           inline: {
             options: [
@@ -25,9 +25,9 @@ export const RichTextEditor = () => {
               'italic',
               'underline',
               'strikethrough',
-              'monospace'
-            ]
-          }
+              'monospace',
+            ],
+          },
         }}
       />
     </div>

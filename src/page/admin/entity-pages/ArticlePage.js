@@ -9,7 +9,7 @@ import {
   Button,
   Modal,
   Confirm,
-  Grid
+  Grid,
 } from 'semantic-ui-react';
 import { Pagination } from '../../../components';
 import { TableContainer } from './shared';
@@ -28,7 +28,7 @@ const pageSize = 10;
 
 export function ArticlePage() {
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state.adminPage.article);
+  const { data } = useSelector((state) => state.adminPage.article);
   const [openAddForm, setOpenAddForm] = React.useState(false);
   const [editedArticleId, setEditedArticleId] = React.useState(undefined);
   const [deletedArticleId, setDeletedArticleId] = React.useState(undefined);
@@ -36,7 +36,7 @@ export function ArticlePage() {
     id: undefined,
     title: undefined,
     author: undefined,
-    tags: undefined
+    tags: undefined,
   });
 
   const load = React.useCallback(
@@ -45,7 +45,7 @@ export function ArticlePage() {
         fetchArticles.request(
           {
             pageable: pageable ?? data.articles.pageable,
-            query: query ?? data.articles.query
+            query: query ?? data.articles.query,
           },
           { target: Target.ADMIN_PAGE.ARTICLE }
         )
@@ -54,7 +54,7 @@ export function ArticlePage() {
     [data.articles]
   );
 
-  const handleFilterChange = React.useCallback(filters => {
+  const handleFilterChange = React.useCallback((filters) => {
     setFilters(filters);
     let query = '';
     if (filters.id) {
@@ -78,7 +78,7 @@ export function ArticlePage() {
     if (filters.tags && filters.tags.length) {
       query = FilterUtils.joinAnd(
         query,
-        `tags=include=(${filters.tags.map(tag => tag.name)})`
+        `tags=include=(${filters.tags.map((tag) => tag.name)})`
       );
     }
 
@@ -114,14 +114,14 @@ export function ArticlePage() {
                 name="id"
                 placeholder="ID"
                 fluid
-                onChange={value =>
+                onChange={(value) =>
                   handleFilterChange({ ...filters, id: value })
                 }
               />
             </Grid.Column>
             <Grid.Column width={4}>
               <ArticleTitleSelect
-                onChange={value =>
+                onChange={(value) =>
                   handleFilterChange({ ...filters, title: value })
                 }
               />
@@ -129,14 +129,14 @@ export function ArticlePage() {
             <Grid.Column width={4}>
               <UserSelect
                 placeholder="Author"
-                onChange={value =>
+                onChange={(value) =>
                   handleFilterChange({ ...filters, author: value })
                 }
               />
             </Grid.Column>
             <Grid.Column width={6}>
               <TagSelect
-                onChange={value =>
+                onChange={(value) =>
                   handleFilterChange({ ...filters, tags: value })
                 }
               />
@@ -160,7 +160,7 @@ export function ArticlePage() {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {articles.map(article => (
+              {articles.map((article) => (
                 <Table.Row key={article.id}>
                   <Table.Cell>{article.id}</Table.Cell>
                   <Table.Cell>{article.title}</Table.Cell>

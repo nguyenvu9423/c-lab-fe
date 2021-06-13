@@ -22,7 +22,7 @@ export function BufferedInput(props) {
       onChange={(event, data) => {
         setInternalValue(data.value);
       }}
-      onKeyDown={event => {
+      onKeyDown={(event) => {
         if (event.key === Key.Enter) {
           submitChange();
         }

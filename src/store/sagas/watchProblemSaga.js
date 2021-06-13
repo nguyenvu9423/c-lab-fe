@@ -4,7 +4,7 @@ import { ProblemService } from '../../service/ProblemService';
 import { normalize } from 'normalizr';
 import {
   problemSchema,
-  problemArraySchema
+  problemArraySchema,
 } from '../../entity-schemas/problem';
 
 function* fetchProblemsSaga(action) {
@@ -13,7 +13,7 @@ function* fetchProblemsSaga(action) {
     const { pageable, query } = payload;
     const { data } = yield call(ProblemService.getProblems, {
       query,
-      pageable
+      pageable,
     });
     const normalizedData = normalize(data.content, problemArraySchema);
     yield put(updateEntity(normalizedData.entities));
@@ -21,7 +21,7 @@ function* fetchProblemsSaga(action) {
       fetchProblems.response(
         {
           problems: normalizedData.result,
-          totalPages: data.totalPages
+          totalPages: data.totalPages,
         },
         meta
       )

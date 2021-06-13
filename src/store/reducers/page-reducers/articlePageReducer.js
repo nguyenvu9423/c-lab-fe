@@ -8,8 +8,8 @@ const isWithTarget = createTargetChecker(Target.ARTICLE_PAGE);
 export const articlePageReducer = filterActions(
   combineReducers({
     data: combineReducers({
-      article: articleReducer
-    })
+      article: articleReducer,
+    }),
   }),
   isWithTarget
 );

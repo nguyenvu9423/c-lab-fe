@@ -10,7 +10,7 @@ import { EditUserForm } from '../../../domains/user';
 
 export function UserPage() {
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state.adminPage.user);
+  const { data } = useSelector((state) => state.adminPage.user);
   const users = useSelector(UserSelectors.byIds(data.users.ids));
 
   const [editedUserId, setEditedUserId] = React.useState(undefined);
@@ -21,7 +21,7 @@ export function UserPage() {
         fetchUsers.request(
           {
             pageable: pageable ? pageable : data.users.pageable,
-            filters: filters ? filters : data.users.filters
+            filters: filters ? filters : data.users.filters,
           },
           { target: Target.ADMIN_PAGE.USER }
         )
@@ -47,7 +47,7 @@ export function UserPage() {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {users.map(user => (
+              {users.map((user) => (
                 <Table.Row key={user.id}>
                   <Table.Cell>{user.id}</Table.Cell>
                   <Table.Cell>{user.username}</Table.Cell>
@@ -73,8 +73,8 @@ export function UserPage() {
             load({
               pageable: {
                 page: props.activePage - 1,
-                size: data.users.pageable.size
-              }
+                size: data.users.pageable.size,
+              },
             })
           }
         />

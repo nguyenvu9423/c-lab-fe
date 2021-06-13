@@ -15,11 +15,11 @@ export function EditRoleForm(props) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const dispatch = useDispatch();
-  const load = React.useCallback(id => {
+  const load = React.useCallback((id) => {
     dispatch(fetchRole.request({ id }, { target: Target.EDIT_ROLE_FORM }));
   }, []);
 
-  const { data } = useSelector(state => state.editRoleForm);
+  const { data } = useSelector((state) => state.editRoleForm);
 
   const role = useSelector(RoleSelectors.byId(roleId));
 
@@ -28,7 +28,7 @@ export function EditRoleForm(props) {
     return () => dispatch(resetState({ target: Target.EDIT_ROLE_FORM }));
   }, [roleId]);
 
-  const handleSubmit = React.useCallback(values => {
+  const handleSubmit = React.useCallback((values) => {
     setIsSubmitting(true);
     RoleService.updateRole(roleId, values).then(({ data }) => {
       const { entities } = normalize(data, roleSchema);

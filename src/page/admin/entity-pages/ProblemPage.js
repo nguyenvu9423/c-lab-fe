@@ -6,7 +6,7 @@ import {
   Button,
   Modal,
   Confirm,
-  Grid
+  Grid,
 } from 'semantic-ui-react';
 import { fetchProblems } from '../../../store/actions';
 import { Target } from '../../../store/reducers/target';
@@ -18,7 +18,7 @@ import {
   AddProblemForm,
   EditProblemForm,
   ProblemCodeSelect,
-  ProblemIdSelect
+  ProblemIdSelect,
 } from '../../../domains/problem';
 import { ProblemService } from '../../../service/ProblemService';
 import { TagSelect } from '../../../domains/tag';
@@ -26,7 +26,7 @@ import { UserSelect } from '../../../domains/user/UserSelect';
 
 export function ProblemPage() {
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state.adminPage.problem);
+  const { data } = useSelector((state) => state.adminPage.problem);
   const problems = useSelector(ProblemSelectors.byIds(data.problems.ids));
 
   const [openAddForm, setOpenAddForm] = React.useState(false);
@@ -37,7 +37,7 @@ export function ProblemPage() {
     id: undefined,
     code: '',
     author: undefined,
-    tags: []
+    tags: [],
   });
 
   const load = React.useCallback(
@@ -46,7 +46,7 @@ export function ProblemPage() {
         fetchProblems.request(
           {
             pageable: pageable ? pageable : data.problems.pageable,
-            filters: filters ? filters : data.problems.filters
+            filters: filters ? filters : data.problems.filters,
           },
           { target: Target.ADMIN_PAGE.PROBLEM }
         )
@@ -57,7 +57,7 @@ export function ProblemPage() {
 
   React.useEffect(() => load({ pageable: { page: 0, size: 10 } }), []);
 
-  const handleFitlersChange = React.useCallback(filters => {
+  const handleFitlersChange = React.useCallback((filters) => {
     setFilters(filters);
     let query = '';
     if (filters.id) {
@@ -67,7 +67,7 @@ export function ProblemPage() {
       query += `code==*${filters.code}*`;
     }
     if (filters.tags.length > 0) {
-      query += `tags=include=(${filters.tags.map(tag => tag.name)})`;
+      query += `tags=include=(${filters.tags.map((tag) => tag.name)})`;
     }
     load({ filters: query });
   }, []);
@@ -90,14 +90,14 @@ export function ProblemPage() {
             <Grid.Row>
               <Grid.Column width={2}>
                 <ProblemIdSelect
-                  onChange={value => {
+                  onChange={(value) => {
                     handleFitlersChange({ ...filters, id: value });
                   }}
                 />
               </Grid.Column>
               <Grid.Column width={4}>
                 <ProblemCodeSelect
-                  onChange={value => {
+                  onChange={(value) => {
                     handleFitlersChange({ ...filters, code: value });
                   }}
                 />
@@ -105,14 +105,14 @@ export function ProblemPage() {
               <Grid.Column width={4}>
                 <UserSelect
                   placeholder="Author"
-                  onChange={value =>
+                  onChange={(value) =>
                     handleFitlersChange({ ...filters, author: value })
                   }
                 />
               </Grid.Column>
               <Grid.Column width={6}>
                 <TagSelect
-                  onChange={value =>
+                  onChange={(value) =>
                     handleFitlersChange({ ...filters, tags: value })
                   }
                 />
@@ -134,7 +134,7 @@ export function ProblemPage() {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {problems.map(problem => (
+                {problems.map((problem) => (
                   <Table.Row key={problem.id}>
                     <Table.Cell>{problem.id}</Table.Cell>
                     <Table.Cell>{problem.code}</Table.Cell>
@@ -168,8 +168,8 @@ export function ProblemPage() {
               load({
                 pageable: {
                   page: activePage - 1,
-                  size: data.problems.pageable.size
-                }
+                  size: data.problems.pageable.size,
+                },
               })
             }
           />

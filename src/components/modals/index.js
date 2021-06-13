@@ -6,8 +6,8 @@ import { ModalSelectors } from '../../store/selectors/ModalSelectors';
 const ModalMap = {
   SUBMISSION_DETAILS: {
     type: 'SUBMISSION_DETAILS',
-    component: DetailedSubmissionModal
-  }
+    component: DetailedSubmissionModal,
+  },
 };
 
 const Modal = () => {

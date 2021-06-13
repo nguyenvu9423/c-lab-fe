@@ -5,7 +5,7 @@ import { setToken } from '../../actions';
 
 const initialState = {
   loadingState: LoadingState.LOAD_NEEDED,
-  token: undefined
+  token: undefined,
 };
 
 export const authenticationReducer = handleActions(
@@ -22,15 +22,15 @@ export const authenticationReducer = handleActions(
 
         return {
           loadingState: LoadingState.LOADED,
-          token: { ...token, payload: { permissions } }
+          token: { ...token, payload: { permissions } },
         };
       } else {
         return {
           loadingState: LoadingState.WITHOUT,
-          token: null
+          token: null,
         };
       }
-    }
+    },
   },
   initialState
 );

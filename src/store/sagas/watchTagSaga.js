@@ -15,7 +15,7 @@ function* fetchTagsSaga(action) {
       fetchTags.response(
         {
           tags: result,
-          totalPages: data.totalPages
+          totalPages: data.totalPages,
         },
         meta
       )

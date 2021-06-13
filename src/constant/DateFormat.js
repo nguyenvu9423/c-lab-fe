@@ -1,3 +1,3 @@
 export const DateFormat = {
-  MediumLength: 'll'
+  MediumLength: 'll',
 };

@@ -12,7 +12,7 @@ import { ProblemStatusPage } from './ProblemStatusPage';
 import { ProblemSubmitPage } from './ProblemSubmitPage';
 import {
   ProblemUserSubmissionCard,
-  PAGE_SIZE as CARD_PAGE_SIZE
+  PAGE_SIZE as CARD_PAGE_SIZE,
 } from './components/ProblemUserSubmissionCard';
 import { TagContainer } from '../../components/tag';
 import { ProblemSelectors, PrincipalSelectors } from '../../store/selectors';
@@ -20,7 +20,7 @@ import { LoadingState } from '../../store/common';
 import {
   ErrorMessage,
   LoadingIndicator,
-  NotFoundPageMessage
+  NotFoundPageMessage,
 } from '../../components';
 import { Target } from '../../store/reducers/target';
 import { ProblemUserSubmissionsPage } from './ProblemUserSubmissionsPage';
@@ -31,7 +31,7 @@ import { SubmissionCard } from './components/SubmissionCard';
 export function ProblemPage() {
   const { url, params } = useRouteMatch();
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state[Target.PROBLEM_DETAILS_PAGE]);
+  const { data } = useSelector((state) => state[Target.PROBLEM_DETAILS_PAGE]);
   const problem = useSelector(ProblemSelectors.byId(data.problem.id));
   const principal = useSelector(PrincipalSelectors.principal());
 
@@ -40,7 +40,7 @@ export function ProblemPage() {
       fetchProblem.request(
         { code: params.code },
         {
-          target: Target.PROBLEM_DETAILS_PAGE
+          target: Target.PROBLEM_DETAILS_PAGE,
         }
       )
     );
@@ -55,8 +55,8 @@ export function ProblemPage() {
             problemId: data.problem.id,
             pageable: {
               page: 0,
-              size: CARD_PAGE_SIZE
-            }
+              size: CARD_PAGE_SIZE,
+            },
           },
           { target: Target.PROBLEM_USER_SUBMISSIONS }
         )

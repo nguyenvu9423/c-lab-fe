@@ -6,7 +6,7 @@ import { HashLink } from 'react-router-hash-link';
 
 function renderNode(node) {
   const renderedChildren = !ArrayUtils.isEmpty(node.children)
-    ? node.children.map(child => renderNode(child))
+    ? node.children.map((child) => renderNode(child))
     : null;
   if (!node.parent) {
     return renderedChildren;

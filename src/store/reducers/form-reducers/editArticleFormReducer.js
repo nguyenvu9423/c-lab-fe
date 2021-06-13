@@ -6,8 +6,8 @@ import { createTargetChecker, Target } from '../target';
 export const editArticleFormReducer = filterActions(
   combineReducers({
     data: combineReducers({
-      article: articleReducer
-    })
+      article: articleReducer,
+    }),
   }),
   createTargetChecker(Target.EDIT_ARTICLE_FORM)
 );

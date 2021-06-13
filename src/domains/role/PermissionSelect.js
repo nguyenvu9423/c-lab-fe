@@ -24,10 +24,10 @@ export function PermissionSelect(props) {
 
   const options = React.useMemo(
     () =>
-      permissions.map(per => ({
+      permissions.map((per) => ({
         key: per.name,
         value: per.name,
-        text: per.name
+        text: per.name,
       })),
     [permissions]
   );
@@ -41,10 +41,10 @@ export function PermissionSelect(props) {
       loading={isFetching}
       options={options}
       disabled={isFetching}
-      value={value?.map(permission => permission.name)}
+      value={value?.map((permission) => permission.name)}
       onChange={(event, data) => {
-        const pers = data.value.map(perName =>
-          permissions.find(per => per.name === perName)
+        const pers = data.value.map((perName) =>
+          permissions.find((per) => per.name === perName)
         );
         onChange?.(pers);
       }}

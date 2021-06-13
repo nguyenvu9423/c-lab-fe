@@ -17,8 +17,8 @@ export class UserService {
   static async getUserByUsername(username) {
     return apiCaller.get(USER_API_BASE_URL, {
       params: {
-        username: username
-      }
+        username: username,
+      },
     });
   }
 
@@ -26,8 +26,8 @@ export class UserService {
     return apiCaller.get(USER_API_BASE_URL, {
       params: {
         filters,
-        ...pageable
-      }
+        ...pageable,
+      },
     });
   }
 
@@ -38,8 +38,8 @@ export class UserService {
   static async updateAvatar(formData) {
     return apiCaller.post(`${USER_API_BASE_URL}/me/avatar`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        'Content-Type': 'multipart/form-data',
+      },
     });
   }
 

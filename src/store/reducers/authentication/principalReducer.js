@@ -6,7 +6,7 @@ import { setToken } from '../../actions';
 const initialState = {
   id: undefined,
   loadingState: LoadingState.LOAD_NEEDED,
-  error: undefined
+  error: undefined,
 };
 
 const principalReducerMap = {
@@ -15,16 +15,16 @@ const principalReducerMap = {
     const { token } = action.payload;
     if (token === null) {
       return {
-        loadingState: LoadingState.WITHOUT
+        loadingState: LoadingState.WITHOUT,
       };
     }
     if (state.loadingState !== LoadingState.LOADED)
       return {
-        loadingState: LoadingState.LOAD_NEEDED
+        loadingState: LoadingState.LOAD_NEEDED,
       };
 
     return state;
-  }
+  },
 };
 
 export const principalReducer = handleActions(

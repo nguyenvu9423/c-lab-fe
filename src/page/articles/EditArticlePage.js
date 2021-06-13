@@ -6,8 +6,8 @@ export function EditArticlePage(props) {
   const {
     history,
     match: {
-      params: { id }
-    }
+      params: { id },
+    },
   } = props;
 
   const handleSuccess = () => {

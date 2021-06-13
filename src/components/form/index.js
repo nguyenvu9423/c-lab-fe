@@ -4,7 +4,7 @@ import { Message } from 'semantic-ui-react';
 
 export function useErrorMessageRenderer({ touched, errors, status }) {
   const renderer = React.useCallback(
-    name => {
+    (name) => {
       if (Lodash.get(touched, name)) {
         const error = Lodash.get(errors, name);
         if (error) {

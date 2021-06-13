@@ -10,7 +10,7 @@ import { TagService } from '../../service/TagService';
 
 export function EditTagForm(props) {
   const { tagId, onCancel, onSuccess } = props;
-  const { data } = useSelector(state => state.editTagForm);
+  const { data } = useSelector((state) => state.editTagForm);
   const dispath = useDispatch();
   React.useEffect(() => {
     if (data.tag.loadingState === LoadingState.LOAD_NEEDED) {
@@ -27,12 +27,12 @@ export function EditTagForm(props) {
   }
 
   const handleSubmit = React.useCallback(
-    values => {
+    (values) => {
       TagService.updateTag(tagId, values)
         .then(() => {
           onSuccess?.();
         })
-        .catch(e => console.log(e));
+        .catch((e) => console.log(e));
     },
     [tagId, onSuccess]
   );

@@ -8,7 +8,7 @@ import { TagSelectors } from '../../../store/selectors/TagSelectors';
 import {
   AddTagForm,
   EditTagForm,
-  DeleteTagConfirm
+  DeleteTagConfirm,
 } from '../../../domains/tag';
 import { Pagination } from '../../../components';
 import { TableContainer } from './shared';
@@ -20,7 +20,7 @@ import { TagNameSelect } from '../../../domains/tag/TagNameSelect';
 const pageSize = 10;
 
 export function TagPage() {
-  const { data } = useSelector(state => state.adminPage.tag);
+  const { data } = useSelector((state) => state.adminPage.tag);
   const dispatch = useDispatch();
   const tags = useSelector(TagSelectors.byIds(data.tags.ids));
   const [openAddForm, setOpenAddForm] = React.useState(false);
@@ -35,7 +35,7 @@ export function TagPage() {
         fetchTags.request(
           {
             pageable: pageable ? pageable : data.tags.pageable,
-            query: query ? query : data.tags.query
+            query: query ? query : data.tags.query,
           },
           { target: Target.ADMIN_PAGE.TAG }
         )
@@ -43,7 +43,7 @@ export function TagPage() {
     [data.tags]
   );
 
-  const handleChange = React.useCallback(filters => {
+  const handleChange = React.useCallback((filters) => {
     setFilters(filters);
     let query = '';
     if (filters.id) {
@@ -89,14 +89,14 @@ export function TagPage() {
                   name="id"
                   placeholder="ID"
                   fluid
-                  onChange={value => {
+                  onChange={(value) => {
                     handleChange({ ...filters, id: value });
                   }}
                 />
               </Grid.Column>
               <Grid.Column width={4}>
                 <TagNameSelect
-                  onChange={value => {
+                  onChange={(value) => {
                     handleChange({ ...filters, name: value });
                   }}
                 />
@@ -105,9 +105,7 @@ export function TagPage() {
           </Grid>
         </Segment>
         <Segment vertical>
-          {data.tags.loadingState === LoadingState.ERROR ? (
-            undefined
-          ) : (
+          {data.tags.loadingState === LoadingState.ERROR ? undefined : (
             <TableContainer
               loading={LoadingState.isInProgress(data.tags.loadingState)}
             >
@@ -120,7 +118,7 @@ export function TagPage() {
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {tags.map(tag => (
+                  {tags.map((tag) => (
                     <Table.Row key={tag.id}>
                       <Table.Cell>{tag.id}</Table.Cell>
                       <Table.Cell>{tag.name}</Table.Cell>
@@ -151,7 +149,7 @@ export function TagPage() {
             floated="right"
             onPageChange={(event, { activePage }) => {
               load({
-                pageable: { page: activePage - 1, size: pageSize }
+                pageable: { page: activePage - 1, size: pageSize },
               });
             }}
           />

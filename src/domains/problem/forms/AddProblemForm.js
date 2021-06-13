@@ -23,48 +23,45 @@ export function AddProblemForm(props) {
     handleBlur,
     handleSubmit,
     touched,
-    errors
+    errors,
   } = useFormik({
     initialValues: {
       code: '',
       title: '',
       definition: '',
       allowedLanguages: [],
-      tags: []
+      tags: [],
     },
     initialStatus: {
-      errors: {}
+      errors: {},
     },
     validationSchema: addProblemValidationSchema,
-    onSubmit: values => {
+    onSubmit: (values) => {
       ProblemService.create(values)
         .then(({ data }) => {
           setSubmitting(false);
           onSuccess?.(data);
         })
-        .catch(ex => {
+        .catch((ex) => {
           setSubmitting(false);
           if (ex.response) {
             const errors = {};
             const body = ex.response.data;
             if (body.type === ExceptionTypes.INVALID_FORM) {
-              body.errors.forEach(error => {
+              body.errors.forEach((error) => {
                 errors[error.field] = error.defaultMessage;
               });
               setStatus({ errors });
             }
           }
         });
-    }
+    },
   });
 
-  const {
-    languageOptions,
-    mapLanguageToValue,
-    mapValueToLanguage
-  } = useSubmissionLangSelect();
+  const { languageOptions, mapLanguageToValue, mapValueToLanguage } =
+    useSubmissionLangSelect();
 
-  const handleDefinitionChange = React.useCallback(content => {
+  const handleDefinitionChange = React.useCallback((content) => {
     setFieldValue('definition', content);
     setFieldTouched('definition');
   }, []);
@@ -74,7 +71,7 @@ export function AddProblemForm(props) {
       setFieldValue('code', data.value.toUpperCase());
       setStatus({
         ...status,
-        errors: { ...status.errors, ['code']: null }
+        errors: { ...status.errors, ['code']: null },
       });
     },
     [status]
@@ -84,7 +81,7 @@ export function AddProblemForm(props) {
   const errorMessageRenderer = useErrorMessageRenderer({
     touched,
     errors,
-    status
+    status,
   });
 
   return (

@@ -8,11 +8,11 @@ const initialState = {
   totalPages: 0,
   pageable: {
     page: 0,
-    size: 10
+    size: 10,
   },
   query: undefined,
   error: undefined,
-  currentRequestId: undefined
+  currentRequestId: undefined,
 };
 
 export const tagsReducer = handleActions(
@@ -23,7 +23,7 @@ export const tagsReducer = handleActions(
         loadingState: LoadingState.LOADING,
         pageable,
         query,
-        currentRequestId: meta.requestId
+        currentRequestId: meta.requestId,
       };
     },
     [fetchTags.response]: (state, { error, payload, meta }) => {
@@ -35,7 +35,7 @@ export const tagsReducer = handleActions(
             ids: tags,
             loadingState: LoadingState.LOADED,
             totalPages,
-            error: undefined
+            error: undefined,
           };
         }
       } else {
@@ -43,11 +43,11 @@ export const tagsReducer = handleActions(
         return {
           ...state,
           loadingState: LoadingState.ERROR,
-          error: { message }
+          error: { message },
         };
       }
       return state;
-    }
+    },
   },
   initialState
 );

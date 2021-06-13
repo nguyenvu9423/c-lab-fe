@@ -12,15 +12,15 @@ export function UserSelect(props) {
   const [searchQuery, setSearchQuery] = React.useState(undefined);
 
   const load = React.useCallback(
-    Lodash.debounce(searchQuery => {
+    Lodash.debounce((searchQuery) => {
       if (searchQuery !== undefined) {
         setIsFetching(true);
         UserService.getUsersByFilters(`username==*${searchQuery}*`).then(
           ({ data: { content } }) => {
-            setUsers(prevUsers => {
+            setUsers((prevUsers) => {
               const newUsers = [...prevUsers];
-              content.forEach(user => {
-                if (!prevUsers.some(obj => obj.id === user.id)) {
+              content.forEach((user) => {
+                if (!prevUsers.some((obj) => obj.id === user.id)) {
                   newUsers.push(user);
                 }
               });
@@ -38,10 +38,10 @@ export function UserSelect(props) {
 
   const userOptions = React.useMemo(
     () =>
-      users.map(user => ({
+      users.map((user) => ({
         key: user.id,
         value: user.id,
-        text: user.username
+        text: user.username,
       })),
     [users]
   );
@@ -55,7 +55,7 @@ export function UserSelect(props) {
       {...props}
       value={value ? value.id : undefined}
       onChange={(event, { value }) => {
-        const user = users.find(user => user.id === value);
+        const user = users.find((user) => user.id === value);
         onChange(user);
       }}
       options={userOptions}

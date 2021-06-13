@@ -12,7 +12,7 @@ import {
   articlesPageReducer,
   userPageReducer,
   adminPageReducer,
-  problemRejudgePageReducer
+  problemRejudgePageReducer,
 } from './page-reducers';
 import {
   editProblemFormReducer,
@@ -20,7 +20,7 @@ import {
   editArticleFormReducer,
   editUserFormReducer,
   updateJudgeConfigFormReducer,
-  editRoleFormReducer
+  editRoleFormReducer,
 } from './form-reducers';
 import { searchReducer } from './searchReducer';
 import { detailedSubmissionModalReducer } from './modal-reducers';
@@ -50,7 +50,7 @@ const rootReducer = combineReducers({
   editTagForm: editTagFormReducer,
   editUserForm: editUserFormReducer,
   editRoleForm: editRoleFormReducer,
-  updateJudgeConfigForm: updateJudgeConfigFormReducer
+  updateJudgeConfigForm: updateJudgeConfigFormReducer,
 });
 
 export { rootReducer };

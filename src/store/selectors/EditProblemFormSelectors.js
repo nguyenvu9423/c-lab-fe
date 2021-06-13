@@ -1,5 +1,5 @@
 export const EditProblemFormSelectors = {
   state() {
-    return state => state.editProblemForm;
-  }
+    return (state) => state.editProblemForm;
+  },
 };

@@ -6,12 +6,12 @@ import { normalize } from 'normalizr';
 import { updateEntity } from '../../store/actions/entity';
 import { judgesSchema } from '../../entity-schemas';
 
-export const useJudgesStream = judgeIds => {
+export const useJudgesStream = (judgeIds) => {
   const dispatch = useDispatch();
   React.useEffect(() => {
     if (!ArrayUtils.isEmpty(judgeIds)) {
       const eventSource = JudgeService.getJudgesStream(judgeIds);
-      eventSource.addEventListener('updateEntity', event => {
+      eventSource.addEventListener('updateEntity', (event) => {
         const data = JSON.parse(event.data);
         const normalizedData = normalize(data, judgesSchema);
         dispatch(updateEntity(normalizedData.entities));

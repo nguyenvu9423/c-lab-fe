@@ -1,6 +1,6 @@
 import {
   SubmissionProgressType,
-  SubmissionProgressStatus
+  SubmissionProgressStatus,
 } from '../../domains/submission';
 
 const submissionStatusParser = {
@@ -32,7 +32,7 @@ const submissionStatusParser = {
       }
     }
     return output;
-  }
+  },
 };
 
 export { submissionStatusParser };

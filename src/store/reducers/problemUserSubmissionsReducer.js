@@ -8,10 +8,10 @@ const isWithTarget = createTargetChecker(Target.PROBLEM_USER_SUBMISSIONS);
 const problemUserSubmissionsReducer = combineReducers({
   data: filterActions(
     combineReducers({
-      submissions: submissionsReducer
+      submissions: submissionsReducer,
     }),
     isWithTarget
-  )
+  ),
 });
 
 export { problemUserSubmissionsReducer };

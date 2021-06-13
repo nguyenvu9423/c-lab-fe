@@ -14,12 +14,12 @@ class AuthenticationService {
         grant_type: 'password',
         username,
         password,
-        scope: 'any'
+        scope: 'any',
       }),
       {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
       }
     );
   }
@@ -30,12 +30,12 @@ class AuthenticationService {
         grant_type: 'refresh_token',
         refresh_token: token,
         client_id,
-        scope: 'any'
+        scope: 'any',
       }),
       {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
       }
     );
   }

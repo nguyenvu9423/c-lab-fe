@@ -4,8 +4,8 @@ import { TagService } from '../../service/TagService';
 
 export function AddTagForm(props) {
   const { onCancel, onSuccess } = props;
-  const handleSubmit = React.useCallback(values => {
-    TagService.createTag(values).then(response => {
+  const handleSubmit = React.useCallback((values) => {
+    TagService.createTag(values).then((response) => {
       onSuccess?.(response);
     });
   });

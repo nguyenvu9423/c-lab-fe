@@ -6,15 +6,15 @@ const initialState = {
   id: undefined,
   loadingState: LoadingState.LOAD_NEEDED,
   error: undefined,
-  currentRequestId: undefined
+  currentRequestId: undefined,
 };
 
 export const judgeConfigsReducer = handleActions(
   {
-    [fetchJudgeConfig.request]: state => {
+    [fetchJudgeConfig.request]: (state) => {
       return {
         ...state,
-        loadingState: LoadingState.LOADING
+        loadingState: LoadingState.LOADING,
       };
     },
     [fetchJudgeConfig.response]: (state, action) => {
@@ -24,15 +24,15 @@ export const judgeConfigsReducer = handleActions(
           ...state,
           id: judgeConfig,
           loadingState: LoadingState.LOADED,
-          error: undefined
+          error: undefined,
         };
       } else {
         return {
           ...initialState,
-          loadingState: LoadingState.ERROR
+          loadingState: LoadingState.ERROR,
         };
       }
-    }
+    },
   },
   initialState
 );

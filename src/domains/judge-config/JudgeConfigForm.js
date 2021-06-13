@@ -20,7 +20,7 @@ export function JudgeConfigForm(props) {
       testPackage: initialValues?.testPackage,
       customJudger: initialValues?.customJudger,
       testPackageFile: undefined,
-      customJudgerFile: undefined
+      customJudgerFile: undefined,
     }),
     [initialValues]
   );
@@ -33,25 +33,25 @@ export function JudgeConfigForm(props) {
     setFieldValue,
     handleSubmit,
     handleBlur,
-    handleChange
+    handleChange,
   } = useFormik({
     initialValues: mergedInitialValues,
     validationSchema: JudgeConfigValidation.schema,
-    onSubmit: values => onSubmit?.(values)
+    onSubmit: (values) => onSubmit?.(values),
   });
 
-  const handleTestPackageChange = React.useCallback(file => {
+  const handleTestPackageChange = React.useCallback((file) => {
     setFieldValue('testPackageFile', file);
   }, []);
 
-  const handleCustomJudgerChange = React.useCallback(file => {
+  const handleCustomJudgerChange = React.useCallback((file) => {
     setFieldValue('customJudgerFile', file);
   }, []);
 
   const errorMessageRenderer = useErrorMessageRenderer({
     touched,
     errors,
-    status
+    status,
   });
 
   return (
@@ -83,7 +83,7 @@ export function JudgeConfigForm(props) {
             value={values.scoringType}
             options={[
               { text: 'ACM', value: 'ACM' },
-              { text: 'OI', value: 'OI' }
+              { text: 'OI', value: 'OI' },
             ]}
             onBlur={handleBlur}
             onChange={(e, { value }) => setFieldValue('scoringType', value)}
@@ -130,7 +130,7 @@ export function JudgeConfigForm(props) {
                 ? {
                     name: values.customJudger.originalFileName,
                     uploaded: true,
-                    downloadLink: `/api/custom-judger/${values.customJudger.id}/file`
+                    downloadLink: `/api/custom-judger/${values.customJudger.id}/file`,
                   }
                 : undefined
             }
@@ -149,13 +149,13 @@ export function JudgeConfigForm(props) {
             file={
               values.testPackageFile
                 ? {
-                    name: values.testPackageFile.name
+                    name: values.testPackageFile.name,
                   }
                 : values.testPackage
                 ? {
                     name: values.testPackage.originalFileName,
                     uploaded: true,
-                    downloadLink: `/api/test-package/${values.testPackage.id}/file`
+                    downloadLink: `/api/test-package/${values.testPackage.id}/file`,
                   }
                 : undefined
             }

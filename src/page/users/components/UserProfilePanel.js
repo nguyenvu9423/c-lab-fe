@@ -53,12 +53,12 @@ function AvatarForm(props) {
   const [dimmerActive, setDimmerActive] = React.useState(true);
   const dispatch = useDispatch();
   const fileRef = React.useRef();
-  const handleChange = React.useCallback(event => {
+  const handleChange = React.useCallback((event) => {
     const files = event.target.files;
     if (files.length === 1) {
       const formData = new FormData();
       formData.append('avatarFile', files[0]);
-      UserService.updateAvatar(formData).then(response => {
+      UserService.updateAvatar(formData).then((response) => {
         const { entities } = normalize(response.data, userSchema);
         dispatch(updateEntity(entities));
       });
@@ -67,7 +67,7 @@ function AvatarForm(props) {
   const handleRemove = React.useCallback(() => {
     const formData = new FormData();
     formData.append('avatarFile', null);
-    UserService.updateAvatar(formData).then(response => {
+    UserService.updateAvatar(formData).then((response) => {
       const { entities } = normalize(response.data, userSchema);
       dispatch(updateEntity(entities));
     });

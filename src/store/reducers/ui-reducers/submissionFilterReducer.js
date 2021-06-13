@@ -7,7 +7,7 @@ const submissionFilterReducer = handleActions(
     setSubmissionFilter: (state, action) => {
       const { filters } = action.payload;
       return filters;
-    }
+    },
   },
   initialState
 );

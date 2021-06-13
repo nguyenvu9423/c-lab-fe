@@ -21,13 +21,13 @@ export function SearchBar() {
     const typeMap = current[item.type];
     typeMap.results.push({
       ...item,
-      key: item.id
+      key: item.id,
     });
     return current;
   }, {});
 
   const query = React.useCallback(
-    Lodash.debounce(value => {
+    Lodash.debounce((value) => {
       dispatch(search.request(value));
     }, SelectConfig.DELAY),
     []
@@ -61,7 +61,7 @@ export function SearchBar() {
   );
 }
 
-const resultRenderer = props => {
+const resultRenderer = (props) => {
   if (props.type === 'problem') {
     return (
       <div className="content">

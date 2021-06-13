@@ -13,7 +13,7 @@ import { useProblemRejudgeStream } from '../../../domains/problem-rejudge/usePro
 export function ProblemRejudgeSegment(props) {
   const { problemId } = props;
 
-  const { data } = useSelector(state => state.problemRejudgePage);
+  const { data } = useSelector((state) => state.problemRejudgePage);
   const problemRejudge = useSelector(
     ProblemRejudgeSelectors.byId(data.problemRejudge.id)
   );

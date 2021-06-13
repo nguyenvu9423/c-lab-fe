@@ -27,7 +27,7 @@ function UserSubmissionTable(props) {
   const { problem, user } = props;
   const history = useHistory();
 
-  const { data } = useSelector(state => state.problemUserSubmissions);
+  const { data } = useSelector((state) => state.problemUserSubmissions);
 
   const { loadingState, ids, totalPages } = data.submissions;
 
@@ -41,10 +41,10 @@ function UserSubmissionTable(props) {
           {
             userId: user.id,
             problemId: problem.id,
-            pageable: pageable ?? data.submissions.pageable
+            pageable: pageable ?? data.submissions.pageable,
           },
           {
-            target: Target.PROBLEM_USER_SUBMISSIONS
+            target: Target.PROBLEM_USER_SUBMISSIONS,
           }
         )
       );
@@ -60,7 +60,7 @@ function UserSubmissionTable(props) {
 
   const submissions = useSelector(SubmissionSelector.byIds(ids));
 
-  useJudgesStream(submissions ? submissions.map(sub => sub.judge) : []);
+  useJudgesStream(submissions ? submissions.map((sub) => sub.judge) : []);
 
   const handlePageChange = React.useCallback((event, { activePage }) => {
     dispatch(load({ pageable: { page: activePage - 1, size: PAGE_SIZE } }));

@@ -6,6 +6,6 @@ import { Target } from '../target';
 export const editProblemPageReducer = combineReducers({
   problem: filterActions(
     problemReducer,
-    action => action.meta?.target === Target.PROBLEM_EDIT_PAGE
-  )
+    (action) => action.meta?.target === Target.PROBLEM_EDIT_PAGE
+  ),
 });

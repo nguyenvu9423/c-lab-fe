@@ -5,7 +5,7 @@ import { JudgeConfigService } from '../../service/JudgeConfigService';
 export function AddJudgeConfigForm(props) {
   const { problemId, onCancel, onSuccess } = props;
 
-  const handleSubmit = React.useCallback(values => {
+  const handleSubmit = React.useCallback((values) => {
     const formData = new FormData();
     const { testPackageFile, externalJudger, ...dto } = values;
     formData.append(

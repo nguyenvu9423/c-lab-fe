@@ -8,7 +8,7 @@ import { editProblemValidationSchema } from './Schemas';
 import {
   useErrorMessageRenderer,
   LoadingIndicator,
-  MarkdownEditor
+  MarkdownEditor,
 } from '../../../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProblem } from '../../../store/actions';
@@ -23,7 +23,7 @@ export function EditProblemForm(props) {
   const { problemId, onCancel, onSuccess } = props;
   const [submitting, setSubmitting] = React.useState();
 
-  const { data } = useSelector(state => state.editProblemForm);
+  const { data } = useSelector((state) => state.editProblemForm);
 
   React.useEffect(() => {
     dispatch(
@@ -34,7 +34,7 @@ export function EditProblemForm(props) {
     );
   }, []);
 
-  const handleSubmit = React.useCallback(problem => {
+  const handleSubmit = React.useCallback((problem) => {
     setSubmitting(true);
     ProblemService.updateProblem(problem.id, problem).then(({ data }) => {
       setSubmitting(false);
@@ -57,7 +57,7 @@ export function EditProblemForm(props) {
 
 function ProblemForm(props) {
   const { submitting, onSubmit, onCancel } = props;
-  const { data } = useSelector(state => state.editProblemForm);
+  const { data } = useSelector((state) => state.editProblemForm);
   const problem = useSelector(ProblemSelectors.byId(data.problem.id));
   const activeJudgeConfig = useSelector(
     JudgeConfigSelectors.byId(problem.activeJudgeConfig)
@@ -72,19 +72,19 @@ function ProblemForm(props) {
     isValid,
     handleSubmit,
     handleBlur,
-    handleChange
+    handleChange,
   } = useFormik({
     initialValues: {
       ...problem,
-      activeJudgeConfig
+      activeJudgeConfig,
     },
     initialStatus: {
-      errors: {}
+      errors: {},
     },
     validationSchema: editProblemValidationSchema,
-    onSubmit: values => {
+    onSubmit: (values) => {
       onSubmit?.(values);
-    }
+    },
   });
 
   const handleCancel = React.useCallback(() => {
@@ -94,7 +94,7 @@ function ProblemForm(props) {
   const errorMessageRenderer = useErrorMessageRenderer({
     touched,
     errors,
-    status
+    status,
   });
 
   return (
@@ -115,7 +115,7 @@ function ProblemForm(props) {
           <label>Đề bài</label>
           <MarkdownEditor
             initialValue={problem.definition}
-            onChange={content => setFieldValue('definition', content)}
+            onChange={(content) => setFieldValue('definition', content)}
           />
           {errorMessageRenderer('definition')}
         </Form.Field>
@@ -152,7 +152,7 @@ function ProblemForm(props) {
             <label>Ngôn ngữ cho phép</label>
             <SubmissionLangSelect
               value={values.allowedLanguages}
-              onChange={value => {
+              onChange={(value) => {
                 setFieldValue('allowedLanguages', value);
               }}
             />
@@ -162,7 +162,7 @@ function ProblemForm(props) {
             <label>Tags</label>
             <TagSelect
               value={values.tags}
-              onChange={value => setFieldValue('tags', value)}
+              onChange={(value) => setFieldValue('tags', value)}
             />
           </Form.Field>
         </Form.Group>

@@ -4,7 +4,7 @@ import { JudgeErrorStatus } from './JudgeProgressStatus';
 
 export function JudgeErrorLabel(props) {
   const {
-    progress: { status }
+    progress: { status },
   } = props;
   let message;
   switch (status.name) {

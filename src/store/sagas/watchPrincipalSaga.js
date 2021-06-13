@@ -13,7 +13,7 @@ function* fetchPrincipalSaga(action) {
 
 export function* watchPrincipalSaga() {
   yield takeEvery(
-    action => setToken.match(action) && !action.payload.isRefreshing,
+    (action) => setToken.match(action) && !action.payload.isRefreshing,
     fetchPrincipalSaga
   );
 }

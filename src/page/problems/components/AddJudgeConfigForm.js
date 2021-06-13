@@ -10,14 +10,14 @@ import { updateEntity } from '../../../store/actions/entity';
 import { judgeConfigSchema } from '../../../entity-schemas/judgeConfigSchema';
 import {
   useFormErrorMessage,
-  useErrorMessageRenderer
+  useErrorMessageRenderer,
 } from '../../../components/form';
 import { ExceptionTypes } from '../../../exception/ExceptionTypes';
 
 const validationSchema = yup.object().shape({
   inputFileName: yup.string().required('Input file name is required'),
   outputFileName: yup.string().required('Output file name is required'),
-  testPackageFile: yup.mixed().required('Test package is required')
+  testPackageFile: yup.mixed().required('Test package is required'),
 });
 
 export function AddJudgeConfigForm(props) {
@@ -28,23 +28,23 @@ export function AddJudgeConfigForm(props) {
       inputFileName: '',
       outputFileName: '',
       owningProblemId: problem.id,
-      testPackageFile: undefined
+      testPackageFile: undefined,
     },
     initialStatus: {
       errors: {},
-      globalError: undefined
+      globalError: undefined,
     },
     validationSchema,
     onSubmit: (values, bag) => {
       const { setSubmitting, setStatus } = bag;
       const formData = new FormData();
       const judgeConfigBlob = new Blob([JSON.stringify(values)], {
-        type: 'application/json'
+        type: 'application/json',
       });
       formData.append('judgeConfig', judgeConfigBlob);
       formData.append('file', values.testPackageFile);
       JudgeConfigService.create(formData)
-        .then(res => {
+        .then((res) => {
           const { data } = res;
           const normalizedData = normalize(data, judgeConfigSchema);
           dispatch(updateEntity(normalizedData.entities));
@@ -52,13 +52,13 @@ export function AddJudgeConfigForm(props) {
           setSubmitting(false);
           onSubmitSuccess();
         })
-        .catch(e => {
+        .catch((e) => {
           setSubmitting(false);
           if (e.response) {
             const { data } = e.response;
             if (data.type === ExceptionTypes.INVALID_FORM) {
               let errors = {};
-              data.errors.forEach(error => {
+              data.errors.forEach((error) => {
                 errors[error.field] = error.defaultMessage;
               });
               setStatus({ errors, globalError: undefined });
@@ -67,7 +67,7 @@ export function AddJudgeConfigForm(props) {
             }
           }
         });
-    }
+    },
   });
   const {
     values,
@@ -79,7 +79,7 @@ export function AddJudgeConfigForm(props) {
     setFieldTouched,
     setStatus,
     handleSubmit,
-    isSubmitting
+    isSubmitting,
   } = formik;
 
   const handleChange = React.useCallback(
@@ -87,14 +87,14 @@ export function AddJudgeConfigForm(props) {
       setFieldValue(data.name, data.value);
       setStatus({
         errors: { ...status.errors, [data.name]: undefined },
-        globalError: undefined
+        globalError: undefined,
       });
     },
     [setFieldValue, setStatus, status]
   );
 
   const handleTestPackageFileChange = React.useCallback(
-    event => {
+    (event) => {
       const { files, name } = event.target;
       setFieldTouched(name);
       if (files.length === 1) {
@@ -110,7 +110,7 @@ export function AddJudgeConfigForm(props) {
   const errorMessageRenderer = useErrorMessageRenderer({
     touched,
     errors,
-    status
+    status,
   });
 
   return (

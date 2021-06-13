@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Segment, Label, Accordion, Icon, Header } from 'semantic-ui-react';
 
-export const TagContainer = props => {
+export const TagContainer = (props) => {
   const { problem } = props;
   const [expanded, setExpanded] = React.useState(false);
   return (
@@ -18,14 +18,12 @@ export const TagContainer = props => {
         {expanded ? (
           <Accordion.Content active={true}>
             <Label.Group tag>
-              {problem.tags.map(tag => (
+              {problem.tags.map((tag) => (
                 <Label key={tag.id}>{tag.name}</Label>
               ))}
             </Label.Group>
           </Accordion.Content>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
       </Accordion>
     </Segment>
   );

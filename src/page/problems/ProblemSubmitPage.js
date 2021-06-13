@@ -10,7 +10,7 @@ export function ProblemSubmitPage(props) {
   const user = useSelector(PrincipalSelectors.principal());
 
   const handleSuccess = React.useCallback(
-    sub => history.push('my', { highlightSubId: sub.id }),
+    (sub) => history.push('my', { highlightSubId: sub.id }),
     []
   );
 

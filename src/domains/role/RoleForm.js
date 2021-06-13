@@ -8,7 +8,7 @@ import { useErrorMessageRenderer } from '../../components';
 export function RoleForm(props) {
   const { initialRole, onSubmit, onCancel, isSubmitting } = props;
 
-  const onSubmitHandler = React.useCallback(values => {
+  const onSubmitHandler = React.useCallback((values) => {
     onSubmit?.(values);
   }, []);
 
@@ -20,14 +20,14 @@ export function RoleForm(props) {
     handleSubmit,
     handleBlur,
     setFieldValue,
-    setFieldTouched
+    setFieldTouched,
   } = useFormik({
     initialValues: {
       name: initialRole?.name ?? '',
-      permissions: initialRole?.permissions ?? []
+      permissions: initialRole?.permissions ?? [],
     },
     onSubmit: onSubmitHandler,
-    validationSchema: validationSchema
+    validationSchema: validationSchema,
   });
 
   const errorMsgRenderer = useErrorMessageRenderer({ touched, errors });
@@ -49,7 +49,7 @@ export function RoleForm(props) {
         <label>Permissions</label>
         <PermissionSelect
           value={values.permissions}
-          onChange={pers => setFieldValue('permissions', pers)}
+          onChange={(pers) => setFieldValue('permissions', pers)}
           onBlur={() => setFieldTouched('permissions')}
         />
         {errorMsgRenderer('permissions')}

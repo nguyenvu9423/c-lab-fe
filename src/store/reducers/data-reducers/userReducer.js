@@ -5,13 +5,13 @@ import { fetchUser, clearUser } from '../../actions';
 const initialState = {
   id: undefined,
   loadingState: LoadingState.LOAD_NEEDED,
-  error: undefined
+  error: undefined,
 };
 
 export const userReducerMap = {
   [fetchUser.request]: () => {
     return {
-      loadingState: LoadingState.LOADING
+      loadingState: LoadingState.LOADING,
     };
   },
   [fetchUser.response]: (state, { error, payload }) => {
@@ -19,25 +19,25 @@ export const userReducerMap = {
       const { user } = payload;
       return {
         id: user,
-        loadingState: LoadingState.LOADED
+        loadingState: LoadingState.LOADED,
       };
     } else {
       const {
         response: {
-          data: { message }
-        }
+          data: { message },
+        },
       } = payload;
       return {
         loadingState: LoadingState.ERROR,
         error: {
-          message
-        }
+          message,
+        },
       };
     }
   },
   [clearUser]: () => {
     return { loadingState: LoadingState.LOAD_NEEDED };
-  }
+  },
 };
 
 export const userReducer = handleActions(userReducerMap, initialState);

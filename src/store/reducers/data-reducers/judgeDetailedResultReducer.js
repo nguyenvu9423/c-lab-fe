@@ -4,31 +4,31 @@ import { clearDetailedResult, fetchDetailedJudge } from '../../actions';
 
 const initialState = {
   detailedResult: undefined,
-  loadingState: LoadingState.LOAD_NEEDED
+  loadingState: LoadingState.LOAD_NEEDED,
 };
 
 export const judgeDetailedResultReducer = handleActions(
   {
     [fetchDetailedJudge.request]: () => ({
-      loadingState: LoadingState.LOADING
+      loadingState: LoadingState.LOADING,
     }),
     [fetchDetailedJudge.response]: (state, { error, payload }) => {
       if (!error) {
         const {
-          detailedJudge: { detailedResult }
+          detailedJudge: { detailedResult },
         } = payload;
         return {
           detailedResult,
-          loadingState: LoadingState.LOADED
+          loadingState: LoadingState.LOADED,
         };
       } else {
         return {
           detailedResult: undefined,
-          loadingState: LoadingState.ERROR
+          loadingState: LoadingState.ERROR,
         };
       }
     },
-    [clearDetailedResult]: () => initialState
+    [clearDetailedResult]: () => initialState,
   },
   initialState
 );

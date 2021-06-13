@@ -1,5 +1,5 @@
 export const SubmissionFilterSelectors = {
   state: () => {
-    return state => state.submissionFilter;
-  }
+    return (state) => state.submissionFilter;
+  },
 };

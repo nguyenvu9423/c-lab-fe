@@ -6,15 +6,15 @@ class JudgeConfigService {
   static create(formData) {
     return apiCaller.post(BASE_URL, formData, {
       headers: {
-        'Content-Type': undefined
+        'Content-Type': undefined,
       },
-      timeout: 120000
+      timeout: 120000,
     });
   }
 
   static getJudgeConfig({ problemId }) {
     return apiCaller.get(BASE_URL, {
-      params: { problemId }
+      params: { problemId },
     });
   }
 
@@ -22,9 +22,9 @@ class JudgeConfigService {
     return apiCaller.post(BASE_URL, formData, {
       params: { problemId },
       headers: {
-        'Content-Type': undefined
+        'Content-Type': undefined,
       },
-      timeout: 120000
+      timeout: 120000,
     });
   }
 }

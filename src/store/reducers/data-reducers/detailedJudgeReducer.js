@@ -5,28 +5,28 @@ import { fetchDetailedJudge } from '../../actions';
 const initialState = {
   id: undefined,
   loadingState: LoadingState.LOAD_NEEDED,
-  error: undefined
+  error: undefined,
 };
 
 const detailedJudgeReducer = handleActions(
   {
     [fetchDetailedJudge.request]: () => ({
-      loadingState: LoadingState.LOADING
+      loadingState: LoadingState.LOADING,
     }),
     [fetchDetailedJudge.response]: (state, { error, payload }) => {
       if (!error) {
         const { detailedJudge } = payload;
         return {
           id: detailedJudge.id,
-          loadingState: LoadingState.LOADED
+          loadingState: LoadingState.LOADED,
         };
       } else {
         const {
-          data: { message }
+          data: { message },
         } = payload.response;
         return { loadingState: LoadingState.ERROR, error: { message } };
       }
-    }
+    },
   },
   initialState
 );

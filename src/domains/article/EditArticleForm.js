@@ -12,7 +12,7 @@ import { ArticleSelectors } from '../../store/selectors';
 export function EditArticleForm(props) {
   const { articleId, onCancel, onSuccess } = props;
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state.editArticleForm);
+  const { data } = useSelector((state) => state.editArticleForm);
   const article = useSelector(ArticleSelectors.byId(articleId));
 
   React.useEffect(() => {
@@ -25,7 +25,7 @@ export function EditArticleForm(props) {
   }, []);
 
   const handleSubmit = React.useCallback(
-    values => {
+    (values) => {
       ArticleService.updateArticle(articleId, values).then(() => {
         onSuccess?.();
       });

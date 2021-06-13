@@ -3,10 +3,10 @@ import { fetchArticles } from '../actions/article';
 
 const articleOverviewReducer = handleActions(
   {
-    [fetchArticles.request]: state => {
+    [fetchArticles.request]: (state) => {
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
       };
     },
     [fetchArticles.response]: (state, action) => {
@@ -17,17 +17,17 @@ const articleOverviewReducer = handleActions(
           totalPages,
           number,
           isFetching: false,
-          error: undefined
+          error: undefined,
         };
       }
-    }
+    },
   },
   {
     articles: [],
     isFetching: false,
     error: undefined,
     totalPages: 0,
-    number: 0
+    number: 0,
   }
 );
 

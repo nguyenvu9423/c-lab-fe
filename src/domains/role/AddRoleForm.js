@@ -12,7 +12,7 @@ export function AddRoleForm(props) {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = React.useCallback(values => {
+  const handleSubmit = React.useCallback((values) => {
     setIsSubmitting(true);
     RoleService.addRole(values).then(({ data }) => {
       const { entities } = normalize(data, roleSchema);

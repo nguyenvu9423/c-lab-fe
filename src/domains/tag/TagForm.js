@@ -9,9 +9,9 @@ export function TagForm(props) {
     initialValues: initialValues
       ? initialValues
       : {
-          name: ''
+          name: '',
         },
-    onSubmit: values => onSubmit?.(values)
+    onSubmit: (values) => onSubmit?.(values),
   });
   return (
     <Form

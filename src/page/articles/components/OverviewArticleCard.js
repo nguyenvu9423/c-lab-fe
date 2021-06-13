@@ -26,7 +26,7 @@ export function OverviewArticleCard(props) {
               style={{
                 width: 150,
                 marginRight: 14,
-                objectFit: 'cover'
+                objectFit: 'cover',
               }}
             />
             <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -37,14 +37,14 @@ export function OverviewArticleCard(props) {
                 style={{ flexGrow: 1 }}
                 className={'article-container'}
                 dangerouslySetInnerHTML={{
-                  __html: article.overview
+                  __html: article.overview,
                 }}
               />
               <div
                 style={{
                   display: 'inline-block',
                   marginTop: '1rem',
-                  marginBottom: '1rem'
+                  marginBottom: '1rem',
                 }}
               >
                 <Image
@@ -56,7 +56,7 @@ export function OverviewArticleCard(props) {
                     width: 24,
                     height: 24,
                     margin: '0 1rem 0 0',
-                    objectFit: 'cover'
+                    objectFit: 'cover',
                   }}
                   src={
                     author.avatarUrl
@@ -68,7 +68,7 @@ export function OverviewArticleCard(props) {
                   style={{
                     verticalAlign: 'middle',
                     color: 'rgba(0,0,0,.87)',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
                   }}
                   href={`users/${author.username}`}
                 >
@@ -88,7 +88,7 @@ export function OverviewArticleCard(props) {
       {ArrayUtils.isNotEmpty(article.tags) && (
         <Card.Content extra>
           <Label.Group tag>
-            {article.tags.map(tag => (
+            {article.tags.map((tag) => (
               <Label key={tag.id}>{tag.name}</Label>
             ))}
           </Label.Group>

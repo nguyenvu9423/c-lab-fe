@@ -7,7 +7,7 @@ const BASE_URL = '/judges';
 export class JudgeService {
   static getDetailedJudgeBySubmission(submissionId) {
     return apiCaller.get(`${BASE_URL}`, {
-      params: { submissionId, detailed: true }
+      params: { submissionId, detailed: true },
     });
   }
 

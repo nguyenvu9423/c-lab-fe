@@ -5,7 +5,7 @@ const BASE_URL = '/roles';
 export class RoleService {
   static getAllRoles(pageable) {
     return apiCaller.get(`${BASE_URL}`, {
-      params: { page: pageable.page, size: pageable.size }
+      params: { page: pageable.page, size: pageable.size },
     });
   }
 

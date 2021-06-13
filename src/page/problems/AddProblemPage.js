@@ -7,7 +7,7 @@ export function AddProblemPage(props) {
   const { history } = props;
 
   const handleSubmitSuccess = React.useCallback(
-    problem => {
+    (problem) => {
       history.push(`/problems/${problem.code}`);
     },
     [history]

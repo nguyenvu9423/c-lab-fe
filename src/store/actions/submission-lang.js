@@ -3,7 +3,7 @@ import { defaultPrepare } from './shared';
 
 const fetchAllSubmissionLangs = {
   request: createAction('fetchAllSubmissionLangs/request', defaultPrepare),
-  response: createAction('fetchAllSubmissionLangs/response', defaultPrepare)
+  response: createAction('fetchAllSubmissionLangs/response', defaultPrepare),
 };
 
 export { fetchAllSubmissionLangs };

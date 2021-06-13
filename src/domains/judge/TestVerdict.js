@@ -5,7 +5,7 @@ export const TestVerdict = {
   MLE: 'MLE',
   OLE: 'OLE',
   RE: 'RE',
-  getMessage: verdict => {
+  getMessage: (verdict) => {
     switch (verdict) {
       case TestVerdict.AC:
         return 'Accepted';
@@ -20,5 +20,5 @@ export const TestVerdict = {
       case TestVerdict.RE:
         return 'Runtime error';
     }
-  }
+  },
 };

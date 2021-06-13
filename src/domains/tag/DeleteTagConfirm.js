@@ -16,9 +16,9 @@ export function DeleteTagConfirm(props) {
         setLoading(false);
         onSuccess?.();
       })
-      .catch(e => {
+      .catch((e) => {
         const {
-          response: { data }
+          response: { data },
         } = e;
         if (data && data.type === ExceptionTypes.WARNING) {
           setWarning(data.message);

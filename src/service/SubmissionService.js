@@ -17,8 +17,8 @@ export class SubmissionService {
     return apiCaller.post(BASE_URL, formData, {
       params: {
         problemId,
-        languageName
-      }
+        languageName,
+      },
     });
   }
 
@@ -47,8 +47,8 @@ export class SubmissionService {
       params: {
         ...params,
         page: pageable.page,
-        size: pageable.size
-      }
+        size: pageable.size,
+      },
     });
   }
 
@@ -62,8 +62,8 @@ export class SubmissionService {
         user: userId,
         problem: problemId,
         page: pageable.pageNumber,
-        size: pageable.pageSize
-      }
+        size: pageable.pageSize,
+      },
     });
   }
 
@@ -77,14 +77,14 @@ export class SubmissionService {
         problem: problemId,
         filters: filters.length ? FilterConverter.toString(filters) : undefined,
         page: pageable.pageNumber,
-        size: pageable.pageSize
-      }
+        size: pageable.pageSize,
+      },
     });
   }
 
   static getStream(submissions) {
     const queryString = qs.stringify(
-      { ids: submissions.map(sub => sub.id) },
+      { ids: submissions.map((sub) => sub.id) },
       { arrayFormat: 'comma' }
     );
     return new EventSource(

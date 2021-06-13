@@ -8,8 +8,8 @@ const isWithTarget = createTargetChecker(Target.PROBLEM_DETAILS_PAGE);
 export const problemDetailsPageReducer = combineReducers({
   data: filterActions(
     combineReducers({
-      problem: problemReducer
+      problem: problemReducer,
     }),
     isWithTarget
-  )
+  ),
 });

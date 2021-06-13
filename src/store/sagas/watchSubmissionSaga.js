@@ -3,13 +3,13 @@ import {
   updateEntity,
   fetchDetailedSubmission,
   fetchSubmissions,
-  fetchDetailedResult
+  fetchDetailedResult,
 } from '../actions';
 import { SubmissionService } from '../../service/SubmissionService';
 import { normalize } from 'normalizr';
 import {
   submissionsSchema,
-  detailedSubmissionSchema
+  detailedSubmissionSchema,
 } from '../../entity-schemas';
 
 function* fetchSubmissionsSaga(action) {
@@ -20,7 +20,7 @@ function* fetchSubmissionsSaga(action) {
       {
         userId,
         problemId,
-        query
+        query,
       },
       pageable
     );
@@ -33,7 +33,7 @@ function* fetchSubmissionsSaga(action) {
         {
           submissions: normalizedData.result,
           totalPages,
-          activePage
+          activePage,
         },
         action.meta
       )

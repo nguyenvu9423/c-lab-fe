@@ -5,7 +5,7 @@ import { ArticleService } from '../../service/ArticleService';
 export function AddArticleForm(props) {
   const { onCancel, onSuccess } = props;
   const handleSubmit = React.useCallback(
-    values => {
+    (values) => {
       ArticleService.createArticle(values).then(({ data }) =>
         onSuccess?.(data)
       );

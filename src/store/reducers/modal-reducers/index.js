@@ -1,3 +1,1 @@
-export {
-  detailedSubmissionModalReducer
-} from './detailedSubmissionModalReducer';
+export { detailedSubmissionModalReducer } from './detailedSubmissionModalReducer';

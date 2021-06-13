@@ -3,7 +3,7 @@ import { defaultPrepare } from './shared';
 
 const fetchProblemRejudge = {
   request: createAction('fetchProblemRejudge/request', defaultPrepare),
-  response: createAction('fetchProblemRejudge/response', defaultPrepare)
+  response: createAction('fetchProblemRejudge/response', defaultPrepare),
 };
 
 export { fetchProblemRejudge };

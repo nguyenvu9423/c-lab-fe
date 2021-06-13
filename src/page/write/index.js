@@ -12,12 +12,12 @@ class BaseWriteArticlePage extends React.Component {
 
   handleSubmit(values) {
     ArticleService.createArticle(values)
-      .then(res => {
+      .then((res) => {
         const { data: article } = res;
         const { history } = this.props;
         history.push(`/articles/${article.id}`);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }

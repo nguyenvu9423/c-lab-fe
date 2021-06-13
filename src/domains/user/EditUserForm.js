@@ -11,7 +11,7 @@ import { UserService } from '../../service/UserService';
 export function EditUserForm(props) {
   const { userId, onCancel, onSuccess } = props;
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state.editUserForm);
+  const { data } = useSelector((state) => state.editUserForm);
 
   const user = useSelector(UserSelectors.byId(data.user.id));
 
@@ -23,7 +23,7 @@ export function EditUserForm(props) {
     );
   }, []);
 
-  const handleSubmit = React.useCallback(values => {
+  const handleSubmit = React.useCallback((values) => {
     setIsSubmitting(true);
     UserService.updateUserDetails(userId, values)
       .then(() => {

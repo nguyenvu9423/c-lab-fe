@@ -6,5 +6,5 @@ export const ProblemRejudgeStatus = {
 
   isInProgress(status) {
     return status === this.IN_QUEUE || status === this.IN_PROGRESS;
-  }
+  },
 };

@@ -4,15 +4,15 @@ import { defaultPrepare } from './shared';
 
 const fetchTag = {
   request: createAction('fetchTag/request', defaultPrepare),
-  response: createAction('fetchTag/response', defaultPrepare)
+  response: createAction('fetchTag/response', defaultPrepare),
 };
 
 const fetchTags = {
   request: createAction('fetchTags/request', (payload, meta) => ({
     payload: payload,
-    meta: { ...meta, requestId: uuid.v4() }
+    meta: { ...meta, requestId: uuid.v4() },
   })),
-  response: createAction('fetchTags/response', defaultPrepare)
+  response: createAction('fetchTags/response', defaultPrepare),
 };
 
 export { fetchTag, fetchTags };

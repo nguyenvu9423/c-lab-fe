@@ -3,7 +3,7 @@ import { TagService } from '../../service/TagService';
 import { Dropdown } from 'semantic-ui-react';
 import { SelectConfig } from '../../components/select';
 
-const tagOptionMapper = tag => ({ text: tag.name, value: tag.name });
+const tagOptionMapper = (tag) => ({ text: tag.name, value: tag.name });
 
 export function useTagSelect(props = {}) {
   const { initialTags } = props;
@@ -12,13 +12,13 @@ export function useTagSelect(props = {}) {
   const timeoutRef = React.useRef();
   const options = React.useMemo(() => tags.map(tagOptionMapper), [tags]);
 
-  const mapTagToValue = React.useCallback(tag => tag.name, []);
+  const mapTagToValue = React.useCallback((tag) => tag.name, []);
   const mapValueToTag = React.useCallback(
-    value => tags.find(tag => tag.name === value),
+    (value) => tags.find((tag) => tag.name === value),
     [tags]
   );
 
-  const load = React.useCallback(searchQuery => {
+  const load = React.useCallback((searchQuery) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -26,9 +26,9 @@ export function useTagSelect(props = {}) {
       setIsFetching(true);
       TagService.getTagByContainedText(searchQuery)
         .then(({ data: { content } }) => {
-          setTags(prevTags => {
-            const newTags = content.filter(prevTag =>
-              prevTags.every(tag => tag.name !== prevTag.name)
+          setTags((prevTags) => {
+            const newTags = content.filter((prevTag) =>
+              prevTags.every((tag) => tag.name !== prevTag.name)
             );
             return [...prevTags, ...newTags];
           });
@@ -45,7 +45,7 @@ export function useTagSelect(props = {}) {
     mapTagToValue,
     mapValueToTag,
     isFetching,
-    handleSearchChange: load
+    handleSearchChange: load,
   };
 }
 
@@ -56,17 +56,17 @@ export function TagSelect(props) {
     props.value ? undefined : initialValue ?? []
   );
 
-  const value = React.useMemo(() => props.value ?? internalValue, [
-    props.value,
-    internalValue
-  ]);
+  const value = React.useMemo(
+    () => props.value ?? internalValue,
+    [props.value, internalValue]
+  );
 
   const {
     isFetching,
     options,
     mapTagToValue,
     mapValueToTag,
-    handleSearchChange
+    handleSearchChange,
   } = useTagSelect({ initialTags: props.value ?? initialValue });
 
   return (

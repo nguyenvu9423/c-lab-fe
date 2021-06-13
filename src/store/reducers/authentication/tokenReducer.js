@@ -17,7 +17,7 @@ export const tokenReducer = handleActions(
 
       return { ...token, payload: { permissions } };
     },
-    [clearToken]: () => null
+    [clearToken]: () => null,
   },
   initialState
 );

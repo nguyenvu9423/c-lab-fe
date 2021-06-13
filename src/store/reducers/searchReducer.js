@@ -5,7 +5,7 @@ import { LoadingState } from '../common';
 const initialState = {
   loadingState: LoadingState.LOADED,
   searchString: '',
-  results: []
+  results: [],
 };
 
 const searchReducer = handleActions(
@@ -14,22 +14,22 @@ const searchReducer = handleActions(
       return {
         loadingState: LoadingState.LOADING,
         searchString,
-        results: []
+        results: [],
       };
     },
     [search.response]: (state, { error, payload: { results } }) => {
       if (!error) {
         return {
           loadingState: LoadingState.LOADED,
-          results
+          results,
         };
       } else {
         return {
           loadingState: LoadingState.ERROR,
-          results: []
+          results: [],
         };
       }
-    }
+    },
   },
   initialState
 );

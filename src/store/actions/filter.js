@@ -3,9 +3,9 @@ import { defaultPrepare } from './shared';
 
 const applyFilters = createAction('applyFilters', (filters, meta) => ({
   payload: {
-    filters
+    filters,
   },
-  meta
+  meta,
 }));
 
 const resetFilters = createAction('resetFilters', defaultPrepare);

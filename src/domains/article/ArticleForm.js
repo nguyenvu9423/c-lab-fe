@@ -16,7 +16,7 @@ const validationSchema = yup.object().shape({
     .string()
     .required('Title is required')
     .min(3, 'Title should be at last 3 characters'),
-  content: yup.string().required('Content is required')
+  content: yup.string().required('Content is required'),
 });
 
 export function ArticleForm(props) {
@@ -30,7 +30,7 @@ export function ArticleForm(props) {
     handleBlur,
     handleSubmit,
     isSubmitting,
-    errors
+    errors,
   } = useFormik({
     initialValues: initialArticle
       ? {
@@ -40,7 +40,7 @@ export function ArticleForm(props) {
           overview: initialArticle.overview || '',
           content: initialArticle.content || '',
           thumbnailURL: initialArticle.thumbnailURL || '',
-          tags: initialArticle.tags || []
+          tags: initialArticle.tags || [],
         }
       : {
           status: ArticleStatus.ACTIVE.name,
@@ -49,12 +49,12 @@ export function ArticleForm(props) {
           overview: '',
           content: '',
           thumbnailURL: '',
-          tags: []
+          tags: [],
         },
     validationSchema,
-    onSubmit: values => {
+    onSubmit: (values) => {
       onSubmit?.(values);
-    }
+    },
   });
 
   const handleEditorBlur = React.useCallback((event, editor) => {
@@ -66,15 +66,15 @@ export function ArticleForm(props) {
     CKFinder.modal({
       chooseFiles: true,
       connectorPath: serverPath.resolve('ckfinder/connector'),
-      onInit: finder => {
-        finder.on('files:choose', evt => {
+      onInit: (finder) => {
+        finder.on('files:choose', (evt) => {
           const file = evt.data.files.first();
           if (file) {
             const { attributes } = file;
             setFieldValue('thumbnailURL', attributes.url);
           }
         });
-      }
+      },
     });
   }, []);
 
@@ -130,7 +130,7 @@ export function ArticleForm(props) {
           <label>Tags</label>
           <TagSelect
             value={values.tags}
-            onChange={value => setFieldValue('tags', value)}
+            onChange={(value) => setFieldValue('tags', value)}
           />
         </Form.Field>
       </Form.Group>
@@ -162,7 +162,7 @@ export function ArticleForm(props) {
                 width: 150,
                 height: 150,
                 display: 'inline-block',
-                objectFit: 'cover'
+                objectFit: 'cover',
               }}
             />
           </Segment>
@@ -181,9 +181,9 @@ export function ArticleForm(props) {
   );
 }
 
-const statusOptions = articleStatusValues.map(item => {
+const statusOptions = articleStatusValues.map((item) => {
   return {
     text: item.title,
-    value: item.name
+    value: item.name,
   };
 });

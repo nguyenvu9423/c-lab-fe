@@ -28,7 +28,7 @@ export function useSearchInput(props) {
   }, []);
 
   const handleKeyDown = React.useCallback(
-    event => {
+    (event) => {
       if (event.key === Key.Enter) {
         submitChange();
       }
@@ -49,6 +49,6 @@ export function useSearchInput(props) {
     handleSearchChange,
     handleResultSelect,
     handleKeyDown,
-    handleBlur
+    handleBlur,
   };
 }

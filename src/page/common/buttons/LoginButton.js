@@ -10,7 +10,7 @@ export function LoginButton(props) {
       as={Link}
       to={{
         pathname: '/login',
-        state: { prevPath: history.location.pathname }
+        state: { prevPath: history.location.pathname },
       }}
       {...props}
     >

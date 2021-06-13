@@ -17,17 +17,17 @@ export const Target = {
     ARTICLE: 'adminPage.article',
     PROBLEM: 'adminPage.problem',
     USER: 'adminPage.user',
-    ROLE: 'adminPage.role'
+    ROLE: 'adminPage.role',
   },
   EDIT_PROBLEM_FORM: 'editProblemForm',
   EDIT_TAG_FORM: 'editTagForm',
   EDIT_USER_FORM: 'editUserForm',
   EDIT_ROLE_FORM: 'editRoleForm',
-  DETAILED_SUBMISSION_MODAL: 'detailedSubmissionModal'
+  DETAILED_SUBMISSION_MODAL: 'detailedSubmissionModal',
 };
 
 export function createTargetChecker(target) {
-  return action => action.meta?.target === target;
+  return (action) => action.meta?.target === target;
 }
 
 export function createMetaWithTarget(target) {

@@ -12,8 +12,8 @@ export class TagService {
       params: {
         page: pageable.page,
         size: pageable.size,
-        query
-      }
+        query,
+      },
     });
   }
 
@@ -29,8 +29,8 @@ export class TagService {
       params: {
         contain: containedText,
         page: pageable.pageNumber,
-        size: pageable.pageSize
-      }
+        size: pageable.pageSize,
+      },
     });
   }
 
@@ -41,8 +41,8 @@ export class TagService {
   static deleteTag(id, suppressWarning) {
     return apiCaller.delete(`${BASE_URL}/${id}`, {
       params: {
-        suppressWarning
-      }
+        suppressWarning,
+      },
     });
   }
 }

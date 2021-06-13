@@ -9,12 +9,12 @@ export class UserStatus {
   }
 
   getByName(name) {
-    return this.values.find(value => value.name === name);
+    return this.values.find((value) => value.name === name);
   }
 }
 
 export const userStatusValues = [
   UserStatus.ACTIVE,
   UserStatus.IN_ACTIVE,
-  UserStatus.BANNED
+  UserStatus.BANNED,
 ];

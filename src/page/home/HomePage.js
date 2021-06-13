@@ -5,7 +5,7 @@ import {
   Header,
   Button,
   Icon,
-  Card
+  Card,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 
@@ -15,7 +15,7 @@ export function HomePage() {
       <div
         style={{
           paddingTop: '12em',
-          paddingBottom: '12em'
+          paddingBottom: '12em',
         }}
       >
         <Header
@@ -25,7 +25,7 @@ export function HomePage() {
             fontSize: '4em',
             fontWeight: 'normal',
             marginBottom: 0,
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         />
         <Header
@@ -35,7 +35,7 @@ export function HomePage() {
             fontSize: '1.7em',
             fontWeight: 'normal',
             marginTop: '1.5em',
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         />
 

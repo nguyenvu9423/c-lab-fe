@@ -10,7 +10,7 @@ import { ProblemService } from '../../service/ProblemService';
 export function UpdateJudgeConfigForm(props) {
   const { problemId, onSuccess } = props;
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state.updateJudgeConfigForm);
+  const { data } = useSelector((state) => state.updateJudgeConfigForm);
 
   const problem = useSelector(ProblemSelectors.byId(data.problem.id));
 
@@ -27,7 +27,7 @@ export function UpdateJudgeConfigForm(props) {
     load();
   }, []);
 
-  const handleSubmit = React.useCallback(values => {
+  const handleSubmit = React.useCallback((values) => {
     const formData = new FormData();
     const { testPackageFile, customJudgerFile, ...rest } = values;
     formData.append(

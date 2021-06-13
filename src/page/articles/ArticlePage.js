@@ -8,7 +8,7 @@ import {
   Sticky,
   Button,
   Label,
-  Segment
+  Segment,
 } from 'semantic-ui-react';
 import { ContentTable } from './internal/ContentTable';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,10 +24,10 @@ import { Avatar } from '../../components/avatar/Avatar';
 function ArticlePage(props) {
   const {
     match: { url, params },
-    location
+    location,
   } = props;
 
-  const { data } = useSelector(state => state.articlePage);
+  const { data } = useSelector((state) => state.articlePage);
   const dispatch = useDispatch();
   const contextRef = React.createRef();
   const article = useSelector(ArticleSelectors.byId(params.id));
@@ -96,13 +96,13 @@ function ArticlePage(props) {
                     style={{
                       display: 'inline-block',
                       marginLeft: 14,
-                      verticalAlign: 'middle'
+                      verticalAlign: 'middle',
                     }}
                   >
                     <div>{`${author.firstName} ${author.lastName}`}</div>
                     <div
                       style={{
-                        color: 'rgba(0,0,0,.6)'
+                        color: 'rgba(0,0,0,.6)',
                       }}
                     >
                       Sep 16, 2017
@@ -114,7 +114,7 @@ function ArticlePage(props) {
                 <div
                   className="content"
                   dangerouslySetInnerHTML={{
-                    __html: markupContent
+                    __html: markupContent,
                   }}
                 />
               </Segment>

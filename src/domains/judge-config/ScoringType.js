@@ -1,4 +1,4 @@
 export const ScoringType = {
   OI: 'OI',
-  ACM: 'ACM'
+  ACM: 'ACM',
 };

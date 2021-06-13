@@ -15,7 +15,7 @@ const PAGE_SIZE = 10;
 export function ProblemStatusPage(props) {
   const { problem, query } = props;
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state[Target.PROBLEM_SUBMISSIONS]);
+  const { data } = useSelector((state) => state[Target.PROBLEM_SUBMISSIONS]);
 
   const load = React.useCallback(
     ({ pageable } = {}) => {
@@ -24,7 +24,7 @@ export function ProblemStatusPage(props) {
           {
             problemId: problem.id,
             query,
-            pageable: pageable ? pageable : data.submissions.pageable
+            pageable: pageable ? pageable : data.submissions.pageable,
           },
           { target: Target.PROBLEM_SUBMISSIONS }
         )
@@ -44,7 +44,7 @@ export function ProblemStatusPage(props) {
   const { ids, loadingState, totalPages, pageable } = data.submissions;
 
   const submissions = useSelector(SubmissionSelector.byIds(ids));
-  useJudgesStream(submissions ? submissions.map(sub => sub.judge) : []);
+  useJudgesStream(submissions ? submissions.map((sub) => sub.judge) : []);
 
   if (loadingState === LoadingState.LOADING) {
     return (

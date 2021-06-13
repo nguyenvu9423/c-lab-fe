@@ -10,7 +10,7 @@ function RegisterForm(props) {
   const { onSuccess } = props;
 
   const onSubmitHandler = React.useCallback(
-    values => {
+    (values) => {
       RegisterService.register(values).then(() => onSuccess?.());
     },
     [onSuccess]
@@ -23,7 +23,7 @@ function RegisterForm(props) {
     isSubmitting,
     handleSubmit,
     handleChange,
-    handleBlur
+    handleBlur,
   } = useFormik({
     initialValues: {
       username: '',
@@ -32,10 +32,10 @@ function RegisterForm(props) {
       lastName: '',
       email: '',
       birthDay: '',
-      workplace: ''
+      workplace: '',
     },
     validationSchema,
-    onSubmit: onSubmitHandler
+    onSubmit: onSubmitHandler,
   });
 
   const errorMessageRender = useErrorMessageRenderer({ touched, errors });

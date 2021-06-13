@@ -11,7 +11,7 @@ export function ProblemCodeSelect(props) {
   const [isFetching, setIsFetching] = React.useState();
 
   const load = React.useCallback(
-    Lodash.debounce(searchQuery => {
+    Lodash.debounce((searchQuery) => {
       if (searchQuery) {
         setIsFetching(true);
         ProblemService.getProblemByQuery(`code==*${searchQuery}*`).then(
@@ -27,9 +27,9 @@ export function ProblemCodeSelect(props) {
 
   const problemOptions = React.useMemo(
     () =>
-      problems.map(problem => ({
+      problems.map((problem) => ({
         key: problem.id,
-        title: problem.code
+        title: problem.code,
       })),
     [problems]
   );
@@ -40,13 +40,13 @@ export function ProblemCodeSelect(props) {
     handleSearchChange,
     handleResultSelect,
     handleKeyDown,
-    handleBlur
+    handleBlur,
   } = useSearchInput({
     onChange,
-    onSearchChange: value => {
+    onSearchChange: (value) => {
       setProblems([]);
       load(value);
-    }
+    },
   });
 
   return (

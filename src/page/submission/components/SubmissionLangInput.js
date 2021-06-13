@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
-export const SubmissionLangInput = props => {
+export const SubmissionLangInput = (props) => {
   const { problem, value, onChange } = props;
   const languageOptions = React.useMemo(
     () =>
-      problem.allowedLanguages.map(lang => ({
+      problem.allowedLanguages.map((lang) => ({
         key: lang.id,
         value: lang.name,
-        text: lang.title
+        text: lang.title,
       })),
     [problem]
   );
   const handleChange = React.useCallback(
     (event, data) => {
       const lang = problem.allowedLanguages.find(
-        item => item.name === data.value
+        (item) => item.name === data.value
       );
       if (onChange) {
         onChange(lang);

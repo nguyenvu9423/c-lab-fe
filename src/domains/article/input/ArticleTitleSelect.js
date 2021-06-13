@@ -11,7 +11,7 @@ export function ArticleTitleSelect(props) {
   const [isFetching, setIsFetching] = React.useState();
 
   const load = React.useCallback(
-    Lodash.debounce(searchQuery => {
+    Lodash.debounce((searchQuery) => {
       if (searchQuery) {
         setIsFetching(true);
         ArticleService.getArticles({ query: `title=='*${searchQuery}*'` }).then(
@@ -27,9 +27,9 @@ export function ArticleTitleSelect(props) {
 
   const articleOptions = React.useMemo(
     () =>
-      articles.map(problem => ({
+      articles.map((problem) => ({
         key: problem.id,
-        title: problem.title
+        title: problem.title,
       })),
     [articles]
   );
@@ -40,13 +40,13 @@ export function ArticleTitleSelect(props) {
     handleSearchChange,
     handleResultSelect,
     handleKeyDown,
-    handleBlur
+    handleBlur,
   } = useSearchInput({
     onChange,
-    onSearchChange: value => {
+    onSearchChange: (value) => {
       setArticles([]);
       load(value);
-    }
+    },
   });
 
   return (

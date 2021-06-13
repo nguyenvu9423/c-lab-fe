@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import {
   codeReducer,
   judgeDetailedResultReducer,
-  submissionReducer
+  submissionReducer,
 } from '../data-reducers';
 import { createTargetChecker, Target } from '../target';
 
@@ -14,8 +14,8 @@ export const detailedSubmissionModalReducer = filterActions(
     data: combineReducers({
       submission: submissionReducer,
       code: codeReducer,
-      detailedResult: judgeDetailedResultReducer
-    })
+      detailedResult: judgeDetailedResultReducer,
+    }),
   }),
   targetChecker
 );

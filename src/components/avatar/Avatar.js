@@ -14,7 +14,7 @@ export function Avatar(props) {
         width: 128,
         height: 128,
         display: 'inline-block',
-        ...style
+        ...style,
       }}
       src={
         user.avatarUrl

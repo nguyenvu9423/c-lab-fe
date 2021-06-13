@@ -5,7 +5,7 @@ import {
   Message,
   Portal,
   Segment,
-  TransitionablePortal
+  TransitionablePortal,
 } from 'semantic-ui-react';
 
 class ToastGroup extends React.Component {
@@ -13,7 +13,7 @@ class ToastGroup extends React.Component {
     super(props);
     this.currentMaxKey = 0;
     this.state = {
-      toastList: []
+      toastList: [],
     };
     this.handleDismiss = this.handleDismiss.bind(this);
   }
@@ -44,7 +44,7 @@ class ToastGroup extends React.Component {
 
   handleDismiss(event, data) {
     let { toastList } = this.state;
-    toastList = toastList.filter(toast => toast.key !== data.toastKey);
+    toastList = toastList.filter((toast) => toast.key !== data.toastKey);
     this.setState({ toastList });
   }
 
@@ -52,7 +52,7 @@ class ToastGroup extends React.Component {
     let { toastList } = this.state;
     return (
       <React.Fragment>
-        {toastList.reverse().map(toast => {
+        {toastList.reverse().map((toast) => {
           const key = toast.key;
           return (
             <List.Item key={key}>

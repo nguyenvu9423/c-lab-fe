@@ -7,7 +7,7 @@ const initialState = {
   loadingState: LoadingState.LOAD_NEEDED,
   pageable: { page: 0, size: 0 },
   error: undefined,
-  totalPages: 0
+  totalPages: 0,
 };
 
 export const submissionsReducer = handleActions(
@@ -24,17 +24,17 @@ export const submissionsReducer = handleActions(
           ids: submissions,
           loadingState: LoadingState.LOADED,
           totalPages,
-          error: undefined
+          error: undefined,
         };
       } else {
         return {
           ...state,
           loadingState: LoadingState.ERROR,
-          error: 'Error'
+          error: 'Error',
         };
       }
     },
-    [resetState]: () => initialState
+    [resetState]: () => initialState,
   },
   initialState
 );

@@ -3,7 +3,7 @@ import { showModal, hideModal } from '../actions';
 
 const initialState = {
   modalType: undefined,
-  modalProps: undefined
+  modalProps: undefined,
 };
 
 const modalReducer = handleActions(
@@ -12,7 +12,7 @@ const modalReducer = handleActions(
       const { modalType, modalProps } = action.payload;
       return { modalType, modalProps };
     },
-    [hideModal]: () => initialState
+    [hideModal]: () => initialState,
   },
   initialState
 );

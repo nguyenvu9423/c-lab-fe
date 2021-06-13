@@ -1,7 +1,7 @@
 export const FilterConverter = {
-  toString: filters => {
+  toString: (filters) => {
     return filters
-      .map(filter => `${filter.key}${filter.operator}${filter.value}`)
+      .map((filter) => `${filter.key}${filter.operator}${filter.value}`)
       .join(',');
-  }
+  },
 };

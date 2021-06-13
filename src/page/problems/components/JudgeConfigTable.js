@@ -12,7 +12,7 @@ function JudgeConfigTable(props) {
     totalPages,
     activePage,
     onPageChange,
-    loading
+    loading,
   } = props;
 
   return (
@@ -33,7 +33,7 @@ function JudgeConfigTable(props) {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {judgeConfigs.map(judgeConfig => {
+              {judgeConfigs.map((judgeConfig) => {
                 const isActive = judgeConfig.id === activeJudgeConfig.id;
                 return (
                   <Table.Row

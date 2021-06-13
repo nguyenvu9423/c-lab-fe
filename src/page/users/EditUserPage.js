@@ -13,14 +13,14 @@ class BaseEditUserPage extends React.Component {
     const {
       match: { params },
       user,
-      history
+      history,
     } = this.props;
     UserService.updateUserDetails(user.id, values)
-      .then(value => {
+      .then((value) => {
         history.goBack();
         bag.setSubmitting(false);
       })
-      .catch(error => {
+      .catch((error) => {
         bag.setSubmitting(false);
       });
   }
@@ -36,13 +36,15 @@ class BaseEditUserPage extends React.Component {
 
 export const EditUserPage = connect((state, ownProps) => {
   const {
-    entities: { user }
+    entities: { user },
   } = state;
   const {
     match: {
-      params: { username }
-    }
+      params: { username },
+    },
   } = ownProps;
-  let targetUser = Object.values(user).find(item => item.username === username);
+  let targetUser = Object.values(user).find(
+    (item) => item.username === username
+  );
   return { user: targetUser };
 })(BaseEditUserPage);

@@ -6,14 +6,14 @@ import { useFormik } from 'formik';
 import { SubmissionService } from '../../../service/SubmissionService';
 import { CodeEditor } from '../../../components/editors';
 
-export const CodeSubmissionForm = props => {
+export const CodeSubmissionForm = (props) => {
   const { problem, onSuccess } = props;
 
   const formik = useFormik({
     initialValues: {
       language: problem.allowedLanguages[0],
       codeText: '',
-      codeFile: undefined
+      codeFile: undefined,
     },
     onSubmit: (values, { setSubmitting }) => {
       const { language, codeText, codeFile } = values;
@@ -21,7 +21,7 @@ export const CodeSubmissionForm = props => {
         problemId: problem.id,
         languageName: language.name,
         codeFile,
-        codeText
+        codeText,
       })
         .then(({ data }) => {
           setSubmitting(false);
@@ -30,7 +30,7 @@ export const CodeSubmissionForm = props => {
         .catch(() => {
           setSubmitting(false);
         });
-    }
+    },
   });
   const { values, setFieldValue, handleSubmit, isSubmitting } = formik;
 
@@ -54,7 +54,7 @@ export const CodeSubmissionForm = props => {
         <label>Nộp file</label>
         <FileUploadInput
           file={values.codeFile}
-          onChange={file => setFieldValue('codeFile', file)}
+          onChange={(file) => setFieldValue('codeFile', file)}
         />
       </Form.Field>
       <Form.Field>
@@ -62,7 +62,7 @@ export const CodeSubmissionForm = props => {
         <SubmissionLangInput
           problem={problem}
           value={values.language}
-          onChange={lang => setFieldValue('language', lang)}
+          onChange={(lang) => setFieldValue('language', lang)}
         />
       </Form.Field>
       <Form.Button type="submit" primary floated="right">

@@ -3,7 +3,7 @@ import { normalize } from 'normalizr';
 import { ArticleService } from '../../service/ArticleService';
 import {
   articleArraySchema,
-  articleSchema
+  articleSchema,
 } from '../../entity-schemas/articleSchema';
 import { fetchArticle, fetchArticles, updateEntity } from '../actions';
 
@@ -28,7 +28,7 @@ function* fetchArticlesSaga(action) {
     const { pageable, query } = action.payload;
     const { data } = yield call(ArticleService.getArticles, {
       pageable,
-      query
+      query,
     });
     const normalizedData = normalize(data.content, articleArraySchema);
     yield put(updateEntity(normalizedData.entities));
@@ -36,7 +36,7 @@ function* fetchArticlesSaga(action) {
       fetchArticles.response(
         {
           articles: normalizedData.result,
-          totalPages: data.totalPages
+          totalPages: data.totalPages,
         },
         action.meta
       )

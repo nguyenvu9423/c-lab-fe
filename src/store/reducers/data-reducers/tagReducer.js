@@ -5,7 +5,7 @@ import { handleActions } from 'redux-actions';
 const initialState = {
   id: undefined,
   loadingState: LoadingState.LOAD_NEEDED,
-  error: undefined
+  error: undefined,
 };
 
 export const tagReducer = handleActions(
@@ -13,7 +13,7 @@ export const tagReducer = handleActions(
     [fetchTag.request]: () => {
       return {
         ...initialState,
-        loadingState: LoadingState.LOADING
+        loadingState: LoadingState.LOADING,
       };
     },
     [fetchTag.response]: (state, { payload, error }) => {
@@ -22,15 +22,15 @@ export const tagReducer = handleActions(
         return {
           id: tag,
           loadingState: LoadingState.LOADED,
-          error: undefined
+          error: undefined,
         };
       } else {
         const { response } = payload;
         return {
-          error: { message: response.data.message }
+          error: { message: response.data.message },
         };
       }
-    }
+    },
   },
   initialState
 );

@@ -4,7 +4,7 @@ import { AddArticleForm } from '../../domains/article';
 
 export function AddArticlePage(props) {
   const { history } = props;
-  const handleSuccess = article => {
+  const handleSuccess = (article) => {
     history.push(`/articles/${article.id}`);
   };
 

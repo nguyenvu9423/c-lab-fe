@@ -12,7 +12,7 @@ export function useProblemRejudgeStream(ids) {
   React.useEffect(() => {
     if (!ArrayUtils.isEmpty(ids)) {
       const eventSource = ProblemRejudgeService.getStream(ids);
-      eventSource.addEventListener('updateEntity', event => {
+      eventSource.addEventListener('updateEntity', (event) => {
         const data = JSON.parse(event.data);
         const normalizedData = normalize(data, ProblemRejudgeArraySchema);
         dispatch(updateEntity(normalizedData.entities));

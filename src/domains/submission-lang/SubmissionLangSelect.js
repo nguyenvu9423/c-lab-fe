@@ -8,18 +8,18 @@ export function useSubmissionLangSelect(props = {}) {
 
   const languageOptions = React.useMemo(
     () =>
-      langs.map(lang => ({
+      langs.map((lang) => ({
         value: lang.name,
-        text: lang.title
+        text: lang.title,
       })),
     [langs]
   );
 
   const mapValueToLanguage = React.useCallback(
-    value => langs.find(lang => value == lang.name),
+    (value) => langs.find((lang) => value == lang.name),
     [langs]
   );
-  const mapLanguageToValue = React.useCallback(lang => lang.name, []);
+  const mapLanguageToValue = React.useCallback((lang) => lang.name, []);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -34,17 +34,14 @@ export function useSubmissionLangSelect(props = {}) {
   return {
     languageOptions,
     mapValueToLanguage,
-    mapLanguageToValue
+    mapLanguageToValue,
   };
 }
 
 export function SubmissionLangSelect(props) {
   const { value, onChange } = props;
-  const {
-    languageOptions,
-    mapLanguageToValue,
-    mapValueToLanguage
-  } = useSubmissionLangSelect({ initialLangs: value });
+  const { languageOptions, mapLanguageToValue, mapValueToLanguage } =
+    useSubmissionLangSelect({ initialLangs: value });
 
   return (
     <Dropdown

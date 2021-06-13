@@ -9,11 +9,11 @@ const isWithTarget = createTargetChecker(Target.PROBLEM_SUBMISSIONS);
 const problemSubmissionsReducer = filterActions(
   combineReducers({
     data: combineReducers({
-      submissions: submissionsReducer
+      submissions: submissionsReducer,
     }),
     ui: combineReducers({
-      filters: submissionFilterReducer
-    })
+      filters: submissionFilterReducer,
+    }),
   }),
   isWithTarget
 );

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Button, Label } from 'semantic-ui-react';
 
-export const PutFileInput = props => {
+export const PutFileInput = (props) => {
   const { file, onChange } = props;
   const ref = React.useRef();
   const handleChange = React.useCallback(
-    event => {
+    (event) => {
       const { files } = event.target;
       if (files.length === 1) {
         onChange?.(files[0]);
@@ -37,9 +37,7 @@ export const PutFileInput = props => {
         ) : (
           <Button type="button" icon="repeat" onClick={handleReset} />
         )
-      ) : (
-        undefined
-      )}
+      ) : undefined}
       <Button
         type="button"
         icon="folder open"

@@ -11,7 +11,7 @@ function* fetchJudgeConfigSaga(action) {
   try {
     const { problemId } = payload;
     const { data } = yield call(JudgeConfigService.getJudgeConfig, {
-      problemId
+      problemId,
     });
     let judgeConfig;
     if (data === '') {

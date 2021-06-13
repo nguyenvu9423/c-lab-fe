@@ -13,8 +13,8 @@ export function LoginForm(props) {
   const dispatch = useDispatch();
 
   const onSubmit = React.useCallback(
-    auth => {
-      AuthenticationService.login(auth).then(response => {
+    (auth) => {
+      AuthenticationService.login(auth).then((response) => {
         const token = response.data;
         dispatch(login(token));
         onSuccess?.();
@@ -30,14 +30,14 @@ export function LoginForm(props) {
     handleChange,
     handleSubmit,
     handleBlur,
-    isSubmitting
+    isSubmitting,
   } = useFormik({
     initialValues: {
       username: '',
-      password: ''
+      password: '',
     },
     validationSchema,
-    onSubmit
+    onSubmit,
   });
 
   const errorMessageRenderer = useErrorMessageRenderer({ touched, errors });

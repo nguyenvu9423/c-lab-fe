@@ -14,7 +14,7 @@ export function CompactSubmissionTable(props) {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {submissions.map(submission => {
+        {submissions.map((submission) => {
           return (
             <Table.Row key={submission.id}>
               <Table.Cell>

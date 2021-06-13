@@ -10,7 +10,7 @@ const validationSchema = yup.object().shape({
     .string()
     .required('Title is required')
     .min(3, 'Title should be at last 3 characters'),
-  content: yup.string().required('Content is required')
+  content: yup.string().required('Content is required'),
 });
 
 class BaseWriteArticleComponent extends React.Component {
@@ -45,7 +45,7 @@ class BaseWriteArticleComponent extends React.Component {
       handleSubmit,
       isValid,
       handleBlur,
-      isSubmitting
+      isSubmitting,
     } = this.props;
     return (
       <Segment className={'clear-fix-container'}>
@@ -89,21 +89,21 @@ export let WriteArticleComponent = withFormik({
   mapPropsToValues: () => {
     return {
       title: '',
-      content: ''
+      content: '',
     };
   },
   handleSubmit: (values, bag) => {
     const { props } = bag;
     const { onCreateArticleSuccess } = props;
     ArticleService.createArticle(values)
-      .then(res => {
+      .then((res) => {
         const { data: article } = res;
         if (onCreateArticleSuccess) onCreateArticleSuccess(article);
         bag.setSubmitting(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   },
-  validationSchema
+  validationSchema,
 })(BaseWriteArticleComponent);

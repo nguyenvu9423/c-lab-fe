@@ -13,7 +13,7 @@ export function JudgeStatusLabel(props) {
   const {
     progress,
     result,
-    config: { scoringType }
+    config: { scoringType },
   } = judge;
 
   switch (progress.status.type) {

@@ -12,16 +12,16 @@ export function ProblemIdSelect(props) {
   const [searchQuery, setSearchQuery] = React.useState(undefined);
 
   const load = React.useCallback(
-    Lodash.debounce(searchQuery => {
+    Lodash.debounce((searchQuery) => {
       if (searchQuery !== undefined) {
         setIsFetching(true);
         const query = searchQuery ? `id==${searchQuery}` : undefined;
         ProblemService.getProblemByQuery(query).then(
           ({ data: { content } }) => {
-            setProblems(prevProblems => {
+            setProblems((prevProblems) => {
               const newProblems = [...prevProblems];
-              content.forEach(problem => {
-                if (!prevProblems.some(obj => obj.id === problem.id)) {
+              content.forEach((problem) => {
+                if (!prevProblems.some((obj) => obj.id === problem.id)) {
                   newProblems.push(problem);
                 }
               });
@@ -39,10 +39,10 @@ export function ProblemIdSelect(props) {
 
   const problemOptions = React.useMemo(
     () =>
-      problems.map(problem => ({
+      problems.map((problem) => ({
         key: problem.id,
         value: problem.id,
-        text: problem.id
+        text: problem.id,
       })),
     [problems]
   );

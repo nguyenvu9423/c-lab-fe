@@ -26,7 +26,7 @@ export function FileUploadInput(props) {
         type="file"
         name={name}
         hidden
-        onChange={event => {
+        onChange={(event) => {
           const { files } = event.target;
           if (files.length === 1) {
             onChange?.(files[0]);

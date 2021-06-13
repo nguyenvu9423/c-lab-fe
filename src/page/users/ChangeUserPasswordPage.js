@@ -23,20 +23,15 @@ class BaseChangeUserPasswordForm extends React.Component {
       ...status,
       errors: {
         ...status.errors,
-        [fieldName]: ''
-      }
+        [fieldName]: '',
+      },
     });
     handleChange(e);
   }
 
   render() {
-    const {
-      values,
-      handleChange,
-      handleSubmit,
-      handleBlur,
-      isSubmitting
-    } = this.props;
+    const { values, handleChange, handleSubmit, handleBlur, isSubmitting } =
+      this.props;
     return (
       <Grid container>
         <Grid.Row centered columns={1}>
@@ -98,19 +93,19 @@ class BaseChangeUserPasswordForm extends React.Component {
 }
 
 const ChangeUserPasswordForm = withFormik({
-  mapPropsToValues: props => {
+  mapPropsToValues: (props) => {
     return { newPassword: '', confirmNewPassword: '', oldPassword: '' };
   },
   mapPropsToStatus: () => {
     return {
       isValid: true,
-      errors: {}
+      errors: {},
     };
   },
   handleSubmit: (values, bag) => {
     const changePasswordDTO = {
       newPassword: values.newPassword,
-      oldPassword: values.oldPassword
+      oldPassword: values.oldPassword,
     };
     const { onSubmit } = bag.props;
     onSubmit(changePasswordDTO, bag);
@@ -129,8 +124,8 @@ const ChangeUserPasswordForm = withFormik({
       .string()
       .required('Password is required')
       .min(8, 'Password should be at least 8 characters')
-      .max(24, 'Password should be at most 24 characters')
-  })
+      .max(24, 'Password should be at most 24 characters'),
+  }),
 })(BaseChangeUserPasswordForm);
 
 class ChangeUserPasswordPage extends React.Component {
@@ -142,24 +137,24 @@ class ChangeUserPasswordPage extends React.Component {
   handleSubmit(values, bag) {
     const {
       match: { params },
-      history
+      history,
     } = this.props;
 
     UserService.updateUserPassword(params.username, values)
-      .then(response => {
+      .then((response) => {
         const { data: user } = response;
         history.goBack();
         bag.setSubmitting(false);
       })
-      .catch(error => {
+      .catch((error) => {
         const errors = {};
         const errorList = error.response.data;
-        errorList.forEach(item => {
+        errorList.forEach((item) => {
           errors[item.field] = item.defaultMessage;
         });
         bag.setStatus({
           isValid: false,
-          errors
+          errors,
         });
         bag.setSubmitting(false);
       });

@@ -6,7 +6,7 @@ import {
   List,
   Message,
   Segment,
-  Button
+  Button,
 } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../../store/actions/modal';
@@ -17,20 +17,20 @@ import {
   TestResultLabel,
   ErrorLabel,
   JudgeProgressType,
-  useJudgesStream
+  useJudgesStream,
 } from '../../judge';
 import {
   fetchDetailedSubmission,
   updateEntity,
   clearDetailedResult,
-  fetchDetailedJudge
+  fetchDetailedJudge,
 } from '../../../store/actions';
 import { LoadingIndicator } from '../../../components/loading-indicator';
 import { SubmissionSelector } from '../../../store/selectors';
 import { JudgeVerdict } from '../../judge/JudgerVerdict';
 import {
   formatResourceTime,
-  formatResourceMemory
+  formatResourceMemory,
 } from '../../../page/problems/utils';
 import { SubmissionService } from '../../../service/SubmissionService';
 import { normalize } from 'normalizr';
@@ -39,9 +39,9 @@ import { Target } from '../../../store/reducers/target';
 import { JudgeSelectors } from '../../../store/selectors/JudgeSelectors';
 import { JudgeService } from '../../../service/JudgeService';
 
-const DetailedSubmissionModal = props => {
+const DetailedSubmissionModal = (props) => {
   const { submissionId } = props;
-  const { data } = useSelector(state => state.detailedSubmissionModal);
+  const { data } = useSelector((state) => state.detailedSubmissionModal);
 
   const submission = useSelector(
     data.submission.id
@@ -212,7 +212,7 @@ function DetailedResult(props) {
   } else
     return (
       <List className="result-log-list" size={'mini'}>
-        {testResults.map(testResult => {
+        {testResults.map((testResult) => {
           const { test } = testResult;
           return (
             <List.Item key={test.id}>

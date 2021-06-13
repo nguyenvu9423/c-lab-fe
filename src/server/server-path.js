@@ -7,5 +7,5 @@ export const serverPath = {
     } else {
       return `${serverConfigs.getBaseURL()}/${url}`;
     }
-  }
+  },
 };

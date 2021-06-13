@@ -14,7 +14,9 @@ export function ProblemUserSubmissionCard(props) {
   const dispatch = useDispatch();
 
   const { problemId, userId } = props;
-  const { data } = useSelector(state => state[Target.PROBLEM_USER_SUBMISSIONS]);
+  const { data } = useSelector(
+    (state) => state[Target.PROBLEM_USER_SUBMISSIONS]
+  );
   const submissions = useSelector(
     SubmissionSelector.byIds(data.submissions.ids)
   );
@@ -26,7 +28,7 @@ export function ProblemUserSubmissionCard(props) {
           {
             problemId,
             userId,
-            pageable: pageable ?? data.submissions.pageable
+            pageable: pageable ?? data.submissions.pageable,
           },
           { target: Target.PROBLEM_USER_SUBMISSIONS }
         )
@@ -44,7 +46,7 @@ export function ProblemUserSubmissionCard(props) {
     load({ pageable: { page: 0, size: PAGE_SIZE } });
   }, []);
 
-  useJudgesStream(submissions.map(sub => sub.judge));
+  useJudgesStream(submissions.map((sub) => sub.judge));
 
   const handlePageChange = React.useCallback((event, { activePage }) => {
     load({ pageable: { page: activePage - 1, size: PAGE_SIZE } });

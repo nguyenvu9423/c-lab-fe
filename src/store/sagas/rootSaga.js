@@ -27,7 +27,7 @@ function* rootSaga() {
     call(watchSearchSaga),
     call(watchTagSaga),
     call(watchRoleSaga),
-    call(watchJudgeSaga)
+    call(watchJudgeSaga),
   ]);
 }
 

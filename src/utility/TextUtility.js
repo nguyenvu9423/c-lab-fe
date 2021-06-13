@@ -23,7 +23,7 @@ class ArticleUtility {
         id,
         label: $(element).text(),
         tagName: element.tagName,
-        children: []
+        children: [],
       };
       if (node.tagName > nearestNode.tagName) {
         node.parent = nearestNode;

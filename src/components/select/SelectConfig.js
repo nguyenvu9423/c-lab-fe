@@ -1,3 +1,3 @@
 export const SelectConfig = {
-  DELAY: 500
+  DELAY: 500,
 };

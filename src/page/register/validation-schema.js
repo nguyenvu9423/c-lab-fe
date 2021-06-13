@@ -21,10 +21,7 @@ const validationSchema = yup.object().shape({
     .required('Last name is required')
     .min(2, 'Last name should be at least 2 characters')
     .max(24, 'Last name should be at most 64 characters'),
-  email: yup
-    .string()
-    .required('Email is required')
-    .email('Email is not valid')
+  email: yup.string().required('Email is required').email('Email is not valid'),
 });
 
 export default validationSchema;

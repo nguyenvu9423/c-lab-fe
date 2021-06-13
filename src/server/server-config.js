@@ -1,3 +1,3 @@
 export const serverConfigs = {
-  getBaseURL: () => '/api'
+  getBaseURL: () => '/api',
 };

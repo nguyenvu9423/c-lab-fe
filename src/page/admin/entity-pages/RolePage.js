@@ -10,13 +10,13 @@ import { EditRoleForm, AddRoleForm } from '../../../domains/role';
 
 export function RolePage() {
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state.adminPage.role);
+  const { data } = useSelector((state) => state.adminPage.role);
 
   const load = React.useCallback(({ pageable }) => {
     dispatch(
       fetchRoles.request(
         {
-          pageable: pageable ?? data.roles.pageable
+          pageable: pageable ?? data.roles.pageable,
         },
         { target: Target.ADMIN_PAGE.ROLE }
       )
@@ -53,7 +53,7 @@ export function RolePage() {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {roles.map(role => (
+              {roles.map((role) => (
                 <Table.Row key={role.id}>
                   <Table.Cell>{role.id}</Table.Cell>
                   <Table.Cell>{role.name}</Table.Cell>
@@ -79,8 +79,8 @@ export function RolePage() {
             load({
               pageable: {
                 page: props.activePage - 1,
-                size: data.roles.pageable.size
-              }
+                size: data.roles.pageable.size,
+              },
             })
           }
         />

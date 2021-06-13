@@ -8,10 +8,10 @@ const initialState = {
   totalPages: 0,
   pageable: {
     page: 0,
-    size: 10
+    size: 10,
   },
   error: undefined,
-  request: undefined
+  request: undefined,
 };
 
 export const rolesReducer = handleActions(
@@ -21,7 +21,7 @@ export const rolesReducer = handleActions(
       return {
         ...state,
         loadingState: LoadingState.LOADING,
-        pageable
+        pageable,
       };
     },
     [fetchRoles.response]: (state, action) => {
@@ -32,15 +32,15 @@ export const rolesReducer = handleActions(
           ids: roles,
           loadingState: LoadingState.LOADED,
           totalPages,
-          error: undefined
+          error: undefined,
         };
       } else {
         return {
           loadingState: LoadingState.ERROR,
-          error: 'Error'
+          error: 'Error',
         };
       }
-    }
+    },
   },
   initialState
 );

@@ -11,10 +11,10 @@ import { RolePage } from './entity-pages/RolePage';
 export function AdminPage(props) {
   const baseURL = props.match.url;
   const {
-    params: { activePage = 'users' }
+    params: { activePage = 'users' },
   } = useRouteMatch({
     path: `${baseURL}/:activePage?`,
-    strict: true
+    strict: true,
   });
   let content;
   switch (activePage) {

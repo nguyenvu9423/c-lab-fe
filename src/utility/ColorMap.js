@@ -3,7 +3,7 @@ class ColorMap {
     this.colorMap = {
       red: '#db2828',
       green: '#2c662d',
-      lightGrey: '#757575'
+      lightGrey: '#757575',
     };
   }
 

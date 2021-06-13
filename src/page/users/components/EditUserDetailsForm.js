@@ -23,8 +23,8 @@ class BaseEditUserDetailsForm extends React.Component {
       ...status,
       errors: {
         ...status.errors,
-        [fieldName]: ''
-      }
+        [fieldName]: '',
+      },
     });
     handleChange(e);
   }
@@ -116,7 +116,7 @@ class BaseEditUserDetailsForm extends React.Component {
 }
 
 const EditUserDetailsForm = withFormik({
-  mapPropsToValues: props => {
+  mapPropsToValues: (props) => {
     const { initialUser } = props;
     if (initialUser) {
       return {
@@ -124,7 +124,7 @@ const EditUserDetailsForm = withFormik({
         lastName: initialUser.lastName,
         email: initialUser.email,
         birthDay: initialUser.birthDay,
-        workplace: initialUser.workplace
+        workplace: initialUser.workplace,
       };
     }
     return {
@@ -132,13 +132,13 @@ const EditUserDetailsForm = withFormik({
       lastName: '',
       email: '',
       birthDay: '',
-      workplace: ''
+      workplace: '',
     };
   },
   mapPropsToStatus: () => {
     return {
       isValid: true,
-      errors: {}
+      errors: {},
     };
   },
   handleSubmit: (values, bag) => {
@@ -159,8 +159,8 @@ const EditUserDetailsForm = withFormik({
     email: yup
       .string()
       .required('Email is required')
-      .email('Email is not valid')
-  })
+      .email('Email is not valid'),
+  }),
 })(BaseEditUserDetailsForm);
 
 export { EditUserDetailsForm };

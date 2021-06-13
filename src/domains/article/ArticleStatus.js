@@ -10,7 +10,7 @@ export class ArticleStatus {
   }
 
   getByName(name) {
-    return this.values.find(value => value.name === name);
+    return this.values.find((value) => value.name === name);
   }
 }
 
@@ -18,5 +18,5 @@ export const articleStatusValues = [
   ArticleStatus.ACTIVE,
   ArticleStatus.IN_ACTIVE,
   ArticleStatus.HIDDEN,
-  ArticleStatus.BANNED
+  ArticleStatus.BANNED,
 ];

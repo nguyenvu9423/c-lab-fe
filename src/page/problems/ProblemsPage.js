@@ -15,12 +15,12 @@ const PROBLEMS_PAGE_SIZE = 16;
 
 export function ProblemsPage(props) {
   const {
-    match: { url }
+    match: { url },
   } = props;
 
   const principal = useSelector(PrincipalSelectors.principal());
 
-  const { data } = useSelector(state => state.problemsPage);
+  const { data } = useSelector((state) => state.problemsPage);
 
   const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ export function ProblemsPage(props) {
         fetchProblems.request(
           {
             pageable: pageable ?? data.problems.pageable,
-            query: query ?? data.problems.query
+            query: query ?? data.problems.query,
           },
           { target: Target.PROBLEMS_PAGE }
         )
@@ -48,9 +48,9 @@ export function ProblemsPage(props) {
     [load]
   );
 
-  const handleFilterChange = React.useCallback(tags => {
+  const handleFilterChange = React.useCallback((tags) => {
     const query =
-      tags.length > 0 ? `tags=include=(${tags.map(tag => tag.name)})` : '';
+      tags.length > 0 ? `tags=include=(${tags.map((tag) => tag.name)})` : '';
     load({ query });
   });
 
@@ -78,7 +78,7 @@ export function ProblemsPage(props) {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {problems.map(problem => (
+              {problems.map((problem) => (
                 <Table.Row key={problem.id}>
                   <Table.Cell>
                     <Link to={`${url}/${problem.code}`}>{problem.id}</Link>

@@ -8,11 +8,11 @@ const initialState = {
   totalPages: 0,
   pageable: {
     page: 0,
-    size: 10
+    size: 10,
   },
   filters: [],
   error: undefined,
-  currentRequestId: undefined
+  currentRequestId: undefined,
 };
 
 export const usersReducer = handleActions(
@@ -25,7 +25,7 @@ export const usersReducer = handleActions(
         pageable,
         filters,
         error: undefined,
-        currentRequestId: meta.requestId
+        currentRequestId: meta.requestId,
       };
     },
     [fetchUsers.response]: (state, { payload, meta, error }) => {
@@ -37,18 +37,18 @@ export const usersReducer = handleActions(
             ids: users,
             loadingState: LoadingState.LOADED,
             totalPages,
-            error: undefined
+            error: undefined,
           };
         }
       } else {
         return {
           ...state,
           loadingState: LoadingState.ERROR,
-          error: { message: payload.message }
+          error: { message: payload.message },
         };
       }
       return state;
-    }
+    },
   },
   initialState
 );

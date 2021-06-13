@@ -7,7 +7,7 @@ import { useVerdictOptions } from './verdict-options';
 import { useOperationOptions } from './operation-options';
 import { ComparisonOperator } from '../../../../utility/filter';
 
-export const SubmissionFilterCard = props => {
+export const SubmissionFilterCard = (props) => {
   const { problem, onQueryChange } = props;
 
   const { languageOptions } = useProblemLanguageOptions({ problem });
@@ -19,9 +19,9 @@ export const SubmissionFilterCard = props => {
       verdict: verdictOptions[0].value,
       language: languageOptions[0].value,
       operation: operationOptions[0].value,
-      testCount: 0
+      testCount: 0,
     },
-    onSubmit: values => {
+    onSubmit: (values) => {
       let query = '';
       if (values.language && values.language !== 'ANY') {
         query += `language${ComparisonOperator.EQUAL}${values.language}`;
@@ -35,7 +35,7 @@ export const SubmissionFilterCard = props => {
         query += `result.passedTestCount${operation.operator}${values.testCount}`;
       }
       onQueryChange?.(query ? query : undefined);
-    }
+    },
   });
 
   const handleChange = React.useCallback((event, data) => {

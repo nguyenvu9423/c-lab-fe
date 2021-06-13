@@ -13,8 +13,8 @@ export class ArticleService {
       params: {
         size: pageable.size,
         page: pageable.page,
-        query: query ? query : undefined
-      }
+        query: query ? query : undefined,
+      },
     });
   }
 

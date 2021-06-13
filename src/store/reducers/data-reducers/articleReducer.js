@@ -5,7 +5,7 @@ import { handleActions } from 'redux-actions';
 const initialState = {
   id: undefined,
   loadingState: LoadingState.LOAD_NEEDED,
-  error: undefined
+  error: undefined,
 };
 
 export const articleReducer = handleActions(
@@ -17,21 +17,21 @@ export const articleReducer = handleActions(
         return {
           ...state,
           id: article.id,
-          loadingState: LoadingState.LOADED
+          loadingState: LoadingState.LOADED,
         };
       } else {
         const {
           response: {
-            data: { message }
-          }
+            data: { message },
+          },
         } = payload;
         return {
           loadingState: LoadingState.ERROR,
-          error: { message }
+          error: { message },
         };
       }
     },
-    [resetState]: () => initialState
+    [resetState]: () => initialState,
   },
   initialState
 );

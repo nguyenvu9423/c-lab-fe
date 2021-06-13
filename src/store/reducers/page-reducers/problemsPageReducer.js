@@ -6,8 +6,8 @@ import { createTargetChecker, Target } from '../target';
 const problemsPageReducer = filterActions(
   combineReducers({
     data: combineReducers({
-      problems: problemsReducer
-    })
+      problems: problemsReducer,
+    }),
   }),
   createTargetChecker(Target.PROBLEMS_PAGE)
 );

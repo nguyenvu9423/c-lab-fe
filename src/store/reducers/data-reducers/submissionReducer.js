@@ -5,28 +5,28 @@ import { fetchDetailedSubmission } from '../../actions';
 const initialState = {
   id: undefined,
   loadingState: LoadingState.LOAD_NEEDED,
-  error: undefined
+  error: undefined,
 };
 
 const submissionReducer = handleActions(
   {
     [fetchDetailedSubmission.request]: () => ({
-      loadingState: LoadingState.LOADING
+      loadingState: LoadingState.LOADING,
     }),
     [fetchDetailedSubmission.response]: (state, { error, payload }) => {
       if (!error) {
         const { detailedSubmission } = payload;
         return {
           id: detailedSubmission.id,
-          loadingState: LoadingState.LOADED
+          loadingState: LoadingState.LOADED,
         };
       } else {
         const {
-          data: { message }
+          data: { message },
         } = payload.response;
         return { loadingState: LoadingState.ERROR, error: { message } };
       }
-    }
+    },
   },
   initialState
 );

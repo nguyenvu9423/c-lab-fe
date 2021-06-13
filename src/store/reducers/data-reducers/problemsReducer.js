@@ -10,11 +10,11 @@ const initialState = {
   totalPages: 0,
   pageable: {
     page: 0,
-    size: 0
+    size: 0,
   },
   query: '',
   error: undefined,
-  currentRequestId: undefined
+  currentRequestId: undefined,
 };
 
 export const problemsReducer = handleActions(
@@ -26,7 +26,7 @@ export const problemsReducer = handleActions(
         loadingState: LoadingState.LOADING,
         pageable,
         query,
-        currentRequestId: meta.requestId
+        currentRequestId: meta.requestId,
       };
     },
     [fetchProblems.response]: (state, action) => {
@@ -37,13 +37,13 @@ export const problemsReducer = handleActions(
           ids: problems,
           loadingState: LoadingState.LOADED,
           totalPages,
-          error: undefined
+          error: undefined,
         };
       } else {
         return {
           ...initialState,
           loadingState: LoadingState.ERROR,
-          error: 'Error'
+          error: 'Error',
         };
       }
     },
@@ -52,19 +52,19 @@ export const problemsReducer = handleActions(
       return {
         ...state,
         loadingState: LoadingState.LOAD_NEEDED,
-        filters
+        filters,
       };
     },
-    [resetFilters]: state => {
+    [resetFilters]: (state) => {
       return {
         ...state,
         loadingState: LoadingState.LOAD_NEEDED,
-        filters: []
+        filters: [],
       };
     },
     [resetState]: () => {
       return initialState;
-    }
+    },
   },
   initialState
 );

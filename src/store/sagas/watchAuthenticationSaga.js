@@ -55,7 +55,7 @@ export function* watchAuthenticationSaga() {
 
     yield race({
       logout: take(logout),
-      tokenExpired: take(refreshToken.failed)
+      tokenExpired: take(refreshToken.failed),
     });
     yield put(setToken({ token: null }));
     currentToken = null;

@@ -12,7 +12,7 @@ export function TagNameSelect(props) {
   const [isFetching, setIsFetching] = React.useState();
 
   const load = React.useCallback(
-    Lodash.debounce(searchQuery => {
+    Lodash.debounce((searchQuery) => {
       if (searchQuery) {
         setIsFetching(true);
         TagService.getTags(
@@ -29,9 +29,9 @@ export function TagNameSelect(props) {
 
   const tagOptions = React.useMemo(
     () =>
-      tags.map(tag => ({
+      tags.map((tag) => ({
         key: tag.id,
-        title: tag.name
+        title: tag.name,
       })),
     [tags]
   );
@@ -42,13 +42,13 @@ export function TagNameSelect(props) {
     handleSearchChange,
     handleResultSelect,
     handleKeyDown,
-    handleBlur
+    handleBlur,
   } = useSearchInput({
     onChange,
-    onSearchChange: value => {
+    onSearchChange: (value) => {
       setTags([]);
       load(value);
-    }
+    },
   });
 
   return (

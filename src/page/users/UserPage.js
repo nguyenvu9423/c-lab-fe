@@ -11,11 +11,11 @@ import { LoadingIndicator } from '../../components';
 
 export function UserPage(props) {
   const {
-    match: { params }
+    match: { params },
   } = props;
   const dispatch = useDispatch();
 
-  const { data } = useSelector(state => state[Target.USER_PAGE]);
+  const { data } = useSelector((state) => state[Target.USER_PAGE]);
   const user = useSelector(UserSelectors.byId(data.user.id));
 
   React.useEffect(() => {

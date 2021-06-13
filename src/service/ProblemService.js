@@ -5,9 +5,9 @@ export class ProblemService {
   static create(problem) {
     return apiCaller.post(BASE_URL, problem, {
       headers: {
-        'Content-Type': undefined
+        'Content-Type': undefined,
       },
-      timeout: 120000
+      timeout: 120000,
     });
   }
 
@@ -17,8 +17,8 @@ export class ProblemService {
     return apiCaller.get(BASE_URL, {
       params: {
         ...pageable,
-        query
-      }
+        query,
+      },
     });
   }
 
@@ -26,8 +26,8 @@ export class ProblemService {
     return apiCaller.get(BASE_URL, {
       params: {
         query,
-        ...pageable
-      }
+        ...pageable,
+      },
     });
   }
 
@@ -37,7 +37,7 @@ export class ProblemService {
 
   static getProblemByParams(params) {
     return apiCaller.get(BASE_URL, {
-      params
+      params,
     });
   }
 
@@ -51,7 +51,7 @@ export class ProblemService {
 
   static updateJudgeConfig(id, formData) {
     return apiCaller.post(`${BASE_URL}/${id}/judge-config`, formData, {
-      timeout: 120000
+      timeout: 120000,
     });
   }
 

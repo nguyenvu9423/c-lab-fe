@@ -6,8 +6,8 @@ import { userReducer } from '../data-reducers/userReducer';
 export const editUserFormReducer = filterActions(
   combineReducers({
     data: combineReducers({
-      user: userReducer
-    })
+      user: userReducer,
+    }),
   }),
   createTargetChecker(Target.EDIT_USER_FORM)
 );

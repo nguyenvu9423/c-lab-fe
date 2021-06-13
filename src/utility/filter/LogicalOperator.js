@@ -1,4 +1,4 @@
 export const LogicalOperator = {
   AND: ';',
-  OR: ','
+  OR: ',',
 };

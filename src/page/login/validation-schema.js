@@ -10,5 +10,5 @@ export const validationSchema = yup.object().shape({
     .string()
     .required('Password is required')
     .min(8, 'Invalid password')
-    .max(24, 'Invalid password')
+    .max(24, 'Invalid password'),
 });

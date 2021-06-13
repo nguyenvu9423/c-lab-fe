@@ -3,7 +3,7 @@ import { TestVerdict } from '../../../domains/judge/TestVerdict';
 import {
   AcceptedLabel,
   ErrorLabel,
-  ScoreLabel
+  ScoreLabel,
 } from '../../../domains/judge/ui-labels';
 import { ScoringType } from '../../../domains/judge-config/ScoringType';
 

@@ -3,7 +3,7 @@ import { Message } from 'semantic-ui-react';
 
 class FormErrorMessage extends React.Component {
   static connectProps(wrapper, BaseErrorMessage) {
-    return function(props) {
+    return function (props) {
       const { name } = props;
       const { touched, errors, status } = wrapper.props;
       if (touched[name]) {

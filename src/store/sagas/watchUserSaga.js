@@ -15,7 +15,7 @@ function* fetchUsersSaga(action) {
       fetchUsers.response(
         {
           users: result,
-          totalPages: data.totalPages
+          totalPages: data.totalPages,
         },
         meta
       )

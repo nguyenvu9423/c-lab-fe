@@ -15,9 +15,9 @@ export function CompactCodeSubmissionForm(props) {
       SubmissionService.submit({
         problemId: problem.id,
         languageName: language.name,
-        codeFile
+        codeFile,
       })
-        .then(response => {
+        .then((response) => {
           setSubmitting(false);
           onSubmitDone?.(response.data);
         })
@@ -31,9 +31,9 @@ export function CompactCodeSubmissionForm(props) {
   const formik = useFormik({
     initialValues: {
       language: problem.allowedLanguages[0],
-      codeFile: undefined
+      codeFile: undefined,
     },
-    onSubmit: onSubmitHanlder
+    onSubmit: onSubmitHanlder,
   });
   const { values, handleSubmit, setFieldValue, isSubmitting } = formik;
 
@@ -41,7 +41,7 @@ export function CompactCodeSubmissionForm(props) {
     <Form onSubmit={handleSubmit} loading={isSubmitting}>
       <Form.Field>
         <FileUploadInput
-          onChange={file => setFieldValue('codeFile', file)}
+          onChange={(file) => setFieldValue('codeFile', file)}
           file={values.codeFile}
         />
       </Form.Field>
@@ -49,7 +49,7 @@ export function CompactCodeSubmissionForm(props) {
         <SubmissionLangInput
           problem={problem}
           value={values.language}
-          onChange={lang => setFieldValue('language', lang)}
+          onChange={(lang) => setFieldValue('language', lang)}
         />
       </Form.Field>
       <Form.Button type="submit" primary>

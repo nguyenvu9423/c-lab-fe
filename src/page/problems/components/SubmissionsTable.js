@@ -21,7 +21,7 @@ function SubmissionsTable(props) {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {submissions.map(submission => {
+        {submissions.map((submission) => {
           return (
             <SubmissionRow
               key={submission.id}

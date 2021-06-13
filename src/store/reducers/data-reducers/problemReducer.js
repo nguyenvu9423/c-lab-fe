@@ -6,15 +6,15 @@ import { resetState } from '../../actions/state';
 const initialState = {
   id: undefined,
   loadingState: LoadingState.LOAD_NEEDED,
-  error: undefined
+  error: undefined,
 };
 
 const problemReducer = handleActions(
   {
-    [fetchProblem.request]: state => {
+    [fetchProblem.request]: (state) => {
       return {
         ...state,
-        loadingState: LoadingState.LOADING
+        loadingState: LoadingState.LOADING,
       };
     },
     [fetchProblem.response]: (state, { error, payload }) => {
@@ -23,21 +23,21 @@ const problemReducer = handleActions(
         return {
           ...state,
           id: problem.id,
-          loadingState: LoadingState.LOADED
+          loadingState: LoadingState.LOADED,
         };
       } else {
         const {
           response: {
-            data: { message }
-          }
+            data: { message },
+          },
         } = payload;
         return {
           loadingState: LoadingState.ERROR,
-          error: { message }
+          error: { message },
         };
       }
     },
-    [resetState]: () => initialState
+    [resetState]: () => initialState,
   },
   initialState
 );

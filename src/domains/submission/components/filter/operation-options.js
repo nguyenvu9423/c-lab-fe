@@ -7,13 +7,13 @@ export function useOperationOptions() {
       OperationTypes.map(({ title, id }) => ({
         key: id,
         value: id,
-        text: title
+        text: title,
       })),
     []
   );
 
   const mapValueToOperation = React.useCallback(
-    value => OperationTypes.find(type => type.id === value),
+    (value) => OperationTypes.find((type) => type.id === value),
     []
   );
   return { operationOptions, mapValueToOperation };
@@ -22,18 +22,18 @@ export function useOperationOptions() {
 const OperationTypes = [
   {
     title: '<>',
-    operator: undefined
+    operator: undefined,
   },
   {
     title: '=',
-    operator: ComparisonOperator.EQUAL
+    operator: ComparisonOperator.EQUAL,
   },
   {
     title: '<=',
-    operator: ComparisonOperator.LESS_THAN_OR_EQUAL
+    operator: ComparisonOperator.LESS_THAN_OR_EQUAL,
   },
   {
     title: '>=',
-    operator: ComparisonOperator.GREATER_THAN_OR_EQUAL
-  }
+    operator: ComparisonOperator.GREATER_THAN_OR_EQUAL,
+  },
 ].map((item, id) => ({ id, ...item }));

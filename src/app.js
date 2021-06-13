@@ -13,7 +13,7 @@ import {
   ArticlePageRouter,
   ProblemPageRouter,
   AdminPage,
-  HomePage
+  HomePage,
 } from './page';
 import { toastGroup, TopNav } from './page/common';
 import { Modal } from './components/modals';

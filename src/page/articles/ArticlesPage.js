@@ -10,7 +10,7 @@ import { ArticleSelectors } from '../../store/selectors';
 
 export function ArticlesPage() {
   const dispatch = useDispatch();
-  const { data } = useSelector(state => state[Target.ARTICLES_PAGE]);
+  const { data } = useSelector((state) => state[Target.ARTICLES_PAGE]);
 
   const load = React.useCallback(
     ({ pageable, query } = {}) => {
@@ -18,7 +18,7 @@ export function ArticlesPage() {
         fetchArticles.request(
           {
             pageable: pageable ?? data.articles.pageable,
-            query: query ?? data.articles.query
+            query: query ?? data.articles.query,
           },
           { target: Target.ARTICLES_PAGE }
         )
@@ -32,10 +32,10 @@ export function ArticlesPage() {
   }, []);
 
   const handleFilterChange = React.useCallback(
-    tags => {
+    (tags) => {
       let query = '';
       if (tags?.length) {
-        query = `tags=include=(${tags.map(tag => tag.name)})`;
+        query = `tags=include=(${tags.map((tag) => tag.name)})`;
       }
       load({ query });
     },
@@ -54,7 +54,7 @@ export function ArticlesPage() {
           <>
             <Card.Group>
               {articles
-                ? articles.map(article => (
+                ? articles.map((article) => (
                     <OverviewArticleCard key={article.id} article={article} />
                   ))
                 : null}

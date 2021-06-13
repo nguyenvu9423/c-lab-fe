@@ -6,8 +6,8 @@ import { createTargetChecker, Target } from '../target';
 export const editRoleFormReducer = filterActions(
   combineReducers({
     data: combineReducers({
-      role: roleReducer
-    })
+      role: roleReducer,
+    }),
   }),
   createTargetChecker(Target.EDIT_ROLE_FORM)
 );

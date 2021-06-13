@@ -24,13 +24,13 @@ const coreFieldsSchema = {
     .max(640000, 'Definition should only contain 64000 characters'),
   allowedLanguages: yup
     .array()
-    .min(1, 'At least one languages should be defined')
+    .min(1, 'At least one languages should be defined'),
 };
 
 export const addProblemValidationSchema = yup.object().shape({
-  ...coreFieldsSchema
+  ...coreFieldsSchema,
 });
 
 export const editProblemValidationSchema = yup.object().shape({
-  ...coreFieldsSchema
+  ...coreFieldsSchema,
 });

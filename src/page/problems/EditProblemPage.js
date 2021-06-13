@@ -8,11 +8,11 @@ import { ProblemRejudgeSegment } from './components/ProblemRejudgeSegment';
 export function ProblemEditPage(props) {
   const baseURL = props.match.url;
   const {
-    params: { activePage = 'definition' }
+    params: { activePage = 'definition' },
   } = useRouteMatch({ path: `${baseURL}/:activePage?`, strict: true });
   const {
     history,
-    match: { params }
+    match: { params },
   } = props;
 
   // const handleSuccess = React.useCallback(data => {

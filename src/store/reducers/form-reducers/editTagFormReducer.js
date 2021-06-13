@@ -8,8 +8,8 @@ const isWithTarget = createTargetChecker(Target.EDIT_TAG_FORM);
 export const editTagFormReducer = filterActions(
   combineReducers({
     data: combineReducers({
-      tag: tagReducer
-    })
+      tag: tagReducer,
+    }),
   }),
   isWithTarget
 );

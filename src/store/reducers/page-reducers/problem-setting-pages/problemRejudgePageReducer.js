@@ -3,8 +3,8 @@ import { problemRejudgeReducer } from '../../data-reducers';
 
 const problemRejudgePageReducer = combineReducers({
   data: combineReducers({
-    problemRejudge: problemRejudgeReducer
-  })
+    problemRejudge: problemRejudgeReducer,
+  }),
 });
 
 export { problemRejudgePageReducer };

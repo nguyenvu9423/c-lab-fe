@@ -7,7 +7,7 @@ import { logout } from '../../store/actions';
 import {
   AuthenticationSelectors,
   PermissionSelectors,
-  PrincipalSelectors
+  PrincipalSelectors,
 } from '../../store/selectors';
 import { LoadingState } from '../../store/common';
 import { LoginButton } from './buttons/LoginButton';
@@ -129,9 +129,7 @@ export function TopNav() {
             ) : (
               <AnonymousControlMenu />
             )
-          ) : (
-            undefined
-          )}
+          ) : undefined}
         </Menu.Menu>
       </Container>
     </Menu>
