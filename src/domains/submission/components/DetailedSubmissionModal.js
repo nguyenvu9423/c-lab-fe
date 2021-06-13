@@ -87,7 +87,6 @@ const DetailedSubmissionModal = props => {
       currentProgress.current === JudgeProgressType.IN_PROGRESS &&
       judge?.progress.status.type === JudgeProgressType.SUCCESS
     ) {
-      console.log('called');
       loadDetailedResult();
     }
     currentProgress.current = judge?.progress.status.type;

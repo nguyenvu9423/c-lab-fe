@@ -4,8 +4,6 @@ export class ArticleStatus {
   static HIDDEN = new ArticleStatus('HIDDEN', 'Hidden');
   static BANNED = new ArticleStatus('BANNED', 'Banned');
 
-  static values = [this.ACTIVE, this.IN_ACTIVE, this.HIDDEN, this.BANNED];
-
   constructor(name, title) {
     this.name = name;
     this.title = title;
@@ -15,3 +13,10 @@ export class ArticleStatus {
     return this.values.find(value => value.name === name);
   }
 }
+
+export const articleStatusValues = [
+  ArticleStatus.ACTIVE,
+  ArticleStatus.IN_ACTIVE,
+  ArticleStatus.HIDDEN,
+  ArticleStatus.BANNED
+];

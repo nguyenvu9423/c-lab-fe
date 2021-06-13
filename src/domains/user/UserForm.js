@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as yup from 'yup';
 import { Button, Form, Input, Divider } from 'semantic-ui-react';
 import { useFormik } from 'formik';
-import { UserStatus } from './UserStatus';
+import { UserStatus, userStatusValues } from './UserStatus';
 
 export function UserForm(props) {
   const { isSubmitting, initialValues, onSubmit, onCancel } = props;
@@ -135,7 +135,7 @@ const validationSchema = yup.object().shape({
     .email('Email is not valid')
 });
 
-const statusOptions = UserStatus.values.map(item => ({
+const statusOptions = userStatusValues.map(item => ({
   value: item.name,
   text: item.title
 }));

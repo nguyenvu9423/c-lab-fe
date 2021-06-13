@@ -9,6 +9,7 @@ import { TagSelect } from '../tag';
 import { serverPath } from '../../server';
 import { SubmitButton, CancelButton } from '../../components/button';
 import { useErrorMessageRenderer, RichTextEditor } from '../../components';
+import { articleStatusValues } from './ArticleStatus';
 
 const validationSchema = yup.object().shape({
   title: yup
@@ -180,7 +181,7 @@ export function ArticleForm(props) {
   );
 }
 
-const statusOptions = ArticleStatus.values.map(item => {
+const statusOptions = articleStatusValues.map(item => {
   return {
     text: item.title,
     value: item.name

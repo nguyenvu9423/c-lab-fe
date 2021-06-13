@@ -1,14 +1,16 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
 const config = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: ['babel-loader']
+        test: /\.(t|j)sx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.css$/,
@@ -42,13 +44,27 @@ const config = {
     }
   },
   plugins: [
-    new HtmlWebpackPlugin({ title: 'LogN', template: './src/index.html' })
+    new HtmlWebpackPlugin({ title: 'LogN', template: './src/index.html' }),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+      process: 'process/browser'
+    })
   ],
   optimization: {
     splitChunks: {
       chunks: 'all'
     },
     runtimeChunk: 'single'
+  },
+  resolve: {
+    alias: {
+      process: 'process/browser'
+    },
+    fallback: {
+      util: require.resolve('util/'),
+      buffer: require.resolve('buffer/'),
+      stream: require.resolve('stream-browserify/')
+    }
   }
 };
 

@@ -9,7 +9,7 @@ class ArrayUtils {
 }
 
 export const Comparators = {
-  byIdDesc: (a, b) => b.id - a.id
+  byIdDesc: (a, b) => b.id - a.id,
 };
 
 export default ArrayUtils;

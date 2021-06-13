@@ -1,49 +1,21 @@
-const CKEditorWebpackPlugin = require('@ckeditor/ckeditor5-dev-webpack-plugin');
-const { styles } = require('@ckeditor/ckeditor5-dev-utils');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
 const config = {
-  mode: 'production',
-  entry: './src/index.js',
+  mode: 'development',
+  entry: './src/index.jsx',
   module: {
     rules: [
       {
-        test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-        use: ['raw-loader']
-      },
-      {
-        test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              injectType: 'singletonStyleTag',
-              attributes: {
-                'data-cke': true
-              }
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: styles.getPostCssConfig({
-              themeImporter: {
-                themePath: require.resolve('@ckeditor/ckeditor5-theme-lark')
-              },
-              minify: true
-            })
-          }
-        ]
-      },
-      {
-        test: /\.(js|jsx)$/,
-        use: ['babel-loader']
+        test: /\.(t|j)sx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
-        exclude: [/ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/]
+        exclude: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/
       },
       {
         test: /\.styl/,
@@ -52,7 +24,7 @@ const config = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         loader: 'file-loader',
-        exclude: [/ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/]
+        exclude: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -61,23 +33,21 @@ const config = {
     ]
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    filename: 'bundle.js'
+    publicPath: '/'
   },
   devServer: {
     historyApiFallback: true,
     compress: false,
-    port: 3000
+    port: 3000,
+    proxy: {
+      '/api': 'http://localhost:8080'
+    }
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      base: {
-        href: 'http://localhost:3000'
-      }
-    }),
-    new CKEditorWebpackPlugin({
-      language: 'en'
+    new HtmlWebpackPlugin({ title: 'LogN', template: './src/index.html' }),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+      process: 'process/browser'
     })
   ],
   optimization: {
@@ -85,6 +55,16 @@ const config = {
       chunks: 'all'
     },
     runtimeChunk: 'single'
+  },
+  resolve: {
+    alias: {
+      process: 'process/browser'
+    },
+    fallback: {
+      util: require.resolve('util/'),
+      buffer: require.resolve('buffer/'),
+      stream: require.resolve('stream-browserify/')
+    }
   }
 };
 

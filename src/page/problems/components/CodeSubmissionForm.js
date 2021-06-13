@@ -25,7 +25,6 @@ export const CodeSubmissionForm = props => {
       })
         .then(({ data }) => {
           setSubmitting(false);
-          console.log(data);
           onSuccess?.(data);
         })
         .catch(() => {

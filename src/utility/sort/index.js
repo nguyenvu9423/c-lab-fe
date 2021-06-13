@@ -11,5 +11,5 @@ export const Comparators = {
       return 1;
     }
     return 0;
-  }
+  },
 };

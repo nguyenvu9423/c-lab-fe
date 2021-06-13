@@ -3,8 +3,6 @@ export class UserStatus {
   static IN_ACTIVE = new UserStatus('IN_ACTIVE', 'Inactive');
   static BANNED = new UserStatus('BANNED', 'Banned');
 
-  static values = [this.ACTIVE, this.IN_ACTIVE, this.BANNED];
-
   constructor(name, title) {
     this.name = name;
     this.title = title;
@@ -14,3 +12,9 @@ export class UserStatus {
     return this.values.find(value => value.name === name);
   }
 }
+
+export const userStatusValues = [
+  UserStatus.ACTIVE,
+  UserStatus.IN_ACTIVE,
+  UserStatus.BANNED
+];

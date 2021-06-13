@@ -55,7 +55,6 @@ export function ProblemsPage(props) {
   });
 
   React.useEffect(() => {
-    console.log(principal?.id);
     load({ pageable: { size: PROBLEMS_PAGE_SIZE, page: 0 } });
     return () => dispatch(resetState({ target: Target.PROBLEMS_PAGE }));
   }, [principal?.id]);
