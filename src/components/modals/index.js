@@ -1,12 +1,12 @@
 import * as React from 'react';
-import DetailedSubmissionModal from '../../domains/submission/components/DetailedSubmissionModal';
+import { DetailedSubModal } from '../../domains/submission/components';
 import { useSelector } from 'react-redux';
 import { ModalSelectors } from '../../store/selectors/ModalSelectors';
 
 const ModalMap = {
   SUBMISSION_DETAILS: {
     type: 'SUBMISSION_DETAILS',
-    component: DetailedSubmissionModal,
+    component: DetailedSubModal,
   },
 };
 

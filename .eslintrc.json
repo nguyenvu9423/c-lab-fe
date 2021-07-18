@@ -23,7 +23,9 @@
         "prettier"
     ],
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "@typescript-eslint/no-namespace": "off",
+        "react/prop-types": "off"
     },
     "settings": {
         "react": {

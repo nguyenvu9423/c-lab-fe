@@ -12,7 +12,7 @@ export const PrincipalSelectors = {
   principal() {
     return (state) => {
       const id = state.principal.id;
-      return id ? UserSelectors.byId(id)(state) : undefined;
+      return id ? UserSelectors.selectById(id)(state) : undefined;
     };
   },
 
@@ -22,7 +22,7 @@ export const PrincipalSelectors = {
       if (principalDataHolder.loadingState === LoadingState.LOADED) {
         return {
           ...principalDataHolder,
-          principal: UserSelectors.byId(principalDataHolder.id)(state),
+          principal: UserSelectors.selectById(principalDataHolder.id)(state),
         };
       }
       return principalDataHolder;

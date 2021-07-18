@@ -3,8 +3,8 @@ import { apiCaller } from '../utility/Axios';
 const ARTICLE_API_URL = '/articles';
 
 export class ArticleService {
-  static async createArticle(article) {
-    return apiCaller.post(ARTICLE_API_URL, article);
+  static async createArticle(formData) {
+    return apiCaller.post(ARTICLE_API_URL, formData);
   }
 
   static async getArticles(params) {
@@ -22,8 +22,8 @@ export class ArticleService {
     return apiCaller.get(`${ARTICLE_API_URL}/${id}`);
   }
 
-  static async updateArticle(id, article) {
-    return apiCaller.put(`${ARTICLE_API_URL}/${id}`, article);
+  static async updateArticle(id, formData) {
+    return apiCaller.put(`${ARTICLE_API_URL}/${id}`, formData);
   }
 
   static async deleteArticle(id) {

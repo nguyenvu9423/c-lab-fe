@@ -13,7 +13,7 @@ export function EditUserForm(props) {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.editUserForm);
 
-  const user = useSelector(UserSelectors.byId(data.user.id));
+  const user = useSelector(UserSelectors.selectById(data.user.id));
 
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 

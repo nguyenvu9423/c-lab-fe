@@ -1,0 +1,1 @@
+export { detailedSubModalReducer } from './detailedSubModalReducer';

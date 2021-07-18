@@ -107,7 +107,7 @@ export function TopNav() {
   );
 
   return (
-    <Menu fixed="top">
+    <Menu id="top-nav" fixed="top">
       <Container>
         <Menu.Item header as={Link} to={'/'}>
           Log N

@@ -1,7 +1,7 @@
 import { createTargetChecker, Target } from '../target';
 import { filterActions } from 'redux-ignore';
 import { combineReducers } from 'redux';
-import { articleReducer } from '../data-reducers';
+import { articleReducer } from '../data-holders';
 
 const isWithTarget = createTargetChecker(Target.EDIT_ARTICLE_PAGE);
 

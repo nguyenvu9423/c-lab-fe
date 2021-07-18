@@ -1,1 +1,0 @@
-export { authenticationReducer } from './authenticationReducer';

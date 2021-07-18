@@ -1,7 +1,7 @@
 import { filterActions } from 'redux-ignore';
 import { createTargetChecker, Target } from '../target';
 import { combineReducers } from 'redux';
-import { userReducer } from '../data-reducers/userReducer';
+import { userReducer } from '../data-holders/userReducer';
 
 export const editUserFormReducer = filterActions(
   combineReducers({

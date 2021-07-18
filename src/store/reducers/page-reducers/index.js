@@ -1,4 +1,4 @@
-export * from './problemDetailsPageReducer';
+export * from './problemPageReducer';
 export * from './editProblemPageReducer';
 export * from './problemsPageReducer';
 export * from './articlePageReducer';

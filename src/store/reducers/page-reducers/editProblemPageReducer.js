@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { problemReducer } from '../data-reducers';
+import { problemReducer } from '../data-holders';
 import { filterActions } from 'redux-ignore';
 import { Target } from '../target';
 

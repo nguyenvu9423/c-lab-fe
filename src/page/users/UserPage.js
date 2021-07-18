@@ -16,7 +16,7 @@ export function UserPage(props) {
   const dispatch = useDispatch();
 
   const { data } = useSelector((state) => state[Target.USER_PAGE]);
-  const user = useSelector(UserSelectors.byId(data.user.id));
+  const user = useSelector(UserSelectors.selectById(data.user.id));
 
   React.useEffect(() => {
     if (data.user.loadingState === LoadingState.LOAD_NEEDED) {

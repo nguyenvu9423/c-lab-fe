@@ -5,7 +5,7 @@ import {
   ErrorLabel,
   ScoreLabel,
 } from '../../../domains/judge/ui-labels';
-import { ScoringType } from '../../../domains/judge-config/ScoringType';
+import { ScoringType } from '../../../domains/judge-config';
 
 export function SubmissionTestResultLabel(props) {
   const { testResult } = props;

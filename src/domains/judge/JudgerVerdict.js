@@ -1,5 +1,0 @@
-export const JudgeVerdict = {
-  ACCEPTED: 'ACCEPTED',
-  COMPILE_ERROR: 'COMPILE_ERROR',
-  TEST_ERROR: 'TEST_ERROR',
-};
