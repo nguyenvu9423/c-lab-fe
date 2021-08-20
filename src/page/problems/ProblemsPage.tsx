@@ -14,18 +14,20 @@ import { TagFilterCard, Pagination } from '../../components';
 import { Target } from '../../store/reducers/target';
 import { resetState } from '../../store/actions/state';
 import { State } from '../../store/state';
+import { DataHolderState } from '../../store/reducers/data-holders/shared';
+import { Pageable } from '../../utility';
 
 const PROBLEMS_PAGE_SIZE = 16;
+const initialPageable: Pageable = { size: PROBLEMS_PAGE_SIZE, page: 0 };
 
 export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
   const principal = useSelector(PrincipalSelectors.principal());
   const { data } = useSelector((state: State) => state.problemsPage);
   const dispatch = useDispatch();
 
-  const current =
-    data.problems.loadingState !== LoadingState.LOAD_NEEDED
-      ? { pageable: data.problems.pageable, query: data.problems.query }
-      : undefined;
+  const current = DataHolderState.isLoadRequested(data.problems)
+    ? { pageable: data.problems.pageable, query: data.problems.query }
+    : { pageable: initialPageable };
 
   const load = React.useCallback(
     ({ pageable, query } = {}) => {
@@ -37,7 +39,7 @@ export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
         })
       );
     },
-    [data, current?.pageable, current?.query]
+    [dispatch, current?.pageable, current?.query]
   );
 
   const problems = useSelector(
@@ -53,18 +55,21 @@ export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
     [load]
   );
 
-  const handleFilterChange = React.useCallback((tags) => {
-    const query =
-      tags.length > 0 ? `tags=include=(${tags.map((tag) => tag.name)})` : '';
-    load({ query });
-  }, []);
+  const handleFilterChange = React.useCallback(
+    (tags) => {
+      const query =
+        tags.length > 0 ? `tags=include=(${tags.map((tag) => tag.name)})` : '';
+      load({ query });
+    },
+    [load]
+  );
 
   React.useEffect(() => {
-    load({ pageable: { size: PROBLEMS_PAGE_SIZE, page: 0 } });
+    load();
     return () => {
       dispatch(resetState({ target: Target.PROBLEMS_PAGE }));
     };
-  }, [principal?.id]);
+  }, []);
 
   return (
     <Grid container doubling padded="vertically" columns={2}>

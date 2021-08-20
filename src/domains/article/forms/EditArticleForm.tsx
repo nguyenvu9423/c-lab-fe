@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { ArticleForm } from './ArticleForm';
 import { ArticleService } from '../../../service/ArticleService';
-import { fetchArticle } from '../../../store/actions';
+import { fetchArticle, resetState } from '../../../store/actions';
 import { Target } from '../../../store/reducers/target';
 import { LoadingIndicator } from '../../../components';
 import { LoadingState } from '../../../store/common';
-import { ArticleSelectors } from '../../../store/selectors';
+import {
+  ArticleSelectors,
+  AuthorizationSelectors,
+} from '../../../store/selectors';
 import { State } from '../../../store';
 import { FieldError, ValidationException } from '../../../exception';
 import { TagSelectors } from '../../../store/selectors/TagSelectors';
@@ -49,7 +52,10 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
     dispatch(
       fetchArticle.request({ id: articleId, target: Target.EDIT_ARTICLE_FORM })
     );
-  }, []);
+    return () => {
+      dispatch(resetState({ target: Target.EDIT_ARTICLE_FORM }));
+    };
+  }, [dispatch, articleId]);
 
   const handleSubmit = React.useCallback(
     (values) => {
@@ -75,6 +81,14 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
     },
     [articleId, onSuccess]
   );
+
+  const canEdit = useSelector(
+    article ? AuthorizationSelectors.canUpdateArticle(article) : () => undefined
+  );
+
+  if (canEdit === false) {
+    return <p>You do not have the permission to edit the article</p>;
+  }
 
   if (LoadingState.isInProgress(data.article.loadingState)) {
     return <LoadingIndicator />;

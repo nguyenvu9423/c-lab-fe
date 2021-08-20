@@ -12,3 +12,4 @@ export * from './authentication';
 export * from './role';
 export * from './judge';
 export * from './judge-config';
+export * from './toast';

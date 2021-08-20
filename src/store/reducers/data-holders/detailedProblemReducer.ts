@@ -2,6 +2,7 @@ import { fetchDetailedProblem } from './../../actions/problem';
 import { createReducer } from '@reduxjs/toolkit';
 import { DataHolderState } from './shared';
 import { LoadingState } from '../../common';
+import { resetState } from '../../actions';
 
 export type DetailedProblemState = DataHolderState<
   Record<string, unknown>,
@@ -34,6 +35,7 @@ export const detailedProblemReducer = createReducer<DetailedProblemState>(
           loadingState: LoadingState.ERROR,
           error,
         };
-      });
+      })
+      .addCase(resetState, () => initialState);
   }
 );

@@ -3,13 +3,22 @@ import * as React from 'react';
 import { Container, Segment, Header } from 'semantic-ui-react';
 import { AddProblemForm } from '../../domains/problem';
 import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { addToast } from '../../store/actions/toast';
 
 export const AddProblemPage: React.FC = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmitSuccess = React.useCallback(
     (problem) => {
       history.push(`/problems/${problem.code}`);
+      dispatch(
+        addToast({
+          header: 'Add problem',
+          content: 'Problem has been added successfully',
+        })
+      );
     },
     [history]
   );

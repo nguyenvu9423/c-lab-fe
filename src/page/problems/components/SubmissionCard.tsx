@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Header, Segment } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
-import { PermissionSelectors } from '../../../store/selectors';
+import { AuthorizationSelectors } from '../../../store/selectors';
 import { LoginButton } from '../../common';
 import {
   SubmissionForm,
@@ -9,7 +9,7 @@ import {
 } from '../../../domains/submission';
 
 export const SubmissionCard: React.FC<SubmissionForm.Props> = (props) => {
-  const canSubmit = useSelector(PermissionSelectors.canSubmit());
+  const canSubmit = useSelector(AuthorizationSelectors.canSubmit());
 
   return (
     <>

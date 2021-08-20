@@ -1,8 +1,9 @@
-import { ArticleState } from './../data-holders/articleReducer';
+import { Target } from './../target';
 import { combineReducers } from 'redux';
-import { filterActions } from 'redux-ignore';
+import { ArticleState } from './../data-holders/articleReducer';
 import { articleReducer } from '../data-holders/articleReducer';
-import { createTargetChecker, Target } from '../target';
+import { createFilteredReducer } from '../utils';
+import { TargetPredicates } from '../target';
 
 export interface EditArticleFormState {
   data: {
@@ -10,11 +11,11 @@ export interface EditArticleFormState {
   };
 }
 
-export const editArticleFormReducer = filterActions(
+export const editArticleFormReducer = createFilteredReducer(
   combineReducers<EditArticleFormState>({
     data: combineReducers({
       article: articleReducer,
     }),
   }),
-  createTargetChecker(Target.EDIT_ARTICLE_FORM)
+  TargetPredicates.equal(Target.EDIT_ARTICLE_FORM)
 );

@@ -80,7 +80,11 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
   const errorMessageRenderer = useErrorMessageRenderer({ touched, errors });
   return (
     <Dimmer.Dimmable dimmed={isSubmitting}>
-      <Form onSubmit={handleSubmit} error={true}>
+      <Form
+        className="clear-fix-container"
+        onSubmit={handleSubmit}
+        error={true}
+      >
         <Form.Group widths="equal">
           {props.isCodeEditable && (
             <Form.Field>
@@ -138,10 +142,9 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
             />
           </Form.Field>
         </Form.Group>
+        <SubmitButton type="button" floated="right" onClick={handleSubmit} />
+        {onCancel && <CancelButton floated="right" onClick={onCancel} />}
       </Form>
-
-      <SubmitButton type="button" floated="right" onClick={handleSubmit} />
-      {onCancel && <CancelButton floated="right" onClick={onCancel} />}
 
       <Dimmer inverted active={isSubmitting}>
         <Loader />

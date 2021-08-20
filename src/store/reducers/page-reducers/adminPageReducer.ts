@@ -1,6 +1,5 @@
 import { ProblemsState } from './../data-holders/problemsReducer';
 import { combineReducers } from 'redux';
-import { filterActions } from 'redux-ignore';
 import {
   tagsReducer,
   articlesReducer,
@@ -13,7 +12,8 @@ import {
   ArticlesState,
 } from '../data-holders';
 
-import { createTargetChecker, Target } from '../target';
+import { Target, TargetPredicates } from '../target';
+import { createFilteredReducer } from '../utils/createFilteredReducer';
 
 export interface AdminPageState {
   article: {
@@ -41,46 +41,41 @@ export interface AdminPageState {
       tags: TagsState;
     };
   };
-  [key: string]: any;
 }
 
 export const adminPageReducer = combineReducers<AdminPageState>({
-  tag: filterActions<{ data: { tags: TagsState } }>(
+  tag: createFilteredReducer(
     combineReducers({
       data: combineReducers({ tags: tagsReducer }),
     }),
-    createTargetChecker(Target.ADMIN_PAGE.TAG)
+    TargetPredicates.equal(Target.AdminPage.TAG)
   ),
-  article: filterActions<{ data: { articles: ArticlesState } }>(
+  article: createFilteredReducer(
     combineReducers({
       data: combineReducers({ articles: articlesReducer }),
     }),
-    createTargetChecker(Target.ADMIN_PAGE.ARTICLE)
+    TargetPredicates.equal(Target.AdminPage.ARTICLE)
   ),
-  problem: filterActions<{
-    data: {
-      problems: ProblemsState;
-    };
-  }>(
+  problem: createFilteredReducer(
     combineReducers({
       data: combineReducers({ problems: problemsReducer }),
     }),
-    createTargetChecker(Target.ADMIN_PAGE.PROBLEM)
+    TargetPredicates.equal(Target.AdminPage.PROBLEM)
   ),
-  user: filterActions<{ data: { users: UsersState } }>(
+  user: createFilteredReducer(
     combineReducers({
       data: combineReducers({
         users: usersReducer,
       }),
     }),
-    createTargetChecker(Target.ADMIN_PAGE.USER)
+    TargetPredicates.equal(Target.AdminPage.USER)
   ),
-  role: filterActions<{ data: { roles: RolesState } }>(
+  role: createFilteredReducer(
     combineReducers({
       data: combineReducers({
         roles: rolesReducer,
       }),
     }),
-    createTargetChecker(Target.ADMIN_PAGE.ROLE)
+    TargetPredicates.equal(Target.AdminPage.ROLE)
   ),
 });

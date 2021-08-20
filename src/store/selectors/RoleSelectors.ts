@@ -12,10 +12,14 @@ export namespace RoleSelectors {
     return (state) => roleEntitySelectors.selectById(state, id);
   }
 
-  export function byIds(
-    ids: EntityId[]
-  ): Selector<State, (Role | undefined)[]> {
+  export function selectByIds(ids: EntityId[]): Selector<State, Role[]> {
     return (state) =>
-      ids.map((id) => roleEntitySelectors.selectById(state, id));
+      ids.map((id) => {
+        const role = roleEntitySelectors.selectById(state, id);
+        if (!role) {
+          throw new Error('Could not find the role');
+        }
+        return role;
+      });
   }
 }

@@ -9,6 +9,8 @@ import { LoadingIndicator, TagFilterCard } from '../../components';
 import { ArticleSelectors } from '../../store/selectors';
 import { State } from '../../store';
 import { Pageable } from '../../utility';
+import { DataHolderState } from '../../store/reducers/data-holders/shared';
+import { resetState } from '../../store/actions';
 
 const initialPageable: Pageable = {
   page: 0,
@@ -19,15 +21,13 @@ export const ArticlesPage: React.FC = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state: State) => state.articlesPage);
 
-  const currentPageable =
-    data.articles.loadingState === LoadingState.LOAD_NEEDED
-      ? initialPageable
-      : data.articles.pageable;
+  const currentPageable = DataHolderState.isLoadRequested(data.articles)
+    ? data.articles.pageable
+    : initialPageable;
 
-  const currentQuery =
-    data.articles.loadingState === LoadingState.LOAD_NEEDED
-      ? undefined
-      : data.articles.query;
+  const currentQuery = DataHolderState.isLoadRequested(data.articles)
+    ? data.articles.query
+    : undefined;
 
   const load = React.useCallback(
     ({ pageable, query } = {}) => {
@@ -39,11 +39,14 @@ export const ArticlesPage: React.FC = () => {
         })
       );
     },
-    [currentPageable, currentQuery]
+    [dispatch, currentPageable, currentQuery]
   );
 
   React.useEffect(() => {
     load();
+    return () => {
+      dispatch(resetState({ target: Target.ARTICLES_PAGE }));
+    };
   }, []);
 
   const handleFilterChange = React.useCallback(

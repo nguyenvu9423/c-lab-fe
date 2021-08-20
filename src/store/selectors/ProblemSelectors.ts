@@ -18,10 +18,12 @@ export namespace ProblemSelectors {
     };
   }
 
-  export function byIds(
-    ids: EntityId[]
-  ): Selector<State, (Problem | undefined)[]> {
+  export function byIds(ids: EntityId[]): Selector<State, Problem[]> {
     return (state) =>
-      ids.map((id) => problemEntitySelectors.selectById(state, id));
+      ids.map((id) => {
+        const problem = problemEntitySelectors.selectById(state, id);
+        if (!problem) throw new Error('Could not find the problem');
+        return problem;
+      });
   }
 }

@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
-import { filterActions } from 'redux-ignore';
+import { Target } from './../target';
 import { problemsReducer, ProblemsState } from '../data-holders';
-import { createTargetChecker, Target } from '../target';
+import { TargetPredicates } from '../target';
+import { createFilteredReducer } from '../utils';
 
 export interface ProblemsPageState {
   data: {
@@ -9,11 +10,11 @@ export interface ProblemsPageState {
   };
 }
 
-export const problemsPageReducer = filterActions(
+export const problemsPageReducer = createFilteredReducer(
   combineReducers<ProblemsPageState>({
     data: combineReducers({
       problems: problemsReducer,
     }),
   }),
-  createTargetChecker(Target.PROBLEMS_PAGE)
+  TargetPredicates.equal(Target.PROBLEMS_PAGE)
 );

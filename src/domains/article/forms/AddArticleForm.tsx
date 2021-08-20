@@ -3,8 +3,8 @@ import { ArticleForm } from './ArticleForm';
 import { ArticleService } from '../../../service/ArticleService';
 
 export const AddArticleForm: React.FC<{
-  onCancel: () => void;
-  onSuccess: (data: any) => void;
+  onCancel?: () => void;
+  onSuccess?: (data: any) => void;
 }> = (props) => {
   const { onCancel, onSuccess } = props;
 

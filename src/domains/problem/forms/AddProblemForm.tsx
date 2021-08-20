@@ -4,6 +4,8 @@ import { ValidationException, FieldError } from '../../../exception';
 import { ProblemForm } from './ProblemForm';
 import { FormikHelpers } from 'formik';
 import { SubmissionLanguage } from '../../submission-lang/SubmissionLanguage';
+import { useFormKey } from '../../../components';
+import { useDispatch } from 'react-redux';
 
 export namespace AddProblemForm {
   export interface Props {
@@ -27,11 +29,7 @@ export const AddProblemForm: React.FC<AddProblemForm.Props> = (props) => {
         })
         .catch((err) => {
           if (ValidationException.isInstance(err)) {
-            const errorMap = {};
-            err.errors.forEach((error) => {
-              errorMap[error.field] = error.message;
-            });
-            helpers.setErrors(errorMap);
+            helpers.setErrors(ValidationException.convertToFormikErrors(err));
           }
         });
     },

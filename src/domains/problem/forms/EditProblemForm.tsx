@@ -1,14 +1,22 @@
 import * as React from 'react';
-import { ProblemService } from '../../../service/ProblemService';
-import { LoadingIndicator } from '../../../components';
+import { normalize } from 'normalizr';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProblem } from '../../../store/actions';
+
+import { ProblemService } from '../../../service/ProblemService';
+import { LoadingIndicator, useFormKey } from '../../../components';
+import { fetchProblem, resetState, updateEntity } from '../../../store/actions';
 import { LoadingState } from '../../../store/common';
 import { Target } from '../../../store/reducers/target';
 import { State } from '../../../store';
 import { ProblemForm } from './ProblemForm';
-import { ProblemSelectors } from '../../../store/selectors';
+import {
+  AuthorizationSelectors,
+  ProblemSelectors,
+} from '../../../store/selectors';
 import { TagSelectors } from '../../../store/selectors/TagSelectors';
+import { problemSchema } from '../problem-schemas';
+import { ValidationException } from '../../../exception';
+import { FormikHelpers } from 'formik';
 
 export namespace EditProblemForm {
   export type Props = ByIdProps | ByCodeProps;
@@ -34,7 +42,6 @@ export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
   const { problemId, problemCode, onCancel, onSuccess } = props;
 
   const { data } = useSelector((state: State) => state.editProblemForm);
-
   const problem = useSelector(
     data.problem.loadingState === LoadingState.LOADED
       ? ProblemSelectors.byId(data.problem.id)
@@ -48,6 +55,8 @@ export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
   const initialValues: ProblemForm.Value | undefined =
     problem && tags ? { ...problem, tags } : undefined;
 
+  const [key, updateKey] = useFormKey();
+
   React.useEffect(() => {
     dispatch(
       problemId
@@ -59,20 +68,39 @@ export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
         : fetchProblem.request({
             type: 'byCode',
             code: problemCode!,
+            target: Target.EDIT_PROBLEM_FORM,
           })
     );
-  }, [problemId, problemCode]);
+    return () => {
+      dispatch(resetState({ target: Target.EDIT_PROBLEM_FORM }));
+    };
+  }, [dispatch, problemId, problemCode]);
 
   const handleSubmit = React.useCallback(
-    (values) => {
-      return ProblemService.updateProblem(problem?.id, values).then(
-        ({ data }) => {
-          onSuccess?.(data);
-        }
-      );
+    (values: ProblemForm.Value, helpers: FormikHelpers<ProblemForm.Value>) => {
+      return ProblemService.updateProblem(problem?.id, values)
+        .then((response) => {
+          const normalizedData = normalize(response.data, problemSchema);
+          dispatch(updateEntity({ entities: normalizedData.entities }));
+          updateKey();
+          onSuccess?.(response.data);
+        })
+        .catch((e) => {
+          if (ValidationException.isInstance(e)) {
+            helpers.setErrors(ValidationException.convertToFormikErrors(e));
+          }
+        });
     },
     [problem?.id]
   );
+
+  const canEdit = useSelector(
+    problem ? AuthorizationSelectors.canUpdateProblem(problem) : () => undefined
+  );
+
+  if (canEdit === false) {
+    return <p>You do not have the permission to update the problem</p>;
+  }
 
   if (LoadingState.isInProgress(data.problem.loadingState)) {
     return <LoadingIndicator />;
@@ -80,6 +108,7 @@ export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
 
   return data.problem.loadingState === LoadingState.LOADED && problem ? (
     <ProblemForm
+      key={key}
       initialValues={initialValues}
       onCancel={onCancel}
       onSubmit={handleSubmit}

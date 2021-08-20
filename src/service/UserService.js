@@ -2,8 +2,8 @@ const USER_API_BASE_URL = '/users';
 import { apiCaller } from '../utility/Axios';
 
 export class UserService {
-  static async getUsers(pageable) {
-    return apiCaller.get(USER_API_BASE_URL, { params: { pageable } });
+  static async getUsers(pageable, query) {
+    return apiCaller.get(USER_API_BASE_URL, { params: { pageable, query } });
   }
 
   static async getLoginUser() {
@@ -22,17 +22,12 @@ export class UserService {
     });
   }
 
-  static async getUsersByFilters(filters, pageable = { page: 0, size: 10 }) {
-    return apiCaller.get(USER_API_BASE_URL, {
-      params: {
-        filters,
-        ...pageable,
-      },
-    });
-  }
-
   static async updateUserDetails(id, userDTO) {
     return apiCaller.put(`${USER_API_BASE_URL}/${id}`, userDTO);
+  }
+
+  static async updateUserInfo(userDTO) {
+    return apiCaller.put(`${USER_API_BASE_URL}/me`, userDTO);
   }
 
   static async updateAvatar(formData) {

@@ -1,13 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { LoadingState } from '../../common';
-import { fetchUsers } from '../../actions';
+import { fetchUsers, resetState } from '../../actions';
 import { DataHolderState } from './shared';
 import { Pageable } from '../../../utility';
 
 export type UsersState = DataHolderState<
-  { pageable: Pageable; filters?: any[] },
-  { result: number[]; pageable: Pageable; totalPages: number },
-  { pageable: Pageable }
+  { pageable: Pageable; query?: string },
+  { result: number[]; pageable: Pageable; totalPages: number; query?: string },
+  { pageable: Pageable; query?: string }
 >;
 
 const initialState: UsersState = {
@@ -19,11 +19,11 @@ export const usersReducer = createReducer<UsersState>(
   (builder) => {
     builder
       .addCase(fetchUsers.request, (state, action) => {
-        const { pageable, filters } = action.payload;
+        const { pageable, query } = action.payload;
         return {
           loadingState: LoadingState.LOADING,
           pageable,
-          filters,
+          query,
         };
       })
       .addCase(fetchUsers.response, (state, action) => {
@@ -48,6 +48,7 @@ export const usersReducer = createReducer<UsersState>(
           };
         }
         return state;
-      });
+      })
+      .addCase(resetState, () => initialState);
   }
 );

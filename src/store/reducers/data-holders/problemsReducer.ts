@@ -3,6 +3,7 @@ import { Pageable } from './../../../utility/Pageable';
 import { LoadingState } from '../../common';
 import { fetchProblems } from '../../actions/problem';
 import { DataHolderState } from './shared';
+import { resetState } from '../../actions';
 
 export type ProblemsState = DataHolderState<
   {
@@ -60,6 +61,7 @@ export const problemsReducer = createReducer<ProblemsState>(
           };
         }
         return state;
-      });
+      })
+      .addCase(resetState, () => initialState);
   }
 );

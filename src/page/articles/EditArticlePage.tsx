@@ -1,8 +1,11 @@
 import * as React from 'react';
+import { match } from 'react-router';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import { Segment, Header, Grid, Menu } from 'semantic-ui-react';
 import { EditArticleForm } from '../../domains/article';
-import { useHistory, match } from 'react-router';
-import { Link } from 'react-router-dom';
+import { addToast } from '../../store/actions';
 
 export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
   props
@@ -13,15 +16,7 @@ export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
     },
   } = props;
 
-  const history = useHistory();
-
-  const handleSuccess = () => {
-    history.push(`/articles/${id}`);
-  };
-
-  const handleCancel = () => {
-    history.goBack();
-  };
+  const dispatch = useDispatch();
 
   return (
     <Grid container>
@@ -42,8 +37,15 @@ export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
             <Header as="h2">Write article</Header>
             <EditArticleForm
               articleId={Number(id)}
-              onSuccess={handleSuccess}
-              onCancel={handleCancel}
+              onSuccess={() => {
+                dispatch(
+                  addToast({
+                    header: 'Update judge config',
+                    content: 'The judge config has been updated successfully',
+                    duration: 2500,
+                  })
+                );
+              }}
             />
           </Segment>
         </Grid.Column>

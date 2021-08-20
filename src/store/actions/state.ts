@@ -1,6 +1,14 @@
 import { createAction } from '@reduxjs/toolkit';
-import { defaultPrepare } from './shared';
 
-const resetState = createAction('resetState', defaultPrepare);
+export interface ResetStatePayload {
+  target?: string;
+}
+
+const resetState = createAction(
+  'resetState',
+  (payload?: ResetStatePayload) => ({
+    payload: payload ?? {},
+  })
+);
 
 export { resetState };

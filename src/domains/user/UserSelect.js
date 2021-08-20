@@ -15,20 +15,21 @@ export function UserSelect(props) {
     Lodash.debounce((searchQuery) => {
       if (searchQuery !== undefined) {
         setIsFetching(true);
-        UserService.getUsersByFilters(`username==*${searchQuery}*`).then(
-          ({ data: { content } }) => {
-            setUsers((prevUsers) => {
-              const newUsers = [...prevUsers];
-              content.forEach((user) => {
-                if (!prevUsers.some((obj) => obj.id === user.id)) {
-                  newUsers.push(user);
-                }
-              });
-              return newUsers;
+        UserService.getUsers(
+          { page: 0, size: 10 },
+          `username==*${searchQuery}*`
+        ).then(({ data: { content } }) => {
+          setUsers((prevUsers) => {
+            const newUsers = [...prevUsers];
+            content.forEach((user) => {
+              if (!prevUsers.some((obj) => obj.id === user.id)) {
+                newUsers.push(user);
+              }
             });
-            setIsFetching(false);
-          }
-        );
+            return newUsers;
+          });
+          setIsFetching(false);
+        });
       }
     }, SelectConfig.DELAY),
     []

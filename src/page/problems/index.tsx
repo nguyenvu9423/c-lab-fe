@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ProblemsPage } from './ProblemsPage';
-import { ProblemPage } from './ProblemPage';
+import { ProblemPage } from './problem-page';
 import { AddProblemPage } from './AddProblemPage';
 import { ProblemEditPage } from './EditProblemPage';
 import { useRouteMatch } from 'react-router';

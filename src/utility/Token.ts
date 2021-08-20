@@ -3,5 +3,5 @@ export interface Jwt {
 }
 
 export interface AccessToken {
-  authorities: string[];
+  authorities?: string[];
 }

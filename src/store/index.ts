@@ -23,7 +23,7 @@ const handleTokenChange = () => {
   // @ts-ignore
   const newToken = store.getState().authentication.token;
   if (currentToken != newToken) {
-    AuthProvider.setToken(newToken);
+    AuthProvider.setToken(newToken ? newToken : null);
     currentToken = newToken;
   }
 };

@@ -3,6 +3,7 @@ import { Pageable } from './../../../utility/Pageable';
 import { DataHolderState } from './shared';
 import { LoadingState } from '../../common';
 import { fetchArticles } from '../../actions/article';
+import { resetState } from '../../actions';
 
 export type ArticlesState = DataHolderState<
   { pageable: Pageable; query?: string },
@@ -48,6 +49,7 @@ export const articlesReducer = createReducer<ArticlesState>(
           };
         }
         return state;
-      });
+      })
+      .addCase(resetState, () => initialState);
   }
 );

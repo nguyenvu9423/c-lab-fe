@@ -1,14 +1,21 @@
-import { ProblemState } from './../data-holders/problemReducer';
+import { Target } from './../target';
 import { combineReducers } from 'redux';
-import { problemReducer } from './../data-holders';
+import { TargetPredicates } from '../target';
+import {
+  detailedProblemReducer,
+  DetailedProblemState,
+} from './../data-holders/detailedProblemReducer';
+import { createFilteredReducer } from '../utils';
 
 export interface UpdateJudgeConfigFormState {
   data: {
-    problem: ProblemState;
+    detailedProblem: DetailedProblemState;
   };
 }
 
-export const updateJudgeConfigFormReducer =
+export const updateJudgeConfigFormReducer = createFilteredReducer(
   combineReducers<UpdateJudgeConfigFormState>({
-    data: combineReducers({ problem: problemReducer }),
-  });
+    data: combineReducers({ detailedProblem: detailedProblemReducer }),
+  }),
+  TargetPredicates.equal(Target.UPDATE_JUDGE_CONFIG_FORM)
+);

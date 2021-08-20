@@ -1,11 +1,11 @@
 import { Jwt } from './../../utility';
 import { createAction } from '@reduxjs/toolkit';
 
-const login = createAction('login');
+const login = createAction('login', (token) => ({ payload: { token } }));
 const logout = createAction('logout');
 
 export interface SetTokenPayload {
-  token: Jwt;
+  token: Jwt | null;
   isRefreshing?: boolean;
 }
 

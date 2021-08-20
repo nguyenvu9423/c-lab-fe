@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Segment, Header, Grid, Menu, Button, Icon } from 'semantic-ui-react';
-import { EditProblemForm } from '../../domains/problem';
+import { Segment, Header, Grid, Menu, Icon } from 'semantic-ui-react';
+import { EditProblemForm, ProblemRejudgeForm } from '../../domains/problem';
 import { Link, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import { UpdateJudgeConfigForm } from '../../domains/judge-config/UpdateJudgeConfigForm';
-import { ProblemRejudgeSegment } from './components/ProblemRejudgeSegment';
 import { match } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { addToast } from '../../store/actions/toast';
 
 export const ProblemEditPage: React.FC<{
   match: match<{ url: string; code: string }>;
@@ -14,13 +15,26 @@ export const ProblemEditPage: React.FC<{
     params: { activePage = 'definition' },
   } = useRouteMatch({ path: `${baseURL}/:activePage?`, strict: true });
 
+  const dispatch = useDispatch();
+
   let content;
   switch (activePage) {
     case 'definition':
       content = (
         <Segment clearing>
           <Header as="h2">Problem definition</Header>
-          <EditProblemForm problemCode={params.code} />
+          <EditProblemForm
+            problemCode={params.code}
+            onSuccess={() =>
+              dispatch(
+                addToast({
+                  header: 'Update problem',
+                  content: 'The changes are saved successfully',
+                  duration: 2500,
+                })
+              )
+            }
+          />
         </Segment>
       );
       break;
@@ -28,7 +42,18 @@ export const ProblemEditPage: React.FC<{
       content = (
         <Segment clearing>
           <Header as="h2">Judge config</Header>
-          <UpdateJudgeConfigForm problemCode={params.code} />
+          <UpdateJudgeConfigForm
+            problemCode={params.code}
+            onSuccess={() => {
+              dispatch(
+                addToast({
+                  header: 'Update judge config',
+                  content: 'The judge config has been updated successfully',
+                  duration: 2500,
+                })
+              );
+            }}
+          />
         </Segment>
       );
       break;
@@ -36,7 +61,7 @@ export const ProblemEditPage: React.FC<{
       content = (
         <Segment clearing>
           <Header as="h2">Rejudge</Header>
-          <ProblemRejudgeSegment problemCode={params.code} />
+          <ProblemRejudgeForm problemCode={params.code} />
         </Segment>
       );
       break;

@@ -6,11 +6,21 @@ export const problemEntityAdapter = createEntityAdapter<Problem>();
 export const problemEntityReducer = createReducer(
   problemEntityAdapter.getInitialState(),
   (builder) => {
-    builder.addMatcher(
-      ({ payload }) => !!payload?.entities?.problem,
-      (state, { payload }) => {
-        problemEntityAdapter.upsertMany(state, payload.entities.problem);
-      }
-    );
+    builder
+      .addMatcher(
+        ({ payload }) => !!payload?.entities?.problem,
+        (state, { payload }) => {
+          problemEntityAdapter.upsertMany(state, payload.entities.problem);
+        }
+      )
+      .addMatcher(
+        ({ payload }) => !!payload?.entities?.detailedProblem,
+        (state, { payload }) => {
+          problemEntityAdapter.upsertMany(
+            state,
+            payload.entities.detailedProblem
+          );
+        }
+      );
   }
 );

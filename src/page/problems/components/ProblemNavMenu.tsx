@@ -1,13 +1,18 @@
 import * as React from 'react';
 import { Menu } from 'semantic-ui-react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Problem } from '../../../domains/problem';
+import { AuthenticationSelectors } from '../../../store/selectors';
 
 export const ProblemNavMenu: React.FC<{ problem: Problem; tabName?: string }> =
   (props) => {
     const { problem, tabName } = props;
-
     const baseUrl = `/problems/${problem.code}`;
+
+    const isAuthenticated = useSelector(
+      AuthenticationSelectors.isAuthenticated()
+    );
 
     return (
       <Menu pointing>
@@ -23,9 +28,11 @@ export const ProblemNavMenu: React.FC<{ problem: Problem; tabName?: string }> =
           Submit
         </Menu.Item>
 
-        <Menu.Item as={Link} active={tabName == 'my'} to={`${baseUrl}/my`}>
-          My submissions
-        </Menu.Item>
+        {isAuthenticated && (
+          <Menu.Item as={Link} active={tabName == 'my'} to={`${baseUrl}/my`}>
+            My submissions
+          </Menu.Item>
+        )}
 
         <Menu.Item
           as={Link}

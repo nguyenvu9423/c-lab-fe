@@ -1,0 +1,142 @@
+import * as React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Segment, Button, Table, Modal } from 'semantic-ui-react';
+import { fetchTags, resetState } from '../../../../store/actions';
+import { Target } from '../../../../store/reducers/target';
+import { TagSelectors } from '../../../../store/selectors/TagSelectors';
+import { DeleteTagConfirm, AddTagModal } from '../../../../domains/tag';
+import {
+  ErrorMessage,
+  LoadingIndicator,
+  Pagination,
+} from '../../../../components';
+import { AddButton } from '../shared';
+import { State } from '../../../../store';
+import { Pageable } from '../../../../utility';
+import { DataHolder } from '../../../../store/reducers/data-holders/shared';
+import { ConstSelectors } from '../../../../store/selectors';
+
+import { TagFilter } from './TagFilter';
+
+const pageSize = 10;
+
+const initialPageable: Pageable = {
+  page: 0,
+  size: pageSize,
+};
+
+export const TagPage: React.FC = () => {
+  const { data } = useSelector((state: State) => state.adminPage.tag);
+  const dispatch = useDispatch();
+  const tags = useSelector(
+    DataHolder.isLoaded(data.tags)
+      ? TagSelectors.selectByIds(data.tags.result)
+      : ConstSelectors.value(undefined)
+  );
+  const [openAddForm, setOpenAddForm] = React.useState(false);
+  const [deletedTagId, setDeletedTagId] = React.useState<number | undefined>(
+    undefined
+  );
+
+  const pageable = DataHolder.usePageable(data.tags, initialPageable);
+  const query = DataHolder.useQuery(data.tags);
+  const totalPages = DataHolder.useTotalPages(data.tags);
+
+  const load = React.useCallback(
+    (params: { pageable?: Pageable; query?: string } = {}) =>
+      dispatch(
+        fetchTags.request({
+          pageable: params.pageable ?? pageable,
+          query: params.query ?? query,
+          target: Target.AdminPage.TAG,
+        })
+      ),
+    [dispatch, pageable, query]
+  );
+
+  React.useEffect(() => {
+    load();
+    return () => {
+      dispatch(resetState({ target: Target.AdminPage.TAG }));
+    };
+  }, []);
+
+  DataHolder.useReloadHelper(data.tags, load);
+  return (
+    <>
+      <Segment clearing>
+        <Segment vertical>
+          <AddButton label="Add tag" onClick={() => setOpenAddForm(true)} />
+        </Segment>
+        <Segment vertical clearing>
+          <TagFilter onChange={(query) => load({ query })} />
+        </Segment>
+        <Segment vertical>
+          {DataHolder.isLoading(data.tags) && <LoadingIndicator />}
+          {DataHolder.isError(data.tags) && (
+            <ErrorMessage message={data.tags.error.message} />
+          )}
+          {DataHolder.isLoaded(data.tags) && (
+            <Table basic="very">
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell width={2}>ID</Table.HeaderCell>
+                  <Table.HeaderCell>Name</Table.HeaderCell>
+                  <Table.HeaderCell collapsing></Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {tags?.map((tag) => (
+                  <Table.Row key={tag.id}>
+                    <Table.Cell>{tag.id}</Table.Cell>
+                    <Table.Cell>{tag.name}</Table.Cell>
+                    <Table.Cell collapsing>
+                      <Button
+                        icon="delete"
+                        negative
+                        size="tiny"
+                        onClick={() => setDeletedTagId(tag.id)}
+                      />
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          )}
+        </Segment>
+        <Segment vertical>
+          <Pagination
+            activePage={pageable.page + 1}
+            totalPages={totalPages}
+            floated="right"
+            onPageChange={(event, { activePage }) => {
+              load({
+                pageable: { page: activePage - 1, size: pageSize },
+              });
+            }}
+          />
+        </Segment>
+      </Segment>
+      {openAddForm && (
+        <AddTagModal
+          onCancel={() => setOpenAddForm(false)}
+          onSuccess={() => {
+            setOpenAddForm(false);
+            load();
+          }}
+        />
+      )}
+
+      {deletedTagId && (
+        <DeleteTagConfirm
+          tagId={deletedTagId}
+          onCancel={() => setDeletedTagId(undefined)}
+          onSuccess={() => {
+            setDeletedTagId(undefined);
+            load();
+          }}
+        />
+      )}
+    </>
+  );
+};

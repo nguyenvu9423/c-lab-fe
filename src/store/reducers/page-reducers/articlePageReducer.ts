@@ -1,8 +1,9 @@
+import { Target } from './../target';
 import { ArticleState } from './../data-holders/articleReducer';
-import { filterActions } from 'redux-ignore';
-import { createTargetChecker, Target } from '../target';
 import { combineReducers } from 'redux';
 import { articleReducer } from '../data-holders';
+import { TargetPredicates } from '../target';
+import { createFilteredReducer } from '../utils';
 
 export interface ArticlePageState {
   data: {
@@ -10,11 +11,11 @@ export interface ArticlePageState {
   };
 }
 
-export const articlePageReducer = filterActions(
+export const articlePageReducer = createFilteredReducer(
   combineReducers<ArticlePageState>({
     data: combineReducers({
       article: articleReducer,
     }),
   }),
-  createTargetChecker(Target.ARTICLE_PAGE)
+  TargetPredicates.equal(Target.ARTICLE_PAGE)
 );

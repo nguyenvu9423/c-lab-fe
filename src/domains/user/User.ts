@@ -11,5 +11,11 @@ export interface User {
 
   workplace: string;
 
+  birthDay: string;
+
   avatarUrl?: string;
+
+  emailVerified: boolean;
+
+  banned: boolean;
 }

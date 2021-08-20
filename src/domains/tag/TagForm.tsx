@@ -10,8 +10,8 @@ import { Tag } from './Tag';
 export namespace TagForm {
   export interface Props {
     initialValues?: Partial<Value>;
-    onCancel: () => void;
-    onSubmit: (values: Value) => Promise<unknown>;
+    onCancel?: () => void;
+    onSubmit?: (values: Value) => Promise<unknown>;
     status?: {
       errors?: FieldError[];
     };

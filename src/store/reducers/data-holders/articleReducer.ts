@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { DataHolderState } from './shared';
-import { fetchArticle } from '../../actions';
+import { fetchArticle, resetState } from '../../actions';
 import { LoadingState } from '../../common';
 
 export type ArticleState = DataHolderState<
@@ -40,6 +40,7 @@ export const articleReducer = createReducer<ArticleState>(
           };
         }
         return state;
-      });
+      })
+      .addCase(resetState, () => initialState);
   }
 );

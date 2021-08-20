@@ -1,11 +1,16 @@
-//@ts-nocheck
-
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { showModal } from '../../../store/actions/modal';
-import { ModalMap } from '../../../components/modals';
+import { setModal } from '../../../store/actions/modal';
 
-export const SubmissionDetailsLink = (props) => {
+export namespace SubmissionDetailsLink {
+  export interface Props {
+    submissionId: number;
+  }
+}
+
+export const SubmissionDetailsLink: React.FC<SubmissionDetailsLink.Props> = (
+  props
+) => {
   const { submissionId } = props;
   const dispatch = useDispatch();
   return (
@@ -13,11 +18,9 @@ export const SubmissionDetailsLink = (props) => {
       style={{ cursor: 'pointer' }}
       onClick={() => {
         dispatch(
-          showModal({
-            modalType: ModalMap.SUBMISSION_DETAILS.type,
-            modalProps: {
-              submissionId,
-            },
+          setModal({
+            type: 'DETAILED_SUB',
+            props: { submissionId },
           })
         );
       }}

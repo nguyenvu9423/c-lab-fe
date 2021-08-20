@@ -1,16 +1,27 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProblem } from '../../store/actions';
+import {
+  fetchDetailedProblem,
+  resetState,
+  updateEntity,
+} from '../../store/actions';
 import { JudgeConfigForm } from './JudgeConfigForm';
 import { LoadingState } from '../../store/common';
-import { LoadingIndicator } from '../../components';
-import { ProblemSelectors, JudgeConfigSelectors } from '../../store/selectors';
+import { LoadingIndicator, useFormKey } from '../../components';
+import {
+  ProblemSelectors,
+  JudgeConfigSelectors,
+  AuthorizationSelectors,
+} from '../../store/selectors';
 import { ProblemService } from '../../service/ProblemService';
 import { State } from '../../store';
 import { JudgeConfig } from './JudgeConfig';
 import { Button } from 'semantic-ui-react';
 import { ValidationException } from '../../exception';
 import { FormikHelpers } from 'formik';
+import { detailedProblemSchema } from '../problem';
+import { normalize } from 'normalizr';
+import { Target } from '../../store/reducers/target';
 
 export namespace UpdateJudgeConfigForm {
   export type Props =
@@ -32,8 +43,8 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
   const { data } = useSelector((state: State) => state.updateJudgeConfigForm);
 
   const problem = useSelector(
-    data.problem.loadingState === LoadingState.LOADED
-      ? ProblemSelectors.byId(data.problem.id)
+    data.detailedProblem.loadingState === LoadingState.LOADED
+      ? ProblemSelectors.byId(data.detailedProblem.id)
       : () => undefined
   );
 
@@ -48,36 +59,50 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
   const load = React.useCallback(() => {
     dispatch(
       problemId
-        ? fetchProblem.request({
+        ? fetchDetailedProblem.request({
             type: 'byId',
             id: problemId,
-            target: 'updateJudgeConfigForm',
+            target: Target.UPDATE_JUDGE_CONFIG_FORM,
           })
-        : fetchProblem.request({
+        : fetchDetailedProblem.request({
             type: 'byCode',
             code: problemCode!,
-            target: 'updateJudgeConfigForm',
+            target: Target.UPDATE_JUDGE_CONFIG_FORM,
           })
     );
-  }, [problemId, problemCode]);
+  }, [dispatch, problemId, problemCode]);
 
   React.useEffect(() => {
     load();
-  }, []);
+    return () => {
+      dispatch(resetState({ target: Target.UPDATE_JUDGE_CONFIG_FORM }));
+    };
+  }, [dispatch, load]);
 
-  if (data.problem.loadingState === LoadingState.LOADING) {
+  const canUpdate = useSelector(
+    problem ? AuthorizationSelectors.canUpdateProblem(problem) : () => undefined
+  );
+
+  if (!canUpdate) {
+    return <p>You do not have the permission to update the judge config</p>;
+  }
+
+  if (data.detailedProblem.loadingState === LoadingState.LOADING) {
     return <LoadingIndicator />;
   }
 
-  return data.problem.loadingState === LoadingState.LOADED ? (
+  return data.detailedProblem.loadingState === LoadingState.LOADED ? (
     judgeConfig ? (
       <EditJudgeConfigForm
-        problemId={data.problem.id}
+        problemId={data.detailedProblem.id}
         judgeConfig={judgeConfig}
         onSuccess={onSuccess}
       />
     ) : (
-      <AddJudgeConfigForm problemId={data.problem.id} onSuccess={onSuccess} />
+      <AddJudgeConfigForm
+        problemId={data.detailedProblem.id}
+        onSuccess={onSuccess}
+      />
     )
   ) : null;
 };
@@ -125,9 +150,20 @@ const AddJudgeConfigForm: React.FC<{
   onSuccess?(value: any): void;
 }> = (props) => {
   const [isConfirmed, setIsConfirmed] = React.useState(false);
-  const handleSubmit = useSubmitJudgeConfig(props);
+  const [key, updateKey] = useFormKey();
+  const dispatch = useDispatch();
+
+  const handleSubmit = useSubmitJudgeConfig({
+    problemId: props.problemId,
+    onSuccess: (data) => {
+      const normalizedData = normalize(data, detailedProblemSchema);
+      dispatch(updateEntity({ entities: normalizedData.entities }));
+      updateKey();
+      props.onSuccess?.(data);
+    },
+  });
   if (isConfirmed) {
-    return <JudgeConfigForm onSubmit={handleSubmit} />;
+    return <JudgeConfigForm key={key} onSubmit={handleSubmit} />;
   } else {
     return (
       <Button
@@ -146,8 +182,23 @@ const EditJudgeConfigForm: React.FC<{
   onSuccess?(value: any): void;
 }> = (props) => {
   const { problemId, judgeConfig, onSuccess } = props;
-  const handleSubmit = useSubmitJudgeConfig({ problemId, onSuccess });
+  const [key, updateKey] = useFormKey();
+  const dispatch = useDispatch();
+
+  const handleSubmit = useSubmitJudgeConfig({
+    problemId,
+    onSuccess: (data) => {
+      const normalizedData = normalize(data, detailedProblemSchema);
+      dispatch(updateEntity({ entities: normalizedData.entities }));
+      updateKey();
+      onSuccess?.(data);
+    },
+  });
   return (
-    <JudgeConfigForm initialValues={judgeConfig} onSubmit={handleSubmit} />
+    <JudgeConfigForm
+      key={key}
+      initialValues={judgeConfig}
+      onSubmit={handleSubmit}
+    />
   );
 };

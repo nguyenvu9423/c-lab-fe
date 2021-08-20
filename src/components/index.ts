@@ -6,3 +6,5 @@ export * from './modals';
 export * from './tag';
 export * from './placeholder';
 export * from './pagination/Pagination';
+export * from './toast/ToastGroup';
+export * from './top-nav';

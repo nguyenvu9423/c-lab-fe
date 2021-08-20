@@ -1,10 +1,9 @@
-import { User } from './../user/User';
 import { ArticleStatus } from './ArticleStatus';
 
 export interface Article {
   id: number;
 
-  author: User;
+  author: number;
 
   status: ArticleStatus;
 
@@ -17,6 +16,8 @@ export interface Article {
   content: string;
 
   thumbnail?: string;
+
+  contentTableShown: boolean;
 
   tags: number[];
 }

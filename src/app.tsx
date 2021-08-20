@@ -14,10 +14,13 @@ import {
   ProblemPageRouter,
   AdminPage,
   HomePage,
+  LogoutPage,
+  ResetPasswordPageRouter,
+  EmailVerificationPage,
 } from './page';
-import { toastGroup, TopNav } from './page/common';
 import { Modal } from './components/modals';
 import { PrincipalSelectors } from './store/selectors';
+import { ToastGroup, TopNav } from './components';
 
 const App: React.FC = () => {
   const isInitialized = useSelector(PrincipalSelectors.isInitialized());
@@ -34,14 +37,17 @@ const App: React.FC = () => {
           </Route>
           <Route path="/register" component={RegisterPage} />
           <Route path="/login" component={LoginPage} />
+          <Route path="/logout" component={LogoutPage} />
           <Route path="/users" component={UserPageRouter} />
           <Route path="/articles" component={ArticlePageRouter} />
           <Route path="/problems" component={ProblemPageRouter} />
           <Route path="/admin" component={AdminPage} />
+          <Route path="/email-verification" component={EmailVerificationPage} />
+          <Route path="/reset-password" component={ResetPasswordPageRouter} />
           <Route path="/" exact component={HomePage} />
         </Switch>
       </div>
-      {toastGroup}
+      <ToastGroup />
       <Modal />
     </>
   );

@@ -54,7 +54,7 @@ export const fetchUser = {
 export namespace FetchUsers {
   export interface RequestPayload extends BaseFetchPayload {
     pageable: Pageable;
-    filters?: any[];
+    query?: string;
   }
 
   export interface ResponsePayload extends BaseFetchPayload {
@@ -70,7 +70,10 @@ export const fetchUsers = {
   request: createAction(
     'fetchUsers/request',
     (payload: FetchUsers.RequestPayload) => ({
-      payload,
+      payload: {
+        ...payload,
+        query: payload.query ? payload.query : undefined,
+      },
     })
   ),
   response: createAction(

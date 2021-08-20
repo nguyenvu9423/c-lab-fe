@@ -5,7 +5,7 @@ import AvatarPlaceholderImg from '../../../public/images/avatar-placeholder.png'
 import { serverPath } from '../../server';
 import { User } from '../../domains/user';
 
-export const Avatar: React.FC<{ user: User; style: any }> = (props) => {
+export const Avatar: React.FC<{ user: User; style?: any }> = (props) => {
   const { user, style } = props;
   return (
     <Image

@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { Tag } from './../../../domains/tag/Tag';
 import { Pageable } from './../../../utility/Pageable';
 import { NormalizedEntities } from './../../../entity-schemas/types';
-import { fetchTags } from '../../actions';
+import { fetchTags, resetState } from '../../actions';
 import { LoadingState } from '../../common';
 import { DataHolderState } from './shared';
 
@@ -54,5 +54,6 @@ export const tagsReducer = createReducer<TagsState>(initialState, (builder) => {
         };
       }
       return state;
-    });
+    })
+    .addCase(resetState, () => initialState);
 });

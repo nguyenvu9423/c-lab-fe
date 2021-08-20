@@ -9,7 +9,6 @@ import {
   Button,
 } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideModal } from '../../../store/actions/modal';
 import { LoadingState } from '../../../store/common';
 import { CodeEditor } from '../../../components/editors';
 import {
@@ -25,6 +24,7 @@ import {
   updateEntity,
   fetchDetailedJudge,
   fetchDetailedSub,
+  setModal,
 } from '../../../store/actions';
 import { LoadingIndicator } from '../../../components/loading-indicator';
 import { JudgeVerdict } from '../../judge';
@@ -45,7 +45,13 @@ import {
   SubmissionSelectors,
 } from '../../../store/selectors';
 
-export const DetailedSubModal: React.FC<{ submissionId: number }> = (props) => {
+export namespace DetailedSubModal {
+  export interface Props {
+    submissionId: number;
+  }
+}
+
+export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
   const { submissionId } = props;
   const { data } = useSelector((state: State) => state.detailedSubModal);
   const dispatch = useDispatch();
@@ -140,7 +146,7 @@ export const DetailedSubModal: React.FC<{ submissionId: number }> = (props) => {
   }, [judgeId]);
 
   const handleClose = React.useCallback(() => {
-    dispatch(hideModal());
+    dispatch(setModal(null));
   }, []);
 
   const result = judge?.result;

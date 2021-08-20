@@ -3,13 +3,14 @@ import * as ReactMarkdown from 'react-markdown';
 import * as remarkMath from 'remark-math';
 import * as rehypeKatex from 'rehype-katex';
 import * as gfm from 'remark-gfm';
+import * as rehypeRaw from 'rehype-raw';
 import classNames from 'classnames';
 
 import { Button, Divider } from 'semantic-ui-react';
 import { EditorState, Editor, ContentState } from 'draft-js';
+import { Components } from 'react-markdown/src/ast-to-react';
 
 import { Styleable } from '../../common/types';
-import { Components } from 'react-markdown/src/ast-to-react';
 
 export namespace MarkdownEditor {
   export interface Props extends Styleable {
@@ -77,7 +78,7 @@ export const MarkdownView: React.FC<{ children: string }> = ({ children }) => {
   return (
     <ReactMarkdown
       remarkPlugins={[gfm, remarkMath]}
-      rehypePlugins={[rehypeKatex]}
+      rehypePlugins={[rehypeRaw, rehypeKatex]}
       components={components}
     >
       {children}

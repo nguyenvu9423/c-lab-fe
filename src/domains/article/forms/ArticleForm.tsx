@@ -1,7 +1,14 @@
 import * as React from 'react';
 import * as yup from 'yup';
 
-import { Button, Form, Segment, TextArea, Image } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Segment,
+  TextArea,
+  Image,
+  Checkbox,
+} from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import DefaultThumbnail from '../../../../public/images/default-thumbnail.png';
 import { ArticleStatus } from '../';
@@ -26,6 +33,7 @@ export namespace ArticleForm {
     overview: string;
     content: string;
     thumbnail: string | File | undefined;
+    contentTableShown: boolean;
     tags: Tag[];
   }
 }
@@ -61,6 +69,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
       overview: initialValues?.overview ?? '',
       content: initialValues?.content ?? '',
       thumbnail: initialValues?.thumbnail,
+      contentTableShown: initialValues?.contentTableShown ?? true,
       tags: initialValues?.tags ?? [],
     },
     validationSchema: ArticleFormSchema,
@@ -138,9 +147,9 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
         />
         {errorMessageRender('content')}
       </Form.Field>
-      <Form.Field>
-        <label>Overview*</label>
-        <Form.Field>
+      <Form.Group>
+        <Form.Field width={8}>
+          <label>Overview*</label>
           <TextArea
             name="overview"
             rows={4}
@@ -149,9 +158,20 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          {errorMessageRender('overview')}
         </Form.Field>
-        {errorMessageRender('overview')}
-      </Form.Field>
+        <Form.Field width={8}>
+          <label>Content table</label>
+          <Checkbox
+            label="Visible"
+            checked={values.contentTableShown}
+            onChange={() =>
+              setFieldValue('contentTableShown', !values.contentTableShown)
+            }
+          />
+        </Form.Field>
+      </Form.Group>
+
       <Form.Field>
         <label>Thumbnail</label>
         <ImageUploader
@@ -161,7 +181,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
       </Form.Field>
 
       <SubmitButton floated="right" disabled={isSubmitting} />
-      <CancelButton floated="right" onClick={() => onCancel?.()} />
+      {onCancel && <CancelButton floated="right" onClick={onCancel} />}
     </Form>
   );
 };

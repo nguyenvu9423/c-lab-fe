@@ -8,13 +8,14 @@ import ArrayUtils from '../../../utility/ArrayUtils';
 import { Article } from '../../../domains/article';
 import { useSelector } from 'react-redux';
 import { TagSelectors } from '../../../store/selectors/TagSelectors';
+import { UserSelectors } from '../../../store/selectors';
 
 export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
   const { article } = props;
-  const { author } = article;
+
+  const author = useSelector(UserSelectors.selectById(article.author));
 
   const tags = useSelector(TagSelectors.selectByIds(article.tags));
-  console.log(article);
   return (
     <Card fluid>
       <Card.Content>

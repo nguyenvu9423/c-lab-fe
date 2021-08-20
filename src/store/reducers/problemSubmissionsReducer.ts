@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import { filterActions } from 'redux-ignore';
-import { createTargetChecker, Target } from './target';
 import { submissionsReducer } from './data-holders';
 import { submissionFilterReducer, SubmissionFilterState } from './ui-reducers';
 import { SubmissionsState } from './data-holders';
+import { Target, TargetPredicates } from './target';
+import { createFilteredReducer } from './utils/createFilteredReducer';
 
 export interface ProblemSubmissionsState {
   data: {
@@ -14,7 +14,7 @@ export interface ProblemSubmissionsState {
   };
 }
 
-const problemSubmissionsReducer = filterActions(
+export const problemSubmissionsReducer = createFilteredReducer(
   combineReducers<ProblemSubmissionsState>({
     data: combineReducers({
       submissions: submissionsReducer,
@@ -23,7 +23,5 @@ const problemSubmissionsReducer = filterActions(
       filters: submissionFilterReducer,
     }),
   }),
-  createTargetChecker(Target.PROBLEM_SUBMISSIONS)
+  TargetPredicates.equal(Target.ProblemPageContents.SUBMISSIONS)
 );
-
-export { problemSubmissionsReducer };

@@ -14,7 +14,11 @@ import {
 import { ArticleContentTable } from './components/ArticleContentTable';
 import { LoadingState } from '../../store/common';
 import { ErrorMessage, LoadingIndicator } from '../../components';
-import { ArticleSelectors } from '../../store/selectors';
+import {
+  ArticleSelectors,
+  AuthorizationSelectors,
+  UserSelectors,
+} from '../../store/selectors';
 import { Target } from '../../store/reducers/target';
 import { ArticleUtils } from './utils';
 import { Avatar } from '../../components/avatar/Avatar';
@@ -22,6 +26,7 @@ import { State } from '../../store';
 import { Article } from '../../domains/article';
 import { ArticleSettingPanel } from './components/ArticleSettingPanel';
 import { TagSelectors } from '../../store/selectors/TagSelectors';
+import { resetState } from '../../store/actions';
 
 export const ArticlePage: React.FC<{
   match: match<{ id: string }>;
@@ -36,6 +41,9 @@ export const ArticlePage: React.FC<{
 
   const { data } = useSelector((state: State) => state.articlePage);
   const article = useSelector(ArticleSelectors.byId(params.id));
+  const canEdit = useSelector(
+    article ? AuthorizationSelectors.canUpdateArticle(article) : () => undefined
+  );
 
   React.useEffect(() => {
     dispatch(
@@ -44,7 +52,10 @@ export const ArticlePage: React.FC<{
         target: Target.ARTICLE_PAGE,
       })
     );
-  }, [params.id]);
+    return () => {
+      dispatch(resetState({ target: Target.ARTICLE_PAGE }));
+    };
+  }, [dispatch, params.id]);
 
   React.useEffect(() => {
     if (article && location.hash) {
@@ -72,30 +83,34 @@ export const ArticlePage: React.FC<{
       )}
       {data.article.loadingState === LoadingState.LOADED && article && (
         <>
-          <Grid.Row>
-            <Grid.Column floated="right" textAlign="right" width="16">
-              <ArticleSettingPanel article={article} />
-              <Divider />
-            </Grid.Column>
-          </Grid.Row>
+          {canEdit && (
+            <Grid.Row>
+              <Grid.Column floated="right" textAlign="right" width="16">
+                <ArticleSettingPanel article={article} />
+                <Divider />
+              </Grid.Column>
+            </Grid.Row>
+          )}
 
           <Grid.Row>
-            <Grid.Column width="12">
+            <Grid.Column width={article.contentTableShown ? 12 : 16}>
               <Ref innerRef={contextRef}>
                 <ArticleContentContainer article={article} />
               </Ref>
             </Grid.Column>
-            <Grid.Column width="4">
-              <Sticky
-                className="article table-content"
-                context={contextRef}
-                offset={76}
-              >
-                <Segment basic>
-                  <ArticleContentTable article={article} />
-                </Segment>
-              </Sticky>
-            </Grid.Column>
+            {article.contentTableShown && (
+              <Grid.Column width={4}>
+                <Sticky
+                  className="article table-content"
+                  context={contextRef}
+                  offset={76}
+                >
+                  <Segment basic>
+                    <ArticleContentTable article={article} />
+                  </Segment>
+                </Sticky>
+              </Grid.Column>
+            )}
           </Grid.Row>
         </>
       )}
@@ -105,6 +120,7 @@ export const ArticlePage: React.FC<{
 
 const ArticleContentContainer: React.FC<{ article: Article }> = (props) => {
   const { article } = props;
+  const author = useSelector(UserSelectors.selectById(article.author));
 
   const markupContent = React.useMemo(() => {
     return article ? ArticleUtils.markupContent(article.content) : undefined;
@@ -120,7 +136,7 @@ const ArticleContentContainer: React.FC<{ article: Article }> = (props) => {
       </Segment>
       <Segment vertical basic>
         <div>
-          <Avatar user={article.author} style={{ width: 48, height: 48 }} />
+          <Avatar user={author} style={{ width: 48, height: 48 }} />
           <span
             style={{
               display: 'inline-block',
@@ -128,7 +144,7 @@ const ArticleContentContainer: React.FC<{ article: Article }> = (props) => {
               verticalAlign: 'middle',
             }}
           >
-            <div>{`${article.author.firstName} ${article.author.lastName}`}</div>
+            <div>{`${author.firstName} ${author.lastName}`}</div>
             <div
               style={{
                 color: 'rgba(0,0,0,.6)',

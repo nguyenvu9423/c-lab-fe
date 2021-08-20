@@ -28,7 +28,24 @@ export const RichTextEditor: React.FC<{
         toolbar={toolbar}
         onBlur={() => {
           props.onChange?.(
-            draftToHtml(convertToRaw(editorState.getCurrentContent()))
+            draftToHtml(
+              convertToRaw(editorState.getCurrentContent()),
+              {},
+              false,
+              ({ type, data }) => {
+                //entity.data.alignment is for float using the LCR options on the image 'none' means the user clicked center
+                if (type === 'IMAGE') {
+                  const alignment = data.alignment || 'none';
+                  const textAlign = alignment === 'none' ? 'center' : alignment;
+
+                  return `
+                      <p style="text-align:${textAlign};">
+                          <img src="${data.src}" alt="${data.alt}" style="height: ${data.height};width: ${data.width}"/>
+                      </p>
+                  `;
+                }
+              }
+            )
           );
         }}
       />

@@ -1,5 +1,6 @@
-export { AddProblemForm } from './forms/AddProblemForm';
-export { EditProblemForm } from './forms/EditProblemForm';
+export * from './forms';
+export * from './modals';
+
 export * from './input/ProblemCodeSelect';
 export * from './input/ProblemIdSelect';
 export { Problem } from './Problem';

@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { LoadingState } from '../../common';
-import { fetchUser } from '../../actions';
+import { fetchUser, resetState } from '../../actions';
 import { DataHolderState } from './shared';
 
 export type UserState = DataHolderState<
@@ -33,39 +33,6 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
         return { ...state, loadingState: LoadingState.ERROR, error };
       }
       return state;
-    });
+    })
+    .addCase(resetState, () => initialState);
 });
-
-// export const userReducerMap = {
-//   [fetchUser.request]: () => {
-//     return {
-//       loadingState: LoadingState.LOADING,
-//     };
-//   },
-//   [fetchUser.response]: (state, { error, payload }) => {
-//     if (!error) {
-//       const { user } = payload;
-//       return {
-//         id: user,
-//         loadingState: LoadingState.LOADED,
-//       };
-//     } else {
-//       const {
-//         response: {
-//           data: { message },
-//         },
-//       } = payload;
-//       return {
-//         loadingState: LoadingState.ERROR,
-//         error: {
-//           message,
-//         },
-//       };
-//     }
-//   },
-//   [clearUser]: () => {
-//     return { loadingState: LoadingState.LOAD_NEEDED };
-//   },
-// };
-
-// export const userReducer = handleActions(userReducerMap, initialState);
