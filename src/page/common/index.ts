@@ -1,2 +1,2 @@
-export { LoginButton } from './buttons/LoginButton';
+export * from './buttons';
 export * from './useTotalPages';

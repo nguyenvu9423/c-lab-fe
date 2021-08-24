@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Image } from 'semantic-ui-react';
-// @ts-ignore
 import AvatarPlaceholderImg from '../../../public/images/avatar-placeholder.png';
 import { serverPath } from '../../server';
 import { User } from '../../domains/user';

@@ -1,6 +1,7 @@
 import { Selector } from '@reduxjs/toolkit';
 import { State } from '../..';
 import { LoadingState } from '../../common';
+import { DataHolder } from '../../reducers/data-holders/shared';
 
 export namespace AuthenticationSelectors {
   export function isAuthenticated(): Selector<State, boolean> {
@@ -26,6 +27,14 @@ export namespace AuthenticationSelectors {
         return permissions;
       } else {
         return [];
+      }
+    };
+  }
+
+  export function username(): Selector<State, string | undefined> {
+    return (state) => {
+      if (DataHolder.isLoaded(state.authentication)) {
+        return state.authentication.token.payload.username;
       }
     };
   }

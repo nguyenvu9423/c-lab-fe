@@ -3,7 +3,7 @@ import { Grid } from 'semantic-ui-react';
 import { BufferedInput } from '../../../../components/input';
 import { ArticleTitleSelect } from '../../../../domains/article/input/ArticleTitleSelect';
 import { TagDTO, TagSelect } from '../../../../domains/tag';
-import { UserDTO } from '../../../../domains/user/UserDTO';
+import { UserDTO } from '../../../../domains/user';
 import { UserSelect } from '../../../../domains/user/UserSelect';
 import { ComparisonOperator } from '../../../../utility/filter';
 import { FilterUtils } from '../../../../utility/filter/utils';

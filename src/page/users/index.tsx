@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { match, Route, Switch } from 'react-router';
 import { UserPage } from './UserPage';
-import { EditUserPage } from './EditUserPage';
+import { EditUserInfoPage } from './EditUserInfoPage';
 import { EditUserPasswordPage } from './EditUserPasswordPage';
 
 export const UserPageRouter: React.FC<{ match: match }> = (props) => {
@@ -12,7 +12,10 @@ export const UserPageRouter: React.FC<{ match: match }> = (props) => {
         path={`${match.path}/:username/change-password`}
         component={EditUserPasswordPage}
       />
-      <Route path={`${match.path}/:username/edit`} component={EditUserPage} />
+      <Route
+        path={`${match.path}/:username/edit`}
+        component={EditUserInfoPage}
+      />
       <Route path={`${match.path}/:username`} component={UserPage} />
     </Switch>
   );

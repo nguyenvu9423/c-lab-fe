@@ -10,6 +10,7 @@ import { ProblemPage } from './entity-pages/problem';
 import { UserPage } from './entity-pages/user';
 import { RolePage } from './entity-pages/RolePage';
 import { AuthorizationSelectors } from '../../store/selectors';
+import { PageErrorMessage } from '../shared';
 
 export const AdminPage: React.FC<{ match: match }> = (props) => {
   const baseURL = props.match.url;
@@ -32,7 +33,6 @@ export const AdminPage: React.FC<{ match: match }> = (props) => {
       content = <ArticlePage />;
       break;
     case 'problems':
-      content = <ProblemPage />;
       break;
     case 'users':
       content = <UserPage />;
@@ -43,23 +43,18 @@ export const AdminPage: React.FC<{ match: match }> = (props) => {
     default:
       content = undefined;
   }
+  if (!hasAdminRole) {
+    return (
+      <PageErrorMessage message="You do not have admin permission to access this page" />
+    );
+  }
   return (
     <Grid container doubling stackable>
       <Grid.Row>
-        {hasAdminRole ? (
-          <>
-            <Grid.Column width={4}>
-              <ControlMenu baseURL={baseURL} activePage={activePage} />
-            </Grid.Column>
-            <Grid.Column width={12}>{content}</Grid.Column>{' '}
-          </>
-        ) : (
-          <Grid.Column stretched>
-            <Message error fluid>
-              <p>You do not have admin permission to access this page</p>
-            </Message>
-          </Grid.Column>
-        )}
+        <Grid.Column width={4}>
+          <ControlMenu baseURL={baseURL} activePage={activePage} />
+        </Grid.Column>
+        <Grid.Column width={12}>{content}</Grid.Column>{' '}
       </Grid.Row>
     </Grid>
   );

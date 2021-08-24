@@ -13,9 +13,8 @@ export namespace UserInfoForm {
   export interface Value {
     firstName: string;
     lastName: string;
-    email: string;
-    birthDay: string;
-    workplace: string;
+    birthday?: string;
+    workplace?: string;
   }
 }
 
@@ -34,9 +33,8 @@ export const UserInfoForm: React.FC<UserInfoForm.Props> = (props) => {
     initialValues: {
       firstName: initialValues?.firstName ?? '',
       lastName: initialValues?.lastName ?? '',
-      email: initialValues?.email ?? '',
-      birthDay: initialValues?.birthDay ?? '',
-      workplace: initialValues?.workplace ?? '',
+      birthday: initialValues?.birthday ?? undefined,
+      workplace: initialValues?.workplace ?? undefined,
     },
     onSubmit: (value) => onSubmit?.(value),
     validationSchema,
@@ -73,25 +71,14 @@ export const UserInfoForm: React.FC<UserInfoForm.Props> = (props) => {
           {errorMsgRenderer('lastName')}
         </Form.Field>
       </Form.Group>
-      <Form.Field>
-        <label>Email*</label>
-        <Input
-          placeholder="Email"
-          name="email"
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-      </Form.Field>
-      {errorMsgRenderer('email')}
       <Form.Group widths="equal">
         <Form.Field>
           <label>Birthday</label>
           <Input
             placeholder="Birth day"
             type="date"
-            name="birthDay"
-            value={values.birthDay}
+            name="birthday"
+            value={values.birthday}
             onChange={handleChange}
             onBlur={handleBlur}
           />
@@ -132,5 +119,4 @@ const validationSchema = yup.object().shape({
     .required('Last name is required')
     .min(2, 'Last name should be at least 2 characters')
     .max(24, 'Last name should be at most 64 characters'),
-  email: yup.string().required('Email is required').email('Email is not valid'),
 });

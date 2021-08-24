@@ -1,13 +1,16 @@
 import * as React from 'react';
 import * as yup from 'yup';
-import { useFormik } from 'formik';
+import { FormikHelpers, useFormik } from 'formik';
 import { Button, Form } from 'semantic-ui-react';
 import { useErrorMessageRenderer } from '../../../components';
 
 export namespace EditUserPasswordForm {
   export interface Props {
     initialValues?: Partial<Value>;
-    onSubmit?(value: Value): Promise<unknown> | void;
+    onSubmit?(
+      value: Value,
+      helpers: FormikHelpers<Value>
+    ): Promise<unknown> | void;
     onCancel?(): void;
   }
 
@@ -37,7 +40,7 @@ export const EditUserPasswordForm: React.FC<EditUserPasswordForm.Props> = (
       confirmNewPassword: initialValues?.confirmNewPassword ?? '',
       oldPassword: initialValues?.oldPassword ?? '',
     },
-    onSubmit: (value) => onSubmit?.(value),
+    onSubmit: (value, helpers) => onSubmit?.(value, helpers),
     validationSchema,
   });
 

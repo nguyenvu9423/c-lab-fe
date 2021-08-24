@@ -1,111 +1,15 @@
 import * as React from 'react';
-import { Button, Container, Dropdown, Menu } from 'semantic-ui-react';
-import { Link, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { Container, Menu } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { SearchBar } from '../../components/search/SearchBar';
-import { logout } from '../../store/actions';
-import {
-  AuthorizationSelectors,
-  PrincipalSelectors,
-} from '../../store/selectors';
+import { PrincipalSelectors } from '../../store/selectors';
 import { LoadingState } from '../../store/common';
-import { LoginButton } from '../../page/common/buttons/LoginButton';
+import { AnonymousControlMenu } from './AnonymousControlMenu';
+import { UserControlMenu } from './UserControlMenu';
 
-function AnonymousControlMenu() {
-  return (
-    <>
-      <Menu.Item>
-        <Button primary as={Link} to={'/register'}>
-          Đăng kí
-        </Button>
-      </Menu.Item>
-      <Menu.Item>
-        <LoginButton />
-      </Menu.Item>
-    </>
-  );
-}
-
-function UserControlMenu(props) {
-  const { user } = props;
-  const history = useHistory();
-
-  const handleLogOut = React.useCallback(() => {
-    history.push('/logout');
-  }, [history]);
-
-  const canCreateArticle = useSelector(
-    AuthorizationSelectors.canCreateArticle()
-  );
-  const canCreateProblem = useSelector(
-    AuthorizationSelectors.canCreateProblem()
-  );
-  const hasAdminRole = useSelector(AuthorizationSelectors.hasAdminRole());
-
-  return (
-    <>
-      {(canCreateArticle || canCreateProblem) && (
-        <Menu.Item>
-          <Dropdown
-            button
-            floating
-            className="icon"
-            labeled
-            icon="edit"
-            text="Create"
-          >
-            <Dropdown.Menu>
-              {canCreateArticle && (
-                <Dropdown.Item
-                  as={Link}
-                  to="/articles/add"
-                  text="Article"
-                  icon="book"
-                />
-              )}
-              {canCreateProblem && (
-                <Dropdown.Item
-                  as={Link}
-                  to="/problems/add"
-                  text="Problem"
-                  icon="tasks"
-                />
-              )}
-            </Dropdown.Menu>
-          </Dropdown>
-        </Menu.Item>
-      )}
-
-      <Dropdown item text={user.lastName}>
-        <Dropdown.Menu>
-          <Dropdown.Item
-            as={Link}
-            to={`/users/${user.username}`}
-            icon="user"
-            text="Profile"
-          />
-          <Dropdown.Divider />
-          {hasAdminRole && (
-            <Dropdown.Item
-              as={Link}
-              to="/admin"
-              icon="setting"
-              text="Admin panel"
-            />
-          )}
-          <Dropdown.Item
-            icon="angle double right"
-            text="Log out"
-            onClick={handleLogOut}
-          />
-        </Dropdown.Menu>
-      </Dropdown>
-    </>
-  );
-}
-
-export function TopNav() {
+export const TopNav: React.FC = () => {
   const { loadingState, principal } = useSelector(
     PrincipalSelectors.principalDataHolder()
   );
@@ -138,4 +42,4 @@ export function TopNav() {
       </Container>
     </Menu>
   );
-}
+};

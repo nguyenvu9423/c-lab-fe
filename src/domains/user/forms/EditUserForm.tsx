@@ -12,14 +12,14 @@ import { DataHolderState } from '../../../store/reducers/data-holders/shared';
 
 export namespace EditUserForm {
   export interface Props {
-    userId: number;
+    username: string;
     onCancel?: () => void;
     onSuccess?: () => void;
   }
 }
 
 export const EditUserForm: React.FC<EditUserForm.Props> = (props) => {
-  const { userId, onCancel, onSuccess } = props;
+  const { username, onCancel, onSuccess } = props;
   const dispatch = useDispatch();
   const { data } = useSelector((state: State) => state.editUserForm);
 
@@ -32,20 +32,20 @@ export const EditUserForm: React.FC<EditUserForm.Props> = (props) => {
   React.useEffect(() => {
     dispatch(
       fetchUser.request({
-        type: 'byId',
-        id: userId,
+        type: 'byUsername',
+        username,
         target: Target.EDIT_USER_FORM,
       })
     );
-  }, []);
+  }, [dispatch, username]);
 
   const handleSubmit = React.useCallback(
     (values) => {
-      return UserService.updateUserDetails(userId, values).then(() => {
+      return UserService.update(username, values).then(() => {
         onSuccess?.();
       });
     },
-    [onSuccess]
+    [onSuccess, username]
   );
 
   if (LoadingState.isInProgress(data.user.loadingState)) {

@@ -3,7 +3,7 @@ import { Modal } from 'semantic-ui-react';
 import { FormModal } from '../../../common/types';
 import { EditUserForm } from '../forms';
 
-export const EditUserModal: React.FC<FormModal.Props & { userId: number }> = (
+export const EditUserModal: React.FC<FormModal.Props & { username: string }> = (
   props
 ) => {
   return (
@@ -11,7 +11,7 @@ export const EditUserModal: React.FC<FormModal.Props & { userId: number }> = (
       <Modal.Header>Edit user</Modal.Header>
       <Modal.Content scrolling>
         <EditUserForm
-          userId={props.userId}
+          username={props.username}
           onCancel={props.onCancel}
           onSuccess={props.onSuccess}
         />

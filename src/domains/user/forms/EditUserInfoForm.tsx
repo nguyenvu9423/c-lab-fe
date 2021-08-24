@@ -48,7 +48,7 @@ export const EditUserInfoForm: React.FC<EditUserInfoForm.Props> = (props) => {
   const handleSubmit = React.useCallback(
     (value) => {
       if (user) {
-        return UserService.updateUserInfo(value).then(() => {
+        return UserService.updateInfo(user.username, value).then(() => {
           history.push(`/users/${user.username}`);
         });
       }

@@ -22,33 +22,41 @@ export const UserProfilePanel: React.FC<UserProfilePanel.Props> = (props) => {
     <Table celled structured>
       <Table.Body>
         <Table.Row>
-          <Table.Cell rowSpan="4" textAlign="center">
+          <Table.Cell rowSpan="5" textAlign="center">
             <AvatarForm user={user} />
           </Table.Cell>
           <Table.Cell width="4">
             <Header as="h4" content="First name" />
           </Table.Cell>
-          <Table.Cell width="8">{user && user.firstName}</Table.Cell>
+          <Table.Cell width="8">{user.firstName}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>
             <Header as="h4" content="Last Name" />
           </Table.Cell>
-          <Table.Cell>{user && user.lastName}</Table.Cell>
+          <Table.Cell>{user.lastName}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>
             <Header as="h4" content="Email" />
           </Table.Cell>
-          <Table.Cell>{user && user.email}</Table.Cell>
+          <Table.Cell>{user.email}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>
             <Header as="h4" content="Date of Birth" />
           </Table.Cell>
           <Table.Cell>
-            {user && moment(user.birthDay).format(DateFormat.MediumLength)}
+            {user.birthday
+              ? moment(user.birthday).format(DateFormat.MediumLength)
+              : '--'}
           </Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>
+            <Header as="h4" content="Workplace" />
+          </Table.Cell>
+          <Table.Cell>{user.workplace ? user.workplace : '--'}</Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table>
@@ -72,22 +80,22 @@ export const AvatarForm: React.FC<AvatarForm.Props> = (props) => {
       if (files.length === 1) {
         const formData = new FormData();
         formData.append('avatarFile', files[0]);
-        UserService.updateAvatar(formData).then(({ data }) => {
+        UserService.updateAvatar(user.username, formData).then(({ data }) => {
           const { entities } = normalize(data, userSchema);
           dispatch(updateEntity({ entities }));
         });
       }
     },
-    [dispatch]
+    [dispatch, user]
   );
 
   const handleRemove = React.useCallback(() => {
     const formData = new FormData();
-    UserService.updateAvatar(formData).then((response) => {
+    UserService.updateAvatar(user.username, formData).then((response) => {
       const { entities } = normalize(response.data, userSchema);
       dispatch(updateEntity({ entities }));
     });
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   return (
     <>
@@ -117,7 +125,7 @@ export const AvatarForm: React.FC<AvatarForm.Props> = (props) => {
           )}
         </Dimmer>
       </Dimmer.Dimmable>
-      <Header as="h4">{user && user.username}</Header>
+      <Header as="h4">{user.username}</Header>
       <form>
         <input
           ref={fileRef}

@@ -85,6 +85,7 @@ export const UnverifiedEmailSection: React.FC = () => {
                 header: 'Resend email',
                 content: 'Verfication email has been sent successfully',
                 duration: 2500,
+                status: 'positive',
               })
             )
           );

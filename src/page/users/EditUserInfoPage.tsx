@@ -1,16 +1,25 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { match } from 'react-router';
 import { Grid, Header, Segment } from 'semantic-ui-react';
+import {} from '../../components';
 import { EditUserInfoForm } from '../../domains/user';
+import { AuthenticationSelectors } from '../../store/selectors';
+import { PageErrorMessage } from '../shared';
 
-export const EditUserPage: React.FC<{ match: match<{ username: string }> }> = (
-  props
-) => {
+export const EditUserInfoPage: React.FC<{
+  match: match<{ username: string }>;
+}> = (props) => {
   const {
-    match: {
-      params: { username },
-    },
+    match: { params },
   } = props;
+
+  const username = useSelector(AuthenticationSelectors.username());
+  if (username !== params.username) {
+    return (
+      <PageErrorMessage message="You do not have permission to access this page" />
+    );
+  }
 
   return (
     <Grid container>

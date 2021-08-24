@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  Container,
-  Segment,
-  Header,
-  Button,
-  Icon,
-  Card,
-} from 'semantic-ui-react';
+import { Container, Header, Button, Card } from 'semantic-ui-react';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 
 export function HomePage() {

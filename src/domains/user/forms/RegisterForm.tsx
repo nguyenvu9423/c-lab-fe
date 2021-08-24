@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as yup from 'yup';
 import { Button, Form, Input } from 'semantic-ui-react';
-import { useFormik } from 'formik';
+import { FormikHelpers, useFormik } from 'formik';
 
 import { useErrorMessageRenderer } from '../../../components';
 import { RegisterService } from '../../../service/RegisterService';
+import { ValidationException } from '../../../exception';
 
 export namespace RegisterForm {
   export interface Props {
@@ -16,8 +17,17 @@ export const RegisterForm: React.FC<RegisterForm.Props> = (props) => {
   const { onSuccess } = props;
 
   const onSubmit = React.useCallback(
-    (values) => {
-      return RegisterService.register(values).then(() => onSuccess?.());
+    (
+      values: BaseRegisterForm.Value,
+      helpers: FormikHelpers<BaseRegisterForm.Value>
+    ) => {
+      return RegisterService.register(values)
+        .then(() => onSuccess?.())
+        .catch((e) => {
+          if (ValidationException.isInstance(e)) {
+            helpers.setErrors(ValidationException.convertToFormikErrors(e));
+          }
+        });
     },
     [onSuccess]
   );
@@ -27,7 +37,7 @@ export const RegisterForm: React.FC<RegisterForm.Props> = (props) => {
 export namespace BaseRegisterForm {
   export interface Props {
     initialValues?: Partial<Value>;
-    onSubmit?(value: Value): void;
+    onSubmit?(value: Value, helpers: FormikHelpers<Value>): void;
   }
 
   export interface Value {
@@ -68,7 +78,7 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
       workplace: '',
     },
     validationSchema,
-    onSubmit: (value) => onSubmit?.(value),
+    onSubmit: (value, helpers) => onSubmit?.(value, helpers),
   });
 
   const errorMessageRender = useErrorMessageRenderer({ touched, errors });
@@ -177,9 +187,11 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
         </Form.Field>
         {errorMessageRender('workplace')}
       </Form.Group>
-      <Button primary type="submit">
-        Submit
-      </Button>
+      {onSubmit && (
+        <Button primary type="submit" floated="right">
+          Submit
+        </Button>
+      )}
     </Form>
   );
 };

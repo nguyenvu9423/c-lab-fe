@@ -34,7 +34,7 @@ export const UserPage: React.FC = () => {
   );
 
   const [openEditForm, setOpenEditForm] = React.useState<
-    { userId: number; type: 'definition' | 'status' } | undefined
+    { username: string; type: 'definition' | 'status' } | undefined
   >(undefined);
 
   const pageable = DataHolder.usePageable(data.users, initialPageable);
@@ -94,7 +94,10 @@ export const UserPage: React.FC = () => {
                   <Table.Cell textAlign="right">
                     <EditRowButton
                       onClick={() =>
-                        setOpenEditForm({ userId: user.id, type: 'definition' })
+                        setOpenEditForm({
+                          username: user.username,
+                          type: 'definition',
+                        })
                       }
                     />
                   </Table.Cell>
@@ -121,7 +124,7 @@ export const UserPage: React.FC = () => {
       </Segment>
       {openEditForm && openEditForm.type === 'definition' && (
         <EditUserModal
-          userId={openEditForm.userId}
+          username={openEditForm.username}
           onCancel={() => setOpenEditForm(undefined)}
           onSuccess={() => {
             setOpenEditForm(undefined);

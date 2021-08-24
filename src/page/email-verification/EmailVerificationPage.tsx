@@ -1,19 +1,23 @@
-import * as qs from 'qs';
 import * as React from 'react';
-import { useRouteMatch } from 'react-router';
-import { Button, Container, Grid, Header, Segment } from 'semantic-ui-react';
+import { useSelector } from 'react-redux';
+import { useHistory, useRouteMatch } from 'react-router';
+import { Button, Grid, Header, Segment } from 'semantic-ui-react';
 import { ErrorMessage, LoadingIndicator } from '../../components';
 import { EmailVerificationService } from '../../service/EmailVerificationService';
+import { AuthenticationSelectors } from '../../store/selectors';
+import { PageErrorMessage } from '../shared';
 
 type Result = { error?: false } | { error: true; message: string };
 
-export const EmailVerificationPage: React.FC<{ location: Location }> = (
-  props
-) => {
+export const EmailVerificationPage: React.FC = () => {
   const match = useRouteMatch<{ id: string }>('/email-verification/:id');
   const id = match?.params.id;
 
+  const history = useHistory();
   const [result, setResult] = React.useState<Result | undefined>();
+  const isAuthenticated = useSelector(
+    AuthenticationSelectors.isAuthenticated()
+  );
 
   React.useEffect(() => {
     if (id && typeof id === 'string') {
@@ -29,9 +33,7 @@ export const EmailVerificationPage: React.FC<{ location: Location }> = (
 
   if (!id) {
     return (
-      <Container>
-        <ErrorMessage message="Page not found" />
-      </Container>
+      <PageErrorMessage message="Email verification is invalid or expired" />
     );
   }
 
@@ -46,11 +48,19 @@ export const EmailVerificationPage: React.FC<{ location: Location }> = (
           {!result.error ? (
             <Segment color="green">
               <Header content="Email verification" />
-              <p>
-                Your email has been verified successfully. Please{' '}
-                <strong>log out and login again</strong> to receive the effect.
-              </p>
-              <Button content="Log out" />
+              <p>Your email has been verified successfully</p>
+              {isAuthenticated && (
+                <>
+                  <p>
+                    <strong>Note: </strong>You need to log out and log in again
+                    to be fully verified
+                  </p>
+                  <Button
+                    content="Log out"
+                    onClick={() => history.push('/logout')}
+                  />
+                </>
+              )}
             </Segment>
           ) : (
             <ErrorMessage message={result.message} />

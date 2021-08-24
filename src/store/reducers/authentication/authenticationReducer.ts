@@ -8,7 +8,7 @@ import { DataHolderState } from '../data-holders/shared';
 export type AuthenticationState = DataHolderState<
   Record<string, unknown>,
   {
-    token: Jwt & { payload: { permissions: PermissionMap } };
+    token: Jwt & { payload: { username: string; permissions: PermissionMap } };
   }
 >;
 
@@ -27,7 +27,7 @@ export const authenticationReducer = createReducer<AuthenticationState>(
       const { token } = action.payload;
       if (token) {
         const parsedToken = jwtDecode<AccessToken>(token.access_token);
-        const { authorities } = parsedToken;
+        const { user_name, authorities } = parsedToken;
         const permissions =
           authorities?.reduce((map, item) => {
             map[item] = true;
@@ -38,7 +38,7 @@ export const authenticationReducer = createReducer<AuthenticationState>(
           loadingState: LoadingState.LOADED,
           token: {
             ...token,
-            payload: { permissions },
+            payload: { username: user_name, permissions },
           },
         };
       } else {

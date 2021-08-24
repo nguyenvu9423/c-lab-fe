@@ -3,5 +3,6 @@ export interface Jwt {
 }
 
 export interface AccessToken {
+  user_name: string;
   authorities?: string[];
 }
