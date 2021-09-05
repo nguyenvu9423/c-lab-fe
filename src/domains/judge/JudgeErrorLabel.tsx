@@ -10,7 +10,7 @@ export const JudgeErrorLabel: React.FC<{ progress: JudgeProgress }> = (
   } = props;
   let message;
   switch (status) {
-    case JudgeProgressStatus.SYSTEM_ERROR:
+    case JudgeProgressStatus.ERROR:
       message = 'System error';
       break;
     default:

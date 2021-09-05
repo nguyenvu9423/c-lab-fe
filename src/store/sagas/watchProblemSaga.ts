@@ -55,14 +55,8 @@ function* fetchDetailedProblemSaga(
   const { target } = payload;
   try {
     let response;
-    if (payload.type === 'byId') {
-      response = yield call(ProblemService.getProblem, payload.id, true);
-    } else {
-      response = yield call(
-        ProblemService.getProblemByCode,
-        payload.code,
-        true
-      );
+    if (payload.type === 'byCode') {
+      response = yield call(ProblemService.getProblem, payload.code, true);
     }
     const problem = response.data;
     const { result, entities } = normalize(problem, detailedProblemSchema);
@@ -77,10 +71,8 @@ function* fetchProblemSaga(action: PayloadAction<FetchProblem.RequestPayload>) {
   const { target } = payload;
   try {
     let response;
-    if (payload.type === 'byId') {
-      response = yield call(ProblemService.getProblem, payload.id);
-    } else {
-      response = yield call(ProblemService.getProblemByCode, payload.code);
+    if (payload.type === 'byCode') {
+      response = yield call(ProblemService.getProblem, payload.code);
     }
     const problem = response.data;
     const { result, entities } = normalize(problem, problemSchema);

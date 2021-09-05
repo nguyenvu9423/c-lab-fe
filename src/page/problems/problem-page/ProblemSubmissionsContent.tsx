@@ -74,7 +74,7 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
         dispatch(
           fetchSubmissions.request({
             type: 'byProblemAndQuery',
-            problemId: problem.id,
+            problemCode: problem.code,
             query,
             pageable,
             target,
@@ -84,14 +84,14 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
         dispatch(
           fetchSubmissions.request({
             type: 'byProblem',
-            problemId: problem.id,
+            problemCode: problem.code,
             pageable,
             target,
           })
         );
       }
     },
-    [dispatch, problem, query, currentPageable]
+    [dispatch, problem.code, query, currentPageable]
   );
 
   React.useEffect(() => {

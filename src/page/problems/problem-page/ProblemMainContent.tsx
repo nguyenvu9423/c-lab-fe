@@ -32,7 +32,7 @@ export const ProblemMainContent: React.FC<{ problem: Problem }> = (props) => {
         {principal && (
           <PrincipalProblemSubsCard
             ref={subsCardRef}
-            problemId={problem.id}
+            problemCode={problem.code}
             userId={principal.id}
           />
         )}

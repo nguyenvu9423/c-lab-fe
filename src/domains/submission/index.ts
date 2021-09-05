@@ -1,2 +1,3 @@
 export * from './components';
-export * from './submission';
+export * from './Submission';
+export * from './SubmissionDTO';

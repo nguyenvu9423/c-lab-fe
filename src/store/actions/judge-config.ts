@@ -5,7 +5,7 @@ import { createAction } from '@reduxjs/toolkit';
 
 export namespace FetchJudgeConfig {
   export interface RequestPayload extends BaseFetchPayload {
-    problemId: number;
+    problemCode: string;
   }
 
   export interface ResponsePayload extends BaseFetchPayload {

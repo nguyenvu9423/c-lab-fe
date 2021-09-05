@@ -9,8 +9,11 @@ import { judgeConfigSchema } from '../../domains/judge-config';
 function* fetchJudgeConfigSaga(
   action: PayloadAction<FetchJudgeConfig.RequestPayload>
 ) {
-  const { problemId, target } = action.payload;
-  const { data, error } = yield call(ProblemService.getJudgeConfig, problemId);
+  const { problemCode, target } = action.payload;
+  const { data, error } = yield call(
+    ProblemService.getJudgeConfig,
+    problemCode
+  );
   if (data) {
     const normalizedData = normalize(data, judgeConfigSchema);
     yield put(

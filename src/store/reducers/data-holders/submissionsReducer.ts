@@ -52,6 +52,7 @@ export const submissionsReducer = createReducer<SubmissionsState>(
         const { payload } = action;
         return {
           pageable: payload.pageable,
+          query: payload.query,
           loadingState: LoadingState.LOADING,
         };
       })
@@ -62,9 +63,9 @@ export const submissionsReducer = createReducer<SubmissionsState>(
         }
 
         return {
-          pageable: state.pageable,
-          ids: payload.result,
+          ...state,
           loadingState: LoadingState.LOADED,
+          ids: payload.result,
           totalPages: payload.totalPages,
         };
       })
@@ -73,7 +74,7 @@ export const submissionsReducer = createReducer<SubmissionsState>(
           return state;
         }
         return {
-          pageable: state.pageable,
+          ...state,
           loadingState: LoadingState.ERROR,
           error: action.payload.error,
         };
@@ -81,32 +82,3 @@ export const submissionsReducer = createReducer<SubmissionsState>(
       .addCase(resetState, () => initialState);
   }
 );
-
-// export const submissionsReducer = handleActions(
-//   {
-//     [fetchSubmissions.request]: (state, action) => {
-//       const { pageable, query } = action.payload;
-//       return { ...state, pageable, query, loadingState: LoadingState.LOADING };
-//     },
-//     [fetchSubmissions.response]: (state, action) => {
-//       if (!action.error) {
-//         const { submissions, totalPages } = action.payload;
-//         return {
-//           ...state,
-//           ids: submissions,
-//           loadingState: LoadingState.LOADED,
-//           totalPages,
-//           error: undefined,
-//         };
-//       } else {
-//         return {
-//           ...state,
-//           loadingState: LoadingState.ERROR,
-//           error: 'Error',
-//         };
-//       }
-//     },
-//     [resetState]: () => initialState,
-//   },
-//   initialState
-// );

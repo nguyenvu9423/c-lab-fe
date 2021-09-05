@@ -4,13 +4,13 @@ import { FormModal } from '../../../common/types';
 import { ProblemRejudgeForm } from '../forms';
 
 export const RejudgeProblemModal: React.FC<
-  FormModal.Props & { problemId: number }
-> = ({ problemId, onCancel }) => {
+  FormModal.Props & { problemCode: string }
+> = ({ problemCode, onCancel }) => {
   return (
     <Modal defaultOpen closeIcon onClose={onCancel} size="large">
       <Modal.Header>Edit Problem</Modal.Header>
       <Modal.Content scrolling style={{ height: 420 }}>
-        <ProblemRejudgeForm problemId={problemId} />
+        <ProblemRejudgeForm problemCode={problemCode} />
       </Modal.Content>
     </Modal>
   );

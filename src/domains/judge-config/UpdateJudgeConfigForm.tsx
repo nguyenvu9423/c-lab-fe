@@ -24,13 +24,8 @@ import { normalize } from 'normalizr';
 import { Target } from '../../store/reducers/target';
 
 export namespace UpdateJudgeConfigForm {
-  export type Props =
-    | (BaseProps & { problemId: number })
-    | (BaseProps & { problemCode: string });
-
-  export interface BaseProps {
-    problemId?: number;
-    problemCode?: string;
+  export interface Props {
+    problemCode: string;
     onSuccess?(value: any): void;
   }
 }
@@ -38,7 +33,7 @@ export namespace UpdateJudgeConfigForm {
 export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
   props
 ) => {
-  const { problemId, problemCode, onSuccess } = props;
+  const { problemCode, onSuccess } = props;
   const dispatch = useDispatch();
   const { data } = useSelector((state: State) => state.updateJudgeConfigForm);
 
@@ -58,19 +53,13 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
 
   const load = React.useCallback(() => {
     dispatch(
-      problemId
-        ? fetchDetailedProblem.request({
-            type: 'byId',
-            id: problemId,
-            target: Target.UPDATE_JUDGE_CONFIG_FORM,
-          })
-        : fetchDetailedProblem.request({
-            type: 'byCode',
-            code: problemCode!,
-            target: Target.UPDATE_JUDGE_CONFIG_FORM,
-          })
+      fetchDetailedProblem.request({
+        type: 'byCode',
+        code: problemCode,
+        target: Target.UPDATE_JUDGE_CONFIG_FORM,
+      })
     );
-  }, [dispatch, problemId, problemCode]);
+  }, [dispatch, problemCode]);
 
   React.useEffect(() => {
     load();
@@ -94,24 +83,21 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
   return data.detailedProblem.loadingState === LoadingState.LOADED ? (
     judgeConfig ? (
       <EditJudgeConfigForm
-        problemId={data.detailedProblem.id}
+        problemCode={problemCode}
         judgeConfig={judgeConfig}
         onSuccess={onSuccess}
       />
     ) : (
-      <AddJudgeConfigForm
-        problemId={data.detailedProblem.id}
-        onSuccess={onSuccess}
-      />
+      <AddJudgeConfigForm problemCode={problemCode} onSuccess={onSuccess} />
     )
   ) : null;
 };
 
 function useSubmitJudgeConfig(props: {
-  problemId: number;
+  problemCode: string;
   onSuccess?(value: any): void;
 }) {
-  const { problemId, onSuccess } = props;
+  const { problemCode, onSuccess } = props;
   return React.useCallback(
     (
       values: JudgeConfigForm.Value,
@@ -131,7 +117,7 @@ function useSubmitJudgeConfig(props: {
         formData.append('customJudger', customJudger);
       }
 
-      return ProblemService.updateJudgeConfig(problemId, formData)
+      return ProblemService.updateJudgeConfig(problemCode, formData)
         .then(({ data }) => {
           onSuccess?.(data);
         })
@@ -141,12 +127,12 @@ function useSubmitJudgeConfig(props: {
           }
         });
     },
-    [problemId]
+    [problemCode]
   );
 }
 
 const AddJudgeConfigForm: React.FC<{
-  problemId: number;
+  problemCode: string;
   onSuccess?(value: any): void;
 }> = (props) => {
   const [isConfirmed, setIsConfirmed] = React.useState(false);
@@ -154,7 +140,7 @@ const AddJudgeConfigForm: React.FC<{
   const dispatch = useDispatch();
 
   const handleSubmit = useSubmitJudgeConfig({
-    problemId: props.problemId,
+    problemCode: props.problemCode,
     onSuccess: (data) => {
       const normalizedData = normalize(data, detailedProblemSchema);
       dispatch(updateEntity({ entities: normalizedData.entities }));
@@ -177,16 +163,16 @@ const AddJudgeConfigForm: React.FC<{
 };
 
 const EditJudgeConfigForm: React.FC<{
-  problemId: number;
+  problemCode: string;
   judgeConfig: JudgeConfig;
   onSuccess?(value: any): void;
 }> = (props) => {
-  const { problemId, judgeConfig, onSuccess } = props;
+  const { problemCode, judgeConfig, onSuccess } = props;
   const [key, updateKey] = useFormKey();
   const dispatch = useDispatch();
 
   const handleSubmit = useSubmitJudgeConfig({
-    problemId,
+    problemCode,
     onSuccess: (data) => {
       const normalizedData = normalize(data, detailedProblemSchema);
       dispatch(updateEntity({ entities: normalizedData.entities }));

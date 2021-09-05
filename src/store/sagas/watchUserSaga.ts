@@ -12,7 +12,7 @@ function* fetchUsersSaga(action: PayloadAction<FetchUsers.RequestPayload>) {
   const { target } = payload;
   try {
     const { pageable, query } = payload;
-    const { data } = yield call(UserService.getAll, pageable, query);
+    const { data } = yield call(UserService.getAll, query, pageable);
     const { result, entities } = normalize(data.content, usersSchema);
     yield put(
       fetchUsers.response({

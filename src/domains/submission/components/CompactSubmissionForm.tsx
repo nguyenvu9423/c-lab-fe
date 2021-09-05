@@ -1,14 +1,30 @@
 import * as React from 'react';
+import * as yup from 'yup';
 import { Form, Dropdown, Message } from 'semantic-ui-react';
 import { useFormik, FormikHelpers } from 'formik';
 import { SubmissionService } from '../../../service/SubmissionService';
-import { getSubLangTitle } from '../../../domains/submission-lang/SubmissionLanguage';
+import {
+  getSubLangTitle,
+  SubmissionLanguage,
+} from '../../../domains/submission-lang/SubmissionLanguage';
 import { BaseException } from '../../../exception';
-import { SubmissionForm, SubmissionFormSchema } from './SubmissionForm';
+import { SubmissionForm } from './SubmissionForm';
 import { FileUploadInput } from '../../../page/common/inputs/FileUploadInput';
 import { useErrorMessageRenderer } from '../../../components';
 
-export const CompactSubmissionForm: React.FC<SubmissionForm.Props> = (
+export namespace CompactSubmissionForm {
+  export type Props = SubmissionForm.Props;
+  export interface Value {
+    language: SubmissionLanguage;
+    codeFile: File;
+  }
+}
+export const validationSchema = yup.object({
+  language: yup.mixed().required('Language is required'),
+  codeFile: yup.mixed().required('Code file is required'),
+});
+
+export const CompactSubmissionForm: React.FC<CompactSubmissionForm.Props> = (
   props
 ) => {
   const { problem, onSuccess } = props;
@@ -18,15 +34,15 @@ export const CompactSubmissionForm: React.FC<SubmissionForm.Props> = (
 
   const onSubmitHanlder = React.useCallback(
     (
-      values: SubmissionForm.Value,
-      helpers: FormikHelpers<SubmissionForm.Value>
+      values: CompactSubmissionForm.Value,
+      helpers: FormikHelpers<CompactSubmissionForm.Value>
     ) => {
       setOverallError(undefined);
       const { language, codeFile } = values;
       return SubmissionService.submit({
-        problemId: problem.id,
+        problemCode: problem.code,
         language,
-        code: codeFile!,
+        code: codeFile,
       })
         .then((response) => {
           onSuccess?.(response.data);
@@ -36,16 +52,16 @@ export const CompactSubmissionForm: React.FC<SubmissionForm.Props> = (
           setOverallError(err);
         });
     },
-    [problem, onSuccess]
+    [problem.code, onSuccess]
   );
 
   const { values, touched, errors, handleSubmit, setFieldValue, isSubmitting } =
-    useFormik({
+    useFormik<SubmissionForm.Value>({
       initialValues: {
         language: problem.allowedLanguages[0],
         codeFile: undefined,
       },
-      validationSchema: SubmissionFormSchema,
+      validationSchema,
       onSubmit: onSubmitHanlder,
     });
 
@@ -55,7 +71,10 @@ export const CompactSubmissionForm: React.FC<SubmissionForm.Props> = (
     <Form onSubmit={handleSubmit} error loading={isSubmitting}>
       <Form.Field>
         <FileUploadInput
-          onChange={(file) => setFieldValue('codeFile', file)}
+          onChange={(file) => {
+            console.log('file changed');
+            setFieldValue('codeFile', file);
+          }}
           file={values.codeFile}
         />
         {errorMsgRenderer('codeFile')}
@@ -80,7 +99,7 @@ export const CompactSubmissionForm: React.FC<SubmissionForm.Props> = (
       )}
 
       <Form.Button type="submit" primary>
-        Gửi
+        Submit
       </Form.Button>
     </Form>
   );

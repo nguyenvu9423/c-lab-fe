@@ -40,12 +40,12 @@ export const ProblemPage: React.FC = () => {
   );
 
   const [openAddForm, setOpenAddForm] = React.useState(false);
-  const [deletedProblemId, setDeletedProblemId] = React.useState<
-    number | undefined
+  const [deletedProblemCode, setDeletedProblemCode] = React.useState<
+    string | undefined
   >(undefined);
 
   const [openEditForm, setOpenEditForm] = React.useState<
-    | { problemId: number; type: 'definition' | 'judge-config' | 'rejudge' }
+    | { problemCode: string; type: 'definition' | 'judge-config' | 'rejudge' }
     | undefined
   >(undefined);
 
@@ -85,7 +85,6 @@ export const ProblemPage: React.FC = () => {
           <ProblemFilter onChange={(query) => load({ query })} />
         </Segment>
 
-        <Segment vertical clearing></Segment>
         <Segment vertical className="table-container admin-edit-entity">
           {DataHolderState.isLoading(data.problems) && <LoadingIndicator />}
           {DataHolderState.isLoaded(data.problems) && problems && (
@@ -108,7 +107,7 @@ export const ProblemPage: React.FC = () => {
                       <EditRowButton
                         onClick={() =>
                           setOpenEditForm({
-                            problemId: problem.id,
+                            problemCode: problem.code,
                             type: 'definition',
                           })
                         }
@@ -118,7 +117,7 @@ export const ProblemPage: React.FC = () => {
                         size="tiny"
                         onClick={() =>
                           setOpenEditForm({
-                            problemId: problem.id,
+                            problemCode: problem.code,
                             type: 'judge-config',
                           })
                         }
@@ -128,13 +127,13 @@ export const ProblemPage: React.FC = () => {
                         size="tiny"
                         onClick={() =>
                           setOpenEditForm({
-                            problemId: problem.id,
+                            problemCode: problem.code,
                             type: 'rejudge',
                           })
                         }
                       />
                       <DeleteRowButton
-                        onClick={() => setDeletedProblemId(problem.id)}
+                        onClick={() => setDeletedProblemCode(problem.code)}
                       />
                     </Table.Cell>
                   </Table.Row>
@@ -179,7 +178,7 @@ export const ProblemPage: React.FC = () => {
 
       {openEditForm?.type === 'definition' && (
         <EditProblemModal
-          problemId={openEditForm.problemId}
+          problemCode={openEditForm.problemCode}
           onCancel={() => setOpenEditForm(undefined)}
           onSuccess={() => {
             setOpenEditForm(undefined);
@@ -196,7 +195,7 @@ export const ProblemPage: React.FC = () => {
 
       {openEditForm?.type === 'judge-config' && (
         <UpdateJudgeConfigModal
-          problemId={openEditForm.problemId}
+          problemCode={openEditForm.problemCode}
           onCancel={() => setOpenEditForm(undefined)}
           onSuccess={() => {
             setOpenEditForm(undefined);
@@ -213,17 +212,17 @@ export const ProblemPage: React.FC = () => {
 
       {openEditForm?.type === 'rejudge' && (
         <RejudgeProblemModal
-          problemId={openEditForm.problemId}
+          problemCode={openEditForm.problemCode}
           onCancel={() => setOpenEditForm(undefined)}
         />
       )}
 
-      {deletedProblemId && (
+      {deletedProblemCode && (
         <DeleteProblemConfirm
-          problemId={deletedProblemId}
-          onCancel={() => setDeletedProblemId(undefined)}
+          problemCode={deletedProblemCode}
+          onCancel={() => setDeletedProblemCode(undefined)}
           onSuccess={() => {
-            setDeletedProblemId(undefined);
+            setDeletedProblemCode(undefined);
             load();
             dispatch(
               addToast(

@@ -19,27 +19,16 @@ import { ValidationException } from '../../../exception';
 import { FormikHelpers } from 'formik';
 
 export namespace EditProblemForm {
-  export type Props = ByIdProps | ByCodeProps;
-
-  export interface BaseProps {
-    problemId?: number;
-    problemCode?: string;
+  export interface Props {
+    problemCode: string;
     onCancel?(): void;
     onSuccess?(value: any): void;
-  }
-
-  export interface ByIdProps extends BaseProps {
-    problemId: number;
-  }
-
-  export interface ByCodeProps extends BaseProps {
-    problemCode: string;
   }
 }
 
 export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
   const dispatch = useDispatch();
-  const { problemId, problemCode, onCancel, onSuccess } = props;
+  const { problemCode, onCancel, onSuccess } = props;
 
   const { data } = useSelector((state: State) => state.editProblemForm);
   const problem = useSelector(
@@ -59,26 +48,20 @@ export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
 
   React.useEffect(() => {
     dispatch(
-      problemId
-        ? fetchProblem.request({
-            type: 'byId',
-            id: problemId,
-            target: Target.EDIT_PROBLEM_FORM,
-          })
-        : fetchProblem.request({
-            type: 'byCode',
-            code: problemCode!,
-            target: Target.EDIT_PROBLEM_FORM,
-          })
+      fetchProblem.request({
+        type: 'byCode',
+        code: problemCode,
+        target: Target.EDIT_PROBLEM_FORM,
+      })
     );
     return () => {
       dispatch(resetState({ target: Target.EDIT_PROBLEM_FORM }));
     };
-  }, [dispatch, problemId, problemCode]);
+  }, [dispatch, problemCode]);
 
   const handleSubmit = React.useCallback(
     (values: ProblemForm.Value, helpers: FormikHelpers<ProblemForm.Value>) => {
-      return ProblemService.updateProblem(problem?.id, values)
+      return ProblemService.updateProblem(problemCode, values)
         .then((response) => {
           const normalizedData = normalize(response.data, problemSchema);
           dispatch(updateEntity({ entities: normalizedData.entities }));
@@ -91,7 +74,7 @@ export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
           }
         });
     },
-    [problem?.id]
+    [problemCode]
   );
 
   const canEdit = useSelector(

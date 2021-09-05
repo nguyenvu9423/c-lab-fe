@@ -1,40 +1,47 @@
-import { Submission } from './../../domains/submission/submission';
+import { Submission } from '../../domains/submission';
 import { NormalizedEntities } from './../../entity-schemas/types';
 import { createAction } from '@reduxjs/toolkit';
 import { Pageable } from './../../utility/Pageable';
 import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
 import { DetailedSub } from '../../domains/submission';
 
-namespace FetchSubmissions {
-  interface BaseRequestPayload extends BaseFetchPayload {
-    type: string;
+export namespace FetchSubmissions {
+  export interface BaseRequestPayload extends BaseFetchPayload {
+    type?: string;
     target?: string;
+    query?: string;
     pageable: Pageable;
   }
 
-  interface byUser extends BaseRequestPayload {
+  export interface byQuery extends BaseRequestPayload {
+    type: 'query';
+    query?: string;
+  }
+
+  export interface byUser extends BaseRequestPayload {
     type: 'byUser';
     userId: number;
   }
 
-  interface byUserAndProblem extends BaseRequestPayload {
+  export interface byUserAndProblem extends BaseRequestPayload {
     type: 'byUserAndProblem';
     userId: number;
-    problemId: number;
+    problemCode: string;
   }
 
-  interface byProblem extends BaseRequestPayload {
+  export interface byProblem extends BaseRequestPayload {
     type: 'byProblem';
-    problemId: number;
+    problemCode: string;
   }
 
-  interface byProblemAndQuery extends BaseRequestPayload {
+  export interface byProblemAndQuery extends BaseRequestPayload {
     type: 'byProblemAndQuery';
-    problemId: number;
+    problemCode: string;
     query: string;
   }
 
   export type RequestPayload =
+    | byQuery
     | byUser
     | byProblem
     | byUserAndProblem

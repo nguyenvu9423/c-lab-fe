@@ -83,13 +83,13 @@ export const PrincipalSubmissionTable: React.FC<
         fetchSubmissions.request({
           type: 'byUserAndProblem',
           userId: user.id,
-          problemId: problem.id,
+          problemCode: problem.code,
           pageable: pageable ?? data.submissions.pageable,
           target: Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS,
         })
       );
     },
-    [data, user]
+    [dispatch, data, user.id, problem.code]
   );
 
   React.useImperativeHandle(

@@ -25,10 +25,11 @@ export const Target = {
   EDIT_ARTICLE_FORM: 'editArticleForm',
   AdminPage: {
     BASE: 'adminPage',
-    TAG: 'adminPage.tag',
+    USER: 'adminPage.user',
     ARTICLE: 'adminPage.article',
     PROBLEM: 'adminPage.problem',
-    USER: 'adminPage.user',
+    SUBMISSION: 'adminPage.submission',
+    TAG: 'adminPage.tag',
     ROLE: 'adminPage.role',
   },
   EDIT_TAG_FORM: 'editTagForm',

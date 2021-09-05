@@ -4,7 +4,7 @@ import { Key } from '../../utility';
 
 export namespace BufferedInput {
   export interface Props extends Omit<InputProps, 'onChange'> {
-    onChange: (value: string) => void;
+    onChange?: (value: string) => void;
   }
 }
 

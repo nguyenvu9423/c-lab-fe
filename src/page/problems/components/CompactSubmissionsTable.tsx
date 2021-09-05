@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Table } from 'semantic-ui-react';
 import { SubmissionDetailsLink, Submission } from '../../../domains/submission';
-import { JudgeStatusLabel } from '../../../domains/judge';
+import { SubmissionStatusLabel } from '../../../domains/submission/components/SubmissionStatusLabel';
 
 export namespace CompactSubmissionTable {
   export interface Props {
@@ -29,7 +29,7 @@ export const CompactSubmissionTable: React.FC<CompactSubmissionTable.Props> = (
                 <SubmissionDetailsLink submissionId={submission.id} />
               </Table.Cell>
               <Table.Cell>
-                <JudgeStatusLabel judgeId={submission.judge} />
+                <SubmissionStatusLabel submission={submission} />
               </Table.Cell>
             </Table.Row>
           );

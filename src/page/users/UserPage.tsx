@@ -14,6 +14,7 @@ import { DataHolder } from '../../store/reducers/data-holders/shared';
 import { ConstSelectors, PrincipalSelectors } from '../../store/selectors';
 import { addToast, resetState } from '../../store/actions';
 import { EmailVerificationService } from '../../service/EmailVerificationService';
+import { ContactProperties } from '../../config/ContactProperties';
 
 export const UserPage: React.FC<{ match: match<{ username: string }> }> = (
   props
@@ -55,7 +56,12 @@ export const UserPage: React.FC<{ match: match<{ username: string }> }> = (
       {DataHolder.isLoaded(data.user) && user && (
         <Grid.Row>
           <Grid.Column width={12}>
-            {isPrincipal && !user.emailVerified && <UnverifiedEmailSection />}
+            {isPrincipal && (
+              <>
+                {!user.emailVerified && <UnverifiedEmailSection />}
+                {user.banned && <BannedUserMessage />}
+              </>
+            )}
             <UserProfilePanel user={user} />
           </Grid.Column>
           <Grid.Column width={4}>
@@ -72,7 +78,8 @@ export const UnverifiedEmailSection: React.FC = () => {
   return (
     <Segment color="yellow">
       <p>
-        You accout is not activated yet. Please verify your email to activate it
+        You account is not activated yet. Please verify your email to activate
+        it
       </p>
       <p>Or click the below button if you have not received it:</p>
       <Button
@@ -91,6 +98,17 @@ export const UnverifiedEmailSection: React.FC = () => {
           );
         }}
       />
+    </Segment>
+  );
+};
+
+export const BannedUserMessage: React.FC = () => {
+  return (
+    <Segment color="yellow">
+      <p>
+        Your account has been banned. If you wanna to re-activate your account,
+        please contact us via email: <u>{ContactProperties.email}</u>
+      </p>
     </Segment>
   );
 };

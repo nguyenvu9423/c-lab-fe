@@ -53,7 +53,7 @@ export const SubmissionForm: React.FC<SubmissionForm.Props> = (props) => {
       onSubmit: (values, helpers) => {
         const { language, codeText, codeFile } = values;
         return SubmissionService.submit({
-          problemId: problem.id,
+          problemCode: problem.code,
           language,
           code: codeFile ?? codeText,
         })

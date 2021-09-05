@@ -4,13 +4,16 @@ import { FormModal } from '../../../common/types';
 import { UpdateJudgeConfigForm } from '../../judge-config';
 
 export const UpdateJudgeConfigModal: React.FC<
-  FormModal.Props & { problemId: number }
-> = ({ problemId, onCancel, onSuccess }) => {
+  FormModal.Props & { problemCode: string }
+> = ({ problemCode, onCancel, onSuccess }) => {
   return (
     <Modal defaultOpen closeIcon onClose={onCancel} size="large">
       <Modal.Header>Edit Problem</Modal.Header>
       <Modal.Content scrolling style={{ height: 629 }}>
-        <UpdateJudgeConfigForm problemId={problemId} onSuccess={onSuccess} />
+        <UpdateJudgeConfigForm
+          problemCode={problemCode}
+          onSuccess={onSuccess}
+        />
       </Modal.Content>
     </Modal>
   );

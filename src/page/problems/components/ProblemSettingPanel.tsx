@@ -19,10 +19,10 @@ export const ProblemSettingPanel: React.FC<ProblemSettingPanel.Props> = (
   const history = useHistory();
 
   const handleRejudge = React.useCallback(() => {
-    ProblemService.rejudgeProblem(problem.id).then(() => {
+    return ProblemService.rejudgeProblem(problem.code).then(() => {
       history.push(`/problems/${problem.code}/edit/rejudge`);
     });
-  }, [problem]);
+  }, [problem.code]);
 
   return (
     <div className="clear-fix-container">

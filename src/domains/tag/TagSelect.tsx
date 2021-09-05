@@ -4,13 +4,6 @@ import { Dropdown } from 'semantic-ui-react';
 import { SelectConfig } from '../../components/select';
 import { Tag } from './Tag';
 
-// const tagOptionMapper = (tag) => ({ text: tag.name, value: tag.name });
-// const mapTagToValue = React.useCallback((tag) => tag.name, []);
-// const mapValueToTag = React.useCallback(
-//   (value) => tags.find((tag) => tag.name === value),
-//   [tags]
-// );
-
 export const useFetchTagBySearch = (props: {
   initialTags: Tag[];
 }): {
@@ -30,7 +23,7 @@ export const useFetchTagBySearch = (props: {
     }
     timeoutRef.current = setTimeout(() => {
       setIsFetching(true);
-      TagService.getTagByContainedText(searchQuery)
+      TagService.getTagsByContainedText(searchQuery)
         .then(({ data: { content } }) => {
           setTags((prevTags) => {
             const newTags = content.filter((prevTag) =>

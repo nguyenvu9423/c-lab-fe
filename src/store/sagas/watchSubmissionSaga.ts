@@ -1,4 +1,8 @@
-import { fetchDetailedSub, FetchDetailedSub } from './../actions/submission';
+import {
+  fetchDetailedSub,
+  FetchDetailedSub,
+  FetchSubmissions,
+} from './../actions/submission';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { fetchSubmissions } from '../actions';
 import { SubmissionService } from '../../service/SubmissionService';
@@ -7,18 +11,18 @@ import { submissionsSchema, detailedSubSchema } from '../../entity-schemas';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 
-function* fetchSubmissionsSaga(action) {
-  const { userId, problemId, query, pageable, target } = action.payload;
+export function* watchSubmissionSaga(): SagaIterator<void> {
+  yield takeEvery(fetchSubmissions.request, fetchSubmissionsSaga);
+  yield takeEvery(fetchDetailedSub.request, fetchDetailedSubSaga);
+}
+
+function* fetchSubmissionsSaga(
+  action: PayloadAction<FetchSubmissions.RequestPayload>
+) {
+  const { target } = action.payload;
   try {
-    const response = yield call(
-      SubmissionService.getSubmissions,
-      {
-        userId,
-        problemId,
-        query,
-      },
-      pageable
-    );
+    const response = yield call(getSubmissions, action.payload);
+
     const { data } = response;
     const { content, totalPages } = data;
     const { result, entities } = normalize(content, submissionsSchema);
@@ -30,9 +34,8 @@ function* fetchSubmissionsSaga(action) {
         target,
       })
     );
-  } catch (e) {
-    //@ts-ignore
-    yield put(fetchSubmissions.response(e, action.meta));
+  } catch (error) {
+    yield put(fetchSubmissions.error({ error, target }));
   }
 }
 
@@ -53,9 +56,57 @@ function* fetchDetailedSubSaga(
   }
 }
 
-function* watchSubmissionSaga(): SagaIterator<void> {
-  yield takeEvery(fetchSubmissions.request, fetchSubmissionsSaga);
-  yield takeEvery(fetchDetailedSub.request, fetchDetailedSubSaga);
+function* getSubmissions(
+  payload: FetchSubmissions.RequestPayload
+): SagaIterator {
+  let response;
+  const { pageable } = payload;
+  switch (payload.type) {
+    case 'query':
+      response = yield call(
+        SubmissionService.getSubmissions,
+        { query: payload.query },
+        pageable
+      );
+      break;
+    case 'byProblem':
+      response = yield call(
+        SubmissionService.getSubmissions,
+        { problemCode: payload.problemCode },
+        pageable
+      );
+      break;
+    case 'byProblemAndQuery':
+      response = yield call(
+        SubmissionService.getSubmissions,
+        {
+          problemCode: payload.problemCode,
+          query: payload.query,
+        },
+        pageable
+      );
+      break;
+    case 'byUser':
+      response = yield call(
+        SubmissionService.getSubmissions,
+        {
+          userId: payload.userId,
+        },
+        pageable
+      );
+      break;
+    case 'byUserAndProblem':
+      response = yield call(
+        SubmissionService.getSubmissions,
+        {
+          userId: payload.userId,
+          problemCode: payload.problemCode,
+        },
+        pageable
+      );
+      break;
+    default:
+      throw new Error('Get submissions saga receive unmatched parameters');
+  }
+  return response;
 }
-
-export { watchSubmissionSaga };

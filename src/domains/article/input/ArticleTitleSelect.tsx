@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as Lodash from 'lodash';
-import { Search } from 'semantic-ui-react';
 import { ArticleService } from '../../../service/ArticleService';
 import { SelectConfig } from '../../../components/select/SelectConfig';
-import { useSearchInput } from '../../../components/input';
+import { SearchInput } from '../../../components/input';
 import { ArticleDTO } from '../ArticleDTO';
 
 export namespace ArticleTitleSelect {
@@ -17,20 +16,21 @@ export const ArticleTitleSelect: React.FC<ArticleTitleSelect.Props> = (
 ) => {
   const { onChange } = props;
   const [articles, setArticles] = React.useState<ArticleDTO[]>([]);
-  const [isFetching, setIsFetching] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
-  const load = React.useCallback(
-    Lodash.debounce((searchQuery) => {
-      if (searchQuery) {
-        setIsFetching(true);
-        ArticleService.getArticles({
-          query: `title=='*${searchQuery}*'`,
-        }).then(({ data: { content } }) => {
-          setArticles(content);
-          setIsFetching(false);
-        });
-      }
-    }, SelectConfig.DELAY),
+  const load = React.useMemo(
+    () =>
+      Lodash.debounce((searchQuery) => {
+        if (searchQuery) {
+          setLoading(true);
+          ArticleService.getArticles({
+            query: `title=='*${searchQuery}*'`,
+          }).then(({ data: { content } }) => {
+            setArticles(content);
+            setLoading(false);
+          });
+        }
+      }, SelectConfig.DELAY),
     []
   );
 
@@ -43,34 +43,15 @@ export const ArticleTitleSelect: React.FC<ArticleTitleSelect.Props> = (
     [articles]
   );
 
-  const {
-    value,
-    openDropdown,
-    handleSearchChange,
-    handleResultSelect,
-    handleKeyDown,
-    handleBlur,
-  } = useSearchInput({
-    onChange,
-    onSearchChange: (value) => {
-      setArticles([]);
-      load(value);
-    },
-  });
-
   return (
-    <Search
-      className="normal-input"
-      fluid
+    <SearchInput
       placeholder="Title"
-      loading={isFetching}
-      value={value}
-      onSearchChange={handleSearchChange}
-      results={articleOptions}
-      onResultSelect={handleResultSelect}
-      open={openDropdown}
-      onKeyDown={handleKeyDown}
-      onBlur={handleBlur}
+      loading={loading}
+      options={articleOptions}
+      onSubmit={onChange}
+      onChange={(value) => {
+        load(value);
+      }}
     />
   );
 };

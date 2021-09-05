@@ -1,4 +1,4 @@
-import { DetailedSub } from './../../../domains/submission/submission';
+import { DetailedSub } from '../../../domains/submission';
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
 
 export const detailedSubEntityAdapter = createEntityAdapter<DetailedSub>();

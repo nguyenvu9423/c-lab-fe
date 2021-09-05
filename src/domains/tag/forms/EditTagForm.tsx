@@ -11,17 +11,17 @@ import { State } from '../../../store';
 
 export const EditTagForm: React.FC<{
   tagId: number;
-  onCancel: any;
-  onSuccess: any;
+  onCancel?: () => void;
+  onSuccess?: () => void;
 }> = (props) => {
   const { tagId, onCancel, onSuccess } = props;
   const { data } = useSelector((state: State) => state.editTagForm);
 
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispath(fetchTag.request({ id: tagId, target: Target.EDIT_TAG_FORM }));
-  }, [tagId]);
+    dispatch(fetchTag.request({ id: tagId, target: Target.EDIT_TAG_FORM }));
+  }, [dispatch, tagId]);
 
   const tag = useSelector(
     data.tag.loadingState === 'LOADED'

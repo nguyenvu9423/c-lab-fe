@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Progress, Header, Divider } from 'semantic-ui-react';
+import { Button, Divider } from 'semantic-ui-react';
 import { fetchDetailedProblem, resetState } from '../../../store/actions';
 import {
   ProblemRejudgeSelectors,
@@ -10,28 +10,22 @@ import {
 } from '../../../store/selectors';
 import { LoadingIndicator } from '../../../components/loading-indicator';
 import { ProblemRejudgeStatus } from '../../../domains/problem-rejudge';
-import { ProblemRejudgeService } from '../../../service/ProblemRejudgeService';
 import { ProblemService } from '../../../service/ProblemService';
-import { useProblemRejudgeStream } from '../../../domains/problem-rejudge/useProblemRejudgeStream';
 import { State } from '../../../store';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
 import { Target } from '../../../store/reducers/target';
+import { ProblemRejudgeInfo } from '../../problem-rejudge/ProblemRejudgeInfo';
 
 export namespace ProblemRejudgeForm {
-  export type Props =
-    | (BaseProps & { problemId: number })
-    | (BaseProps & { problemCode: string });
-
-  export interface BaseProps {
-    problemId?: number;
-    problemCode?: string;
+  export interface Props {
+    problemCode: string;
   }
 }
 
 export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
   props
 ) => {
-  const { problemId, problemCode } = props;
+  const { problemCode } = props;
 
   const dispatch = useDispatch();
 
@@ -52,32 +46,20 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
   );
 
   const load = React.useCallback(() => {
-    if (problemId) {
-      dispatch(
-        fetchDetailedProblem.request({
-          type: 'byId',
-          id: problemId,
-          target: Target.PROBLEM_REJUDGE_FORM,
-        })
-      );
-    } else {
-      dispatch(
-        fetchDetailedProblem.request({
-          type: 'byCode',
-          code: problemCode!,
-          target: Target.PROBLEM_REJUDGE_FORM,
-        })
-      );
-    }
-  }, [dispatch, problemId, problemCode]);
+    dispatch(
+      fetchDetailedProblem.request({
+        type: 'byCode',
+        code: problemCode,
+        target: Target.PROBLEM_REJUDGE_FORM,
+      })
+    );
+  }, [dispatch, problemCode]);
 
   const rejudge = React.useCallback(() => {
-    if (detailedProblem) {
-      ProblemService.rejudgeProblem(detailedProblem.id).then(() => {
-        load();
-      });
-    }
-  }, [load, detailedProblem]);
+    return ProblemService.rejudgeProblem(problemCode).then(() => {
+      load();
+    });
+  }, [load, problemCode]);
 
   React.useEffect(() => {
     load();
@@ -115,45 +97,9 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
       {problemRejudge && (
         <>
           <Divider />
-          <ProblemRejudge problemRejudge={problemRejudge} />
+          <ProblemRejudgeInfo problemRejudge={problemRejudge} />
         </>
       )}
     </>
   );
 };
-
-function ProblemRejudge({ problemRejudge }) {
-  const { progress, total, error } = problemRejudge;
-  const { status, doneCount } = progress;
-
-  useProblemRejudgeStream([problemRejudge.id]);
-
-  const inProgress = ProblemRejudgeStatus.isInProgress(status);
-
-  const cancel = React.useCallback(() => {
-    ProblemRejudgeService.cancel(problemRejudge.id);
-  }, []);
-
-  return (
-    <div>
-      <Header as="h3">The latest rejudge</Header>
-      <Progress
-        autoSuccess
-        value={doneCount}
-        total={total}
-        label={`${doneCount}/${total ?? '--'}`}
-        percent={total === 0 ? 100 : undefined}
-        error={error}
-      />
-      {inProgress && (
-        <Button
-          content="Cancel"
-          negative
-          icon="cancel"
-          floated="right"
-          onClick={cancel}
-        />
-      )}
-    </div>
-  );
-}

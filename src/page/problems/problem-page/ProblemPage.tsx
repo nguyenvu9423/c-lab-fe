@@ -24,6 +24,7 @@ import { ProblemMainContent } from './ProblemMainContent';
 import { ProblemSubmitContent } from './ProblemSubmitContent';
 import { PrincipalProblemSubsContent } from './PrincipalProblemSubsContent';
 import { ProblemSubmissionsContent } from './ProblemSubmissionsContent';
+import { resetState } from '../../../store/actions';
 
 export const ProblemPage: React.FC = () => {
   const { url, params } = useRouteMatch<{ code: string }>();
@@ -49,7 +50,10 @@ export const ProblemPage: React.FC = () => {
 
   React.useEffect(() => {
     load();
-  }, [dispatch, params.code]);
+    return () => {
+      dispatch(resetState({ target: Target.PROBLEM_PAGE }));
+    };
+  }, [params.code]);
 
   const canUpdateProblem = useSelector(
     problem ? AuthorizationSelectors.canUpdateProblem(problem) : () => false

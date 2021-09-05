@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TestVerdict } from './TestVerdict';
+import { TestVerdict } from './judge-result';
 import { AcceptedLabel, ErrorLabel, ScoreLabel } from './ui-labels';
 import { ScoringType } from '../judge-config';
 

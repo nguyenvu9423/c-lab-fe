@@ -6,13 +6,12 @@ import {
   List,
   Message,
   Segment,
-  Button,
+  Divider,
 } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadingState } from '../../../store/common';
 import { CodeEditor } from '../../../components/editors';
 import {
-  JudgeStatusLabel,
   TestResultLabel,
   ErrorLabel,
   useJudgesStream,
@@ -21,7 +20,6 @@ import {
   SuccessJudge,
 } from '../../judge';
 import {
-  updateEntity,
   fetchDetailedJudge,
   fetchDetailedSub,
   setModal,
@@ -32,18 +30,17 @@ import {
   formatResourceTime,
   formatResourceMemory,
 } from '../../../page/problems/utils';
-import { SubmissionService } from '../../../service/SubmissionService';
-import { normalize } from 'normalizr';
-import { submissionSchema } from '../../../entity-schemas/submission-schemas';
 import { Target } from '../../../store/reducers/target';
 import { JudgeSelectors } from '../../../store/selectors/JudgeSelectors';
-import { JudgeService } from '../../../service/JudgeService';
 import { State } from '../../../store';
 import { DetailedSubSelectors } from '../../../store/selectors/DetailedSubSelectors';
 import {
   DetailedJudgeSelectors,
   SubmissionSelectors,
 } from '../../../store/selectors';
+import { QualifySubButton } from './buttons';
+import { SubmissionStatusLabel } from './SubmissionStatusLabel';
+import { RejudgeSubButton } from './buttons/RejudgeSubButton';
 
 export namespace DetailedSubModal {
   export interface Props {
@@ -62,17 +59,17 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
       : () => undefined
   );
 
+  const submission = useSelector(
+    data.detailedSub.loadingState === LoadingState.LOADED
+      ? SubmissionSelectors.byId(data.detailedSub.id)
+      : () => undefined
+  );
+
   const code = detailedSub?.code;
 
   const detailedJudge = useSelector(
     data.detailedJudge.loadingState === LoadingState.LOADED
       ? DetailedJudgeSelectors.byId(data.detailedJudge.result)
-      : () => undefined
-  );
-
-  const submission = useSelector(
-    data.detailedSub.loadingState === LoadingState.LOADED
-      ? SubmissionSelectors.byId(data.detailedSub.id)
       : () => undefined
   );
 
@@ -125,33 +122,12 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
 
   useJudgesStream(judge ? [judge.id] : []);
 
-  const rejudge = React.useCallback(() => {
-    if (detailedSub) {
-      SubmissionService.rejudgeSubmission(detailedSub.id).then(({ data }) => {
-        const { entities } = normalize(data, submissionSchema);
-        dispatch(updateEntity({ entities }));
-      });
-    }
-  }, [detailedSub]);
-
-  const [isCancellingJudge, setIsCancellingJudge] = React.useState(false);
-
-  const cancelJudge = React.useCallback(() => {
-    if (judgeId) {
-      setIsCancellingJudge(true);
-      JudgeService.cancel(judgeId).then(() => {
-        setIsCancellingJudge(false);
-      });
-    }
-  }, [judgeId]);
-
   const handleClose = React.useCallback(() => {
     dispatch(setModal(null));
   }, []);
 
   const result = judge?.result;
   const judgeConfig = judge?.config;
-  const inProgress = judge && InProgressJudge.isInstance(judge);
 
   return (
     <UiModal
@@ -166,39 +142,26 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
       )}
 
       {data.detailedSub.loadingState === LoadingState.LOADED &&
-        detailedSub &&
+        submission &&
         judgeId && (
           <>
-            <Header color="blue">Submission #{detailedSub.id}</Header>
+            <Header color="blue">Submission #{submission.id}</Header>
             <UiModal.Content scrolling>
               <Grid>
                 <Grid.Row>
                   <Grid.Column>
-                    <>
-                      <Button
-                        content="Rejudge"
-                        icon="redo"
-                        labelPosition="left"
-                        onClick={rejudge}
-                        disabled={inProgress}
-                      />{' '}
-                      {inProgress && (
-                        <Button
-                          icon="stop"
-                          content="Stop"
-                          negative
-                          disabled={isCancellingJudge}
-                          onClick={cancelJudge}
-                        />
-                      )}
-                    </>
+                    <div className="clear-fix-container">
+                      <Header as="h3">Settings</Header>
+                      <RejudgeSubButton submission={submission} />
+                      <QualifySubButton submission={submission} />
+                    </div>
                   </Grid.Column>
                 </Grid.Row>
-
+                <Divider />
                 <Grid.Row>
                   <Grid.Column width={8}>
                     <Header as="h4">Result</Header>
-                    <JudgeStatusLabel judgeId={judgeId} />
+                    <SubmissionStatusLabel submission={submission} />
                   </Grid.Column>
                   <Grid.Column width={8}>
                     <Header as="h4">Resource</Header>

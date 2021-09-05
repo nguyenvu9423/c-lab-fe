@@ -1,4 +1,4 @@
-import { TestVerdict } from './TestVerdict';
+import { TestVerdict } from './judge-result';
 
 export class TestResult {
   static parseMessage(testResult) {

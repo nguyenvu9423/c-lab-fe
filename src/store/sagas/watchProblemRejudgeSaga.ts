@@ -14,8 +14,11 @@ function* fetchProblemRejudgeSaga(
 
   try {
     let response;
-    if (payload.type === 'byId') {
-      response = yield call(ProblemService.getByProblem, payload.problemId);
+    if (payload.type === 'byCode') {
+      response = yield call(
+        ProblemService.getProblemRejudge,
+        payload.problemCode
+      );
     }
 
     const { result, entities } = normalize(response.data, problemRejudgeSchema);

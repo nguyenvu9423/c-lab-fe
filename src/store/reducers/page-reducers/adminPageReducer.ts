@@ -10,12 +10,19 @@ import {
   TagsState,
   UsersState,
   ArticlesState,
+  SubmissionsState,
+  submissionsReducer,
 } from '../data-holders';
 
 import { Target, TargetPredicates } from '../target';
 import { createFilteredReducer } from '../utils/createFilteredReducer';
 
 export interface AdminPageState {
+  user: {
+    data: {
+      users: UsersState;
+    };
+  };
   article: {
     data: {
       articles: ArticlesState;
@@ -26,9 +33,9 @@ export interface AdminPageState {
       problems: ProblemsState;
     };
   };
-  user: {
+  submission: {
     data: {
-      users: UsersState;
+      submissions: SubmissionsState;
     };
   };
   role: {
@@ -44,6 +51,14 @@ export interface AdminPageState {
 }
 
 export const adminPageReducer = combineReducers<AdminPageState>({
+  user: createFilteredReducer(
+    combineReducers({
+      data: combineReducers({
+        users: usersReducer,
+      }),
+    }),
+    TargetPredicates.equal(Target.AdminPage.USER)
+  ),
   tag: createFilteredReducer(
     combineReducers({
       data: combineReducers({ tags: tagsReducer }),
@@ -62,13 +77,11 @@ export const adminPageReducer = combineReducers<AdminPageState>({
     }),
     TargetPredicates.equal(Target.AdminPage.PROBLEM)
   ),
-  user: createFilteredReducer(
+  submission: createFilteredReducer(
     combineReducers({
-      data: combineReducers({
-        users: usersReducer,
-      }),
+      data: combineReducers({ submissions: submissionsReducer }),
     }),
-    TargetPredicates.equal(Target.AdminPage.USER)
+    TargetPredicates.equal(Target.AdminPage.SUBMISSION)
   ),
   role: createFilteredReducer(
     combineReducers({

@@ -1,16 +1,16 @@
 import { ChangePasswordDTO, UserDTO } from '../domains/user';
 import { Pageable } from '../utility';
 import { apiCaller } from '../utility/Axios';
-import { ServiceResponse } from './types';
+import { Page, ServiceResponse } from './types';
 
 const BASE_URL = '/users';
 
 export namespace UserService {
   export function getAll(
-    pageable: Pageable,
-    query?: string
-  ): ServiceResponse<UserDTO[]> {
-    return apiCaller.get(BASE_URL, { params: { pageable, query } });
+    query?: string,
+    pageable?: Pageable
+  ): ServiceResponse<Page<UserDTO>> {
+    return apiCaller.get(BASE_URL, { params: { ...pageable, query } });
   }
 
   export function getById(id: number | string): ServiceResponse<UserDTO> {

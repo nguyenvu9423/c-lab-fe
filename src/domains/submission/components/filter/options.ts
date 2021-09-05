@@ -2,19 +2,17 @@ import { JudgeVerdict, TestVerdict } from './../../../judge/judge-result';
 import { ComparisonOperator } from './../../../../utility/filter/ComparisonOperator';
 
 export enum VerdictFilterTypes {
-  ANY = 'ANY',
-  ACCEPTED = 'ACCEPTED',
   COMPILE_ERROR = 'COMPILE_ERROR',
-  WA = 'Wrong answer',
-  TLE = 'Time limit exceeded',
-  MLE = 'Memory limti exceeded',
-  RE = 'Runtime error',
+  AC = 'ACCEPTED',
+  WA = 'WA',
+  TLE = 'TLE',
+  MLE = 'MLE',
+  RE = 'RE',
 }
 
 export namespace VerdictFilterTypes {
   export const values = [
-    VerdictFilterTypes.ANY,
-    VerdictFilterTypes.ACCEPTED,
+    VerdictFilterTypes.AC,
     VerdictFilterTypes.COMPILE_ERROR,
     VerdictFilterTypes.WA,
     VerdictFilterTypes.TLE,
@@ -35,10 +33,7 @@ export namespace VerdictFilterTypes {
 
   const verdictMap: Record<VerdictFilterTypes, VerdictFilterTypes.Properties> =
     {
-      [VerdictFilterTypes.ANY]: {
-        text: 'Any',
-      },
-      [VerdictFilterTypes.ACCEPTED]: {
+      [VerdictFilterTypes.AC]: {
         text: 'Accepted',
         query: `judge.result.verdict${ComparisonOperator.EQUAL}${JudgeVerdict.ACCEPTED}`,
       },

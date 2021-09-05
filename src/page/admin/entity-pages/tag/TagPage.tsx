@@ -1,16 +1,20 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Segment, Button, Table, Modal } from 'semantic-ui-react';
+import { Segment, Table } from 'semantic-ui-react';
 import { fetchTags, resetState } from '../../../../store/actions';
 import { Target } from '../../../../store/reducers/target';
 import { TagSelectors } from '../../../../store/selectors/TagSelectors';
-import { DeleteTagConfirm, AddTagModal } from '../../../../domains/tag';
+import {
+  DeleteTagConfirm,
+  AddTagModal,
+  EditTagModal,
+} from '../../../../domains/tag';
 import {
   ErrorMessage,
   LoadingIndicator,
   Pagination,
 } from '../../../../components';
-import { AddButton } from '../shared';
+import { AddButton, DeleteRowButton, EditRowButton } from '../shared';
 import { State } from '../../../../store';
 import { Pageable } from '../../../../utility';
 import { DataHolder } from '../../../../store/reducers/data-holders/shared';
@@ -34,9 +38,8 @@ export const TagPage: React.FC = () => {
       : ConstSelectors.value(undefined)
   );
   const [openAddForm, setOpenAddForm] = React.useState(false);
-  const [deletedTagId, setDeletedTagId] = React.useState<number | undefined>(
-    undefined
-  );
+  const [editedTagId, setEditedTagId] = React.useState<number | undefined>();
+  const [deletedTagId, setDeletedTagId] = React.useState<number | undefined>();
 
   const pageable = DataHolder.usePageable(data.tags, initialPageable);
   const query = DataHolder.useQuery(data.tags);
@@ -91,10 +94,8 @@ export const TagPage: React.FC = () => {
                     <Table.Cell>{tag.id}</Table.Cell>
                     <Table.Cell>{tag.name}</Table.Cell>
                     <Table.Cell collapsing>
-                      <Button
-                        icon="delete"
-                        negative
-                        size="tiny"
+                      <EditRowButton onClick={() => setEditedTagId(tag.id)} />
+                      <DeleteRowButton
                         onClick={() => setDeletedTagId(tag.id)}
                       />
                     </Table.Cell>
@@ -133,6 +134,17 @@ export const TagPage: React.FC = () => {
           onCancel={() => setDeletedTagId(undefined)}
           onSuccess={() => {
             setDeletedTagId(undefined);
+            load();
+          }}
+        />
+      )}
+
+      {editedTagId && (
+        <EditTagModal
+          tagId={editedTagId}
+          onCancel={() => setEditedTagId(undefined)}
+          onSuccess={() => {
+            setEditedTagId(undefined);
             load();
           }}
         />

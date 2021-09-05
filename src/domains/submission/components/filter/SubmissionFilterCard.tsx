@@ -1,32 +1,15 @@
 import * as React from 'react';
-
-import { useFormik } from 'formik';
-import { Segment, Header, Form, Select, Label } from 'semantic-ui-react';
-import { VerdictFilterTypes, OperationFilterTypes } from './options';
-import { ComparisonOperator } from '../../../../utility/filter';
+import { useSelector } from 'react-redux';
+import { Header, Segment } from 'semantic-ui-react';
 import {
-  SubmissionLanguage,
-  getSubLangTitle,
-} from '../../../submission-lang/SubmissionLanguage';
+  ConstSelectors,
+  JudgeConfigSelectors,
+} from '../../../../store/selectors';
+import { ScoringType } from '../../../judge-config';
+
 import { Problem } from '../../../problem';
-
-const languageOptions = [
-  { value: 'ANY', text: 'Any' },
-  ...SubmissionLanguage.values.map((lang) => ({
-    value: lang,
-    text: getSubLangTitle(lang),
-  })),
-];
-
-const verdictOptions = VerdictFilterTypes.values.map((type) => ({
-  value: type,
-  text: VerdictFilterTypes.getProperties(type).text,
-}));
-
-const operationOptions = OperationFilterTypes.values.map((type) => ({
-  value: type,
-  text: type,
-}));
+import { AcmFilterForm } from './AcmFilterForm';
+import { OIFilterForm } from './OIFilterForm';
 
 export namespace SubmissionFilterCard {
   export interface Props {
@@ -34,131 +17,32 @@ export namespace SubmissionFilterCard {
 
     onQueryChange?(query: string | undefined): void;
   }
-
-  export interface Value {
-    verdict: VerdictFilterTypes;
-    language: string;
-    operation: OperationFilterTypes;
-    testCount: number;
-  }
 }
 
 export const SubmissionFilterCard: React.FC<SubmissionFilterCard.Props> = (
   props
 ) => {
   const { problem, onQueryChange } = props;
+  const judgeConfig = useSelector(
+    problem.judgeConfig
+      ? JudgeConfigSelectors.selectById(problem.judgeConfig)
+      : ConstSelectors.value(undefined)
+  );
 
-  const { values, setFieldValue, handleSubmit } =
-    useFormik<SubmissionFilterCard.Value>({
-      initialValues: {
-        verdict: verdictOptions[0].value,
-        language: languageOptions[0].value,
-        operation: operationOptions[0].value,
-        testCount: 0,
-      },
-      onSubmit: (values) => {
-        let query = '';
-        if (values.language && values.language !== 'ANY') {
-          query = and(
-            query,
-            `language${ComparisonOperator.EQUAL}${values.language}`
-          );
-        }
-        if (values.verdict) {
-          query = and(
-            query,
-            VerdictFilterTypes.getProperties(values.verdict).query ?? ''
-          );
-        }
-        if (values.operation) {
-          const operator = OperationFilterTypes.getOperator(values.operation);
-          if (operator) {
-            query = and(
-              query,
-              `result.passedTestCount${operator}${values.testCount}`
-            );
-          }
-        }
-        onQueryChange?.(query ? query : undefined);
-      },
-    });
+  if (!judgeConfig) return null;
 
-  const handleChange = React.useCallback((event, data) => {
-    const { value, name } = data;
-    setFieldValue(name, value, true);
-  }, []);
-
-  if (!problem) return null;
   return (
     <>
       <Header as="h2" attached="top">
-        Bộ lọc
+        Filtering
       </Header>
       <Segment attached="bottom" clearing>
-        <Form onSubmit={handleSubmit}>
-          <Form.Field>
-            <label>Kết quả</label>
-            <Form.Select
-              options={verdictOptions}
-              value={values.verdict}
-              name="verdict"
-              onChange={handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Ngôn ngữ</label>
-            <Form.Select
-              options={languageOptions}
-              value={values.language}
-              name="language"
-              onChange={handleChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Số test đúng</label>
-          </Form.Field>
-          <Form.Field>
-            <Form.Input
-              fluid
-              type="number"
-              min={0}
-              actionPosition="left"
-              labelPosition="right"
-              name="testCount"
-              value={values.testCount}
-              onChange={handleChange}
-              onBlur={() => {
-                if (!values.testCount && values.testCount !== 0) {
-                  setFieldValue('testCount', 0);
-                }
-              }}
-            >
-              <Select
-                compact
-                options={operationOptions}
-                name="operation"
-                value={values.operation}
-                onChange={handleChange}
-              />
-              <input />
-              <Label basic>tests</Label>
-            </Form.Input>
-          </Form.Field>
-          <Form.Button type="submit" floated="right">
-            Lọc
-          </Form.Button>
-        </Form>
+        {judgeConfig.scoringType === ScoringType.ACM ? (
+          <AcmFilterForm onQueryChange={onQueryChange} />
+        ) : (
+          <OIFilterForm onQueryChange={onQueryChange} />
+        )}
       </Segment>
     </>
   );
 };
-
-function and(query: string, add: string): string {
-  if (!add) return query;
-
-  if (query) {
-    return `${query};${add}`;
-  } else {
-    return add;
-  }
-}

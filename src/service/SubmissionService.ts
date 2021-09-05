@@ -1,19 +1,21 @@
 import * as qs from 'qs';
-import { Submission } from './../domains/submission/submission';
-import { Pageable } from './../utility/Pageable';
+import { Submission } from '../domains/submission';
 import { apiCaller } from '../utility/Axios';
 import { serverConfigs } from '../server';
 import { SubmissionLanguage } from '../domains/submission-lang/SubmissionLanguage';
+import { Page, ServiceResponse } from './types';
+import { DetailedSubDTO, SubmissionDTO } from '../domains/submission';
+import { Pageable } from '../utility';
 
-const BASE_URL = '/submission';
+const BASE_URL = '/submissions';
 
 export namespace SubmissionService {
   export function submit(params: {
-    problemId: number;
+    problemCode: string;
     language: SubmissionLanguage;
     code: File | string;
-  }): Promise<any> {
-    const { problemId, language, code } = params;
+  }): ServiceResponse<SubmissionDTO> {
+    const { problemCode, language, code } = params;
     const formData = new FormData();
 
     if (code instanceof File) {
@@ -24,76 +26,60 @@ export namespace SubmissionService {
 
     return apiCaller.post(BASE_URL, formData, {
       params: {
-        problemId,
+        problemCode,
         language,
       },
     });
   }
 
-  export function rejudgeSubmission(submissionId: number): Promise<any> {
-    return apiCaller.post(`${BASE_URL}/${submissionId}/rejudge`);
-  }
+  export function getSubmissions(
+    params:
+      | { query?: string }
+      | { problemCode: string }
+      | { problemCode: string; query: string }
+      | { userId: number }
+      | { userId: number; problemCode: string },
+    pageable?: Pageable
+  ): ServiceResponse<Page<SubmissionDTO>> {
+    const query =
+      'query' in params && params.query && params.query.length !== 0
+        ? params.query
+        : undefined;
 
-  export function cancelJudge(submissionId: number): Promise<any> {
-    return apiCaller.post(`${BASE_URL}/${submissionId}/cancel-judge`);
-  }
-
-  export function getSubmissionDetailsById(submissionId: number): Promise<any> {
-    return apiCaller.get(`${BASE_URL}/${submissionId}/details`);
-  }
-
-  export function getDetailedResult(submissionId: number): Promise<any> {
-    return apiCaller.get(`${BASE_URL}/${submissionId}/detailed-result`);
+    return apiCaller.get(BASE_URL, {
+      params: {
+        ...params,
+        query,
+        page: pageable?.page,
+        size: pageable?.size,
+      },
+    });
   }
 
   export function getDetailedSubmissionById(
     submissionId: number
-  ): Promise<any> {
+  ): ServiceResponse<DetailedSubDTO> {
     return apiCaller.get(`${BASE_URL}/${submissionId}/details`);
   }
 
-  export function getSubmissions(
-    params: { userId?: number; problemId?: number; query?: string },
-    pageable = { page: 0, size: 10 }
-  ): Promise<any> {
-    return apiCaller.get(BASE_URL, {
+  export function rejudge(id: number): ServiceResponse<SubmissionDTO> {
+    return apiCaller.post(`${BASE_URL}/${id}/rejudge`);
+  }
+
+  export function updateDisqualified(
+    id: number,
+    disqualified: boolean
+  ): ServiceResponse<SubmissionDTO> {
+    return apiCaller.post(`${BASE_URL}/${id}/update`, undefined, {
       params: {
-        ...params,
-        page: pageable.page,
-        size: pageable.size,
+        disqualified,
       },
     });
   }
 
-  export function getSubmissionsByUserAndProblem(
-    userId: number,
-    problemId: number,
-    pageable: Pageable
-  ): Promise<any> {
-    return apiCaller.get(BASE_URL, {
-      params: {
-        user: userId,
-        problem: problemId,
-        page: pageable.page,
-        size: pageable.size,
-      },
-    });
+  export function cancelJudge(submissionId: number): ServiceResponse<void> {
+    return apiCaller.post(`${BASE_URL}/${submissionId}/cancel-judge`);
   }
-
-  // export function getSubmissionsByProblem(
-  //   problemId: number,
-  //   filters: number,
-  //   pageable: Pageable
-  // ): Promise<any> {
-  //   return apiCaller.get(`${BASE_URL}`, {
-  //     params: {
-  //       problem: problemId,
-  //       // filters: filters.length ? FilterConverter.toString(filters) : undefined,
-  //       page: pageable.page,
-  //       size: pageable.size,
-  //     },
-  //   });
-  // }
 
   export function getStream(submissions: Submission[]): EventSource {
     const queryString = qs.stringify(

@@ -4,7 +4,7 @@ import { FormModal } from '../../../common/types';
 import { ProblemService } from '../../../service/ProblemService';
 
 export const DeleteProblemConfirm: React.FC<
-  FormModal.Props & { problemId: number }
+  FormModal.Props & { problemCode: string }
 > = (props) => {
   return (
     <Confirm
@@ -12,7 +12,7 @@ export const DeleteProblemConfirm: React.FC<
       header="Delete problem"
       onCancel={props.onCancel}
       onConfirm={() => {
-        ProblemService.deleteProblem(props.problemId).then(() => {
+        ProblemService.deleteProblem(props.problemCode).then(() => {
           props.onSuccess?.();
         });
       }}

@@ -6,11 +6,12 @@ import { useSelector } from 'react-redux';
 
 import { TagPage } from './entity-pages/tag';
 import { ArticlePage } from './entity-pages/article';
-import { ProblemPage } from './entity-pages/problem';
 import { UserPage } from './entity-pages/user';
 import { RolePage } from './entity-pages/RolePage';
 import { AuthorizationSelectors } from '../../store/selectors';
 import { PageErrorMessage } from '../shared';
+import { SubmissionPage } from './entity-pages/submission';
+import { ProblemPage } from './entity-pages/problem';
 
 export const AdminPage: React.FC<{ match: match }> = (props) => {
   const baseURL = props.match.url;
@@ -33,12 +34,16 @@ export const AdminPage: React.FC<{ match: match }> = (props) => {
       content = <ArticlePage />;
       break;
     case 'problems':
+      content = <ProblemPage />;
       break;
     case 'users':
       content = <UserPage />;
       break;
     case 'roles':
       content = <RolePage />;
+      break;
+    case 'submissions':
+      content = <SubmissionPage />;
       break;
     default:
       content = undefined;
@@ -94,6 +99,13 @@ function ControlMenu(props) {
             name="articles"
             to={`${baseURL}/articles`}
             active={activePage === 'articles'}
+          />
+          <Menu.Item
+            as={Link}
+            link
+            name="submissions"
+            to={`${baseURL}/submissions`}
+            active={activePage === 'submissions'}
           />
         </Menu.Menu>
       </Menu.Item>

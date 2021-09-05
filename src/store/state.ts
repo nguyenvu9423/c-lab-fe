@@ -19,7 +19,7 @@ import { ArticlePageState } from './reducers/page-reducers/articlePageReducer';
 import { ProblemRejudge } from './../domains/problem-rejudge/ProblemRejudge';
 import { DetailedJudge, Judge } from './../domains/judge';
 import { DetailedSubModalState } from './reducers/modal-reducers/detailedSubModalReducer';
-import { Submission, DetailedSub } from './../domains/submission/submission';
+import { Submission, DetailedSub } from '../domains/submission';
 import { PrincipalProblemSubsState } from './reducers/principalProblemSubsReducer';
 import { ProblemPageState } from './reducers/page-reducers/problemPageReducer';
 import { ProblemsPageState } from './reducers/page-reducers/problemsPageReducer';

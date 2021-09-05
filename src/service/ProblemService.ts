@@ -1,9 +1,13 @@
 import { Pageable } from './../utility/Pageable';
 import { apiCaller } from '../utility/Axios';
+import { Page, ServiceResponse } from './types';
+import { ProblemDTO } from '../domains/problem/ProblemDTO';
+import { JudgeConfigDTO } from '../domains/judge-config/JudgeConfigDTO';
+import { ProblemRejudgeDTO } from '../domains/problem-rejudge/ProblemRejudgeDTO';
 
 const BASE_URL = '/problems';
 export namespace ProblemService {
-  export function create(problem): Promise<any> {
+  export function create(problem: ProblemDTO): ServiceResponse<ProblemDTO> {
     return apiCaller.post(BASE_URL, problem, {
       headers: {
         'Content-Type': undefined,
@@ -14,8 +18,8 @@ export namespace ProblemService {
 
   export function getProblems(params: {
     query?: string;
-    pageable: Pageable;
-  }): Promise<any> {
+    pageable?: Pageable;
+  }): ServiceResponse<Page<ProblemDTO>> {
     const { query, pageable } = params;
     return apiCaller.get(BASE_URL, {
       params: {
@@ -25,66 +29,50 @@ export namespace ProblemService {
     });
   }
 
-  export function getProblemByQuery(
-    query,
-    pageable = { page: 0, size: 10 }
-  ): Promise<any> {
-    return apiCaller.get(BASE_URL, {
-      params: {
-        query,
-        ...pageable,
-      },
-    });
-  }
-
-  export function getProblem(id: number, detailed?: boolean): Promise<any> {
-    return apiCaller.get(`${BASE_URL}/${id}`, {
+  export function getProblem(
+    code: string,
+    detailed?: boolean
+  ): ServiceResponse<ProblemDTO> {
+    return apiCaller.get(`${BASE_URL}/${code}`, {
       params: {
         detailed,
       },
     });
   }
 
-  export function getProblemByCode(
+  export function getJudgeConfig(
+    code: string
+  ): ServiceResponse<JudgeConfigDTO> {
+    return apiCaller.get(`${BASE_URL}/${code}/judge-config`);
+  }
+
+  export function getProblemRejudge(
+    code: string
+  ): ServiceResponse<ProblemRejudgeDTO> {
+    return apiCaller.get(`${BASE_URL}/${code}/rejudge`);
+  }
+
+  export function updateProblem(
     code: string,
-    detailed?: boolean
-  ): Promise<any> {
-    return apiCaller.get(BASE_URL, {
-      params: { code, detailed },
-    });
+    problem: Partial<ProblemDTO>
+  ): ServiceResponse<ProblemDTO> {
+    return apiCaller.put(`${BASE_URL}/${code}`, problem);
   }
 
-  export function getProblemById(id): Promise<any> {
-    return apiCaller.get(`${BASE_URL}/${id}`);
-  }
-
-  export function getJudgeConfig(problemId): Promise<any> {
-    return apiCaller.get(`${BASE_URL}/${problemId}/judge-config`);
-  }
-
-  export function updateProblem(id, problem): Promise<any> {
-    return apiCaller.put(`${BASE_URL}/${id}`, problem);
-  }
-
-  export function updateJudgeConfig(id, formData): Promise<any> {
-    return apiCaller.post(`${BASE_URL}/${id}/judge-config`, formData, {
+  export function updateJudgeConfig(
+    code: string,
+    formData: FormData
+  ): ServiceResponse<ProblemDTO> {
+    return apiCaller.post(`${BASE_URL}/${code}/judge-config`, formData, {
       timeout: 120000,
     });
   }
 
-  export function rejudgeProblem(problemId): Promise<any> {
-    return apiCaller.post(`${BASE_URL}/${problemId}/rejudge`);
+  export function rejudgeProblem(code: string): ServiceResponse<ProblemDTO> {
+    return apiCaller.post(`${BASE_URL}/${code}/rejudge`);
   }
 
-  export function getByProblem(problemId): Promise<any> {
-    return apiCaller.get(`${BASE_URL}/${problemId}/rejudge`);
-  }
-
-  // export function getByProblemCode(problemCode): Promise<any> {
-  //   return apiCaller.get(`${BASE_URL}/${problemId}/rejudge`);
-  // }
-
-  export function deleteProblem(id): Promise<any> {
-    return apiCaller.delete(`${BASE_URL}/${id}`);
+  export function deleteProblem(code: string): ServiceResponse<void> {
+    return apiCaller.delete(`${BASE_URL}/${code}`);
   }
 }

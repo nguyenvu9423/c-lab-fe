@@ -21,7 +21,7 @@ const initialPageable: Pageable = {
 
 export namespace PrincipalProblemSubsCard {
   export interface Props {
-    problemId: number;
+    problemCode: string;
     userId: number;
   }
 
@@ -36,7 +36,7 @@ export const PrincipalProblemSubsCard: React.FC<
 > = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
 
-  const { problemId, userId } = props;
+  const { problemCode, userId } = props;
   const { data } = useSelector(
     (state: State) => state.principalProblemSubsCard
   );
@@ -56,22 +56,23 @@ export const PrincipalProblemSubsCard: React.FC<
       dispatch(
         fetchSubmissions.request({
           type: 'byUserAndProblem',
-          problemId,
+          problemCode,
           userId,
           pageable: pageable ?? currentPageable,
           target: Target.PRINCIPAL_PROBLEM_SUBS_CARD,
         })
       );
     },
-    [dispatch, userId, problemId, currentPageable]
+    [dispatch, userId, problemCode, currentPageable]
   );
 
   React.useEffect(() => {
     load();
+    console.log('called');
     return () => {
       dispatch(resetState({ target: Target.PRINCIPAL_PROBLEM_SUBS_CARD }));
     };
-  }, [dispatch]);
+  }, []);
 
   useJudgesStream(
     submissions
@@ -90,7 +91,13 @@ export const PrincipalProblemSubsCard: React.FC<
     [load]
   );
 
-  React.useImperativeHandle(ref, () => ({ reload: () => load() }), [load]);
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      reload: load,
+    }),
+    [load]
+  );
 
   return (
     <>

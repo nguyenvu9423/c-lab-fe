@@ -4,7 +4,7 @@ import { Header, Table, Dimmer, Button } from 'semantic-ui-react';
 import { normalize } from 'normalizr';
 import { useDispatch } from 'react-redux';
 import { updateEntity } from '../../../store/actions';
-import { DateFormat } from '../../../constant/DateFormat';
+import { DateFormat } from '../../../config';
 import { Avatar } from '../../../components/avatar/Avatar';
 import { UserService } from '../../../service/UserService';
 import { userSchema } from '../../../entity-schemas/userSchema';

@@ -51,14 +51,14 @@ export namespace SuccessJudge {
 }
 
 export interface SystemErrorJudge extends Judge {
-  progress: TypedJudgeProgress<JudgeProgressStatus.SYSTEM_ERROR>;
+  progress: TypedJudgeProgress<JudgeProgressStatus.ERROR>;
 
   result: undefined;
 }
 
 export namespace SystemErrorJudge {
   export function isInstance(judge: Judge): judge is SystemErrorJudge {
-    return judge.progress.status === JudgeProgressStatus.SYSTEM_ERROR;
+    return judge.progress.status === JudgeProgressStatus.ERROR;
   }
 }
 

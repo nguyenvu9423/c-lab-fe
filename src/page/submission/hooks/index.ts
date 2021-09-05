@@ -5,20 +5,17 @@ import { SubmissionService } from '../../../service/SubmissionService';
 import ArrayUtils from '../../../utility/ArrayUtils';
 import { updateEntity } from '../../../store/actions/entity';
 import { useDispatch } from 'react-redux';
-import { JudgeProgressType } from '../../../domains/judge';
+import { Submission } from '../../../domains/submission';
 
-const useSubmissionStream = (submissions) => {
+function useSubmissionStream(submissions: Submission[]): void {
   const dispatch = useDispatch();
   React.useEffect(() => {
-    const streamedSubmissions = submissions?.filter(
-      (sub) => sub.judge.progress.status.type === JudgeProgressType.IN_PROGRESS
-    );
-    if (!ArrayUtils.isEmpty(streamedSubmissions)) {
-      const eventSource = SubmissionService.getStream(streamedSubmissions);
-      eventSource.addEventListener('updateEntity', (event) => {
+    if (!ArrayUtils.isEmpty(submissions)) {
+      const eventSource = SubmissionService.getStream(submissions);
+      eventSource.addEventListener('updateEntity', (event: any) => {
         const data = JSON.parse(event.data);
-        const normalizedData = normalize(data, submissionsSchema);
-        dispatch(updateEntity(normalizedData.entities));
+        const { entities } = normalize(data, submissionsSchema);
+        dispatch(updateEntity({ entities }));
       });
 
       eventSource.addEventListener('end', () => {
@@ -32,7 +29,7 @@ const useSubmissionStream = (submissions) => {
         eventSource.close();
       };
     }
-  }, [JSON.stringify(submissions?.map((sub) => sub.id))]);
-};
+  }, [dispatch, JSON.stringify(submissions?.map((sub) => sub.judge))]);
+}
 
 export { useSubmissionStream };

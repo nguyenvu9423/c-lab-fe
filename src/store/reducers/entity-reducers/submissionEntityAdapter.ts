@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { Submission } from '../../../domains/submission/submission';
+import { Submission } from '../../../domains/submission';
 
 export const submissionEntityAdapter = createEntityAdapter<Submission>();
 

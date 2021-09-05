@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { Segment, Header, Grid, Menu } from 'semantic-ui-react';
 import { EditArticleForm } from '../../domains/article';
 import { addToast } from '../../store/actions';
+import { CRUDToastBuilder } from '../../components/toast';
 
 export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
   props
@@ -39,11 +40,11 @@ export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
               articleId={Number(id)}
               onSuccess={() => {
                 dispatch(
-                  addToast({
-                    header: 'Update judge config',
-                    content: 'The judge config has been updated successfully',
-                    duration: 2500,
-                  })
+                  addToast(
+                    new CRUDToastBuilder('article', 'update')
+                      .setStatus('success')
+                      .build()
+                  )
                 );
               }}
             />
