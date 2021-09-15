@@ -190,6 +190,12 @@ const judgeStatusOptions: (DropdownItemProps & { query?: string })[] = [
     query: `judge.progress.status==${JudgeProgressStatus.SUCCESS}`,
   },
   {
+    key: 'cancelled',
+    text: 'Cancelled',
+    value: 'cancelled',
+    query: `judge.progress.status==${JudgeProgressStatus.CANCELLED}`,
+  },
+  {
     key: 'error',
     text: 'System error',
     value: 'error',

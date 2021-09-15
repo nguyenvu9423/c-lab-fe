@@ -5,14 +5,15 @@ import { normalize } from 'normalizr';
 import { detailedJudgeSchema } from '../../entity-schemas';
 import { SagaIterator } from 'redux-saga';
 
-function* fetchDetailedJudgeSaga(action) {
+function* fetchDetailedJudgeSaga(action): SagaIterator<void> {
   const { payload } = action;
   const { target } = payload;
   try {
     const { submissionId } = payload;
     const { data: detailedJudge } = yield call(
-      JudgeService.getDetailedJudgeBySubmission,
-      submissionId
+      JudgeService.getBySubmission,
+      submissionId,
+      true
     );
 
     const { result, entities } = normalize(detailedJudge, detailedJudgeSchema);

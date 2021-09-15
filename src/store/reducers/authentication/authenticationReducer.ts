@@ -1,14 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
 import { LoadingState } from './../../common';
-import { AccessToken, Jwt } from './../../../utility/Token';
+import {
+  AccessTokenPayload,
+  RefreshTokenPayload,
+  Jwt,
+} from './../../../utility/Token';
 import { setToken } from '../../actions';
 import { DataHolderState } from '../data-holders/shared';
 
 export type AuthenticationState = DataHolderState<
   Record<string, unknown>,
   {
-    token: Jwt & { payload: { username: string; permissions: PermissionMap } };
+    token: Jwt;
+    permissions: PermissionMap;
+    accessTokenPayload: AccessTokenPayload;
+    refreshTokenPayload: RefreshTokenPayload;
   }
 >;
 
@@ -26,8 +33,15 @@ export const authenticationReducer = createReducer<AuthenticationState>(
     builder.addCase(setToken, (state, action) => {
       const { token } = action.payload;
       if (token) {
-        const parsedToken = jwtDecode<AccessToken>(token.access_token);
-        const { user_name, authorities } = parsedToken;
+        const accessTokenPayload = jwtDecode<AccessTokenPayload>(
+          token.access_token
+        );
+        const refreshTokenPayload = jwtDecode<RefreshTokenPayload>(
+          token.refresh_token
+        );
+
+        const { authorities } = accessTokenPayload;
+
         const permissions =
           authorities?.reduce((map, item) => {
             map[item] = true;
@@ -36,10 +50,10 @@ export const authenticationReducer = createReducer<AuthenticationState>(
 
         return {
           loadingState: LoadingState.LOADED,
-          token: {
-            ...token,
-            payload: { username: user_name, permissions },
-          },
+          token,
+          permissions,
+          accessTokenPayload,
+          refreshTokenPayload,
         };
       } else {
         return {

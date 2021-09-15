@@ -19,22 +19,10 @@ export namespace AuthenticationSelectors {
     };
   }
 
-  export function permissions(): Selector<State, any> {
-    return (state) => {
-      if (isAuthenticated()(state)) {
-        // @ts-ignore
-        const permissions = state.authentication.token.payload.authorities;
-        return permissions;
-      } else {
-        return [];
-      }
-    };
-  }
-
   export function username(): Selector<State, string | undefined> {
     return (state) => {
       if (DataHolder.isLoaded(state.authentication)) {
-        return state.authentication.token.payload.username;
+        return state.authentication.accessTokenPayload.user_name;
       }
     };
   }

@@ -15,6 +15,7 @@ import { DataHolderState } from '../../../store/reducers/data-holders/shared';
 import { Target } from '../../../store/reducers/target';
 import { SubmissionSelectors } from '../../../store/selectors';
 import { Pageable } from '../../../utility';
+import { LogicalOperator } from '../../../utility/filter';
 import { SubmissionsTable } from '../components';
 import { ProblemNavMenu } from '../components/ProblemNavMenu';
 
@@ -28,7 +29,14 @@ export const ProblemSubmissionsContent: React.FC<{ problem: Problem }> = (
       <Grid.Column width={12}>
         <ProblemNavMenu problem={problem} tabName="status" />
         <Segment attached="bottom">
-          <ProblemSubmissionTable problem={problem} query={query} />
+          <ProblemSubmissionTable
+            problem={problem}
+            query={
+              query
+                ? `${query}${LogicalOperator.AND}problem.code==${problem.code}`
+                : undefined
+            }
+          />
         </Segment>
       </Grid.Column>
       <Grid.Column width={4}>
@@ -73,8 +81,7 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
       if (query) {
         dispatch(
           fetchSubmissions.request({
-            type: 'byProblemAndQuery',
-            problemCode: problem.code,
+            type: 'byQuery',
             query,
             pageable,
             target,

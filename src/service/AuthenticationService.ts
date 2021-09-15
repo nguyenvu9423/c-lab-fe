@@ -1,12 +1,20 @@
 import { apiCaller } from '../utility/Axios';
-import qs from 'qs';
+import * as qs from 'qs';
+import { ServiceResponse } from './types';
+import { Jwt } from '../utility';
 
 const BASE_URL = '/oauth';
 
 const client_id = 'log-n';
 
-class AuthenticationService {
-  static login({ username, password }) {
+export namespace AuthenticationService {
+  export function login({
+    username,
+    password,
+  }: {
+    username: string;
+    password: string;
+  }): ServiceResponse<Jwt> {
     return apiCaller.post(
       `${BASE_URL}/token`,
       qs.stringify({
@@ -23,12 +31,13 @@ class AuthenticationService {
       }
     );
   }
-  static refreshToken(token) {
+
+  export function refreshToken(refreshToken: string): ServiceResponse<Jwt> {
     return apiCaller.post(
       `${BASE_URL}/token`,
       qs.stringify({
         grant_type: 'refresh_token',
-        refresh_token: token,
+        refresh_token: refreshToken,
         client_id,
         scope: 'any',
       }),
@@ -40,5 +49,3 @@ class AuthenticationService {
     );
   }
 }
-
-export { AuthenticationService };

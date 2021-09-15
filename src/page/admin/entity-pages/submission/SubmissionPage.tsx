@@ -48,7 +48,7 @@ export const SubmissionPage: React.FC = () => {
     (params?: { pageable?: Pageable; query?: string }) => {
       dispatch(
         fetchSubmissions.request({
-          type: 'query',
+          type: 'byQuery',
           pageable: params?.pageable ?? pageable,
           query: params?.query ?? query,
           target: Target.AdminPage.SUBMISSION,

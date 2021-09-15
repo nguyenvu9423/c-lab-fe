@@ -45,7 +45,7 @@ export const SearchBar: React.FC = () => {
     if (result.type === 'problem') {
       history.push(`/problems/${result.code}`);
     } else if (result.type === 'article') {
-      history.push(`/articles/${result.id}`);
+      history.push(`/articles/${result.id}/view/${result.slug}`);
     }
   }, []);
 

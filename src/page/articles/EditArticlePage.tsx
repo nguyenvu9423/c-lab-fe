@@ -28,7 +28,7 @@ export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
               as={Link}
               link
               name="Article page"
-              to={`/articles/${id}`}
+              to={`/articles/${id}/view`}
               icon="arrow left"
             />
           </Menu>

@@ -1,5 +1,6 @@
 import { SubmissionLanguage } from '../submission-lang/SubmissionLanguage';
 import { TagDTO } from '../tag';
+import { UserDTO } from '../user';
 
 export interface ProblemDTO {
   id: number;
@@ -8,7 +9,7 @@ export interface ProblemDTO {
 
   title: string;
 
-  author: number;
+  author: UserDTO;
 
   definition: string;
 

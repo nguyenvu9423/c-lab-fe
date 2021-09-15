@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ErrorLabel, ScoreLabel, AcceptedLabel } from './ui-labels';
 import { SubmissionTestResultLabel } from './test-result-labels';
-import { JudgeResult, JudgeVerdict } from './judge-result';
+import { JudgeResult, JudgeVerdict } from './result';
 import { ScoringType } from '../judge-config';
 
 export const JudgeResultLabel: React.FC<{

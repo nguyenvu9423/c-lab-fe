@@ -1,0 +1,5 @@
+export enum JudgeVerdict {
+  COMPILE_ERROR = 'COMPILE_ERROR',
+  ACCEPTED = 'ACCEPTED',
+  TEST_ERROR = 'TEST_ERROR',
+}

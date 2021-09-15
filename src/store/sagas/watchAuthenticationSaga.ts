@@ -1,10 +1,12 @@
-import { take, fork, call, delay, put, race } from 'redux-saga/effects';
+import { take, fork, call, delay, put, race, cancel } from 'redux-saga/effects';
 import { login, logout, setToken, refreshToken, resetState } from '../actions';
 import { AuthenticationService } from '../../service/AuthenticationService';
 import { AuthProvider } from '../../authentication/tokenProvider';
 import { SagaIterator } from 'redux-saga';
+import { Jwt, RefreshTokenPayload } from '../../utility';
+import jwtDecode from 'jwt-decode';
 
-function* initToken() {
+function* initToken(): SagaIterator<Jwt | null> {
   const storedToken = AuthProvider.getToken();
   if (storedToken) {
     try {
@@ -14,19 +16,27 @@ function* initToken() {
       );
       return newToken;
     } catch (e) {
-      yield call(AuthProvider.clearToken);
+      console.log(e);
     }
   }
+  yield put(setToken({ token: null }));
   return null;
 }
 
-function* autoRefreshToken(initialToken) {
+function* autoRefreshToken(initialToken: Jwt) {
+  let accessTokenExpireIn = initialToken.expires_in;
   let currentRefreshToken = initialToken.refresh_token;
-  let currentExpireIn = initialToken.expires_in;
+  const refreshTokenExpiredAt =
+    jwtDecode<RefreshTokenPayload>(currentRefreshToken).exp;
 
   while (true) {
-    yield delay((currentExpireIn - 30) * 1000);
     try {
+      yield delay((accessTokenExpireIn - 75) * 1000);
+      if (Date.now() > refreshTokenExpiredAt * 1000) {
+        yield put(refreshToken.failed());
+        return;
+      }
+
       const { data: newToken } = yield call(
         AuthenticationService.refreshToken,
         currentRefreshToken
@@ -34,7 +44,7 @@ function* autoRefreshToken(initialToken) {
       yield put(setToken({ token: newToken, isRefreshing: true }));
 
       currentRefreshToken = newToken.refresh_token;
-      currentExpireIn = newToken.expires_in;
+      accessTokenExpireIn = newToken.expires_in;
     } catch (e) {
       yield put(refreshToken.failed());
       return;
@@ -43,16 +53,15 @@ function* autoRefreshToken(initialToken) {
 }
 
 export function* watchAuthenticationSaga(): SagaIterator {
-  let currentToken = yield call(initToken);
+  let currentToken: Jwt | null = yield call(initToken);
   while (true) {
     if (currentToken === null) {
-      yield put(setToken({ token: null }));
       const action = yield take(login);
-      currentToken = action.payload.token;
+      currentToken = action.payload.token as Jwt;
     }
 
     yield put(setToken({ token: currentToken }));
-    yield fork(autoRefreshToken, currentToken);
+    const autoRefreshTask = yield fork(autoRefreshToken, currentToken);
 
     const { logoutAction } = yield race({
       logoutAction: take(logout),
@@ -60,14 +69,15 @@ export function* watchAuthenticationSaga(): SagaIterator {
     });
 
     if (logoutAction) {
-      yield call(handleLogout);
+      yield cancel(autoRefreshTask);
     }
 
+    yield call(handleLogout);
     currentToken = null;
   }
 }
 
 function* handleLogout(): SagaIterator<void> {
-  yield put(setToken({ token: null }));
   yield put(resetState());
+  yield put(setToken({ token: null }));
 }

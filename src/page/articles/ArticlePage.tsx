@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { match } from 'react-router';
+import { match, Redirect } from 'react-router';
 import { fetchArticle } from '../../store/actions/article';
 import {
   Grid,
@@ -29,7 +29,7 @@ import { TagSelectors } from '../../store/selectors/TagSelectors';
 import { resetState } from '../../store/actions';
 
 export const ArticlePage: React.FC<{
-  match: match<{ id: string }>;
+  match: match<{ id: string; slug?: string }>;
   location: Location;
 }> = (props) => {
   const {
@@ -38,6 +38,7 @@ export const ArticlePage: React.FC<{
   } = props;
   const dispatch = useDispatch();
   const contextRef = React.createRef<HTMLElement>();
+  console.log(params);
 
   const { data } = useSelector((state: State) => state.articlePage);
   const article = useSelector(ArticleSelectors.byId(params.id));
@@ -64,6 +65,10 @@ export const ArticlePage: React.FC<{
       if (element) element.scrollIntoView();
     }
   });
+
+  if (article && article.slug && params.slug !== article.slug) {
+    return <Redirect to={`/articles/${article.id}/view/${article.slug}`} />;
+  }
 
   return (
     <Grid container relaxed divided>

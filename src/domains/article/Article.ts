@@ -20,4 +20,6 @@ export interface Article {
   contentTableShown: boolean;
 
   tags: number[];
+
+  slug: string;
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { InProgressLabel } from './ui-labels';
-import { JudgeProgressStatus, JudgeProgress } from './judge-progress';
+import { JudgeProgressStatus, JudgeProgress } from './progress';
 
 export const JudgeInProgressLabel: React.FC<{ progress: JudgeProgress }> = (
   props

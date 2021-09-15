@@ -3,8 +3,8 @@ import {
   JudgeProgress,
   TypedJudgeProgress,
   JudgeProgressStatus,
-} from './judge-progress';
-import { JudgeResult, Resource } from './judge-result';
+} from './progress';
+import { JudgeResult } from './result';
 
 export interface Judge {
   id: number;
@@ -62,42 +62,8 @@ export namespace SystemErrorJudge {
   }
 }
 
-export interface DetailedJudge extends Judge {
-  id: number;
-
-  detailedResult: DetailedJudgeResult;
-}
-
-export interface DetailedJudgeResult {
-  message: string;
-
-  testResults: DetailedTestResult[];
-}
-
-export interface DetailedTestResult {
-  test: Test;
-
-  outputOverview: string;
-
-  resource: Resource;
-
-  score: number;
-}
-
-export interface Test {
-  id: number;
-
-  name: string;
-
-  input: {
-    path: string;
-
-    overview: string;
-  };
-
-  output: {
-    path: string;
-
-    overview: string;
-  };
+export namespace CancelledJudge {
+  export function isInstance(judge: Judge): boolean {
+    return judge.progress.status === JudgeProgressStatus.CANCELLED;
+  }
 }

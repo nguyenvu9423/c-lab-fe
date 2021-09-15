@@ -26,7 +26,7 @@ export const CompactSubmissionTable: React.FC<CompactSubmissionTable.Props> = (
           return (
             <Table.Row key={submission.id}>
               <Table.Cell>
-                <SubmissionDetailsLink submissionId={submission.id} />
+                <SubmissionDetailsLink submission={submission} />
               </Table.Cell>
               <Table.Cell>
                 <SubmissionStatusLabel submission={submission} />

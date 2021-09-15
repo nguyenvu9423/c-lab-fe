@@ -45,8 +45,9 @@ function* fetchDetailedSubSaga(
   const { submissionId, target } = action.payload;
   try {
     const response = yield call(
-      SubmissionService.getDetailedSubmissionById,
-      submissionId
+      SubmissionService.getSubmission,
+      submissionId,
+      true
     );
     const { data } = response;
     const { result, entities } = normalize(data, detailedSubSchema);
@@ -62,7 +63,7 @@ function* getSubmissions(
   let response;
   const { pageable } = payload;
   switch (payload.type) {
-    case 'query':
+    case 'byQuery':
       response = yield call(
         SubmissionService.getSubmissions,
         { query: payload.query },
@@ -73,16 +74,6 @@ function* getSubmissions(
       response = yield call(
         SubmissionService.getSubmissions,
         { problemCode: payload.problemCode },
-        pageable
-      );
-      break;
-    case 'byProblemAndQuery':
-      response = yield call(
-        SubmissionService.getSubmissions,
-        {
-          problemCode: payload.problemCode,
-          query: payload.query,
-        },
         pageable
       );
       break;

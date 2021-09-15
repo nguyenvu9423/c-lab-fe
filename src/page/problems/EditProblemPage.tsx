@@ -31,6 +31,7 @@ export const ProblemEditPage: React.FC<{
                   header: 'Update problem',
                   content: 'The changes are saved successfully',
                   duration: 2500,
+                  status: 'positive',
                 })
               )
             }
@@ -50,6 +51,7 @@ export const ProblemEditPage: React.FC<{
                   header: 'Update judge config',
                   content: 'The judge config has been updated successfully',
                   duration: 2500,
+                  status: 'positive',
                 })
               );
             }}

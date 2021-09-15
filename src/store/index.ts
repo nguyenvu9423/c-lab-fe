@@ -5,6 +5,8 @@ import rootSaga from './sagas/rootSaga';
 import { rootReducer } from './reducers/rootReducer';
 import { AuthProvider } from '../authentication/tokenProvider';
 import { configureStore } from '@reduxjs/toolkit';
+import { DataHolder } from './reducers/data-holders/shared';
+import { LoadingState } from './common';
 export { State } from './state';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -17,12 +19,15 @@ const store = configureStore({
 
 sagaMiddleware.run(rootSaga);
 
-let currentToken: Jwt | null | undefined = null;
+let currentToken: Jwt | null | undefined = undefined;
 
 const handleTokenChange = () => {
-  // @ts-ignore
-  const newToken = store.getState().authentication.token;
-  if (currentToken != newToken) {
+  const authenticationState = store.getState().authentication;
+  const newToken = DataHolder.isLoaded(authenticationState)
+    ? authenticationState.token
+    : null;
+
+  if (currentToken !== newToken) {
     AuthProvider.setToken(newToken ? newToken : null);
     currentToken = newToken;
   }

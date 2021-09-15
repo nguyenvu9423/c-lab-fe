@@ -5,18 +5,22 @@ import { AddArticlePage } from './AddArticlePage';
 import { EditArticlePage } from './EditArticlePage';
 import { ArticlesPage } from './ArticlesPage';
 
+const BASE_ARTICLE_URL = '/articles';
+
 export const ArticlePageRouter: React.FC<{ match: match }> = (props) => {
-  const { match } = props;
   return (
     <Switch>
-      <Route path={`${match.path}/add`} component={AddArticlePage} />
+      <Route path={`${BASE_ARTICLE_URL}/add`} component={AddArticlePage} />
       <Route
         exact={true}
-        path={`${match.path}/:id/edit`}
+        path={`${BASE_ARTICLE_URL}/:id/edit`}
         component={EditArticlePage}
       />
-      <Route path={`${match.path}/:id`} component={ArticlePage} />
-      <Route path={`${match.path}`} component={ArticlesPage} />
+      <Route
+        path={`${BASE_ARTICLE_URL}/:id/view/:slug?`}
+        component={ArticlePage}
+      />
+      <Route path={`${BASE_ARTICLE_URL}`} component={ArticlesPage} />
     </Switch>
   );
 };

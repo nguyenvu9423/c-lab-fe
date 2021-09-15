@@ -1,4 +1,4 @@
-import { JudgeVerdict, TestVerdict } from './../../../judge/judge-result';
+import { JudgeVerdict, TestVerdict } from './../../../judge';
 import { ComparisonOperator } from './../../../../utility/filter/ComparisonOperator';
 
 export enum VerdictFilterTypes {

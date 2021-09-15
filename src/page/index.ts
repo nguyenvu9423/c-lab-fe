@@ -6,6 +6,5 @@ export * from './logout';
 export * from './problems';
 export * from './register';
 export * from './users';
-export * from './write';
 export * from './reset-password';
 export * from './email-verification';

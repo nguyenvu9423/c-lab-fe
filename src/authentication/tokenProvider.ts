@@ -1,9 +1,11 @@
-class AuthProvider {
-  static setToken(token) {
+import { Jwt } from '../utility';
+
+export class AuthProvider {
+  static setToken(token: Jwt | null): void {
     localStorage.setItem('token', JSON.stringify(token));
   }
 
-  static getToken() {
+  static getToken(): Jwt | null {
     const tokenStr = localStorage.getItem('token');
     if (tokenStr == null) {
       return null;
@@ -11,8 +13,7 @@ class AuthProvider {
     return JSON.parse(tokenStr);
   }
 
-  static clearToken() {
+  static clearToken(): void {
     localStorage.removeItem('token');
   }
 }
-export { AuthProvider };

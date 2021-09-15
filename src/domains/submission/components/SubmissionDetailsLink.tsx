@@ -1,31 +1,39 @@
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Submission } from '..';
 import { setModal } from '../../../store/actions/modal';
+import { AuthorizationSelectors } from '../../../store/selectors';
 
 export namespace SubmissionDetailsLink {
   export interface Props {
-    submissionId: number;
+    submission: Submission;
   }
 }
 
 export const SubmissionDetailsLink: React.FC<SubmissionDetailsLink.Props> = (
   props
 ) => {
-  const { submissionId } = props;
+  const { submission } = props;
+  const canReadDetails = useSelector(
+    AuthorizationSelectors.canReadSubDetails(submission)
+  );
   const dispatch = useDispatch();
-  return (
+
+  return canReadDetails ? (
     <a
       style={{ cursor: 'pointer' }}
       onClick={() => {
         dispatch(
           setModal({
             type: 'DETAILED_SUB',
-            props: { submissionId },
+            props: { submissionId: submission.id },
           })
         );
       }}
     >
-      {submissionId}
+      {submission.id}
     </a>
+  ) : (
+    <>{submission.id}</>
   );
 };

@@ -55,6 +55,10 @@ export const ProblemRejudgeInfo: React.FC<ProblemRejudgeInfo.Props> = ({
         </>
       )}
 
+      {status === ProblemRejudgeStatus.CANCELLED && (
+        <Progress error percent={100} label="Cancelled" />
+      )}
+
       {status === ProblemRejudgeStatus.ERROR && (
         <Progress error percent={100} label="Error" />
       )}

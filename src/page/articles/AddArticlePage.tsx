@@ -1,11 +1,12 @@
+import { History } from 'history';
 import * as React from 'react';
 import { Container, Segment, Header } from 'semantic-ui-react';
 import { AddArticleForm } from '../../domains/article';
 
-export function AddArticlePage(props) {
+export const AddArticlePage: React.FC<{ history: History }> = (props) => {
   const { history } = props;
   const handleSuccess = (article) => {
-    history.push(`/articles/${article.id}`);
+    history.push(`/articles/${article.id}/view/${article.slug}`);
   };
 
   const handleCancel = () => {
@@ -20,4 +21,4 @@ export function AddArticlePage(props) {
       </Segment>
     </Container>
   );
-}
+};

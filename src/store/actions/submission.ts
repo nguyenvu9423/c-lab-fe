@@ -14,7 +14,7 @@ export namespace FetchSubmissions {
   }
 
   export interface byQuery extends BaseRequestPayload {
-    type: 'query';
+    type: 'byQuery';
     query?: string;
   }
 
@@ -34,18 +34,7 @@ export namespace FetchSubmissions {
     problemCode: string;
   }
 
-  export interface byProblemAndQuery extends BaseRequestPayload {
-    type: 'byProblemAndQuery';
-    problemCode: string;
-    query: string;
-  }
-
-  export type RequestPayload =
-    | byQuery
-    | byUser
-    | byProblem
-    | byUserAndProblem
-    | byProblemAndQuery;
+  export type RequestPayload = byQuery | byUser | byProblem | byUserAndProblem;
 
   export interface ResponsePayload extends BaseFetchPayload {
     result: number[];

@@ -142,7 +142,7 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
             />
           </Form.Field>
         </Form.Group>
-        <SubmitButton type="button" floated="right" onClick={handleSubmit} />
+        <SubmitButton floated="right" />
         {onCancel && <CancelButton floated="right" onClick={onCancel} />}
       </Form>
 

@@ -48,7 +48,7 @@ function SubmissionRow({ submission, active }) {
   return (
     <Table.Row active={active}>
       <Table.Cell>
-        <SubmissionDetailsLink submissionId={submission.id} />
+        <SubmissionDetailsLink submission={submission} />
       </Table.Cell>
       <Table.Cell>
         <Link to={`/users/${user.username}`}>{user.username}</Link>

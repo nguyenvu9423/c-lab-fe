@@ -35,9 +35,8 @@ export namespace SubmissionService {
   export function getSubmissions(
     params:
       | { query?: string }
-      | { problemCode: string }
-      | { problemCode: string; query: string }
       | { userId: number }
+      | { problemCode: string }
       | { userId: number; problemCode: string },
     pageable?: Pageable
   ): ServiceResponse<Page<SubmissionDTO>> {
@@ -56,10 +55,15 @@ export namespace SubmissionService {
     });
   }
 
-  export function getDetailedSubmissionById(
-    submissionId: number
+  export function getSubmission(
+    submissionId: number,
+    detailed?: boolean
   ): ServiceResponse<DetailedSubDTO> {
-    return apiCaller.get(`${BASE_URL}/${submissionId}/details`);
+    return apiCaller.get(`${BASE_URL}/${submissionId}`, {
+      params: {
+        detailed,
+      },
+    });
   }
 
   export function rejudge(id: number): ServiceResponse<SubmissionDTO> {

@@ -35,6 +35,8 @@ import { JudgeSelectors } from '../../../store/selectors/JudgeSelectors';
 import { State } from '../../../store';
 import { DetailedSubSelectors } from '../../../store/selectors/DetailedSubSelectors';
 import {
+  AuthorizationSelectors,
+  ConstSelectors,
   DetailedJudgeSelectors,
   SubmissionSelectors,
 } from '../../../store/selectors';
@@ -122,6 +124,12 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
 
   useJudgesStream(judge ? [judge.id] : []);
 
+  const canUpdate = useSelector(
+    submission
+      ? AuthorizationSelectors.canUpdateSubmission(submission)
+      : ConstSelectors.value(false)
+  );
+
   const handleClose = React.useCallback(() => {
     dispatch(setModal(null));
   }, []);
@@ -148,16 +156,20 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
             <Header color="blue">Submission #{submission.id}</Header>
             <UiModal.Content scrolling>
               <Grid>
-                <Grid.Row>
-                  <Grid.Column>
-                    <div className="clear-fix-container">
-                      <Header as="h3">Settings</Header>
-                      <RejudgeSubButton submission={submission} />
-                      <QualifySubButton submission={submission} />
-                    </div>
-                  </Grid.Column>
-                </Grid.Row>
-                <Divider />
+                {canUpdate && (
+                  <>
+                    <Grid.Row>
+                      <Grid.Column>
+                        <div className="clear-fix-container">
+                          <Header as="h3">Settings</Header>
+                          <RejudgeSubButton submission={submission} />
+                          <QualifySubButton submission={submission} />
+                        </div>
+                      </Grid.Column>
+                    </Grid.Row>
+                    <Divider />
+                  </>
+                )}
                 <Grid.Row>
                   <Grid.Column width={8}>
                     <Header as="h4">Result</Header>

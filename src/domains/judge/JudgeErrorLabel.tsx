@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ErrorLabel } from './ui-labels';
-import { JudgeProgress, JudgeProgressStatus } from './judge-progress';
+import { JudgeProgress, JudgeProgressStatus } from './progress';
 
 export const JudgeErrorLabel: React.FC<{ progress: JudgeProgress }> = (
   props

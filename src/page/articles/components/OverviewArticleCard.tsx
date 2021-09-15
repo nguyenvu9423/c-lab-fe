@@ -35,7 +35,7 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
               }}
             />
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <Header as={Link} to={`/articles/${article.id}`}>
+              <Header as={Link} to={`/articles/${article.id}/view`}>
                 {article.title}
               </Header>
               <div

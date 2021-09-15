@@ -17,6 +17,8 @@ export const AddProblemPage: React.FC = () => {
         addToast({
           header: 'Add problem',
           content: 'Problem has been added successfully',
+          duration: 2500,
+          status: 'positive',
         })
       );
     },

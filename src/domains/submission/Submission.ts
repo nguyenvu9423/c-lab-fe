@@ -1,10 +1,13 @@
-import { ProblemDTO } from '../problem/ProblemDTO';
-import { UserDTO } from '../user';
-
 export interface Submission {
   id: number;
 
-  problem: ProblemDTO;
+  problem: {
+    id: number;
+
+    code: string;
+
+    author: UserDTO;
+  };
 
   user: UserDTO;
 
@@ -13,6 +16,11 @@ export interface Submission {
   language: string;
 
   disqualified: boolean;
+}
+
+interface UserDTO {
+  id: number;
+  username: string;
 }
 
 export interface DetailedSub extends Submission {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { colorMap } from '../../utility/ColorMap';
 import { Loader, Icon } from 'semantic-ui-react';
 
-export function InProgressLabel(props) {
+export const InProgressLabel: React.FC<{ message: string }> = (props) => {
   const { message } = props;
   return (
     <span className="status-label loading">
@@ -10,9 +10,9 @@ export function InProgressLabel(props) {
       <span>{message}</span>
     </span>
   );
-}
+};
 
-export function AcceptedLabel(props) {
+export const AcceptedLabel: React.FC<{ message: string }> = (props) => {
   const { message } = props;
   return (
     <span>
@@ -20,18 +20,21 @@ export function AcceptedLabel(props) {
       <span style={{ color: colorMap.get('green') }}>{message}</span>
     </span>
   );
-}
+};
 
-export function ScoreLabel(props) {
+export const ScoreLabel: React.FC<{
+  score: number;
+  style?: Record<string, any>;
+}> = (props) => {
   const { score, style } = props;
   return (
     <span>
       <span style={{ color: colorMap.get('green'), ...style }}>{score}</span>
     </span>
   );
-}
+};
 
-export function ErrorLabel(props) {
+export const ErrorLabel: React.FC<{ message: string }> = (props) => {
   const { message } = props;
   return (
     <span>
@@ -39,4 +42,4 @@ export function ErrorLabel(props) {
       <span style={{ color: colorMap.get('red') }}>{message}</span>
     </span>
   );
-}
+};

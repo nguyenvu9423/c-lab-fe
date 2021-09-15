@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { TestVerdict } from './judge-result';
+import { TestVerdict } from './test';
 import { AcceptedLabel, ErrorLabel, ScoreLabel } from './ui-labels';
 import { ScoringType } from '../judge-config';
+import { DetailedTestResult, TestResult } from '.';
 
-export function SubmissionTestResultLabel(props) {
+export const SubmissionTestResultLabel: React.FC<{ testResult: TestResult }> = (
+  props
+) => {
   const { testResult } = props;
   const { verdict, testId } = testResult;
 
@@ -13,9 +16,12 @@ export function SubmissionTestResultLabel(props) {
   } else {
     return <ErrorLabel message={message} />;
   }
-}
+};
 
-export function TestResultLabel(props) {
+export const TestResultLabel: React.FC<{
+  testResult: DetailedTestResult;
+  scoringType: ScoringType;
+}> = (props) => {
   const { testResult, scoringType } = props;
 
   switch (scoringType) {
@@ -24,7 +30,7 @@ export function TestResultLabel(props) {
       return (
         <span>
           <ScoreLabel style={{ marginLeft: 8 }} score={score * 100} />
-          <span floated="right">
+          <span style={{ float: 'right' }}>
             {' '}
             | Time: {resource.time} ms, Memory: {resource.memory} mb
           </span>
@@ -39,7 +45,7 @@ export function TestResultLabel(props) {
         return (
           <span>
             <AcceptedLabel message={message} />
-            <span floated="right">
+            <span style={{ float: 'right' }}>
               {' '}
               | Time: {resource.time} ms, Memory: {resource.memory} mb
             </span>
@@ -52,4 +58,4 @@ export function TestResultLabel(props) {
     default:
       throw new Error('Unknown scoring type');
   }
-}
+};

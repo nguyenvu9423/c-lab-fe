@@ -1,15 +1,3 @@
-export interface JudgeProgress {
-  status: JudgeProgressStatus;
-
-  runningTest: number;
-}
-
-export interface TypedJudgeProgress<T extends JudgeProgressStatus>
-  extends JudgeProgress {
-  status: T;
-  runningTest: number;
-}
-
 export enum JudgeProgressStatus {
   IN_QUEUE = 'IN_QUEUE',
   INITIALIZING = 'INITIALIZING',
@@ -18,7 +6,7 @@ export enum JudgeProgressStatus {
   RUNNING_TEST = 'RUNNING_TEST',
 
   SUCCESS = 'SUCCESS',
-
+  CANCELLED = 'CANCELLED',
   ERROR = 'ERROR',
 }
 
