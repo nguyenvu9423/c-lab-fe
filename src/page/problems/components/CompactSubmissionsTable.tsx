@@ -14,17 +14,17 @@ export const CompactSubmissionTable: React.FC<CompactSubmissionTable.Props> = (
 ) => {
   const { submissions } = props;
   return (
-    <Table basic="very">
+    <Table basic="very" fixed singleLine>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>ID</Table.HeaderCell>
-          <Table.HeaderCell>Kết quả</Table.HeaderCell>
+          <Table.HeaderCell width="4">ID</Table.HeaderCell>
+          <Table.HeaderCell width="12">Kết quả</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
         {submissions.map((submission) => {
           return (
-            <Table.Row key={submission.id}>
+            <Table.Row key={submission.id} style={{ height: 42 }}>
               <Table.Cell>
                 <SubmissionDetailsLink submission={submission} />
               </Table.Cell>

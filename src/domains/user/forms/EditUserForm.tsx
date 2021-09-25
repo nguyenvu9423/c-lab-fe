@@ -48,7 +48,7 @@ export const EditUserForm: React.FC<EditUserForm.Props> = (props) => {
     [onSuccess, username]
   );
 
-  if (LoadingState.isInProgress(data.user.loadingState)) {
+  if (LoadingState.isInProgress(data.user.loadingState) || !user) {
     return <LoadingIndicator />;
   }
 

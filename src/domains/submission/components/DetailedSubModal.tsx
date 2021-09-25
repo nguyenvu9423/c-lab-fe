@@ -230,41 +230,43 @@ function DetailedResult(props) {
         {testResults.map((testResult) => {
           const { test } = testResult;
           return (
-            <List.Item key={test.id}>
-              <List.Content>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Header as="h5" style={{ display: 'inline-block' }}>
-                    Test {test.id}
+            <>
+              <List.Item key={test.id}>
+                <List.Content>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Header as="h4" style={{ display: 'inline-block' }}>
+                      Test {test.id}
+                    </Header>
+                    <TestResultLabel
+                      testResult={testResult}
+                      scoringType={scoringType}
+                    />
+                  </div>
+
+                  <Header as="h5" attached="top">
+                    Input
                   </Header>
+                  <Segment attached>
+                    <pre>{test.input.overview}</pre>
+                  </Segment>
 
-                  <TestResultLabel
-                    testResult={testResult}
-                    scoringType={scoringType}
-                  />
-                </div>
+                  <Header as="h5" attached>
+                    Output
+                  </Header>
+                  <Segment attached>
+                    <pre>{testResult.outputOverview}</pre>
+                  </Segment>
 
-                <Header as="h5" attached="top" size="tiny">
-                  Input
-                </Header>
-                <Segment attached size="tiny">
-                  <pre>{test.input.overview}</pre>
-                </Segment>
-
-                <Header as="h5" attached size="tiny">
-                  Output
-                </Header>
-                <Segment attached="bottom" size="tiny">
-                  <pre>{testResult.outputOverview}</pre>
-                </Segment>
-
-                <Header as="h5" attached="top" size="tiny">
-                  Answer
-                </Header>
-                <Segment attached="bottom" size="tiny">
-                  <pre>{test.output.overview}</pre>
-                </Segment>
-              </List.Content>
-            </List.Item>
+                  <Header as="h5" attached>
+                    Answer
+                  </Header>
+                  <Segment attached>
+                    <pre>{test.output.overview}</pre>
+                  </Segment>
+                </List.Content>
+              </List.Item>
+              <Divider />
+            </>
           );
         })}
       </List>

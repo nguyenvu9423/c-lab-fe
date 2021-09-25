@@ -2,7 +2,7 @@ import * as React from 'react';
 import { normalize } from 'normalizr';
 import { submissionsSchema } from '../../../entity-schemas';
 import { SubmissionService } from '../../../service/SubmissionService';
-import ArrayUtils from '../../../utility/ArrayUtils';
+import { ArrayUtils } from '../../../utility';
 import { updateEntity } from '../../../store/actions/entity';
 import { useDispatch } from 'react-redux';
 import { Submission } from '../../../domains/submission';

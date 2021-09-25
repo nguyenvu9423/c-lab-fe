@@ -23,6 +23,10 @@ export const TagContainer: React.FC<TagContainer.Props> = (props) => {
     []
   );
 
+  if (tags.length === 0) {
+    return null;
+  }
+
   return (
     <Segment>
       <Accordion>

@@ -4,7 +4,7 @@ import { Segment, Table, Button } from 'semantic-ui-react';
 import { addToast, fetchProblems, resetState } from '../../../../store/actions';
 import { Target } from '../../../../store/reducers/target';
 import { ConstSelectors, ProblemSelectors } from '../../../../store/selectors';
-import { LoadingIndicator, Pagination } from '../../../../components';
+import { Pagination } from '../../../../components';
 import { CRUDToastBuilder } from '../../../../components/toast';
 
 import { State } from '../../../../store';
@@ -22,6 +22,7 @@ import {
   RejudgeProblemModal,
   UpdateJudgeConfigModal,
 } from '../../../../domains/problem';
+import { LoadingTableBody, ErrorTableBody } from '../../../../components/table';
 
 const PAGE_SIZE = 10;
 
@@ -85,20 +86,20 @@ export const ProblemPage: React.FC = () => {
           <ProblemFilter onChange={(query) => load({ query })} />
         </Segment>
 
-        <Segment vertical className="table-container admin-edit-entity">
-          {DataHolderState.isLoading(data.problems) && <LoadingIndicator />}
-          {DataHolderState.isLoaded(data.problems) && problems && (
-            <Table basic="very">
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell width="2">ID</Table.HeaderCell>
-                  <Table.HeaderCell width="4">Code</Table.HeaderCell>
-                  <Table.HeaderCell width="4">Title</Table.HeaderCell>
-                  <Table.HeaderCell width="6" />
-                </Table.Row>
-              </Table.Header>
+        <Segment className="table-container" vertical style={{ height: 600 }}>
+          <Table basic="very" fixed singleLine>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell width="2">ID</Table.HeaderCell>
+                <Table.HeaderCell width="4">Code</Table.HeaderCell>
+                <Table.HeaderCell width="4">Title</Table.HeaderCell>
+                <Table.HeaderCell width="6" />
+              </Table.Row>
+            </Table.Header>
+            {DataHolderState.isLoading(data.problems) && <LoadingTableBody />}
+            {DataHolderState.isLoaded(data.problems) && problems && (
               <Table.Body>
-                {problems?.map((problem) => (
+                {problems.map((problem) => (
                   <Table.Row key={problem.id}>
                     <Table.Cell>{problem.id}</Table.Cell>
                     <Table.Cell>{problem.code}</Table.Cell>
@@ -139,8 +140,9 @@ export const ProblemPage: React.FC = () => {
                   </Table.Row>
                 ))}
               </Table.Body>
-            </Table>
-          )}
+            )}
+            {DataHolder.isError(data.problems) && <ErrorTableBody />}
+          </Table>
         </Segment>
 
         <Segment vertical>
@@ -151,7 +153,7 @@ export const ProblemPage: React.FC = () => {
             onPageChange={(event, { activePage }) =>
               load({
                 pageable: {
-                  page: activePage - 1,
+                  page: Number(activePage) - 1,
                   size: PAGE_SIZE,
                 },
               })

@@ -3,7 +3,7 @@ import * as cherrio from 'cheerio';
 import { Header, List } from 'semantic-ui-react';
 import { HashLink } from 'react-router-hash-link';
 import { slugifyHeading } from '../utils';
-import ArrayUtils from '../../../utility/ArrayUtils';
+import { ArrayUtils } from '../../../utility';
 import { Article } from '../../../domains/article';
 
 export namespace ArticleContentTable {

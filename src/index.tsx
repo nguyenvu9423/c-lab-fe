@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import 'semantic-ui-css/semantic.min.css';
+import 'semantic-ui-less/semantic.less';
+
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import App from './app';

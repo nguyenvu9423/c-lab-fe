@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Modal } from 'semantic-ui-react';
+import { Label, Modal } from 'semantic-ui-react';
 import { FormModal } from '../../../common/types';
 import { EditUserForm } from '../forms';
 
@@ -8,8 +8,10 @@ export const EditUserModal: React.FC<FormModal.Props & { username: string }> = (
 ) => {
   return (
     <Modal defaultOpen onClose={props.onCancel}>
-      <Modal.Header>Edit user</Modal.Header>
-      <Modal.Content scrolling>
+      <Modal.Header>
+        Update user <Label>{props.username}</Label>
+      </Modal.Header>
+      <Modal.Content>
         <EditUserForm
           username={props.username}
           onCancel={props.onCancel}

@@ -10,14 +10,14 @@ import { Target } from '../../../store/reducers/target';
 import { RoleService } from '../../../service/RoleService';
 import { roleSchema } from '../../../entity-schemas';
 import { State } from '../../../store';
+import { DataHolder } from '../../../store/reducers/data-holders/shared';
 
 export const EditRoleForm: React.FC<{
   roleId: number;
-  onCancel: any;
-  onSuccess: any;
+  onCancel?(): void;
+  onSuccess?(): void;
 }> = (props) => {
   const { roleId, onCancel, onSuccess } = props;
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const dispatch = useDispatch();
   const load = React.useCallback((id) => {
@@ -39,26 +39,22 @@ export const EditRoleForm: React.FC<{
     };
   }, [roleId]);
 
-  const handleSubmit = React.useCallback((values) => {
-    setIsSubmitting(true);
-    RoleService.updateRole(roleId, values).then(({ data }) => {
-      const { entities } = normalize(data, roleSchema);
-      dispatch(updateEntity({ entities }));
-      setIsSubmitting(false);
-      onSuccess?.();
-    });
-  }, []);
+  const handleSubmit = React.useCallback(
+    (values) => {
+      return RoleService.updateRole(roleId, values).then(({ data }) => {
+        const { entities } = normalize(data, roleSchema);
+        dispatch(updateEntity({ entities }));
+        onSuccess?.();
+      });
+    },
+    [dispatch, roleId, onSuccess]
+  );
 
-  if (LoadingState.isInProgress(data.role.loadingState)) {
+  if (DataHolder.isLoading(data.role)) {
     return <LoadingIndicator />;
   }
 
-  return (
-    <RoleForm
-      initialRole={role}
-      onCancel={onCancel}
-      onSubmit={handleSubmit}
-      isSubmitting={isSubmitting}
-    />
-  );
+  return role ? (
+    <RoleForm initialValue={role} onCancel={onCancel} onSubmit={handleSubmit} />
+  ) : null;
 };

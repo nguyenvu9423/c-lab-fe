@@ -4,7 +4,7 @@ import { Dimmer, Loader } from 'semantic-ui-react';
 export const LoadingIndicator: React.FC = () => {
   return (
     <Dimmer active inverted>
-      <Loader />
+      <Loader size="medium" />
     </Dimmer>
   );
 };

@@ -7,7 +7,7 @@ import {
 } from '../../../store/selectors';
 import { fetchSubmissions } from '../../../store/actions/submission';
 import { LoadingState } from '../../../store/common';
-import { Dimmer, Grid, Loader, Pagination, Segment } from 'semantic-ui-react';
+import { Grid, Pagination, Segment } from 'semantic-ui-react';
 import { useJudgesStream } from '../../../domains/judge';
 import { Target } from '../../../store/reducers/target';
 import { resetState } from '../../../store/actions';
@@ -18,8 +18,14 @@ import { ProblemNavMenu } from '../components/ProblemNavMenu';
 import { SubmissionCard } from '../components/SubmissionCard';
 import { TagContainer } from '../../../components';
 import { SubmissionsTable } from '../components/SubmissionsTable';
+import { Pageable } from '../../../utility';
+import { DataHolder } from '../../../store/reducers/data-holders/shared';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 14;
+const initialPageable: Pageable = {
+  page: 0,
+  size: PAGE_SIZE,
+};
 
 export const PrincipalProblemSubsContent: React.FC<{ problem: Problem }> = (
   props
@@ -31,17 +37,15 @@ export const PrincipalProblemSubsContent: React.FC<{ problem: Problem }> = (
     <>
       <Grid.Column width={12}>
         <ProblemNavMenu problem={problem} tabName="my" />
-        <Segment attached="bottom">
-          {principal ? (
-            <PrincipalSubmissionTable
-              ref={tableRef}
-              user={principal}
-              problem={problem}
-            />
-          ) : (
-            <p>Please login to see the page</p>
-          )}
-        </Segment>
+        {principal ? (
+          <PrincipalSubmissionTable
+            ref={tableRef}
+            user={principal}
+            problem={problem}
+          />
+        ) : (
+          <p>Please login to see the page</p>
+        )}
       </Grid.Column>
       <Grid.Column width={4}>
         <SubmissionCard
@@ -77,19 +81,22 @@ export const PrincipalSubmissionTable: React.FC<
   const highlightSubId = history.location.state?.highlightSubId;
   const dispatch = useDispatch();
 
+  const pageable = DataHolder.usePageable(data.submissions, initialPageable);
+  const totalPages = DataHolder.useTotalPages(data.submissions);
+
   const load = React.useCallback(
-    ({ pageable } = {}) => {
+    (params?: { pageable: Pageable }) => {
       dispatch(
         fetchSubmissions.request({
           type: 'byUserAndProblem',
           userId: user.id,
           problemCode: problem.code,
-          pageable: pageable ?? data.submissions.pageable,
+          pageable: params?.pageable ?? pageable,
           target: Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS,
         })
       );
     },
-    [dispatch, data, user.id, problem.code]
+    [dispatch, data, user.id, problem.code, pageable]
   );
 
   React.useImperativeHandle(
@@ -124,29 +131,28 @@ export const PrincipalSubmissionTable: React.FC<
   }, []);
 
   return (
-    <>
-      <Dimmer
-        active={data.submissions.loadingState === LoadingState.LOADING}
-        inverted
-      >
-        <Loader />
-      </Dimmer>
-      {data.submissions.loadingState === LoadingState.LOADED && (
-        <>
-          <SubmissionsTable
-            submissions={submissions ?? []}
-            highlightSubId={highlightSubId}
-          />
-          <div style={{ textAlign: 'center' }}>
-            <Pagination
-              activePage={data.submissions.pageable.page + 1}
-              totalPages={data.submissions.totalPages}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        </>
-      )}
-    </>
+    <Segment.Group>
+      <Segment style={{ height: 662, padding: 0 }}>
+        <SubmissionsTable
+          loading={DataHolder.isLoading(data.submissions)}
+          errorMessage={
+            DataHolder.isError(data.submissions)
+              ? data.submissions.error.message
+              : undefined
+          }
+          submissions={submissions}
+          highlightSubId={highlightSubId}
+        />
+      </Segment>
+
+      <Segment textAlign="center">
+        <Pagination
+          activePage={pageable.page + 1}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      </Segment>
+    </Segment.Group>
   );
 });
 

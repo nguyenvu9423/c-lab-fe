@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import ArrayUtils from '../../utility/ArrayUtils';
+import { ArrayUtils } from '../../utility';
 import { JudgeService } from '../../service/JudgeService';
 import { normalize } from 'normalizr';
 import { updateEntity } from '../../store/actions/entity';

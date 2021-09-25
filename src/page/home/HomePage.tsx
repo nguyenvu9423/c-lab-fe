@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container, Header, Button, Card } from 'semantic-ui-react';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 
-export function HomePage() {
+export const HomePage: React.FC = () => {
   return (
     <Container>
       <div
@@ -13,7 +13,7 @@ export function HomePage() {
       >
         <Header
           as="h1"
-          content="Home Page"
+          content=""
           style={{
             fontSize: '4em',
             fontWeight: 'normal',
@@ -64,4 +64,4 @@ export function HomePage() {
       </div>
     </Container>
   );
-}
+};

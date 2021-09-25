@@ -13,14 +13,12 @@ export const ProblemDetailCard: React.FC<ProblemDetailCard.Props> = (props) => {
   const { problem } = props;
   if (!problem) return null;
   return (
-    <Segment>
-      <Header as="h2" textAlign="center">
+    <Segment className="text-container" padded>
+      <Header as="h1" textAlign="center">
         {problem.title}
       </Header>
 
-      <div className={'article-container'}>
-        <MarkdownView>{problem.definition}</MarkdownView>
-      </div>
+      <MarkdownView>{problem.definition}</MarkdownView>
     </Segment>
   );
 };

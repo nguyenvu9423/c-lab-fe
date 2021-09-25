@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { ProblemRejudgeService } from '../../service/ProblemRejudgeService';
-import ArrayUtils from '../../utility/ArrayUtils';
+import { ArrayUtils } from '../../utility';
 import { normalize } from 'normalizr';
 import { updateEntity } from '../../store/actions';
 import { ProblemRejudgeArraySchema } from '../../entity-schemas/problemRejudge';

@@ -2,10 +2,11 @@ import * as React from 'react';
 import * as yup from 'yup';
 import { Button, Form, Input, Divider, Checkbox } from 'semantic-ui-react';
 import { useFormik } from 'formik';
+import { Role, RoleSelect } from '../../role';
 
 export namespace UserForm {
   export interface Props {
-    initialValues?: Partial<Value>;
+    initialValues: Partial<Value> & Pick<Value, 'role'>;
     onSubmit?(value: Value): void;
     onCancel?(): void;
   }
@@ -18,6 +19,7 @@ export namespace UserForm {
     workplace?: string;
     banned: boolean;
     emailVerified: boolean;
+    role: { id: number };
   }
 }
 
@@ -32,13 +34,14 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
     handleChange,
   } = useFormik<UserForm.Value>({
     initialValues: {
-      firstName: initialValues?.firstName ?? '',
-      lastName: initialValues?.lastName ?? '',
-      email: initialValues?.email ?? '',
-      birthDay: initialValues?.birthDay,
-      workplace: initialValues?.workplace,
-      emailVerified: initialValues?.emailVerified ?? false,
-      banned: initialValues?.banned ?? false,
+      firstName: initialValues.firstName ?? '',
+      lastName: initialValues.lastName ?? '',
+      email: initialValues.email ?? '',
+      birthDay: initialValues.birthDay,
+      workplace: initialValues.workplace,
+      emailVerified: initialValues.emailVerified ?? false,
+      banned: initialValues.banned ?? false,
+      role: initialValues.role,
     },
     validationSchema,
     onSubmit: (values) => {
@@ -119,14 +122,24 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
         </Form.Field>
       </Form.Group>
       <Divider section />
-      <Form.Field width={4}>
-        <Checkbox
-          label="Banned"
-          name="banned"
-          checked={values.banned}
-          onChange={(event, data) => setFieldValue('banned', data.checked)}
-        />
-      </Form.Field>
+      <Form.Group>
+        <Form.Field width={8}>
+          <label>Role</label>
+          <RoleSelect
+            value={values.role}
+            onChange={(role) => setFieldValue('role', role)}
+          />
+        </Form.Field>
+        <Form.Field width={8}>
+          <label>Is banned</label>
+          <Checkbox
+            label="Banned"
+            name="banned"
+            checked={values.banned}
+            onChange={(event, data) => setFieldValue('banned', data.checked)}
+          />
+        </Form.Field>
+      </Form.Group>
 
       <Button primary type="submit" floated="right">
         Submit

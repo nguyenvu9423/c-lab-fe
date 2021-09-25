@@ -7,7 +7,7 @@ import { useRouteMatch } from 'react-router-dom';
 import { fetchProblem } from '../../../store/actions/problem';
 import {
   AuthorizationSelectors,
-  ProblemEntitySelectors,
+  ProblemSelectors,
 } from '../../../store/selectors';
 import { LoadingState } from '../../../store/common';
 import {
@@ -34,7 +34,7 @@ export const ProblemPage: React.FC = () => {
 
   const problem = useSelector(
     data.problem.loadingState === LoadingState.LOADED
-      ? ProblemEntitySelectors.selectById(data.problem.id)
+      ? ProblemSelectors.byId(data.problem.id)
       : () => undefined
   );
 

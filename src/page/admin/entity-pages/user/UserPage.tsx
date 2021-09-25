@@ -5,17 +5,14 @@ import { EditRowButton } from '../shared';
 import { addToast, fetchUsers, resetState } from '../../../../store/actions';
 import { Target } from '../../../../store/reducers/target';
 import { ConstSelectors, UserSelectors } from '../../../../store/selectors';
-import {
-  ErrorMessage,
-  LoadingIndicator,
-  Pagination,
-} from '../../../../components';
+import { Pagination } from '../../../../components';
 import { EditUserModal } from '../../../../domains/user';
 import { State } from '../../../../store';
 import { Pageable } from '../../../../utility';
 import { DataHolder } from '../../../../store/reducers/data-holders/shared';
 import { UserFilter } from './UserFilter';
 import { CRUDToastBuilder } from '../../../../components/toast';
+import { ErrorTableBody, LoadingTableBody } from '../../../../components/table';
 
 const PAGE_SIZE = 10;
 
@@ -68,22 +65,20 @@ export const UserPage: React.FC = () => {
       <Segment vertical clearing>
         <UserFilter onChange={(query) => load({ query })} />
       </Segment>
-      <Segment className="table-container admin-edit-entity" vertical>
-        {DataHolder.isLoading(data.users) && <LoadingIndicator />}
-        {DataHolder.isError(data.users) && (
-          <ErrorMessage message={data.users.error.message} />
-        )}
-        {DataHolder.isLoaded(data.users) && users && (
-          <Table basic="very">
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell width="2">ID</Table.HeaderCell>
-                <Table.HeaderCell width="4">Username</Table.HeaderCell>
-                <Table.HeaderCell width="4">First Name</Table.HeaderCell>
-                <Table.HeaderCell width="4">Last Name</Table.HeaderCell>
-                <Table.HeaderCell width="2" />
-              </Table.Row>
-            </Table.Header>
+      <Segment className="table-container" vertical style={{ height: 600 }}>
+        <Table basic="very" fixed singleLine>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell width="2">ID</Table.HeaderCell>
+              <Table.HeaderCell width="4">Username</Table.HeaderCell>
+              <Table.HeaderCell width="4">First Name</Table.HeaderCell>
+              <Table.HeaderCell width="4">Last Name</Table.HeaderCell>
+              <Table.HeaderCell width="2" />
+            </Table.Row>
+          </Table.Header>
+          {DataHolder.isLoading(data.users) && <LoadingTableBody />}
+
+          {DataHolder.isLoaded(data.users) && users && (
             <Table.Body>
               {users.map((user) => (
                 <Table.Row key={user.id}>
@@ -104,22 +99,28 @@ export const UserPage: React.FC = () => {
                 </Table.Row>
               ))}
             </Table.Body>
-          </Table>
-        )}
+          )}
+
+          {DataHolder.isError(data.users) && (
+            <ErrorTableBody message={data.users.error.message} />
+          )}
+        </Table>
       </Segment>
       <Segment vertical>
         <Pagination
           floated="right"
           totalPages={totalPages}
           activePage={pageable.page + 1}
-          onPageChange={(event, props) =>
-            load({
-              pageable: {
-                page: props.activePage - 1,
-                size: PAGE_SIZE,
-              },
-            })
-          }
+          onPageChange={(event, { activePage }) => {
+            if (typeof activePage === 'number') {
+              load({
+                pageable: {
+                  page: activePage - 1,
+                  size: PAGE_SIZE,
+                },
+              });
+            }
+          }}
         />
       </Segment>
       {openEditForm && openEditForm.type === 'definition' && (

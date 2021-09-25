@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Image } from 'semantic-ui-react';
 import AvatarPlaceholderImg from '../../../public/images/avatar-placeholder.png';
-import { serverPath } from '../../server';
+import { BackEndConfig } from '../../config';
 import { User } from '../../domains/user';
 
 export const Avatar: React.FC<{ user: User; style?: any }> = (props) => {
@@ -19,7 +19,7 @@ export const Avatar: React.FC<{ user: User; style?: any }> = (props) => {
       }}
       src={
         user?.avatarUrl
-          ? serverPath.resolve(user.avatarUrl)
+          ? `${BackEndConfig.API_URL}${user.avatarUrl}`
           : AvatarPlaceholderImg
       }
     />

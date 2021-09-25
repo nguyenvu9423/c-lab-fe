@@ -15,6 +15,7 @@ import { Pageable } from '../../../utility';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
 import { PAGE_SIZE } from '../../problems/components';
 import { CRUDToastBuilder } from '../../../components/toast';
+import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
 
 const initialPageable: Pageable = {
   page: 0,
@@ -61,26 +62,23 @@ export const RolePage: React.FC = () => {
           onClick={() => setOpenAddForm(true)}
         />
       </Segment>
-      <Segment vertical className="table-container admin-edit-entity">
-        {DataHolder.isLoading(data.roles) && <LoadingIndicator />}
-        {DataHolder.isError(data.roles) && (
-          <ErrorMessage message={data.roles.error.message} />
-        )}
-        {DataHolder.isLoaded(data.roles) && roles && (
-          <Table basic="very">
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>ID</Table.HeaderCell>
-                <Table.HeaderCell>Name</Table.HeaderCell>
-                <Table.HeaderCell collapsing />
-              </Table.Row>
-            </Table.Header>
+      <Segment className="table-container" vertical style={{ height: 600 }}>
+        <Table basic="very">
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell width={2}>ID</Table.HeaderCell>
+              <Table.HeaderCell width={10}>Name</Table.HeaderCell>
+              <Table.HeaderCell width={4} />
+            </Table.Row>
+          </Table.Header>
+          {DataHolder.isLoading(data.roles) && <LoadingTableBody />}
+          {DataHolder.isLoaded(data.roles) && roles && (
             <Table.Body>
               {roles.map((role) => (
                 <Table.Row key={role.id}>
                   <Table.Cell>{role.id}</Table.Cell>
                   <Table.Cell>{role.name}</Table.Cell>
-                  <Table.HeaderCell collapsing>
+                  <Table.Cell textAlign="right">
                     <Button
                       icon="edit"
                       size="tiny"
@@ -88,24 +86,24 @@ export const RolePage: React.FC = () => {
                         setEditedRoleId(role.id);
                       }}
                     />
-                  </Table.HeaderCell>
+                  </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
-          </Table>
-        )}
+          )}
+          {DataHolder.isError(data.roles) && (
+            <ErrorTableBody message={data.roles.error.message} />
+          )}
+        </Table>
       </Segment>
       <Segment vertical>
         <Pagination
           floated="right"
           totalPages={totalPages}
           activePage={pageable.page + 1}
-          onPageChange={(event, props) =>
+          onPageChange={(event, { activePage }) =>
             load({
-              pageable: {
-                page: props.activePage - 1,
-                size: PAGE_SIZE,
-              },
+              pageable: { page: Number(activePage) - 1, size: PAGE_SIZE },
             })
           }
         />

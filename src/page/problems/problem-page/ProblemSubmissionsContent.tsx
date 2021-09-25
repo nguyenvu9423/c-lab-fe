@@ -1,17 +1,16 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid, Segment } from 'semantic-ui-react';
-import {
-  LoadingIndicator,
-  Pagination,
-  TagContainer,
-} from '../../../components';
+import { Divider, Grid, Header, Segment } from 'semantic-ui-react';
+import { Pagination, TagContainer } from '../../../components';
 import { useJudgesStream } from '../../../domains/judge';
 import { Problem } from '../../../domains/problem';
 import { Submission, SubmissionFilterCard } from '../../../domains/submission';
 import { State } from '../../../store';
 import { fetchSubmissions, resetState } from '../../../store/actions';
-import { DataHolderState } from '../../../store/reducers/data-holders/shared';
+import {
+  DataHolder,
+  DataHolderState,
+} from '../../../store/reducers/data-holders/shared';
 import { Target } from '../../../store/reducers/target';
 import { SubmissionSelectors } from '../../../store/selectors';
 import { Pageable } from '../../../utility';
@@ -28,16 +27,14 @@ export const ProblemSubmissionsContent: React.FC<{ problem: Problem }> = (
     <>
       <Grid.Column width={12}>
         <ProblemNavMenu problem={problem} tabName="status" />
-        <Segment attached="bottom">
-          <ProblemSubmissionTable
-            problem={problem}
-            query={
-              query
-                ? `${query}${LogicalOperator.AND}problem.code==${problem.code}`
-                : undefined
-            }
-          />
-        </Segment>
+        <ProblemSubmissionTable
+          problem={problem}
+          query={
+            query
+              ? `${query}${LogicalOperator.AND}problem.code==${problem.code}`
+              : `problem.code==${problem.code}`
+          }
+        />
       </Grid.Column>
       <Grid.Column width={4}>
         <SubmissionFilterCard problem={problem} onQueryChange={setQuery} />
@@ -50,11 +47,11 @@ export const ProblemSubmissionsContent: React.FC<{ problem: Problem }> = (
 export namespace ProblemSubmissionTable {
   export interface Props {
     problem: Problem;
-    query?: string;
+    query: string;
   }
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 14;
 
 const initialPageable: Pageable = {
   page: 0,
@@ -70,35 +67,21 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
     (state: State) => state.problemPageContents.submissions
   );
 
-  const currentPageable = DataHolderState.isLoadRequested(data.submissions)
-    ? data.submissions.pageable
-    : initialPageable;
+  const pageable = DataHolder.usePageable(data.submissions, initialPageable);
+  const totalPage = DataHolder.useTotalPages(data.submissions);
 
   const load = React.useCallback(
-    (params: { pageable?: Pageable } = {}) => {
-      const pageable = params.pageable ?? currentPageable;
-      const target = Target.ProblemPageContents.SUBMISSIONS;
-      if (query) {
-        dispatch(
-          fetchSubmissions.request({
-            type: 'byQuery',
-            query,
-            pageable,
-            target,
-          })
-        );
-      } else {
-        dispatch(
-          fetchSubmissions.request({
-            type: 'byProblem',
-            problemCode: problem.code,
-            pageable,
-            target,
-          })
-        );
-      }
+    (params?: { pageable?: Pageable }) => {
+      dispatch(
+        fetchSubmissions.request({
+          type: 'byQuery',
+          query,
+          pageable: params?.pageable ?? pageable,
+          target: Target.ProblemPageContents.SUBMISSIONS,
+        })
+      );
     },
-    [dispatch, problem.code, query, currentPageable]
+    [dispatch, problem.code, query, pageable]
   );
 
   React.useEffect(() => {
@@ -129,29 +112,27 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
       : []
   );
 
-  if (DataHolderState.isLoading(data.submissions)) {
-    return (
-      <div style={{ minHeight: 150 }}>
-        <LoadingIndicator />
-      </div>
-    );
-  }
-
   return (
-    <>
-      <SubmissionsTable submissions={submissions ?? []} />
-      <div style={{ textAlign: 'center' }}>
+    <Segment.Group>
+      <Segment style={{ height: 662, padding: 0 }}>
+        <SubmissionsTable
+          loading={DataHolder.isLoading(data.submissions)}
+          errorMessage={
+            DataHolder.isError(data.submissions)
+              ? data.submissions.error.message
+              : undefined
+          }
+          submissions={submissions}
+        />
+      </Segment>
+
+      <Segment textAlign="center">
         <Pagination
-          size={'tiny'}
-          ellipsisItem={null}
-          firstItem={null}
-          lastItem={null}
-          boundaryRange={0}
-          activePage={currentPageable.page + 1}
-          totalPages={data.submissions.totalPages ?? currentPageable.page + 1}
+          activePage={pageable.page + 1}
+          totalPages={totalPage}
           onPageChange={handlePageChange}
         />
-      </div>
-    </>
+      </Segment>
+    </Segment.Group>
   );
 };

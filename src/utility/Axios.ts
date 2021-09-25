@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { UnknownException } from './../exception/UnkownException';
-import { serverConfigs } from '../server';
 import { AuthProvider } from '../authentication/tokenProvider';
+import { BackEndConfig } from '../config';
 
 const instance = axios.create({
-  baseURL: serverConfigs.getBaseURL(),
+  baseURL: BackEndConfig.API_URL,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

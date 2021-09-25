@@ -15,6 +15,8 @@ export interface Submission {
 
   language: string;
 
+  submittedAt: string;
+
   disqualified: boolean;
 }
 

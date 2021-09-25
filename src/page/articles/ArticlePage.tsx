@@ -162,7 +162,7 @@ const ArticleContentContainer: React.FC<{ article: Article }> = (props) => {
       </Segment>
       <Segment vertical>
         <div
-          className="content"
+          className="content text-container"
           dangerouslySetInnerHTML={{
             __html: markupContent ?? '',
           }}

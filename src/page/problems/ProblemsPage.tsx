@@ -1,23 +1,21 @@
 import * as React from 'react';
 import { Link, RouteChildrenProps } from 'react-router-dom';
 
-import { Table, Segment, Grid, Icon } from 'semantic-ui-react';
+import { Table, Segment, Grid } from 'semantic-ui-react';
 import { fetchProblems } from '../../store/actions/problem';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  PrincipalSelectors,
-  ProblemEntitySelectors,
-} from '../../store/selectors';
+import { PrincipalSelectors, ProblemSelectors } from '../../store/selectors';
 import { LoadingState } from '../../store/common';
-import { LoadingIndicator } from '../../components/loading-indicator';
 import { TagFilterCard, Pagination } from '../../components';
 import { Target } from '../../store/reducers/target';
 import { resetState } from '../../store/actions/state';
 import { State } from '../../store/state';
-import { DataHolderState } from '../../store/reducers/data-holders/shared';
+import { DataHolder } from '../../store/reducers/data-holders/shared';
 import { Pageable } from '../../utility';
+import { AcceptedLabel } from '../../domains/judge';
+import { ErrorTableBody, LoadingTableBody } from '../../components/table';
 
-const PROBLEMS_PAGE_SIZE = 16;
+const PROBLEMS_PAGE_SIZE = 14;
 const initialPageable: Pageable = { size: PROBLEMS_PAGE_SIZE, page: 0 };
 
 export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
@@ -25,26 +23,26 @@ export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
   const { data } = useSelector((state: State) => state.problemsPage);
   const dispatch = useDispatch();
 
-  const current = DataHolderState.isLoadRequested(data.problems)
-    ? { pageable: data.problems.pageable, query: data.problems.query }
-    : { pageable: initialPageable };
+  const pageable = DataHolder.usePageable(data.problems, initialPageable);
+  const query = DataHolder.useQuery(data.problems);
+  const totalPages = DataHolder.useTotalPages(data.problems);
 
   const load = React.useCallback(
-    ({ pageable, query } = {}) => {
+    (params?: { pageable?: Pageable; query?: string }) => {
       dispatch(
         fetchProblems.request({
-          pageable: pageable ?? current?.pageable,
-          query: query ?? current?.query,
+          pageable: params?.pageable ?? pageable,
+          query: params?.query ?? query,
           target: Target.PROBLEMS_PAGE,
         })
       );
     },
-    [dispatch, current?.pageable, current?.query]
+    [dispatch, pageable, query]
   );
 
   const problems = useSelector(
     data.problems.loadingState === LoadingState.LOADED
-      ? ProblemEntitySelectors.selectByIds(data.problems.result)
+      ? ProblemSelectors.byIds(data.problems.result)
       : () => undefined
   );
 
@@ -74,57 +72,58 @@ export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
   return (
     <Grid container doubling padded="vertically" columns={2}>
       <Grid.Column width={12}>
-        <Segment>
-          {data.problems.loadingState === LoadingState.LOADING && (
-            <LoadingIndicator />
-          )}
-          {data.problems.loadingState === LoadingState.LOADED && (
-            <Table basic="very">
+        <Segment.Group>
+          <Segment style={{ height: 634, padding: 0 }}>
+            <Table basic fixed singleLine style={{ border: 'none' }}>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-                  <Table.HeaderCell width={6}>Tiêu đề</Table.HeaderCell>
-                  <Table.HeaderCell width={6}>Mã</Table.HeaderCell>
+                  <Table.HeaderCell width={4}>Code</Table.HeaderCell>
+                  <Table.HeaderCell width={6}>Title</Table.HeaderCell>
                   {principal && (
                     <Table.HeaderCell width={2}>Solved</Table.HeaderCell>
                   )}
                 </Table.Row>
               </Table.Header>
-              <Table.Body>
-                {problems?.map((problem) => (
-                  <Table.Row key={problem.id}>
-                    <Table.Cell>
-                      <Link to={`problems/${problem.code}`}>{problem.id}</Link>
-                    </Table.Cell>
-                    <Table.Cell>{problem.title}</Table.Cell>
-                    <Table.Cell>
-                      <Link to={`problems/${problem.code}`}>
-                        {problem.code}
-                      </Link>
-                    </Table.Cell>
-                    <Table.Cell>
-                      {principal && problem.solvedByPrincipal && (
-                        <Icon name="check" color="green" />
+              {DataHolder.isLoading(data.problems) && <LoadingTableBody />}
+              {DataHolder.isLoaded(data.problems) && problems && (
+                <Table.Body>
+                  {problems.map((problem) => (
+                    <Table.Row key={problem.id} style={{ height: 42 }}>
+                      <Table.Cell>
+                        <Link to={`problems/${problem.code}`}>
+                          {problem.id}
+                        </Link>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Link to={`problems/${problem.code}`}>
+                          {problem.code}
+                        </Link>
+                      </Table.Cell>
+                      <Table.Cell>{problem.title}</Table.Cell>
+
+                      {principal && (
+                        <Table.Cell>
+                          {problem.solvedByPrincipal && <AcceptedLabel />}
+                        </Table.Cell>
                       )}
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-              <Table.Footer>
-                <Table.Row>
-                  <Table.HeaderCell colSpan="3">
-                    <Pagination
-                      floated="right"
-                      activePage={data.problems.pageable.page + 1}
-                      totalPages={data.problems.totalPages}
-                      onPageChange={handlePageChange}
-                    />
-                  </Table.HeaderCell>
-                </Table.Row>
-              </Table.Footer>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              )}
+              {DataHolder.isError(data.problems) && (
+                <ErrorTableBody message={data.problems.error.message} />
+              )}
             </Table>
-          )}
-        </Segment>
+          </Segment>
+          <Segment textAlign="center">
+            <Pagination
+              activePage={pageable.page + 1}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </Segment>
+        </Segment.Group>
       </Grid.Column>
       <Grid.Column width={4}>
         <TagFilterCard onSubmit={handleFilterChange} />

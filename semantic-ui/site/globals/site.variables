@@ -1,0 +1,13 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+
+/*-------------------
+       Fonts
+--------------------*/
+
+@fontName          : 'Ubuntu';
+
+@headerFont        : @fontName, sans-serif;
+@pageFont          : @fontName, sans-serif;

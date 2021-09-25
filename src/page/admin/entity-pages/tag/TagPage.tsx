@@ -9,11 +9,7 @@ import {
   AddTagModal,
   EditTagModal,
 } from '../../../../domains/tag';
-import {
-  ErrorMessage,
-  LoadingIndicator,
-  Pagination,
-} from '../../../../components';
+import { Pagination } from '../../../../components';
 import { AddButton, DeleteRowButton, EditRowButton } from '../shared';
 import { State } from '../../../../store';
 import { Pageable } from '../../../../utility';
@@ -21,6 +17,7 @@ import { DataHolder } from '../../../../store/reducers/data-holders/shared';
 import { ConstSelectors } from '../../../../store/selectors';
 
 import { TagFilter } from './TagFilter';
+import { ErrorTableBody, LoadingTableBody } from '../../../../components/table';
 
 const pageSize = 10;
 
@@ -74,26 +71,23 @@ export const TagPage: React.FC = () => {
         <Segment vertical clearing>
           <TagFilter onChange={(query) => load({ query })} />
         </Segment>
-        <Segment vertical>
-          {DataHolder.isLoading(data.tags) && <LoadingIndicator />}
-          {DataHolder.isError(data.tags) && (
-            <ErrorMessage message={data.tags.error.message} />
-          )}
-          {DataHolder.isLoaded(data.tags) && (
-            <Table basic="very">
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-                  <Table.HeaderCell>Name</Table.HeaderCell>
-                  <Table.HeaderCell collapsing></Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
+        <Segment className="table-container" vertical style={{ height: 600 }}>
+          <Table basic="very" fixed singleLine>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell width={2}>ID</Table.HeaderCell>
+                <Table.HeaderCell width={10}>Name</Table.HeaderCell>
+                <Table.HeaderCell width={4} />
+              </Table.Row>
+            </Table.Header>
+            {DataHolder.isLoading(data.tags) && <LoadingTableBody />}
+            {DataHolder.isLoaded(data.tags) && tags && (
               <Table.Body>
-                {tags?.map((tag) => (
+                {tags.map((tag) => (
                   <Table.Row key={tag.id}>
                     <Table.Cell>{tag.id}</Table.Cell>
                     <Table.Cell>{tag.name}</Table.Cell>
-                    <Table.Cell collapsing>
+                    <Table.Cell textAlign="right">
                       <EditRowButton onClick={() => setEditedTagId(tag.id)} />
                       <DeleteRowButton
                         onClick={() => setDeletedTagId(tag.id)}
@@ -102,8 +96,11 @@ export const TagPage: React.FC = () => {
                   </Table.Row>
                 ))}
               </Table.Body>
-            </Table>
-          )}
+            )}
+            {DataHolder.isError(data.tags) && (
+              <ErrorTableBody message={data.tags.error.message} />
+            )}
+          </Table>
         </Segment>
         <Segment vertical>
           <Pagination
@@ -112,7 +109,7 @@ export const TagPage: React.FC = () => {
             floated="right"
             onPageChange={(event, { activePage }) => {
               load({
-                pageable: { page: activePage - 1, size: pageSize },
+                pageable: { page: Number(activePage) - 1, size: pageSize },
               });
             }}
           />

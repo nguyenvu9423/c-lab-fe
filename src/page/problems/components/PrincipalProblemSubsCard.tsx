@@ -1,18 +1,27 @@
 import * as React from 'react';
-import { Header, Segment, Pagination, Dimmer, Loader } from 'semantic-ui-react';
+import { Header, Segment, Pagination, Table, Divider } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubmissions, resetState } from '../../../store/actions';
 import { SubmissionSelectors } from '../../../store/selectors/SubmissionSelectors';
 import { LoadingState } from '../../../store/common';
 import { Target } from '../../../store/reducers/target';
-import { CompactSubmissionTable } from './CompactSubmissionsTable';
+
 import { useJudgesStream } from '../../../domains/judge';
 import { State } from '../../../store/state';
-import { Submission } from '../../../domains/submission';
-import { DataHolderState } from '../../../store/reducers/data-holders/shared';
+import {
+  Submission,
+  SubmissionDetailsLink,
+  SubmissionStatusLabel,
+} from '../../../domains/submission';
+import {
+  DataHolder,
+  DataHolderState,
+} from '../../../store/reducers/data-holders/shared';
 import { Pageable } from '../../../utility';
+import { LoadingIndicator } from '../../../components';
+import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
 
-export const PAGE_SIZE = 5;
+export const PAGE_SIZE = 4;
 
 const initialPageable: Pageable = {
   page: 0,
@@ -46,29 +55,26 @@ export const PrincipalProblemSubsCard: React.FC<
       ? SubmissionSelectors.byIds(data.submissions.ids)
       : () => undefined
   );
-
-  const currentPageable = DataHolderState.isLoadRequested(data.submissions)
-    ? data.submissions.pageable
-    : initialPageable;
+  const pageable = DataHolder.usePageable(data.submissions, initialPageable);
+  const totalPages = DataHolder.useTotalPages(data.submissions);
 
   const load = React.useCallback(
-    ({ pageable } = {}) => {
+    (params?: { pageable?: Pageable }) => {
       dispatch(
         fetchSubmissions.request({
           type: 'byUserAndProblem',
           problemCode,
           userId,
-          pageable: pageable ?? currentPageable,
+          pageable: params?.pageable ?? pageable,
           target: Target.PRINCIPAL_PROBLEM_SUBS_CARD,
         })
       );
     },
-    [dispatch, userId, problemCode, currentPageable]
+    [dispatch, userId, problemCode, pageable]
   );
 
   React.useEffect(() => {
     load();
-    console.log('called');
     return () => {
       dispatch(resetState({ target: Target.PRINCIPAL_PROBLEM_SUBS_CARD }));
     };
@@ -104,30 +110,56 @@ export const PrincipalProblemSubsCard: React.FC<
       <Header as="h3" attached="top">
         Bài đã nộp
       </Header>
-      <Segment attached>
-        {data.submissions.loadingState === LoadingState.LOADING && (
-          <Dimmer active inverted>
-            <Loader inverted />
-          </Dimmer>
-        )}
-        {data.submissions.loadingState === LoadingState.LOADED && submissions && (
-          <>
-            <CompactSubmissionTable submissions={submissions} />
-            <div style={{ textAlign: 'center' }}>
-              <Pagination
-                size="tiny"
-                ellipsisItem={null}
-                firstItem={null}
-                lastItem={null}
-                boundaryRange={0}
-                activePage={currentPageable.page + 1}
-                totalPages={data.submissions.totalPages}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          </>
-        )}
-      </Segment>
+      {submissions?.length !== 0 ? (
+        <>
+          <Segment style={{ height: 230 }} attached>
+            <Table basic="very" fixed singleLine>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell width="4">ID</Table.HeaderCell>
+                  <Table.HeaderCell width="12">Kết quả</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              {DataHolder.isLoading(data.submissions) && <LoadingTableBody />}
+              {DataHolder.isLoaded(data.submissions) && submissions && (
+                <Table.Body>
+                  {submissions.map((submission) => {
+                    return (
+                      <Table.Row key={submission.id} style={{ height: 42 }}>
+                        <Table.Cell>
+                          <SubmissionDetailsLink submission={submission} />
+                        </Table.Cell>
+                        <Table.Cell>
+                          <SubmissionStatusLabel submission={submission} />
+                        </Table.Cell>
+                      </Table.Row>
+                    );
+                  })}
+                </Table.Body>
+              )}
+              {DataHolder.isError(data.submissions) && (
+                <ErrorTableBody message={data.submissions.error.message} />
+              )}
+            </Table>
+          </Segment>
+          <Segment style={{ textAlign: 'center' }} attached>
+            <Pagination
+              size="tiny"
+              ellipsisItem={null}
+              firstItem={null}
+              lastItem={null}
+              boundaryRange={0}
+              activePage={pageable.page + 1}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </Segment>
+        </>
+      ) : (
+        <Segment basic attached="bottom">
+          <p>No submissions has been submitted</p>
+        </Segment>
+      )}
     </>
   );
 });

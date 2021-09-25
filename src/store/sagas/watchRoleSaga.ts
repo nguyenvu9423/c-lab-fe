@@ -10,7 +10,7 @@ function* handleFetchRoles(action) {
   const { payload } = action;
   try {
     const { pageable, target } = payload;
-    const { data } = yield call(RoleService.getAllRoles, pageable);
+    const { data } = yield call(RoleService.getRoles, pageable);
     const { result, entities } = normalize(data.content, roleArraySchema);
     yield put(
       fetchRoles.response({

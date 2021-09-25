@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Segment, Table } from 'semantic-ui-react';
 import { LoadingIndicator, Pagination } from '../../../../components';
+import { LoadingTableBody } from '../../../../components/table/LoadingTableBody';
 import { QualifySubButton } from '../../../../domains/submission/components/buttons';
 import { RejudgeSubButton } from '../../../../domains/submission/components/buttons/RejudgeSubButton';
 import { SubmissionStatusLabel } from '../../../../domains/submission/components/SubmissionStatusLabel';
@@ -72,19 +73,19 @@ export const SubmissionPage: React.FC = () => {
       <Segment vertical>
         <SubmissionFilter onChange={(query) => load({ query })} />
       </Segment>
-      <Segment vertical className="table-container admin-edit-entity">
-        {DataHolderState.isLoading(data.submissions) && <LoadingIndicator />}
-        {DataHolderState.isLoaded(data.submissions) && submissions && (
-          <Table basic="very">
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-                <Table.HeaderCell width={3}>Problem</Table.HeaderCell>
-                <Table.HeaderCell width={4}>User</Table.HeaderCell>
-                <Table.HeaderCell width={4}>Status</Table.HeaderCell>
-                <Table.HeaderCell width={3} />
-              </Table.Row>
-            </Table.Header>
+      <Segment vertical className="table-container" style={{ height: 651 }}>
+        <Table basic="very" fixed singleLine>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell width={2}>ID</Table.HeaderCell>
+              <Table.HeaderCell width={3}>Problem</Table.HeaderCell>
+              <Table.HeaderCell width={4}>User</Table.HeaderCell>
+              <Table.HeaderCell width={4}>Status</Table.HeaderCell>
+              <Table.HeaderCell width={3} />
+            </Table.Row>
+          </Table.Header>
+          {DataHolder.isLoading(data.submissions) && <LoadingTableBody />}
+          {DataHolder.isLoaded(data.submissions) && submissions && (
             <Table.Body>
               {submissions.map((submission) => (
                 <Table.Row key={submission.id}>
@@ -109,8 +110,8 @@ export const SubmissionPage: React.FC = () => {
                 </Table.Row>
               ))}
             </Table.Body>
-          </Table>
-        )}
+          )}
+        </Table>
       </Segment>
       <Segment vertical>
         <Pagination
@@ -119,7 +120,7 @@ export const SubmissionPage: React.FC = () => {
           floated="right"
           onPageChange={(event, { activePage }) => {
             load({
-              pageable: { page: activePage - 1, size: PAGE_SIZE },
+              pageable: { page: Number(activePage) - 1, size: PAGE_SIZE },
             });
           }}
         />

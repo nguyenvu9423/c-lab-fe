@@ -1,11 +1,11 @@
 import * as qs from 'qs';
 import { Submission } from '../domains/submission';
 import { apiCaller } from '../utility/Axios';
-import { serverConfigs } from '../server';
 import { SubmissionLanguage } from '../domains/submission-lang/SubmissionLanguage';
 import { Page, ServiceResponse } from './types';
 import { DetailedSubDTO, SubmissionDTO } from '../domains/submission';
 import { Pageable } from '../utility';
+import { BackEndConfig } from '../config';
 
 const BASE_URL = '/submissions';
 
@@ -91,7 +91,7 @@ export namespace SubmissionService {
       { arrayFormat: 'comma' }
     );
     return new EventSource(
-      `${serverConfigs.getBaseURL()}${BASE_URL}/stream?${queryString}`
+      `${BackEndConfig.API_URL}${BASE_URL}/stream?${queryString}`
     );
   }
 }

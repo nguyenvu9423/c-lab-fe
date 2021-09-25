@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { Image, Card, Label, Header } from 'semantic-ui-react';
 import DefaultThumbnail from '../../../../public/images/default-thumbnail.png';
 import DefaultAvatar from '../../../../public/images/avatar-placeholder.png';
-import { serverPath } from '../../../server';
-import ArrayUtils from '../../../utility/ArrayUtils';
+import { ArrayUtils } from '../../../utility';
 import { Article } from '../../../domains/article';
 import { useSelector } from 'react-redux';
 import { TagSelectors } from '../../../store/selectors/TagSelectors';
 import { UserSelectors } from '../../../store/selectors';
+import { BackEndConfig } from '../../../config';
 
 export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
   const { article } = props;
@@ -65,7 +65,7 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
                   }}
                   src={
                     author.avatarUrl
-                      ? serverPath.resolve(author.avatarUrl)
+                      ? `${BackEndConfig.API_URL}${author.avatarUrl}`
                       : DefaultAvatar
                   }
                 />

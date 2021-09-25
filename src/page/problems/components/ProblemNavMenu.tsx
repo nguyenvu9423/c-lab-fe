@@ -15,7 +15,7 @@ export const ProblemNavMenu: React.FC<{ problem: Problem; tabName?: string }> =
     );
 
     return (
-      <Menu pointing>
+      <Menu size="large" pointing>
         <Menu.Item as={Link} active={tabName == undefined} to={baseUrl}>
           Content
         </Menu.Item>

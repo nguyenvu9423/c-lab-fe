@@ -1,3 +1,5 @@
+import { RoleDTO } from '../role';
+
 export interface User {
   id: number;
 
@@ -18,4 +20,6 @@ export interface User {
   emailVerified: boolean;
 
   banned: boolean;
+
+  role: RoleDTO;
 }

@@ -1,6 +1,8 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
 const webpack = require('webpack');
+const path = require('path');
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = {
   mode: 'development',
@@ -9,6 +11,8 @@ const config = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       process: 'process/browser',
+      '../../theme.config$': path.join(__dirname, '/semantic-ui/theme.config'),
+      '../semantic-ui/site': path.join(__dirname, '/semantic-ui/site'),
     },
     fallback: {
       util: require.resolve('util/'),
@@ -41,6 +45,21 @@ const config = {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         loader: 'file-loader',
       },
+      {
+        test: /\.less$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                math: 'always',
+              },
+            },
+          },
+        ],
+      },
     ],
   },
   output: {
@@ -61,6 +80,7 @@ const config = {
       Buffer: ['buffer', 'Buffer'],
       process: 'process/browser',
     }),
+    new MiniCssExtractPlugin(),
   ],
   optimization: {
     splitChunks: {

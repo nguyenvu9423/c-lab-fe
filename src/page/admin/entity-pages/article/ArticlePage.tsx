@@ -5,18 +5,22 @@ import { Segment, Table } from 'semantic-ui-react';
 import { fetchArticles, resetState } from '../../../../store/actions';
 import { Target } from '../../../../store/reducers/target';
 import { ArticleSelectors } from '../../../../store/selectors/ArticleSelectors';
-import { LoadingIndicator, Pagination } from '../../../../components';
+import { Pagination } from '../../../../components';
 import { AddButton, EditRowButton, DeleteRowButton } from '../shared';
 import { LoadingState } from '../../../../store/common';
 import { State } from '../../../../store';
 import { Pageable } from '../../../../utility';
-import { DataHolderState } from '../../../../store/reducers/data-holders/shared';
+import {
+  DataHolder,
+  DataHolderState,
+} from '../../../../store/reducers/data-holders/shared';
 import { ArticleFilter } from './ArticleFilter';
 import {
   AddArticleModal,
   EditArticleModal,
   DeleteArticleConfirm,
 } from '../../../../domains/article';
+import { ErrorTableBody, LoadingTableBody } from '../../../../components/table';
 
 const PAGE_SIZE = 10;
 
@@ -38,13 +42,11 @@ export const ArticlePage: React.FC = () => {
     number | undefined
   >(undefined);
 
-  const currentPageable = DataHolderState.isLoadRequested(data.articles)
-    ? data.articles.pageable
-    : initialPageable;
-
-  const currentQuery = DataHolderState.isLoadRequested(data.articles)
-    ? data.articles.query
-    : undefined;
+  const currentPageable = DataHolder.usePageable(
+    data.articles,
+    initialPageable
+  );
+  const currentQuery = DataHolder.useQuery(data.articles);
 
   const load = React.useCallback(
     ({ pageable, query } = {}) => {
@@ -94,9 +96,8 @@ export const ArticlePage: React.FC = () => {
       <Segment vertical>
         <ArticleFilter onChange={(query) => load({ query })} />
       </Segment>
-      <Segment vertical style={{ height: 600, overflowY: 'auto' }}>
-        {DataHolderState.isLoading(data.articles) && <LoadingIndicator />}
-        <Table basic="very" fixed>
+      <Segment className="table-container" vertical style={{ height: 600 }}>
+        <Table basic="very" fixed singleLine>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell width={2}>ID</Table.HeaderCell>
@@ -106,10 +107,11 @@ export const ArticlePage: React.FC = () => {
               <Table.HeaderCell width={2} />
             </Table.Row>
           </Table.Header>
-          <Table.Body>
-            {DataHolderState.isLoaded(data.articles) &&
-              articles &&
-              articles.map(
+          {DataHolderState.isLoading(data.articles) && <LoadingTableBody />}
+
+          {DataHolderState.isLoaded(data.articles) && articles && (
+            <Table.Body>
+              {articles.map(
                 (article) =>
                   article && (
                     <Table.Row key={article.id}>
@@ -128,7 +130,12 @@ export const ArticlePage: React.FC = () => {
                     </Table.Row>
                   )
               )}
-          </Table.Body>
+            </Table.Body>
+          )}
+
+          {DataHolderState.isError(data.articles) && (
+            <ErrorTableBody message={data.articles.error.message} />
+          )}
         </Table>
       </Segment>
       <Segment vertical textAlign="right">
@@ -136,7 +143,9 @@ export const ArticlePage: React.FC = () => {
           activePage={currentPageable.page + 1}
           totalPages={totalPages}
           onPageChange={(event, { activePage }) => {
-            load({ pageable: { page: activePage - 1, size: PAGE_SIZE } });
+            load({
+              pageable: { page: Number(activePage) - 1, size: PAGE_SIZE },
+            });
           }}
         />
       </Segment>

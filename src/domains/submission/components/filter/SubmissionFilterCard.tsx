@@ -33,7 +33,7 @@ export const SubmissionFilterCard: React.FC<SubmissionFilterCard.Props> = (
 
   return (
     <>
-      <Header as="h2" attached="top">
+      <Header as="h3" attached="top">
         Filtering
       </Header>
       <Segment attached="bottom" clearing>
