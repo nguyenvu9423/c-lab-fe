@@ -43,7 +43,7 @@ export const ArticleContentTable: React.FC<ArticleContentTable.Props> = (
 
   return (
     <>
-      <Header as="h4">Table of contents</Header>
+      <Header as="h4">Mục lục</Header>
       <List size="medium" className="text-container" bulleted>
         {renderNode(rootNode)}
       </List>

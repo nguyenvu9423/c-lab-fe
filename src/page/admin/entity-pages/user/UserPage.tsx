@@ -70,9 +70,9 @@ export const UserPage: React.FC = () => {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell width="2">ID</Table.HeaderCell>
-              <Table.HeaderCell width="4">Username</Table.HeaderCell>
-              <Table.HeaderCell width="4">First Name</Table.HeaderCell>
-              <Table.HeaderCell width="4">Last Name</Table.HeaderCell>
+              <Table.HeaderCell width="4">Tên đăng nhập</Table.HeaderCell>
+              <Table.HeaderCell width="4">Tên</Table.HeaderCell>
+              <Table.HeaderCell width="4">Họ</Table.HeaderCell>
               <Table.HeaderCell width="2" />
             </Table.Row>
           </Table.Header>
@@ -131,7 +131,7 @@ export const UserPage: React.FC = () => {
             setOpenEditForm(undefined);
             dispatch(
               addToast(
-                new CRUDToastBuilder('user', 'update')
+                new CRUDToastBuilder('thông tin người dùng', 'sửa')
                   .setStatus('success')
                   .build()
               )

@@ -12,6 +12,9 @@ import {
   ProblemSelectors,
   JudgeConfigSelectors,
   AuthorizationSelectors,
+  ConstSelectors,
+  DetailedJudgeSelectors,
+  DetailedJudgeConfigSelectors,
 } from '../../store/selectors';
 import { ProblemService } from '../../service/ProblemService';
 import { State } from '../../store';
@@ -22,6 +25,8 @@ import { FormikHelpers } from 'formik';
 import { detailedProblemSchema } from '../problem';
 import { normalize } from 'normalizr';
 import { Target } from '../../store/reducers/target';
+import { DataHolder } from '../../store/reducers/data-holders/shared';
+import { DetailedJudgeConfig } from '.';
 
 export namespace UpdateJudgeConfigForm {
   export interface Props {
@@ -38,18 +43,19 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
   const { data } = useSelector((state: State) => state.updateJudgeConfigForm);
 
   const problem = useSelector(
-    data.detailedProblem.loadingState === LoadingState.LOADED
+    DataHolder.isLoaded(data.detailedProblem)
       ? ProblemSelectors.byId(data.detailedProblem.id)
-      : () => undefined
+      : ConstSelectors.value(undefined)
   );
 
-  const judgeConfig: JudgeConfig | null | undefined = useSelector(
-    problem
-      ? problem.judgeConfig
-        ? JudgeConfigSelectors.selectById(problem.judgeConfig)
-        : () => null
-      : () => undefined
-  );
+  const detailedJudgeConfig: DetailedJudgeConfig | null | undefined =
+    useSelector(
+      problem
+        ? problem.judgeConfig
+          ? DetailedJudgeConfigSelectors.selectById(problem.judgeConfig)
+          : ConstSelectors.value(null)
+        : ConstSelectors.value(undefined)
+    );
 
   const load = React.useCallback(() => {
     dispatch(
@@ -73,18 +79,18 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
   );
 
   if (!canUpdate) {
-    return <p>You do not have the permission to update the judge config</p>;
+    return <p>Bạn không có quyền truy cập vào trang n</p>;
   }
 
-  if (data.detailedProblem.loadingState === LoadingState.LOADING) {
+  if (DataHolder.isLoading(data.detailedProblem)) {
     return <LoadingIndicator />;
   }
 
-  return data.detailedProblem.loadingState === LoadingState.LOADED ? (
-    judgeConfig ? (
+  return DataHolder.isLoaded(data.detailedProblem) ? (
+    detailedJudgeConfig ? (
       <EditJudgeConfigForm
         problemCode={problemCode}
-        judgeConfig={judgeConfig}
+        judgeConfig={detailedJudgeConfig}
         onSuccess={onSuccess}
       />
     ) : (
@@ -164,7 +170,7 @@ const AddJudgeConfigForm: React.FC<{
 
 const EditJudgeConfigForm: React.FC<{
   problemCode: string;
-  judgeConfig: JudgeConfig;
+  judgeConfig: DetailedJudgeConfig;
   onSuccess?(value: any): void;
 }> = (props) => {
   const { problemCode, judgeConfig, onSuccess } = props;

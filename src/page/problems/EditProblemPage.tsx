@@ -22,14 +22,14 @@ export const ProblemEditPage: React.FC<{
     case 'definition':
       content = (
         <Segment clearing>
-          <Header as="h2">Problem definition</Header>
+          <Header as="h2">Đề bài</Header>
           <EditProblemForm
             problemCode={params.code}
             onSuccess={() =>
               dispatch(
                 addToast({
-                  header: 'Update problem',
-                  content: 'The changes are saved successfully',
+                  header: 'Cập nhật thành công',
+                  content: 'Bạn đã cập nhật đề bài thành công',
                   duration: 2500,
                   status: 'positive',
                 })
@@ -42,14 +42,14 @@ export const ProblemEditPage: React.FC<{
     case 'judge-config':
       content = (
         <Segment clearing>
-          <Header as="h2">Judge config</Header>
+          <Header as="h2">Chấm bài</Header>
           <UpdateJudgeConfigForm
             problemCode={params.code}
             onSuccess={() => {
               dispatch(
                 addToast({
-                  header: 'Update judge config',
-                  content: 'The judge config has been updated successfully',
+                  header: 'Cập nhật thành công',
+                  content: 'Bạn đã cài đặt chấm bài thành công',
                   duration: 2500,
                   status: 'positive',
                 })
@@ -62,7 +62,7 @@ export const ProblemEditPage: React.FC<{
     case 'rejudge':
       content = (
         <Segment clearing>
-          <Header as="h2">Rejudge</Header>
+          <Header as="h2">Chấm lại</Header>
           <ProblemRejudgeForm problemCode={params.code} />
         </Segment>
       );
@@ -92,14 +92,14 @@ const SectionMenu: React.FC<{ problemCode: string; activePage: string }> = (
       <Menu.Item
         as={Link}
         link
-        name="definition"
+        content="Đề bài"
         to={`${baseURL}/definition`}
         active={activePage === 'definition'}
       />
       <Menu.Item
         as={Link}
         link
-        name="judge-config"
+        content="Chấm bài"
         to={`${baseURL}/judge-config`}
         active={activePage === 'judge-config'}
       />
@@ -107,13 +107,13 @@ const SectionMenu: React.FC<{ problemCode: string; activePage: string }> = (
       <Menu.Item
         as={Link}
         link
-        name="rejudge"
+        content="Chấm lại"
         to={`${baseURL}/rejudge`}
         active={activePage === 'rejudge'}
       />
       <Menu.Item as={Link} name="problem-page" to={`/problems/${problemCode}`}>
         <Icon name="arrow left" />
-        Back to problem
+        Quay lại bài tập
       </Menu.Item>
     </Menu>
   );

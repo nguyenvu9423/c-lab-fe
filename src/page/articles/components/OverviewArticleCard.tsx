@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { TagSelectors } from '../../../store/selectors/TagSelectors';
 import { UserSelectors } from '../../../store/selectors';
 import { BackEndConfig } from '../../../config';
+import { DateTimeUtils } from '../../../utility/data-type/DateTimeUtils';
 
 export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
   const { article } = props;
@@ -83,7 +84,7 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
                   style={{ verticalAlign: 'middle', color: 'rgba(0,0,0,.4)' }}
                 >
                   {' '}
-                  - 3 hours ago
+                  - {DateTimeUtils.of(article.createdAt).fromNow()}
                 </span>
               </div>
             </div>

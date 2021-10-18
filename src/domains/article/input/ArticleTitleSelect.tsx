@@ -45,7 +45,7 @@ export const ArticleTitleSelect: React.FC<ArticleTitleSelect.Props> = (
 
   return (
     <SearchInput
-      placeholder="Title"
+      placeholder="Tiêu đề"
       loading={loading}
       options={articleOptions}
       onSubmit={onChange}

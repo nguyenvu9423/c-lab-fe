@@ -12,14 +12,10 @@ export function useProblemRejudgeStream(ids: number[]): void {
   React.useEffect(() => {
     if (!ArrayUtils.isEmpty(ids)) {
       const eventSource = ProblemRejudgeService.getStream(ids);
-      eventSource.addEventListener('updateEntity', (event) => {
-        // @ts-ignore
+      eventSource.addEventListener('updateEntity', (event: MessageEvent) => {
         const data = JSON.parse(event.data);
         const { entities } = normalize(data, ProblemRejudgeArraySchema);
         dispatch(updateEntity({ entities }));
-      });
-      eventSource.addEventListener('end', () => {
-        eventSource.close();
       });
 
       eventSource.onerror = () => {

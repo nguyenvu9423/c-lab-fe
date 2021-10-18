@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Modal } from 'semantic-ui-react';
+import { Label, Modal } from 'semantic-ui-react';
 import { FormModal } from '../../../common/types';
 import { UpdateJudgeConfigForm } from '../../judge-config';
 
@@ -8,8 +8,10 @@ export const UpdateJudgeConfigModal: React.FC<
 > = ({ problemCode, onCancel, onSuccess }) => {
   return (
     <Modal defaultOpen closeIcon onClose={onCancel} size="large">
-      <Modal.Header>Edit Problem</Modal.Header>
-      <Modal.Content scrolling style={{ height: 629 }}>
+      <Modal.Header>
+        Cài đặt chấm bài <Label>{problemCode}</Label>
+      </Modal.Header>
+      <Modal.Content>
         <UpdateJudgeConfigForm
           problemCode={problemCode}
           onSuccess={onSuccess}

@@ -10,3 +10,4 @@ export * from './UserSelectors';
 export * from './RoleSelectors';
 export * from './DetailedJudgeSelectors';
 export * from './JudgeConfigSelectors';
+export * from './DetailedJudgeConfigSelectors';

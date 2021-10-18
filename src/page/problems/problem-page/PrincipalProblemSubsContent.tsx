@@ -21,7 +21,7 @@ import { SubmissionsTable } from '../components/SubmissionsTable';
 import { Pageable } from '../../../utility';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
 
-const PAGE_SIZE = 14;
+const PAGE_SIZE = 10;
 const initialPageable: Pageable = {
   page: 0,
   size: PAGE_SIZE,
@@ -44,7 +44,7 @@ export const PrincipalProblemSubsContent: React.FC<{ problem: Problem }> = (
             problem={problem}
           />
         ) : (
-          <p>Please login to see the page</p>
+          <p>Vui lòng đăng nhập để truy cập</p>
         )}
       </Grid.Column>
       <Grid.Column width={4}>
@@ -132,7 +132,7 @@ export const PrincipalSubmissionTable: React.FC<
 
   return (
     <Segment.Group>
-      <Segment style={{ height: 662, padding: 0 }}>
+      <Segment style={{ height: 678, padding: 0 }}>
         <SubmissionsTable
           loading={DataHolder.isLoading(data.submissions)}
           errorMessage={

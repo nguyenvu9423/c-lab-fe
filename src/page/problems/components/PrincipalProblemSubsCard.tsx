@@ -112,12 +112,14 @@ export const PrincipalProblemSubsCard: React.FC<
       </Header>
       {submissions?.length !== 0 ? (
         <>
-          <Segment style={{ height: 230 }} attached>
-            <Table basic="very" fixed singleLine>
+          <Segment style={{ height: 230, paddingTop: 0 }} attached>
+            <Table basic fixed singleLine style={{ border: 0 }}>
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell width="4">ID</Table.HeaderCell>
-                  <Table.HeaderCell width="12">Kết quả</Table.HeaderCell>
+                  <Table.HeaderCell width="1">ID</Table.HeaderCell>
+                  <Table.HeaderCell width="4" textAlign="center">
+                    Kết quả
+                  </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               {DataHolder.isLoading(data.submissions) && <LoadingTableBody />}
@@ -129,8 +131,11 @@ export const PrincipalProblemSubsCard: React.FC<
                         <Table.Cell>
                           <SubmissionDetailsLink submission={submission} />
                         </Table.Cell>
-                        <Table.Cell>
-                          <SubmissionStatusLabel submission={submission} />
+                        <Table.Cell textAlign="center">
+                          <SubmissionStatusLabel
+                            submission={submission}
+                            compact
+                          />
                         </Table.Cell>
                       </Table.Row>
                     );

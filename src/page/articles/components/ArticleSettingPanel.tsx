@@ -16,11 +16,11 @@ export const ArticleSettingPanel: React.FC<ArticleSettingPanel.Props> = (
   return (
     <div className="clear-fix-container">
       <Header as="h3" floated="left">
-        Settings
+        Cài đặt
       </Header>
       <Button
         floated="right"
-        content="Edit"
+        content="Sửa"
         icon="edit"
         as={Link}
         to={`/articles/${article.id}/edit`}

@@ -16,8 +16,8 @@ export const RegisterPage: React.FC = () => {
     history.push('/login');
     dispatch(
       addToast({
-        header: 'Registered successfully',
-        content: 'Your account has been created successfully',
+        header: 'Đăng kí thành công',
+        content: 'Tài khoản của bạn đã được lập',
         duration: 2500,
         status: 'positive',
       })
@@ -33,7 +33,7 @@ export const RegisterPage: React.FC = () => {
       <Grid.Row centered columns={1}>
         <Grid.Column style={{ maxWidth: 560 }}>
           <Header as="h3" attached="top" block>
-            Register
+            Đăng kí
           </Header>
           <Segment attached>
             <RegisterForm onSuccess={handleSuccess} />

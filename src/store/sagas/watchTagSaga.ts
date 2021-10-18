@@ -33,7 +33,6 @@ function* fetchTagSaga(action: PayloadAction<FetchTag.RequestPayload>) {
     const { id } = payload;
     const { data } = yield call(TagService.getTagById, id);
     const { result, entities } = normalize(data, tagSchema);
-    console.log(result, entities);
     yield put(
       fetchTag.response({
         result,

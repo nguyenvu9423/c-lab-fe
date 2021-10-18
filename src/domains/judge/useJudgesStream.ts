@@ -11,20 +11,17 @@ export const useJudgesStream = (judgeIds: number[]): void => {
   React.useEffect(() => {
     if (!ArrayUtils.isEmpty(judgeIds)) {
       const eventSource = JudgeService.getJudgesStream(judgeIds);
-      eventSource.addEventListener('updateEntity', (event) => {
-        // @ts-ignore
+
+      eventSource.addEventListener('updateEntity', (event: MessageEvent) => {
         const data = JSON.parse(event.data);
         const { entities } = normalize(data, judgesSchema);
         dispatch(updateEntity({ entities }));
       });
 
-      eventSource.addEventListener('end', () => {
-        eventSource.close();
-      });
-
       eventSource.onerror = () => {
         eventSource.close();
       };
+
       return () => {
         eventSource.close();
       };

@@ -9,6 +9,7 @@ import { Avatar } from '../../../components/avatar/Avatar';
 import { UserService } from '../../../service/UserService';
 import { userSchema } from '../../../entity-schemas/userSchema';
 import { User } from '../../../domains/user';
+import { DateTimeUtils } from '../../../utility/data-type/DateTimeUtils';
 
 export namespace UserProfilePanel {
   export interface Props {
@@ -26,13 +27,13 @@ export const UserProfilePanel: React.FC<UserProfilePanel.Props> = (props) => {
             <AvatarForm user={user} />
           </Table.Cell>
           <Table.Cell width="4">
-            <Header as="h4" content="First name" />
+            <Header as="h4" content="Tên" />
           </Table.Cell>
           <Table.Cell width="8">{user.firstName}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>
-            <Header as="h4" content="Last Name" />
+            <Header as="h4" content="Họ" />
           </Table.Cell>
           <Table.Cell>{user.lastName}</Table.Cell>
         </Table.Row>
@@ -44,17 +45,17 @@ export const UserProfilePanel: React.FC<UserProfilePanel.Props> = (props) => {
         </Table.Row>
         <Table.Row>
           <Table.Cell>
-            <Header as="h4" content="Date of Birth" />
+            <Header as="h4" content="Ngày sinh" />
           </Table.Cell>
           <Table.Cell>
             {user.birthday
-              ? moment(user.birthday).format(DateFormat.MediumLength)
+              ? DateTimeUtils.of(user.birthday).format(DateFormat.MEDIUM)
               : '--'}
           </Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>
-            <Header as="h4" content="Workplace" />
+            <Header as="h4" content="Nơi làm việc" />
           </Table.Cell>
           <Table.Cell>{user.workplace ? user.workplace : '--'}</Table.Cell>
         </Table.Row>

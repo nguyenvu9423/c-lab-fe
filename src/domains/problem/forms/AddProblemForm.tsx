@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { ProblemService } from '../../../service/ProblemService';
-import { ValidationException, FieldError } from '../../../exception';
+import { ValidationException } from '../../../exception';
 import { ProblemForm } from './ProblemForm';
 import { FormikHelpers } from 'formik';
 import { SubmissionLanguage } from '../../submission-lang/SubmissionLanguage';
-import { useFormKey } from '../../../components';
-import { useDispatch } from 'react-redux';
 
 export namespace AddProblemForm {
   export interface Props {

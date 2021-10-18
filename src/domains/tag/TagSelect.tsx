@@ -71,7 +71,7 @@ export const TagSelect: React.FC<{
       search
       fluid
       value={value.map((tag) => tag.name)}
-      placeholder="Tags"
+      placeholder="Nhãn"
       loading={isFetching}
       options={tags.map((tag) => ({ text: tag.name, value: tag.name }))}
       onSearchChange={(event, { searchQuery }) => {

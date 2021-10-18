@@ -26,7 +26,7 @@ export const EditUserInfoPage: React.FC<{
       <Grid.Row centered>
         <Grid.Column style={{ maxWidth: 560 }}>
           <Segment clearing>
-            <Header as="h2">Update info</Header>
+            <Header as="h2">Sửa thông tin</Header>
             <EditUserInfoForm username={username} />
           </Segment>
         </Grid.Column>

@@ -24,6 +24,8 @@ export namespace SubmissionService {
       formData.append('codeText', code);
     }
 
+    SubmissionLanguage.updateLatest(language);
+
     return apiCaller.post(BASE_URL, formData, {
       params: {
         problemCode,

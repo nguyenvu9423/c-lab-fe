@@ -4,4 +4,6 @@ export interface ArticleDTO {
   title: string;
 
   slug: string;
+
+  createdAt: string;
 }

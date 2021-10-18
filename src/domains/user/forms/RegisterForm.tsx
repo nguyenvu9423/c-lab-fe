@@ -86,9 +86,9 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
   return (
     <Form onSubmit={handleSubmit} error={true} loading={isSubmitting}>
       <Form.Field>
-        <label>Username*</label>
+        <label>Tên đăng nhập*</label>
         <Input
-          placeholder="Username"
+          placeholder="Tên đăng nhập"
           name="username"
           value={values.username}
           onChange={handleChange}
@@ -99,9 +99,9 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
 
       <Form.Group widths="equal">
         <Form.Field>
-          <label>Password*</label>
+          <label>Mật khẩu*</label>
           <Input
-            placeholder="Password"
+            placeholder="Mật khẩu"
             name="password"
             type="password"
             value={values.password}
@@ -111,9 +111,9 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
           {errorMessageRender('password')}
         </Form.Field>
         <Form.Field>
-          <label>Confirm password*</label>
+          <label>Xác nhận mật khẩu*</label>
           <Form.Input
-            placeholder="Confirm password"
+            placeholder="Xác nhận mật khẩu"
             name="confirmPassword"
             type="password"
             value={values.confirmPassword}
@@ -126,9 +126,9 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
 
       <Form.Group widths="equal">
         <Form.Field>
-          <label>First name*</label>
+          <label>Tên*</label>
           <Input
-            placeholder="First name"
+            placeholder="Tên"
             name="firstName"
             value={values.firstName}
             onChange={handleChange}
@@ -138,9 +138,9 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
         </Form.Field>
 
         <Form.Field>
-          <label>Last name*</label>
+          <label>Họ*</label>
           <Input
-            placeholder="Last name"
+            placeholder="Họ"
             name="lastName"
             value={values.lastName}
             onChange={handleChange}
@@ -164,9 +164,9 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
 
       <Form.Group widths={'equal'}>
         <Form.Field>
-          <label>Birthday</label>
+          <label>Ngày sinh</label>
           <Input
-            placeholder="Birthday"
+            placeholder="Ngay sinh"
             type="date"
             name="birthDay"
             value={values.birthDay}
@@ -176,9 +176,9 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
           {errorMessageRender('birthDay')}
         </Form.Field>
         <Form.Field>
-          <label>Workplace</label>
+          <label>Nơi làm việc</label>
           <Input
-            placeholder="Workplace"
+            placeholder="Nơi làm việc"
             name="workplace"
             value={values.workplace}
             onChange={handleChange}
@@ -199,30 +199,30 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
 const validationSchema = yup.object().shape({
   username: yup
     .string()
-    .required('Username is required')
-    .min(8, 'Username should be at least 8 characters')
-    .max(24, 'Username should be at most 24 characters'),
+    .required('Vui lòng điền tên đăng nhập')
+    .min(8, 'Tên đăng nhập phải có ít nhất 8 kí tự')
+    .max(24, 'Tên đăng nhập không được vượt quá 24 kí tự'),
   password: yup
     .string()
-    .required('Password is required')
-    .min(8, 'Password should be at least 8 characters')
-    .max(24, 'Password should be at most 24 characters'),
+    .required('Vui lòng điền mật khẩu')
+    .min(8, 'Mật khẩu phải có ít nhất 8 kí tự')
+    .max(24, 'Mật khẩu không được vượt quá 24 kí tự'),
   confirmPassword: yup
     .string()
-    .required('Cofnirm password is required')
-    .equals(
-      [yup.ref('password')],
-      'Confirm password is not match the password'
-    ),
+    .required('Vui lòng điền mật khẩu xác nhận')
+    .equals([yup.ref('password')], 'Mật khẩu xác nhận không phù hợp '),
   firstName: yup
     .string()
-    .required('First name is required')
-    .min(2, 'First name should be at least 2 characters')
-    .max(24, 'First name should be at most 64 characters'),
+    .required('Vui lòng điền tên')
+    .min(2, 'Tên phải có ít nhất 2 kí tự')
+    .max(24, 'Tên không được vượt quá 64 kí tự'),
   lastName: yup
     .string()
-    .required('Last name is required')
-    .min(2, 'Last name should be at least 2 characters')
-    .max(24, 'Last name should be at most 64 characters'),
-  email: yup.string().required('Email is required').email('Email is not valid'),
+    .required('Vui lòng điền họ')
+    .min(2, 'Họ phải có ít nhất 2 kí tự')
+    .max(24, 'Họ phải có ít nhất 2 kí tự'),
+  email: yup
+    .string()
+    .required('Vui lòng điền email')
+    .email('Email không hợp lệ'),
 });

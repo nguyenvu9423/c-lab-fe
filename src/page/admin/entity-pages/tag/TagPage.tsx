@@ -66,7 +66,7 @@ export const TagPage: React.FC = () => {
     <>
       <Segment clearing>
         <Segment vertical>
-          <AddButton label="Add tag" onClick={() => setOpenAddForm(true)} />
+          <AddButton label="Thêm" onClick={() => setOpenAddForm(true)} />
         </Segment>
         <Segment vertical clearing>
           <TagFilter onChange={(query) => load({ query })} />
@@ -76,7 +76,7 @@ export const TagPage: React.FC = () => {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-                <Table.HeaderCell width={10}>Name</Table.HeaderCell>
+                <Table.HeaderCell width={10}>Tên</Table.HeaderCell>
                 <Table.HeaderCell width={4} />
               </Table.Row>
             </Table.Header>

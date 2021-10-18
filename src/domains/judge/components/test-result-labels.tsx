@@ -3,20 +3,31 @@ import { TestVerdict } from '../test';
 import { AcceptedLabel, ErrorLabel, ScoreLabel } from './ui-labels';
 import { ScoringType } from '../../judge-config';
 import { DetailedTestResult, TestResult } from '../';
+import { LabelStyles } from './shared';
+import { Header, List } from 'semantic-ui-react';
 
-export const SubmissionTestResultLabel: React.FC<{ testResult: TestResult }> = (
-  props
-) => {
-  const { testResult } = props;
-  const { verdict, testId } = testResult;
-
-  const message = `${TestVerdict.getMessage(verdict)} on test ${testId}`;
-  if (verdict === TestVerdict.AC) {
-    return <AcceptedLabel message={message} />;
-  } else {
-    return <ErrorLabel message={message} />;
+export namespace SubmissionTestResultLabel {
+  export interface Props extends LabelStyles {
+    testResult: TestResult;
   }
-};
+}
+
+export const SubmissionTestResultLabel: React.FC<SubmissionTestResultLabel.Props> =
+  (props) => {
+    const { testResult, compact } = props;
+    const { verdict, testId } = testResult;
+
+    const message = `${TestVerdict.getMessage(
+      verdict,
+      compact
+    )} on test ${testId}`;
+
+    if (verdict === TestVerdict.AC) {
+      return <AcceptedLabel message={message} />;
+    } else {
+      return <ErrorLabel message={message} />;
+    }
+  };
 
 export const TestResultLabel: React.FC<{
   testResult: DetailedTestResult;
@@ -29,11 +40,8 @@ export const TestResultLabel: React.FC<{
       const { score, resource } = testResult;
       return (
         <span>
-          <ScoreLabel style={{ marginLeft: 8 }} score={score * 100} />
-          <span style={{ float: 'right' }}>
-            {' '}
-            | Time: {resource.time} ms, Memory: {resource.memory} mb
-          </span>
+          <ScoreLabel style={{ marginLeft: 8 }} score={score * 100} />, | Time:{' '}
+          {resource.time} ms, Memory: {resource.memory} mb
         </span>
       );
     }
@@ -44,10 +52,9 @@ export const TestResultLabel: React.FC<{
       if (verdict === TestVerdict.AC) {
         return (
           <span>
-            <AcceptedLabel message={message} />
-            <span style={{ float: 'right' }}>
-              {' '}
-              | Time: {resource.time} ms, Memory: {resource.memory} mb
+            <AcceptedLabel message={message} />,{' '}
+            <span>
+              {resource.time} ms / {resource.memory} mb
             </span>
           </span>
         );

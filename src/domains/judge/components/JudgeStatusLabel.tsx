@@ -7,25 +7,33 @@ import { JudgeSelectors } from '../../../store/selectors/JudgeSelectors';
 import { SuccessJudge, SystemErrorJudge, InProgressJudge } from '../Judge';
 import { CancelledJudge } from '../Judge';
 import { ErrorLabel } from './ui-labels';
+import { LabelStyles } from './shared';
 
-export const JudgeStatusLabel: React.FC<{ judgeId: number }> = (props) => {
-  const { judgeId } = props;
+export namespace JudgeStatusLabel {
+  export interface Props extends LabelStyles {
+    judgeId: number;
+  }
+}
+
+export const JudgeStatusLabel: React.FC<JudgeStatusLabel.Props> = (props) => {
+  const { judgeId, compact } = props;
   const judge = useSelector(JudgeSelectors.byId(judgeId));
 
   if (!judge) return null;
 
   const { progress, config } = judge;
   if (InProgressJudge.isInstance(judge)) {
-    return <JudgeInProgressLabel progress={progress} />;
+    return <JudgeInProgressLabel compact={compact} progress={progress} />;
   } else if (SuccessJudge.isInstance(judge)) {
     return (
       <JudgeResultLabel
+        compact={compact}
         result={judge.result}
         scoringType={config.scoringType}
       />
     );
   } else if (SystemErrorJudge.isInstance(judge)) {
-    return <JudgeErrorLabel progress={progress} />;
+    return <JudgeErrorLabel compact={compact} progress={progress} />;
   } else if (CancelledJudge.isInstance(judge)) {
     return <ErrorLabel message="Cancelled" />;
   } else {

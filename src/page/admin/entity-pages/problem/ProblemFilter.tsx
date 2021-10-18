@@ -77,7 +77,7 @@ export const ProblemFilter: React.FC<ProblemFilter.Props> = (props) => {
         </Grid.Column>
         <Grid.Column width={4}>
           <UserSelect
-            placeholder="Author"
+            placeholder="Người tạo"
             onChange={(value) =>
               handleFitlersChange({ ...filters, author: value })
             }

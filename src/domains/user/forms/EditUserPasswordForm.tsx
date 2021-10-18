@@ -52,7 +52,7 @@ export const EditUserPasswordForm: React.FC<EditUserPasswordForm.Props> = (
   return (
     <Form onSubmit={handleSubmit} error={true} loading={isSubmitting}>
       <Form.Field>
-        <label>New password</label>
+        <label>Mật khẩu mới</label>
         <Form.Input
           name="newPassword"
           type="password"
@@ -63,9 +63,9 @@ export const EditUserPasswordForm: React.FC<EditUserPasswordForm.Props> = (
         {errorMsgRenderer('newPassword')}
       </Form.Field>
       <Form.Field>
-        <label>Confirm new password</label>
+        <label>Xác nhận mật khẩu mới</label>
         <Form.Input
-          name={'confirmNewPassword'}
+          name="confirmNewPassword"
           type="password"
           value={values.confirmNewPassword}
           onChange={handleChange}
@@ -74,7 +74,7 @@ export const EditUserPasswordForm: React.FC<EditUserPasswordForm.Props> = (
         {errorMsgRenderer('confirmNewPassword')}
       </Form.Field>
       <Form.Field>
-        <label>Old password</label>
+        <label>Mật khẩu hiện tại</label>
         <Form.Input
           name="oldPassword"
           type="password"
@@ -86,11 +86,11 @@ export const EditUserPasswordForm: React.FC<EditUserPasswordForm.Props> = (
       </Form.Field>
       <Form.Field>
         <Button primary type="submit" floated="right">
-          Submit
+          Lưu
         </Button>
         {onCancel && (
           <Button type="button" floated="right" onClick={() => onCancel()}>
-            Cancel
+            Hủy
           </Button>
         )}
       </Form.Field>
@@ -101,16 +101,16 @@ export const EditUserPasswordForm: React.FC<EditUserPasswordForm.Props> = (
 const validationSchema = yup.object().shape({
   newPassword: yup
     .string()
-    .required('Password is required')
-    .min(8, 'Password should be at least 8 characters')
-    .max(24, 'Password should be at most 24 characters'),
+    .required('Vui lòng điền mật khẩu mới')
+    .min(8, 'Mật khẩu phải có ít nhất 8 kí tự')
+    .max(24, 'Mật khẩu không được vượt quá 24 kí tự'),
   confirmNewPassword: yup
     .string()
-    .required('Password is required')
-    .equals([yup.ref('newPassword')], 'Confirm password must match'),
+    .required('Vui lòng điền mật khẩu xác nhận')
+    .equals([yup.ref('newPassword')], 'Mật khẩu xác nhận không phù hợp'),
   oldPassword: yup
     .string()
-    .required('Password is required')
-    .min(8, 'Password should be at least 8 characters')
-    .max(24, 'Password should be at most 24 characters'),
+    .required('Vui lòng điền mật khẩu hiện tại')
+    .min(8, 'Mật khẩu phải có ít nhất 8 kí tự')
+    .max(24, 'Mật khẩu không được vượt quá 24 kí tự'),
 });

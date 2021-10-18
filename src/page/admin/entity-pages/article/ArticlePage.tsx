@@ -91,7 +91,7 @@ export const ArticlePage: React.FC = () => {
   return (
     <Segment clearing>
       <Segment vertical>
-        <AddButton label="Add article" onClick={() => setOpenAddForm(true)} />
+        <AddButton label="Thêm" onClick={() => setOpenAddForm(true)} />
       </Segment>
       <Segment vertical>
         <ArticleFilter onChange={(query) => load({ query })} />
@@ -101,9 +101,9 @@ export const ArticlePage: React.FC = () => {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-              <Table.HeaderCell width={4}>Title</Table.HeaderCell>
-              <Table.HeaderCell width={4}>Subtitle</Table.HeaderCell>
-              <Table.HeaderCell width={4}>Overview</Table.HeaderCell>
+              <Table.HeaderCell width={4}>Tiêu đề</Table.HeaderCell>
+              <Table.HeaderCell width={4}>Phụ đề</Table.HeaderCell>
+              <Table.HeaderCell width={4}>Tổng quan</Table.HeaderCell>
               <Table.HeaderCell width={2} />
             </Table.Row>
           </Table.Header>

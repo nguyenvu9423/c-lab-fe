@@ -1,11 +1,18 @@
 import * as React from 'react';
 import { InProgressLabel } from './ui-labels';
 import { JudgeProgressStatus, JudgeProgress } from '../progress';
+import { LabelStyles } from './shared';
 
-export const JudgeInProgressLabel: React.FC<{ progress: JudgeProgress }> = (
+export namespace JudgeInProgressLabel {
+  export interface Props extends LabelStyles {
+    progress: JudgeProgress;
+  }
+}
+
+export const JudgeInProgressLabel: React.FC<JudgeInProgressLabel.Props> = (
   props
 ) => {
-  const { progress } = props;
+  const { progress, compact } = props;
   const { status, runningTest } = progress;
   let message;
   switch (status) {

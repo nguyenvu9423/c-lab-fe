@@ -5,11 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Target } from '../../../store/reducers/target';
 import { Segment, Table, Button } from 'semantic-ui-react';
 import { ConstSelectors, RoleSelectors } from '../../../store/selectors';
-import {
-  ErrorMessage,
-  LoadingIndicator,
-  Pagination,
-} from '../../../components';
+import { Pagination } from '../../../components';
 import { AddRoleModal, EditRoleModal } from '../../../domains/role';
 import { Pageable } from '../../../utility';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
@@ -57,7 +53,7 @@ export const RolePage: React.FC = () => {
       <Segment vertical clearing>
         <Button
           icon="add"
-          label="Add role"
+          label="Thêm"
           primary
           onClick={() => setOpenAddForm(true)}
         />
@@ -67,7 +63,7 @@ export const RolePage: React.FC = () => {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-              <Table.HeaderCell width={10}>Name</Table.HeaderCell>
+              <Table.HeaderCell width={10}>Tên</Table.HeaderCell>
               <Table.HeaderCell width={4} />
             </Table.Row>
           </Table.Header>
@@ -115,7 +111,7 @@ export const RolePage: React.FC = () => {
             setOpenAddForm(false);
             dispatch(
               addToast(
-                new CRUDToastBuilder('role', 'create')
+                new CRUDToastBuilder('vai trò', 'tạo')
                   .setStatus('success')
                   .build()
               )
@@ -133,7 +129,7 @@ export const RolePage: React.FC = () => {
             setEditedRoleId(undefined);
             dispatch(
               addToast(
-                new CRUDToastBuilder('role', 'update')
+                new CRUDToastBuilder('vài trò', 'sửa')
                   .setStatus('success')
                   .build()
               )

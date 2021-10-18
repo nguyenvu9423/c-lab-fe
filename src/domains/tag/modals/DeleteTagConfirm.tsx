@@ -51,13 +51,14 @@ export const DeleteTagConfirm: React.FC<DeleteTagConfirm.Props> = (props) => {
             {!warning ? (
               <Button
                 floated="right"
-                content="Confirm"
+                content="Đồng ý"
+                primary
                 onClick={() => handleDelete()}
               />
             ) : (
               <Button
                 floated="right"
-                content="Confirm"
+                content="Đồng ý"
                 color="yellow"
                 onClick={() => handleDelete(true)}
               />

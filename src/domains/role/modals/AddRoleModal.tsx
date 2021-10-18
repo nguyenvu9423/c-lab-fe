@@ -6,7 +6,7 @@ import { AddRoleForm } from '../forms';
 export const AddRoleModal: React.FC<FormModal.Props> = (props) => {
   return (
     <Modal defaultOpen onClose={props.onCancel}>
-      <Modal.Header>Add article</Modal.Header>
+      <Modal.Header>Tạo vai trò</Modal.Header>
       <Modal.Content>
         <AddRoleForm onCancel={props.onCancel} onSuccess={props.onSuccess} />
       </Modal.Content>

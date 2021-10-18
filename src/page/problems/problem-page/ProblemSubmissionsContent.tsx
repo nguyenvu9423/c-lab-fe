@@ -51,7 +51,7 @@ export namespace ProblemSubmissionTable {
   }
 }
 
-const PAGE_SIZE = 14;
+const PAGE_SIZE = 10;
 
 const initialPageable: Pageable = {
   page: 0,
@@ -114,7 +114,7 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
 
   return (
     <Segment.Group>
-      <Segment style={{ height: 662, padding: 0 }}>
+      <Segment style={{ height: 678, padding: 0 }}>
         <SubmissionsTable
           loading={DataHolder.isLoading(data.submissions)}
           errorMessage={

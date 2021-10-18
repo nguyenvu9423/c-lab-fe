@@ -1,26 +1,21 @@
-import { current } from '@reduxjs/toolkit';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Segment, Table } from 'semantic-ui-react';
-import { LoadingIndicator, Pagination } from '../../../../components';
+import { Pagination } from '../../../../components';
 import { LoadingTableBody } from '../../../../components/table/LoadingTableBody';
 import { QualifySubButton } from '../../../../domains/submission/components/buttons';
 import { RejudgeSubButton } from '../../../../domains/submission/components/buttons/RejudgeSubButton';
 import { SubmissionStatusLabel } from '../../../../domains/submission/components/SubmissionStatusLabel';
 import { State } from '../../../../store';
 import { fetchSubmissions, resetState } from '../../../../store/actions';
-import {
-  DataHolder,
-  DataHolderState,
-} from '../../../../store/reducers/data-holders/shared';
+import { DataHolder } from '../../../../store/reducers/data-holders/shared';
 import { Target } from '../../../../store/reducers/target';
 import {
   ConstSelectors,
   SubmissionSelectors,
 } from '../../../../store/selectors';
 import { Pageable } from '../../../../utility';
-import { useSubmissionStream } from '../../../submission/hooks';
 import { SubmissionFilter } from './SubmissionFilter';
 
 const PAGE_SIZE = 10;
@@ -66,8 +61,6 @@ export const SubmissionPage: React.FC = () => {
     };
   }, []);
 
-  useSubmissionStream(submissions ?? []);
-
   return (
     <Segment clearing>
       <Segment vertical>
@@ -78,9 +71,9 @@ export const SubmissionPage: React.FC = () => {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-              <Table.HeaderCell width={3}>Problem</Table.HeaderCell>
-              <Table.HeaderCell width={4}>User</Table.HeaderCell>
-              <Table.HeaderCell width={4}>Status</Table.HeaderCell>
+              <Table.HeaderCell width={3}>Bài</Table.HeaderCell>
+              <Table.HeaderCell width={4}>Người nộp</Table.HeaderCell>
+              <Table.HeaderCell width={4}>Kết quả</Table.HeaderCell>
               <Table.HeaderCell width={3} />
             </Table.Row>
           </Table.Header>

@@ -31,7 +31,7 @@ export const QualifySubButton: React.FC<{ submission: Submission }> = (
   );
   return submission.disqualified ? (
     <Popup
-      content="Qualify"
+      content="Công nhận"
       trigger={
         <Button
           icon="add circle"
@@ -43,7 +43,7 @@ export const QualifySubButton: React.FC<{ submission: Submission }> = (
     />
   ) : (
     <Popup
-      content="Disqualify"
+      content="Không công nhận"
       trigger={
         <Button
           icon="ban"

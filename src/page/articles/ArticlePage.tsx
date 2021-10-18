@@ -27,6 +27,7 @@ import { Article } from '../../domains/article';
 import { ArticleSettingPanel } from './components/ArticleSettingPanel';
 import { TagSelectors } from '../../store/selectors/TagSelectors';
 import { resetState } from '../../store/actions';
+import { DateTimeUtils } from '../../utility/data-type/DateTimeUtils';
 
 export const ArticlePage: React.FC<{
   match: match<{ id: string; slug?: string }>;
@@ -38,7 +39,6 @@ export const ArticlePage: React.FC<{
   } = props;
   const dispatch = useDispatch();
   const contextRef = React.createRef<HTMLElement>();
-  console.log(params);
 
   const { data } = useSelector((state: State) => state.articlePage);
   const article = useSelector(ArticleSelectors.byId(params.id));
@@ -155,7 +155,7 @@ const ArticleContentContainer: React.FC<{ article: Article }> = (props) => {
                 color: 'rgba(0,0,0,.6)',
               }}
             >
-              Sep 16, 2017
+              {DateTimeUtils.of(article.createdAt).fromNow()}
             </div>
           </span>
         </div>

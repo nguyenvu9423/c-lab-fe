@@ -40,7 +40,7 @@ export const LoginForm: React.FC<LoginForm.Props> = (props) => {
           }
 
           if (e.error === 'invalid_grant') {
-            setOverallError('Invalid username or password');
+            setOverallError('Tên đăng nhập hoặc mật khẩu không chính xác');
           }
         });
     },
@@ -76,7 +76,7 @@ export const LoginForm: React.FC<LoginForm.Props> = (props) => {
         {overallError && <FormErrorMessage content={overallError} />}
       </Form.Field>
       <Form.Field>
-        <label>Username</label>
+        <label>Tên đăng nhập</label>
         <Input
           placeholder="Username"
           name="username"
@@ -87,7 +87,7 @@ export const LoginForm: React.FC<LoginForm.Props> = (props) => {
         {errorMessageRenderer('username')}
       </Form.Field>
       <Form.Field>
-        <label>Password</label>
+        <label>Mật khẩu</label>
         <Input
           placeholder="Password"
           name="password"
@@ -100,8 +100,8 @@ export const LoginForm: React.FC<LoginForm.Props> = (props) => {
       </Form.Field>
 
       <Form.Field>
-        <Link to="/reset-password/request">Forgot your password?</Link>
-        <Button floated="right" primary content="Login" />
+        <Link to="/reset-password/request">Quên mật khẩu?</Link>
+        <Button floated="right" primary content="Đăng nhập" />
       </Form.Field>
     </Form>
   );

@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { ErrorLabel } from './ui-labels';
 import { JudgeProgress, JudgeProgressStatus } from '../progress';
+import { LabelStyles } from './shared';
 
-export const JudgeErrorLabel: React.FC<{ progress: JudgeProgress }> = (
-  props
-) => {
+export namespace JudgeErrorLabel {
+  export interface Props extends LabelStyles {
+    progress: JudgeProgress;
+  }
+}
+export const JudgeErrorLabel: React.FC<JudgeErrorLabel.Props> = (props) => {
   const {
     progress: { status },
   } = props;

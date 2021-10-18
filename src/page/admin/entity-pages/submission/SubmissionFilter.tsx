@@ -90,15 +90,15 @@ export const SubmissionFilter: React.FC<SubmissionFilter.Props> = (props) => {
         </Grid.Column>
         <Grid.Column width={4}>
           <UserSelect
-            placeholder="User"
+            placeholder="Người nộp"
             onChange={(value) =>
               handleFitlersChange({ ...filters, username: value?.username })
             }
           />
         </Grid.Column>
-        <Grid.Column width={3}>
+        <Grid.Column width={4}>
           <Dropdown
-            placeholder="Qualification"
+            placeholder="Công nhận"
             selection
             fluid
             options={disqualifiedOptions}
@@ -110,9 +110,9 @@ export const SubmissionFilter: React.FC<SubmissionFilter.Props> = (props) => {
             }}
           />
         </Grid.Column>
-        <Grid.Column width={4}>
+        <Grid.Column width={3}>
           <Dropdown
-            placeholder="Judge status"
+            placeholder="Trạng thái"
             selection
             fluid
             options={judgeStatusOptions}
@@ -131,7 +131,7 @@ export const SubmissionFilter: React.FC<SubmissionFilter.Props> = (props) => {
       <Grid.Row>
         <Grid.Column width={5}>
           <Dropdown
-            placeholder="Result"
+            placeholder="Kết quả"
             selection
             fluid
             options={verdictOptions}
@@ -159,12 +159,12 @@ const disqualifiedOptions: DropdownItemProps[] = [
   { key: 'any', text: '' },
   {
     key: 'qualified',
-    text: 'Qualified',
+    text: 'Công nhận',
     value: false,
   },
   {
     key: 'disqualified',
-    text: 'Disqualified',
+    text: 'Không công nhận',
     value: true,
   },
 ];

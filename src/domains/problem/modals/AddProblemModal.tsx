@@ -9,7 +9,7 @@ export const AddProblemModal: React.FC<FormModal.Props> = ({
 }) => {
   return (
     <Modal defaultOpen closeIcon onClose={onCancel}>
-      <Modal.Header>Add Problem</Modal.Header>
+      <Modal.Header>Tạo bài</Modal.Header>
       <Modal.Content scrolling>
         <AddProblemForm onCancel={onCancel} onSuccess={onSuccess} />
       </Modal.Content>

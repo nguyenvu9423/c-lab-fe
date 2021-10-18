@@ -91,7 +91,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
     >
       <Form.Group widths="equal">
         <Form.Field>
-          <label>Title*</label>
+          <label>Tiêu đề*</label>
           <Form.Input
             type="text"
             name="title"
@@ -103,7 +103,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
         </Form.Field>
 
         <Form.Field>
-          <label>Status</label>
+          <label>Trạng thái</label>
           <Form.Select
             name="status"
             options={statusOptions}
@@ -119,7 +119,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
       </Form.Group>
       <Form.Group widths="equal">
         <Form.Field>
-          <label>Subtitle</label>
+          <label>Phụ đề</label>
           <Form.Input
             type="text"
             name="subtitle"
@@ -129,7 +129,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
           />
         </Form.Field>
         <Form.Field>
-          <label>Tags</label>
+          <label>Nhãn</label>
           <TagSelect
             value={values.tags}
             onChange={(value) => setFieldValue('tags', value)}
@@ -139,7 +139,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
         </Form.Field>
       </Form.Group>
       <Form.Field>
-        <label>Content</label>
+        <label>Nội dung</label>
         <RichTextEditor
           className="article-editor"
           initialValue={initialValues?.content}
@@ -149,21 +149,21 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
       </Form.Field>
       <Form.Group>
         <Form.Field width={8}>
-          <label>Overview*</label>
+          <label>Tổng quan*</label>
           <TextArea
-            name="overview"
+            name="Tổng quan"
             rows={4}
-            placeholder="Brief description about the article..."
+            placeholder="Tổng quan về bài viết.."
             value={values.overview}
-            onChange={handleChange}
+            onChange={(event, { value }) => setFieldValue('overview', value)}
             onBlur={handleBlur}
           />
           {errorMessageRender('overview')}
         </Form.Field>
         <Form.Field width={8}>
-          <label>Content table</label>
+          <label>Mục lục</label>
           <Checkbox
-            label="Visible"
+            label="Hiển thị"
             checked={values.contentTableShown}
             onChange={() =>
               setFieldValue('contentTableShown', !values.contentTableShown)
@@ -239,7 +239,7 @@ export const ImageUploader: React.FC<{
         attached="bottom"
         onClick={() => inputRef.current?.click()}
         icon="upload"
-        content="Choose image"
+        content="Chọn ảnh"
       />
     </div>
   );

@@ -22,7 +22,7 @@ export const UserSettingMenu: React.FC<UserSettingMenu.Props> = (props) => {
         to={user ? `${user.username}/edit` : ''}
       >
         <Icon name="edit" />
-        Update info
+        Sửa thông tin
       </Menu.Item>
       <Menu.Item
         link
@@ -30,11 +30,11 @@ export const UserSettingMenu: React.FC<UserSettingMenu.Props> = (props) => {
         to={user ? `${user.username}/change-password` : ''}
       >
         <Icon name="lock" />
-        Change password
+        Đổi mật khẩu
       </Menu.Item>
       <Menu.Item name="logout" link onClick={() => history.push('/logout')}>
         <Icon name="angle double right" />
-        Log out
+        Đăng xuất
       </Menu.Item>
     </Menu>
   );

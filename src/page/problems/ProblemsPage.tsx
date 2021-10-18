@@ -78,10 +78,10 @@ export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-                  <Table.HeaderCell width={4}>Code</Table.HeaderCell>
-                  <Table.HeaderCell width={6}>Title</Table.HeaderCell>
+                  <Table.HeaderCell width={4}>Mã bài</Table.HeaderCell>
+                  <Table.HeaderCell width={6}>Tiêu đề</Table.HeaderCell>
                   {principal && (
-                    <Table.HeaderCell width={2}>Solved</Table.HeaderCell>
+                    <Table.HeaderCell width={2}>Đã giải</Table.HeaderCell>
                   )}
                 </Table.Row>
               </Table.Header>

@@ -79,9 +79,9 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Field>
-        <label>Verdict</label>
+        <label>Kết quả</label>
         <Form.Select
-          placeholder="Result"
+          placeholder="Kết quả"
           options={verdictOptions}
           value={values.verdict}
           name="verdict"
@@ -89,9 +89,9 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
         />
       </Form.Field>
       <Form.Field>
-        <label>Language</label>
+        <label>Ngôn ngữ</label>
         <Form.Select
-          placeholder="Language"
+          placeholder="Ngôn ngữ"
           options={languageOptions}
           value={values.language}
           name="language"
@@ -99,7 +99,7 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
         />
       </Form.Field>
       <Form.Field>
-        <label>Number of tests passed</label>
+        <label>Số test đúng</label>
       </Form.Field>
       <Form.Group widths={16}>
         <Form.Field width={6}>
@@ -142,7 +142,7 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
       </Form.Group>
 
       <Form.Button type="submit" floated="right">
-        Filter
+        Áp dụng
       </Form.Button>
     </Form>
   );

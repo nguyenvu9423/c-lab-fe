@@ -23,13 +23,10 @@ export namespace TagForm {
 export const TagFormSchema = yup.object({
   name: yup
     .string()
-    .required('Name is required')
-    .matches(
-      /^[a-z0-9_]*$/,
-      'Name should contains only lower characters, numbers'
-    )
-    .min(3, 'Name should contains at least 3 characters')
-    .max(24, 'Name should contains 24 characters at maximum'),
+    .required('Vui lòng điền tên')
+    .matches(/^[a-z0-9_]*$/, 'Tên chỉ có thể chứa chữ cái thường và số')
+    .min(3, 'Tên phải có ít nhất 3 kí tự')
+    .max(24, 'Tên không được vượt quá 24 kí tự'),
 });
 
 export const TagForm: React.FC<TagForm.Props> = (props) => {
@@ -59,7 +56,7 @@ export const TagForm: React.FC<TagForm.Props> = (props) => {
       onSubmit={handleSubmit}
     >
       <Form.Input
-        label="Name"
+        label="Tên"
         name="name"
         value={values.name}
         onChange={handleChange}

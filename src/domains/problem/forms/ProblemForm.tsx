@@ -2,11 +2,13 @@ import * as React from 'react';
 import * as yup from 'yup';
 import { Dimmer, Form, Loader } from 'semantic-ui-react';
 import { MarkdownEditor, useErrorMessageRenderer } from '../../../components';
-import { SubmissionLangSelect } from '../../submission-lang';
 import { TagSelect, Tag } from '../../tag';
 import { SubmitButton, CancelButton } from '../../../components/button';
 import { useFormik, FormikHelpers } from 'formik';
-import { SubmissionLanguage } from '../../submission-lang/SubmissionLanguage';
+import {
+  SubmissionLanguage,
+  SubmissionLangMultiSelect,
+} from '../../submission-lang';
 
 export namespace ProblemForm {
   export interface Props {
@@ -27,25 +29,20 @@ export namespace ProblemForm {
 const ProblemFormSchema = yup.object({
   code: yup
     .string()
-    .required('Code is required')
-    .matches(
-      /^[A-Z0-9]*$/,
-      'Code should only contain uppercase letters and numbers'
-    )
-    .min(3, 'Code should be at least 3 characters')
-    .max(12, 'Code shoud be at most 12 characters'),
+    .required('Vui lòng điền mã bài')
+    .matches(/^[A-Z0-9]*$/, 'Mã bài chỉ có thể chứa chữ hoa hoặc số')
+    .min(3, 'Mã bài phải có ít nhất 3 kí tự')
+    .max(12, 'Mã bài không được vuợt quá 12 kí tự'),
   title: yup
     .string()
     .trim()
-    .required('Title is required')
-    .min(3, 'Title should be at least 3 characters')
-    .max(64, 'Title should be at most 64 characters'),
+    .required('Vui lòng điền tiêu đề')
+    .min(3, 'Tiêu đề phải có ít nhất 3 kí tự')
+    .max(64, 'Tiêu đề không được vượt quá 64 kí tự'),
   definition: yup
     .string()
-    .max(640000, 'Definition should only contain 64000 characters'),
-  allowedLanguages: yup
-    .array()
-    .min(1, 'At least one languages should be defined'),
+    .max(640000, 'Đề bài không được vượt quá 64000 kí tự'),
+  allowedLanguages: yup.array().min(1, 'Vui lòng chọn ít nhất 1 ngôn ngữ'),
 });
 
 export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
@@ -88,7 +85,7 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
         <Form.Group widths="equal">
           {props.isCodeEditable && (
             <Form.Field>
-              <label>Code</label>
+              <label>Mã bài</label>
               <Form.Input
                 type="text"
                 name="code"
@@ -125,7 +122,7 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
         <Form.Group widths="equal">
           <Form.Field>
             <label>Ngôn ngữ cho phép</label>
-            <SubmissionLangSelect
+            <SubmissionLangMultiSelect
               value={values.allowedLanguages}
               onChange={(value) => {
                 setFieldValue('allowedLanguages', value);
@@ -135,7 +132,7 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
             {errorMessageRenderer('allowedLanguages')}
           </Form.Field>
           <Form.Field>
-            <label>Tags</label>
+            <label>Nhãn</label>
             <TagSelect
               value={values.tags}
               onChange={(value) => setFieldValue('tags', value)}

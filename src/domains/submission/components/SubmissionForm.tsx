@@ -9,8 +9,9 @@ import { FileUploadInput } from '../../../page/common/inputs/FileUploadInput';
 import { RequestException } from '../../../exception/BaseResponseException';
 import {
   getSubLangTitle,
+  SubmissionLangSelect,
   SubmissionLanguage,
-} from '../../submission-lang/SubmissionLanguage';
+} from '../../submission-lang';
 import { useErrorMessageRenderer } from '../../../components';
 
 export namespace SubmissionForm {
@@ -42,10 +43,12 @@ export const SubmissionForm: React.FC<SubmissionForm.Props> = (props) => {
   const { problem, onSuccess } = props;
   const [overallError, setOverallError] = React.useState<RequestException>();
 
+  const initialLang = SubmissionLanguage.useInitial(problem.allowedLanguages);
+
   const { values, touched, errors, setFieldValue, handleSubmit, isSubmitting } =
     useFormik({
       initialValues: {
-        language: problem.allowedLanguages[0],
+        language: initialLang,
         codeText: '',
         codeFile: undefined,
       },
@@ -96,16 +99,12 @@ export const SubmissionForm: React.FC<SubmissionForm.Props> = (props) => {
       </Form.Field>
       <Form.Field>
         <label>Ngôn ngữ</label>
-        <Dropdown
-          selection
-          placeholder="Select language"
-          options={problem.allowedLanguages.map((lang) => ({
-            value: lang,
-            text: getSubLangTitle(lang),
-          }))}
-          onChange={(event, data) => setFieldValue('language', data.value)}
+        <SubmissionLangSelect
           value={values.language}
+          options={problem.allowedLanguages}
+          onChange={(value) => setFieldValue('language', value)}
         />
+
         {errorMsgRenderer('language')}
       </Form.Field>
       {overallError && (
@@ -114,7 +113,7 @@ export const SubmissionForm: React.FC<SubmissionForm.Props> = (props) => {
         </Message>
       )}
       <Form.Button type="submit" primary floated="right">
-        Submit
+        Nộp
       </Form.Button>
     </Form>
   );

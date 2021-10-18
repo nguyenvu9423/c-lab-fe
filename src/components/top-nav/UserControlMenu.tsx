@@ -2,10 +2,9 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Dropdown, Menu, Image } from 'semantic-ui-react';
+import { Dropdown, Menu } from 'semantic-ui-react';
 import { User } from '../../domains/user';
 import { AuthorizationSelectors } from '../../store/selectors';
-import AvatarPlaceholderImg from '../../../public/images/avatar-placeholder.png';
 import { Avatar } from '../avatar/Avatar';
 
 export const UserControlMenu: React.FC<{ user: User }> = (props) => {
@@ -34,14 +33,14 @@ export const UserControlMenu: React.FC<{ user: User }> = (props) => {
             className="icon"
             labeled
             icon="edit"
-            text="Create"
+            text="Tạo"
           >
             <Dropdown.Menu>
               {canCreateArticle && (
                 <Dropdown.Item
                   as={Link}
                   to="/articles/add"
-                  text="Article"
+                  text="Bài viết"
                   icon="book"
                 />
               )}
@@ -49,7 +48,7 @@ export const UserControlMenu: React.FC<{ user: User }> = (props) => {
                 <Dropdown.Item
                   as={Link}
                   to="/problems/add"
-                  text="Problem"
+                  text="Bài tập"
                   icon="tasks"
                 />
               )}
@@ -67,7 +66,7 @@ export const UserControlMenu: React.FC<{ user: User }> = (props) => {
             as={Link}
             to={`/users/${user.username}`}
             icon="user"
-            text="Profile"
+            text="Thông tin"
           />
           <Dropdown.Divider />
           {hasAdminRole && (
@@ -75,12 +74,12 @@ export const UserControlMenu: React.FC<{ user: User }> = (props) => {
               as={Link}
               to="/admin"
               icon="setting"
-              text="Admin panel"
+              text="Quản lý"
             />
           )}
           <Dropdown.Item
             icon="angle double right"
-            text="Log out"
+            text="Đăng xuất"
             onClick={handleLogOut}
           />
         </Dropdown.Menu>

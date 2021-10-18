@@ -49,7 +49,7 @@ export const UserFilter: React.FC<UserFilter.Props> = (props) => {
         </Grid.Column>
         <Grid.Column width={4}>
           <UserSelect
-            placeholder="Author"
+            placeholder="Tên đăng nhập"
             onChange={(user) =>
               handleFitlersChange({
                 ...filters,

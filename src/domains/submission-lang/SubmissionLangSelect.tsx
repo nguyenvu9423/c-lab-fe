@@ -1,36 +1,39 @@
 import * as React from 'react';
-import { Dropdown, DropdownProps } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 import { getSubLangTitle, SubmissionLanguage } from './SubmissionLanguage';
-
-const options = SubmissionLanguage.values.map((lang) => ({
-  text: getSubLangTitle(lang),
-  value: lang,
-}));
 
 export namespace SubmissionLangSelect {
   export interface Props {
-    value: SubmissionLanguage[];
-    onChange?(value: SubmissionLanguage): void;
-    onBlur?(event: React.KeyboardEvent<HTMLElement>, data: DropdownProps): void;
+    value?: SubmissionLanguage;
+    options: SubmissionLanguage[];
+    onChange?: (value: SubmissionLanguage) => void;
   }
 }
 
 export const SubmissionLangSelect: React.FC<SubmissionLangSelect.Props> = (
   props
 ) => {
-  const { value, onChange, onBlur } = props;
+  const { value, options: langs, onChange } = props;
+  const sortedLangs = React.useMemo(
+    () => SubmissionLanguage.sort(langs),
+    [langs]
+  );
 
   return (
     <Dropdown
       selection
-      multiple
-      fluid
-      options={options}
-      value={value}
+      placeholder="Select language"
+      options={sortedLangs.map((lang) => ({
+        value: lang,
+        text: getSubLangTitle(lang),
+      }))}
       onChange={(event, data) => {
-        onChange?.(data.value as SubmissionLanguage);
+        const match = sortedLangs.find((lang) => lang === data.value);
+        if (match && onChange) {
+          onChange(match);
+        }
       }}
-      onBlur={onBlur}
+      value={value}
     />
   );
 };

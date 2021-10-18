@@ -17,12 +17,12 @@ export namespace TestVerdict {
     TestVerdict.RE,
   ];
 
-  export function getMessage(verdict: TestVerdict): string {
+  export function getMessage(verdict: TestVerdict, compact?: boolean): string {
     switch (verdict) {
       case TestVerdict.AC:
         return 'Accepted';
       case TestVerdict.WA:
-        return 'Wrong answer';
+        return 'WA';
       case TestVerdict.TLE:
         return 'TLE';
       case TestVerdict.MLE:

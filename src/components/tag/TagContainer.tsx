@@ -32,7 +32,7 @@ export const TagContainer: React.FC<TagContainer.Props> = (props) => {
       <Accordion>
         <Accordion.Title as={Header} active={expanded} onClick={toggleExpanded}>
           <Icon name="dropdown" />
-          Tags
+          Nhãn
         </Accordion.Title>
         {expanded ? (
           <Accordion.Content active={true}>

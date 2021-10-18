@@ -34,7 +34,7 @@ export const SubmissionFilterCard: React.FC<SubmissionFilterCard.Props> = (
   return (
     <>
       <Header as="h3" attached="top">
-        Filtering
+        Lọc
       </Header>
       <Segment attached="bottom" clearing>
         {judgeConfig.scoringType === ScoringType.ACM ? (

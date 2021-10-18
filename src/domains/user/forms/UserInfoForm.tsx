@@ -49,9 +49,9 @@ export const UserInfoForm: React.FC<UserInfoForm.Props> = (props) => {
     <Form onSubmit={handleSubmit} error={true} loading={isSubmitting}>
       <Form.Group widths="equal">
         <Form.Field>
-          <label>First name*</label>
+          <label>Tên*</label>
           <Input
-            placeholder="First name"
+            placeholder="Tên"
             name="firstName"
             value={values.firstName}
             onChange={handleChange}
@@ -60,9 +60,9 @@ export const UserInfoForm: React.FC<UserInfoForm.Props> = (props) => {
           {errorMsgRenderer('firstName')}
         </Form.Field>
         <Form.Field>
-          <label>Last name*</label>
+          <label>Họ*</label>
           <Input
-            placeholder="Last name"
+            placeholder="Họ"
             name="lastName"
             value={values.lastName}
             onChange={handleChange}
@@ -75,7 +75,7 @@ export const UserInfoForm: React.FC<UserInfoForm.Props> = (props) => {
         <Form.Field>
           <label>Birthday</label>
           <Input
-            placeholder="Birth day"
+            placeholder="NGày sinh"
             type="date"
             name="birthday"
             value={values.birthday}
@@ -84,9 +84,9 @@ export const UserInfoForm: React.FC<UserInfoForm.Props> = (props) => {
           />
         </Form.Field>
         <Form.Field>
-          <label>Workplace</label>
+          <label>Nơi làm việc</label>
           <Input
-            placeholder="Workplace"
+            placeholder="Nơi làm việc"
             name="workplace"
             value={values.workplace}
             onChange={handleChange}
@@ -96,11 +96,11 @@ export const UserInfoForm: React.FC<UserInfoForm.Props> = (props) => {
       </Form.Group>
       <Form.Field>
         <Button primary type="submit" floated="right">
-          Submit
+          Lưu
         </Button>
         {onCancel && (
           <Button type="button" floated="right" onClick={() => onCancel?.()}>
-            Cancel
+            Hủy
           </Button>
         )}
       </Form.Field>
@@ -111,12 +111,12 @@ export const UserInfoForm: React.FC<UserInfoForm.Props> = (props) => {
 const validationSchema = yup.object().shape({
   firstName: yup
     .string()
-    .required('First name is required')
-    .min(2, 'First name should be at least 2 characters')
-    .max(24, 'First name should be at most 64 characters'),
+    .required('Vui lòng điền tên')
+    .min(2, 'Tên phải có ít nhất 2 kí tự')
+    .max(24, 'Tên không được vượt quá 64 kí tự'),
   lastName: yup
     .string()
-    .required('Last name is required')
-    .min(2, 'Last name should be at least 2 characters')
-    .max(24, 'Last name should be at most 64 characters'),
+    .required('Vui lòng điền họ')
+    .min(2, 'Họ phải có ít nhất 2 kí tự')
+    .max(24, 'Họ không được vượt quá 64 kí tự'),
 });

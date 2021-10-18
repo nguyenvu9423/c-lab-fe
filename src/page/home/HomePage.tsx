@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Container, Header, Button, Card } from 'semantic-ui-react';
-import { Link } from 'react-router-dom/cjs/react-router-dom';
+import { Link } from 'react-router-dom';
+import { WebConfig } from '../../config';
 
 export const HomePage: React.FC = () => {
   return (
@@ -13,7 +14,7 @@ export const HomePage: React.FC = () => {
       >
         <Header
           as="h1"
-          content=""
+          content={`Chào bạn đến với ${WebConfig.WebName}!`}
           style={{
             fontSize: '4em',
             fontWeight: 'normal',
@@ -23,7 +24,11 @@ export const HomePage: React.FC = () => {
         />
         <Header
           as="h2"
-          content="Do whatever you want when you want to."
+          content="          
+              Đây là nơi bạn có thể học thêm những kiến thức về thuật
+              toán và rèn luyện kĩ năng giải thuật của mình thông qua những bài
+              tập được chấm tự động
+            "
           style={{
             fontSize: '1.7em',
             fontWeight: 'normal',
@@ -33,7 +38,7 @@ export const HomePage: React.FC = () => {
         />
 
         <Card.Group style={{ justifyContent: 'center', marginTop: '1.5em' }}>
-          <Card as={Link} to="/articles" color="blue">
+          <Card as={Link} to="/articles" color="green">
             <Card.Content>
               <Card.Header>
                 Bài viết
@@ -42,7 +47,7 @@ export const HomePage: React.FC = () => {
             </Card.Content>
             <Card.Content description="Trang tổng hợp các bài viết về kiến thức thuật toán" />
           </Card>
-          <Card as={Link} to="/problems" color="blue">
+          <Card as={Link} to="/problems" color="green">
             <Card.Content>
               <Card.Header>
                 Bài tập
@@ -51,7 +56,7 @@ export const HomePage: React.FC = () => {
             </Card.Content>
             <Card.Content description="Nơi tổng hợp các bài tập về thuật toán. Bạn có thể nộp bài và xem kết quả bài nộp" />
           </Card>
-          <Card as={Link} to="/problems" color="blue">
+          <Card as={Link} to="/problems" color="green">
             <Card.Content>
               <Card.Header>
                 Giới thiệu

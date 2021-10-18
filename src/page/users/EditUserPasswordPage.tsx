@@ -34,8 +34,8 @@ export const EditUserPasswordPage: React.FC<{
         .then(() => {
           dispatch(
             addToast({
-              header: 'Update password successfully',
-              content: 'Your password has been updated',
+              header: 'Đổi mật khẩu thành công',
+              content: 'Mật khẩu của bạn đã được thanh đổi',
               duration: 2500,
               status: 'positive',
             })
@@ -53,7 +53,7 @@ export const EditUserPasswordPage: React.FC<{
 
   if (username !== params.username) {
     return (
-      <PageErrorMessage message="You do not have permission to access this page" />
+      <PageErrorMessage message="Bạn không có quyền truy cập vào trang này" />
     );
   }
 
@@ -62,7 +62,7 @@ export const EditUserPasswordPage: React.FC<{
       <Grid.Row centered columns={1}>
         <Grid.Column style={{ maxWidth: 560 }}>
           <Segment clearing>
-            <Header as="h2">Change password</Header>
+            <Header as="h2">Đổi mật khẩu</Header>
             <EditUserPasswordForm
               onCancel={() => {
                 history.push(`/users/${username}`);

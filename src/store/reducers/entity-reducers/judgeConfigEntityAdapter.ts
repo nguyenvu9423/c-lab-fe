@@ -6,14 +6,24 @@ export const judgeConfigEntityAdapter = createEntityAdapter<JudgeConfig>();
 export const judgeConfigEntityReducer = createReducer(
   judgeConfigEntityAdapter.getInitialState(),
   (builder) => {
-    builder.addMatcher(
-      (action) => !!action.payload?.entities?.judgeConfig,
-      (state, { payload }) => {
-        judgeConfigEntityAdapter.upsertMany(
-          state,
-          payload.entities.judgeConfig
-        );
-      }
-    );
+    builder
+      .addMatcher(
+        (action) => !!action.payload?.entities?.judgeConfig,
+        (state, { payload }) => {
+          judgeConfigEntityAdapter.upsertMany(
+            state,
+            payload.entities.judgeConfig
+          );
+        }
+      )
+      .addMatcher(
+        (action) => !!action.payload?.entities?.detailedJudgeConfig,
+        (state, { payload }) => {
+          judgeConfigEntityAdapter.upsertMany(
+            state,
+            payload.entities.detailedJudgeConfig
+          );
+        }
+      );
   }
 );

@@ -45,7 +45,7 @@ export const ProblemCodeSelect: React.FC<ProblemCodeSelect.Props> = (props) => {
 
   return (
     <SearchInput
-      placeholder="Code"
+      placeholder="Mã bài"
       value={value}
       loading={loading}
       options={problemOptions}

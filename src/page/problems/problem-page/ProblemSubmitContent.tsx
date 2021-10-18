@@ -27,7 +27,10 @@ export const ProblemSubmitContent: React.FC<{ problem: Problem }> = (props) => {
           {canSubmit ? (
             <SubmissionForm problem={problem} onSuccess={handleSuccess} />
           ) : (
-            <p>Please login to submit</p>
+            <p>
+              Bạn chưa có quyền nộp bài. Hãy đăng nhập hoặc đăng kí nếu bạn chưa
+              có tài khoản.
+            </p>
           )}
         </Segment>
       </Grid.Column>

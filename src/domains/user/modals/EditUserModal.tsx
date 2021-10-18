@@ -9,7 +9,7 @@ export const EditUserModal: React.FC<FormModal.Props & { username: string }> = (
   return (
     <Modal defaultOpen onClose={props.onCancel}>
       <Modal.Header>
-        Update user <Label>{props.username}</Label>
+        Sửa thông tin <Label>{props.username}</Label>
       </Modal.Header>
       <Modal.Content>
         <EditUserForm

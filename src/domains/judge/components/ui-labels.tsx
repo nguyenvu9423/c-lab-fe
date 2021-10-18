@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Loader, Icon } from 'semantic-ui-react';
+import { Icon, Loader } from 'semantic-ui-react';
 
 export const InProgressLabel: React.FC<{ message: string }> = (props) => {
   const { message } = props;
@@ -37,7 +37,6 @@ export const ErrorLabel: React.FC<{ message: string }> = (props) => {
   const { message } = props;
   return (
     <span className="status-label error">
-      <Icon name="warning sign" />
       <span>{message}</span>
     </span>
   );

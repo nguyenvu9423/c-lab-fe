@@ -25,7 +25,7 @@ export const ProblemRejudgeInfo: React.FC<ProblemRejudgeInfo.Props> = ({
 
   return (
     <div>
-      <Header as="h3">The latest rejudge</Header>
+      <Header as="h3">Lần chấm gần nhất</Header>
       {status === ProblemRejudgeStatus.IN_QUEUE && (
         <Progress percent={0} label="In queue" />
       )}
@@ -40,10 +40,10 @@ export const ProblemRejudgeInfo: React.FC<ProblemRejudgeInfo.Props> = ({
       )}
       {ProblemRejudgeStatus.isInProgress(status) && (
         <Button
-          content="Cancel"
           negative
           icon="cancel"
           floated="right"
+          content="Dừng"
           onClick={cancel}
         />
       )}

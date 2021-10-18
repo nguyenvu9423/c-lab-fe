@@ -53,9 +53,9 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
     <Form onSubmit={handleSubmit} error={true} loading={isSubmitting}>
       <Form.Group widths="equal">
         <Form.Field>
-          <label>First name*</label>
+          <label>Tên*</label>
           <Input
-            placeholder="First name"
+            placeholder="Tên"
             name="firstName"
             value={values.firstName}
             onChange={handleChange}
@@ -63,9 +63,9 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
           />
         </Form.Field>
         <Form.Field>
-          <label>Last name*</label>
+          <label>Họ*</label>
           <Input
-            placeholder="Last name"
+            placeholder="Họ"
             name="lastName"
             value={values.lastName}
             onChange={handleChange}
@@ -85,24 +85,24 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
           />
         </Form.Field>
         <Form.Field>
-          <label>Email verification</label>
+          <label>Xác nhận Email</label>
           <Checkbox
             style={{ marginRight: 8 }}
-            label="Email verified"
+            label="Đã xác nhận email"
             checked={values.emailVerified}
             onChange={(event, data) =>
               setFieldValue('emailVerified', data.checked)
             }
           />
-          <Button content="Resend verification" icon="send" basic />
+          <Button content="Gửi lại email xác nhận" icon="send" basic />
         </Form.Field>
       </Form.Group>
 
       <Form.Group widths="equal">
         <Form.Field>
-          <label>Birthday</label>
+          <label>Ngày sinh</label>
           <Input
-            placeholder="Birth day"
+            placeholder="01/01/1970"
             type="date"
             name="birthDay"
             value={values.birthDay}
@@ -111,9 +111,9 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
           />
         </Form.Field>
         <Form.Field>
-          <label>Workplace</label>
+          <label>Nơi làm việc</label>
           <Input
-            placeholder="Workplace"
+            placeholder="Nơi làm việc"
             name="workplace"
             value={values.workplace}
             onChange={handleChange}
@@ -124,16 +124,16 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
       <Divider section />
       <Form.Group>
         <Form.Field width={8}>
-          <label>Role</label>
+          <label>Vai trò</label>
           <RoleSelect
             value={values.role}
             onChange={(role) => setFieldValue('role', role)}
           />
         </Form.Field>
         <Form.Field width={8}>
-          <label>Is banned</label>
+          <label>Bị cấm</label>
           <Checkbox
-            label="Banned"
+            label="Bị cấm"
             name="banned"
             checked={values.banned}
             onChange={(event, data) => setFieldValue('banned', data.checked)}
@@ -142,13 +142,13 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
       </Form.Group>
 
       <Button primary type="submit" floated="right">
-        Submit
+        Lưu
       </Button>
       {onCancel && (
         <Button
           type="button"
           floated="right"
-          content="Cancel"
+          content="Hủy"
           onClick={() => onCancel()}
         />
       )}
@@ -159,13 +159,16 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
 const validationSchema = yup.object().shape({
   firstName: yup
     .string()
-    .required('First name is required')
-    .min(2, 'First name should be at least 2 characters')
-    .max(24, 'First name should be at most 64 characters'),
+    .required('Vui lòng điền tên')
+    .min(2, 'Tên phải có ít nhất 2 kí tự')
+    .max(24, 'Tên không được vượt quá 64 kí tự'),
   lastName: yup
     .string()
-    .required('Last name is required')
-    .min(2, 'Last name should be at least 2 characters')
-    .max(24, 'Last name should be at most 64 characters'),
-  email: yup.string().required('Email is required').email('Email is not valid'),
+    .required('Vui lòng điền họ')
+    .min(2, 'Họ phải có ít nhất 2 kí tự')
+    .max(24, 'Họ không được vượt quá 64 kí tự'),
+  email: yup
+    .string()
+    .required('Vui lòng điền email')
+    .email('Email không hợp lệ'),
 });

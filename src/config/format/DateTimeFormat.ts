@@ -1,3 +1,3 @@
-export namespace DateTimeFormat {
-  export const Short = 'HH:mm DD/MM/YY';
+export enum DateTimeFormat {
+  SHORT = 'HH:mm DD/MM/YY',
 }

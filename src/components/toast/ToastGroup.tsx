@@ -49,7 +49,7 @@ const NotificationToast: React.FC<{ toast: NotificationToast }> = (props) => {
       <p>{toast.content}</p>
 
       <Button
-        content="Acknowledge"
+        content="Ok"
         floated="right"
         onClick={() => dispatch(removeToast({ id: toast.id }))}
       />

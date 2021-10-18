@@ -3,12 +3,18 @@ import { ErrorLabel, ScoreLabel, AcceptedLabel } from './ui-labels';
 import { SubmissionTestResultLabel } from './test-result-labels';
 import { JudgeResult, JudgeVerdict } from '../result';
 import { ScoringType } from '../../judge-config';
+import { LabelStyles } from './shared';
+import { LabelProps } from 'semantic-ui-react';
 
-export const JudgeResultLabel: React.FC<{
-  result: JudgeResult;
-  scoringType: ScoringType;
-}> = (props) => {
-  const { result, scoringType } = props;
+export namespace JudgeResultLabel {
+  export interface Props extends LabelStyles {
+    result: JudgeResult;
+    scoringType: ScoringType;
+  }
+}
+
+export const JudgeResultLabel: React.FC<JudgeResultLabel.Props> = (props) => {
+  const { result, scoringType, compact } = props;
   const { verdict } = result;
   switch (verdict) {
     case JudgeVerdict.COMPILE_ERROR:
@@ -19,7 +25,7 @@ export const JudgeResultLabel: React.FC<{
         case ScoringType.OI:
           return <OIJudgeResultLabel result={result} />;
         case ScoringType.ACM:
-          return <AcmJudgeResultLabel result={result} />;
+          return <AcmJudgeResultLabel result={result} compact={compact} />;
         default:
           return null;
       }
@@ -28,27 +34,31 @@ export const JudgeResultLabel: React.FC<{
   }
 };
 
-function OIJudgeResultLabel(props) {
+const OIJudgeResultLabel: React.FC<{ result: JudgeResult }> = (props) => {
   const { result } = props;
   const { verdict, score } = result;
   switch (verdict) {
     case JudgeVerdict.ACCEPTED:
     case JudgeVerdict.TEST_ERROR:
-      return <ScoreLabel score={score * 100} />;
+      return <ScoreLabel score={score ? score * 100 : 0} />;
     default:
       return null;
   }
-}
+};
 
-function AcmJudgeResultLabel(props) {
-  const { result } = props;
+const AcmJudgeResultLabel: React.FC<{ result: JudgeResult } & LabelProps> = (
+  props
+) => {
+  const { result, compact } = props;
   const { verdict, testError } = result;
   switch (verdict) {
     case JudgeVerdict.ACCEPTED:
       return <AcceptedLabel message="Accepted" />;
     case JudgeVerdict.TEST_ERROR:
-      return <SubmissionTestResultLabel testResult={testError} />;
+      return testError ? (
+        <SubmissionTestResultLabel testResult={testError} compact={compact} />
+      ) : null;
     default:
       return null;
   }
-}
+};

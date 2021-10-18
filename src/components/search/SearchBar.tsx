@@ -52,6 +52,7 @@ export const SearchBar: React.FC = () => {
   return (
     <Search
       size="small"
+      placeholder="Tìm kiếm"
       category
       value={value}
       results={results}

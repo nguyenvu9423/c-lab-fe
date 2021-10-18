@@ -1,3 +1,3 @@
-export const DateFormat = {
-  MediumLength: 'll',
-};
+export enum DateFormat {
+  MEDIUM = 'll',
+}

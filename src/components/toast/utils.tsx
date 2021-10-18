@@ -3,20 +3,19 @@ import { Toast } from '../../store/actions';
 
 export class CRUDToastBuilder {
   entity: string;
-  operation: 'create' | 'update' | 'delete';
+  operation: 'tạo' | 'sửa' | 'xóa';
   status?: 'success' | 'failed';
 
-  constructor(entity: string, operation: 'create' | 'update' | 'delete') {
+  constructor(entity: string, operation: 'tạo' | 'sửa' | 'xóa') {
     this.entity = entity;
     this.operation = operation;
   }
 
   build(): Toast {
-    console.log(this.status);
     return {
       id: uuid.v4(),
-      header: capitalize(`${this.operation} ${this.entity} sucessfully`),
-      content: `The ${this.entity} has been ${this.operation}d successfully`,
+      header: capitalize(`${this.operation} ${this.entity} thành công`),
+      content: capitalize(`${this.entity} đã được ${this.operation}`),
       status:
         this.status === 'success'
           ? 'positive'

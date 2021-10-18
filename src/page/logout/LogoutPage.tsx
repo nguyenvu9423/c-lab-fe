@@ -20,8 +20,8 @@ export const LogoutPage: React.FC = () => {
       dispatch(logout());
       dispatch(
         addToast({
-          header: 'Logged out successfully',
-          content: 'You have logged out successfully',
+          header: 'Đăng xuất',
+          content: 'Bạn đã đang xuất thành công',
           duration: 2500,
           status: 'positive',
         })

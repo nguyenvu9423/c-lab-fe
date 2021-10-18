@@ -7,10 +7,9 @@ import { Grid, Header, Segment } from 'semantic-ui-react';
 import { LoginForm } from './LogInForm';
 import { AuthenticationSelectors } from '../../store/selectors';
 
-export function LoginPage() {
-  const history = useHistory();
+export const LoginPage: React.FC = () => {
+  const history = useHistory<{ prevPath: string }>();
   const handleSuccess = React.useCallback(() => {
-    // @ts-ignore
     const prevPath = history.location.state.prevPath;
     if (prevPath) {
       history.goBack();
@@ -34,7 +33,7 @@ export function LoginPage() {
       <Grid.Row centered column={1}>
         <Grid.Column style={{ maxWidth: 480 }}>
           <Header as="h4" attached="top" block>
-            Login
+            Đăng nhập
           </Header>
           <Segment attached>
             <LoginForm onSuccess={handleSuccess} />
@@ -43,4 +42,4 @@ export function LoginPage() {
       </Grid.Row>
     </Grid>
   );
-}
+};

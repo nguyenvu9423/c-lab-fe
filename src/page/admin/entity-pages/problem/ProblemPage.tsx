@@ -80,7 +80,7 @@ export const ProblemPage: React.FC = () => {
     <>
       <Segment clearing>
         <Segment vertical>
-          <AddButton label="Add problem" onClick={() => setOpenAddForm(true)} />
+          <AddButton label="Thêm" onClick={() => setOpenAddForm(true)} />
         </Segment>
         <Segment vertical>
           <ProblemFilter onChange={(query) => load({ query })} />
@@ -91,8 +91,8 @@ export const ProblemPage: React.FC = () => {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell width="2">ID</Table.HeaderCell>
-                <Table.HeaderCell width="4">Code</Table.HeaderCell>
-                <Table.HeaderCell width="4">Title</Table.HeaderCell>
+                <Table.HeaderCell width="4">Mã bài</Table.HeaderCell>
+                <Table.HeaderCell width="4">Tiêu đề</Table.HeaderCell>
                 <Table.HeaderCell width="6" />
               </Table.Row>
             </Table.Header>
@@ -169,7 +169,7 @@ export const ProblemPage: React.FC = () => {
             load();
             dispatch(
               addToast(
-                new CRUDToastBuilder('problem', 'create')
+                new CRUDToastBuilder('bài tập', 'tạo')
                   .setStatus('success')
                   .build()
               )
@@ -186,7 +186,7 @@ export const ProblemPage: React.FC = () => {
             setOpenEditForm(undefined);
             dispatch(
               addToast(
-                new CRUDToastBuilder('problem', 'update')
+                new CRUDToastBuilder('bài tập', 'sửa')
                   .setStatus('success')
                   .build()
               )
@@ -203,7 +203,7 @@ export const ProblemPage: React.FC = () => {
             setOpenEditForm(undefined);
             dispatch(
               addToast(
-                new CRUDToastBuilder('judge config', 'update')
+                new CRUDToastBuilder('cài đặt chấm', 'sửa')
                   .setStatus('success')
                   .build()
               )
@@ -228,7 +228,7 @@ export const ProblemPage: React.FC = () => {
             load();
             dispatch(
               addToast(
-                new CRUDToastBuilder('problem', 'delete')
+                new CRUDToastBuilder('bài tập', 'xóa')
                   .setStatus('success')
                   .build()
               )

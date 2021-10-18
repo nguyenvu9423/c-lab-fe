@@ -17,7 +17,7 @@ export const ProblemNavMenu: React.FC<{ problem: Problem; tabName?: string }> =
     return (
       <Menu size="large" pointing>
         <Menu.Item as={Link} active={tabName == undefined} to={baseUrl}>
-          Content
+          Đề bài
         </Menu.Item>
 
         <Menu.Item
@@ -25,12 +25,12 @@ export const ProblemNavMenu: React.FC<{ problem: Problem; tabName?: string }> =
           active={tabName == 'submit'}
           to={`${baseUrl}/submit`}
         >
-          Submit
+          Nộp bài
         </Menu.Item>
 
         {isAuthenticated && (
           <Menu.Item as={Link} active={tabName == 'my'} to={`${baseUrl}/my`}>
-            My submissions
+            Bài nộp của bạn
           </Menu.Item>
         )}
 
@@ -39,7 +39,7 @@ export const ProblemNavMenu: React.FC<{ problem: Problem; tabName?: string }> =
           active={tabName == 'status'}
           to={`${baseUrl}/status`}
         >
-          Status
+          Tất cả bài nộp
         </Menu.Item>
       </Menu>
     );

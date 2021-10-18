@@ -27,7 +27,7 @@ export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
             <Menu.Item
               as={Link}
               link
-              name="Article page"
+              content="Tới bài viết"
               to={`/articles/${id}/view`}
               icon="arrow left"
             />
@@ -35,13 +35,13 @@ export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
         </Grid.Column>
         <Grid.Column width={12}>
           <Segment clearing>
-            <Header as="h2">Write article</Header>
+            <Header as="h2">Sửa bài viết</Header>
             <EditArticleForm
               articleId={Number(id)}
               onSuccess={() => {
                 dispatch(
                   addToast(
-                    new CRUDToastBuilder('article', 'update')
+                    new CRUDToastBuilder('bài viết', 'sửa')
                       .setStatus('success')
                       .build()
                   )

@@ -1,15 +1,12 @@
+import { CustomJudger } from './custom-judger';
+import { TestPackage } from './test-package';
+
 export interface JudgeConfig {
   timeLimit: number;
 
   memoryLimit: number;
 
-  judgerType: JudgerType;
-
   scoringType: ScoringType;
-
-  testPackage: TestPackage;
-
-  customJudger: CustomJudger;
 }
 
 export enum JudgerType {
@@ -28,16 +25,4 @@ export enum ScoringType {
 
 export namespace ScoringType {
   export const values = [ScoringType.ACM, ScoringType.OI];
-}
-
-export interface TestPackage {
-  id: number;
-
-  originalFileName: string;
-}
-
-export interface CustomJudger {
-  id: number;
-
-  originalFileName: string;
 }

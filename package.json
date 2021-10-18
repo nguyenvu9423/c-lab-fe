@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "tsc",
     "start": "webpack serve",
-    "build": "webpack ./src/index.jsx",
+    "build": "webpack ./src/index.tsx",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {

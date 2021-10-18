@@ -11,6 +11,7 @@ import { detailedJudgeEntityReducer } from './detailedJudgeAdapter';
 import { submissionEntityReducer } from './submissionEntityAdapter';
 import { problemEntityReducer } from './problemEntityAdapter';
 import { combineReducers } from 'redux';
+import { detailedJudgeConfigEntityReducer } from './detailedJudgeConfigEntityAdapter';
 
 export const entityReducer = combineReducers({
   user: userEntityReducer,
@@ -22,7 +23,8 @@ export const entityReducer = combineReducers({
   submission: submissionEntityReducer,
   detailedSub: detailedSubEntityReducer,
   judge: judgeEntityReducer,
-  judgeConfig: judgeConfigEntityReducer,
   detailedJudge: detailedJudgeEntityReducer,
+  judgeConfig: judgeConfigEntityReducer,
+  detailedJudgeConfig: detailedJudgeConfigEntityReducer,
   tag: tagEntityReducer,
 });

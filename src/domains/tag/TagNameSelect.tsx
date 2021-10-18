@@ -44,7 +44,7 @@ export const TagNameSelect: React.FC<TagNameSelect.Props> = (props) => {
 
   return (
     <SearchInput
-      placeholder="Tag name"
+      placeholder="Tên nhãn"
       loading={loading}
       options={tagOptions}
       onSubmit={onChange}

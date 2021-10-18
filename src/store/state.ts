@@ -36,7 +36,7 @@ import {
   EditProblemFormState,
   UpdateJudgeConfigFormState,
 } from './reducers/form-reducers';
-import { JudgeConfig } from '../domains/judge-config';
+import { DetailedJudgeConfig, JudgeConfig } from '../domains/judge-config';
 import { ToastsState } from './reducers/toastsReducer';
 import { SearchState } from './reducers/searchReducer';
 import { AuthenticationState } from './reducers/authentication/authenticationReducer';
@@ -53,8 +53,9 @@ export interface State {
     submission: EntityState<Submission>;
     detailedSub: EntityState<DetailedSub>;
     judge: EntityState<Judge>;
-    judgeConfig: EntityState<JudgeConfig>;
     detailedJudge: EntityState<DetailedJudge>;
+    judgeConfig: EntityState<JudgeConfig>;
+    detailedJudgeConfig: EntityState<DetailedJudgeConfig>;
     tag: EntityState<Tag>;
   };
   authentication: AuthenticationState;

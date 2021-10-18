@@ -8,6 +8,7 @@ import { PrincipalSelectors } from '../../store/selectors';
 import { LoadingState } from '../../store/common';
 import { AnonymousControlMenu } from './AnonymousControlMenu';
 import { UserControlMenu } from './UserControlMenu';
+import { WebConfig } from '../../config';
 
 export const TopNav: React.FC = () => {
   const { loadingState, principal } = useSelector(
@@ -17,12 +18,12 @@ export const TopNav: React.FC = () => {
   return (
     <Menu id="top-nav" fixed="top">
       <Container>
-        <Menu.Item header as={Link} to={'/'}>
-          Log N
+        <Menu.Item header as={Link} to="/">
+          {WebConfig.WebName}
         </Menu.Item>
-        <Menu.Item as={Link} to={'/articles'} content="Bài viết" />
+        <Menu.Item as={Link} to="/articles" content="Bài viết" />
 
-        <Menu.Item as={Link} to={'/problems'}>
+        <Menu.Item as={Link} to="/problems">
           Bài tập
         </Menu.Item>
 

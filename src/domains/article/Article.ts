@@ -22,4 +22,6 @@ export interface Article {
   tags: number[];
 
   slug: string;
+
+  createdAt: string;
 }

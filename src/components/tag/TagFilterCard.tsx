@@ -11,16 +11,16 @@ export const TagFilterCard: React.FC<{ onSubmit?(tag: Tag[]): void }> = (
   return (
     <>
       <Header as="h3" attached="top">
-        Fitler
+        Lọc
       </Header>
       <Segment attached="bottom" clearing>
         <Form onSubmit={() => onSubmit?.(tags)}>
           <Form.Field>
-            <label>Tags</label>
+            <label>Nhãn</label>
             <TagSelect value={tags} onChange={setTags} />
           </Form.Field>
           <Button primary floated="right" type="submit">
-            Apply
+            Áp dụng
           </Button>
         </Form>
       </Segment>

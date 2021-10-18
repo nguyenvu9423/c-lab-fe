@@ -5,11 +5,6 @@ import 'ace-builds/src-noconflict/theme-clouds';
 
 export const CodeEditor: React.FC<IAceEditorProps> = (props) => {
   return (
-    <AceEditor
-      style={{ maxHeight: 720 }}
-      mode="c_cpp"
-      theme="clouds"
-      {...props}
-    />
+    <AceEditor style={{ height: 540 }} mode="c_cpp" theme="clouds" {...props} />
   );
 };

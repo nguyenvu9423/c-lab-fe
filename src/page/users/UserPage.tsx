@@ -78,19 +78,19 @@ export const UnverifiedEmailSection: React.FC = () => {
   return (
     <Segment color="yellow">
       <p>
-        You account is not activated yet. Please verify your email to activate
-        it
+        Tài khoản của bạn chưa được kích hoạt. Vui lòng nhấn vào đường dẫn đính
+        kèm trong email kích hoạt.
       </p>
-      <p>Or click the below button if you have not received it:</p>
+      <p>Hoặc nhấn vào nút sau nếu bạn chưa nhận đc email kích hoạt:</p>
       <Button
         icon="send"
-        content="Resend email"
+        content="Gửi lại"
         onClick={() => {
           EmailVerificationService.resend().then(() =>
             dispatch(
               addToast({
-                header: 'Resend email',
-                content: 'Verfication email has been sent successfully',
+                header: 'Gửi lại email kích hoạt',
+                content: 'Email kích hoạt đã được gửi',
                 duration: 2500,
                 status: 'positive',
               })
@@ -106,8 +106,8 @@ export const BannedUserMessage: React.FC = () => {
   return (
     <Segment color="yellow">
       <p>
-        Your account has been banned. If you wanna to re-activate your account,
-        please contact us via email: <u>{ContactProperties.email}</u>
+        Tài khoản của bạn đã bị khóa. Để kích hoạt lại tài khoản, vui lòng liên
+        hệ với chúng tôi thông qua email: <u>{ContactProperties.email}</u>
       </p>
     </Segment>
   );

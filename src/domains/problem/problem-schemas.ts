@@ -1,6 +1,9 @@
 import { schema } from 'normalizr';
 import { userSchema, problemRejudgeSchema } from '../../entity-schemas';
-import { judgeConfigSchema } from './../judge-config/judge-config-schemas';
+import {
+  judgeConfigSchema,
+  detailedJudgeConfigSchema,
+} from './../judge-config/judge-config-schemas';
 import { tagArraySchema } from '../tag';
 import { Problem, DetailedProblem } from './Problem';
 
@@ -14,7 +17,7 @@ export const detailedProblemSchema = new schema.Entity<DetailedProblem>(
   'detailedProblem',
   {
     author: userSchema,
-    judgeConfig: judgeConfigSchema,
+    judgeConfig: detailedJudgeConfigSchema,
     tags: tagArraySchema,
     problemRejudge: problemRejudgeSchema,
   }

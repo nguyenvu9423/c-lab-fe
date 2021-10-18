@@ -13,7 +13,7 @@ export interface Submission {
 
   judge: number;
 
-  language: string;
+  language: { name: string; title: string };
 
   submittedAt: string;
 

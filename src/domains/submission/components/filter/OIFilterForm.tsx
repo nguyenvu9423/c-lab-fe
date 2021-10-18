@@ -32,7 +32,6 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
   const onSubmit = React.useCallback(
     (values: OIFilterForm.Value) => {
       let query = '';
-      console.log(values);
       if (values.language && values.language !== 'ANY') {
         query = FilterUtils.joinAnd(
           query,
@@ -54,7 +53,6 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
           );
         }
       }
-      console.log(query);
       onQueryChange?.(query ? query : undefined);
     },
     [onQueryChange]
@@ -81,9 +79,9 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
   return (
     <Form error onSubmit={handleSubmit}>
       <Form.Field>
-        <label>Verdict</label>
+        <label>Kết quả</label>
         <Form.Select
-          placeholder="Result"
+          placeholder="Kết quả"
           options={verdictOptions}
           value={values.verdict}
           name="verdict"
@@ -91,9 +89,9 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
         />
       </Form.Field>
       <Form.Field>
-        <label>Language</label>
+        <label>Ngôn ngữ</label>
         <Form.Select
-          placeholder="Language"
+          placeholder="Ngôn ngữ"
           options={languageOptions}
           value={values.language}
           name="language"
@@ -101,7 +99,7 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
         />
       </Form.Field>
       <Form.Field>
-        <label>Score</label>
+        <label>Điểm</label>
       </Form.Field>
       <Form.Group widths={16}>
         <Form.Field width={6}>
@@ -128,7 +126,7 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
             type="number"
             min="0"
             max="100"
-            label="point"
+            label="điểm"
             labelPosition="right"
             fluid
             disabled={!values.score}
@@ -144,7 +142,7 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
       </Form.Group>
 
       <Form.Button type="submit" floated="right">
-        Filter
+        Áp dụng
       </Form.Button>
     </Form>
   );

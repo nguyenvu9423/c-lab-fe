@@ -9,9 +9,9 @@ export const EditProblemModal: React.FC<
   return (
     <Modal defaultOpen closeIcon onClose={onCancel} size="large">
       <Modal.Header>
-        Update problem <Label>{problemCode}</Label>
+        Sửa bài <Label>{problemCode}</Label>
       </Modal.Header>
-      <Modal.Content scrolling style={{ height: 629 }}>
+      <Modal.Content>
         <EditProblemForm problemCode={problemCode} onSuccess={onSuccess} />
       </Modal.Content>
     </Modal>

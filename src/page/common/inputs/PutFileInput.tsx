@@ -36,7 +36,7 @@ export const PutFileInput: React.FC<PutFileInput.Props> = (props) => {
   }, [onChange]);
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'inline-flex' }}>
       <Button as="div" labelPosition="left" style={{ flex: 1 }}>
         <Label as="a" basic style={{ minWidth: 160, flex: 1 }}>
           {file ? file.name : 'No file has uploaded'}
@@ -57,7 +57,7 @@ export const PutFileInput: React.FC<PutFileInput.Props> = (props) => {
       <Button
         type="button"
         icon="folder open"
-        content="Change"
+        content="Chọn"
         onClick={() => {
           ref.current?.click();
         }}

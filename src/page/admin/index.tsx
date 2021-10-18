@@ -70,51 +70,51 @@ function ControlMenu(props) {
   return (
     <Menu vertical fluid size="large">
       <Menu.Item>
-        <Menu.Header>Data</Menu.Header>
+        <Menu.Header>Dữ liệu</Menu.Header>
         <Menu.Menu>
           <Menu.Item
             as={Link}
             link
-            name="users"
+            content="Người dùng"
             to={`${baseURL}/users`}
             active={activePage === 'users'}
           />
           <Menu.Item
             as={Link}
             link
-            name="problems"
+            content="Bài tập"
             to={`${baseURL}/problems`}
             active={activePage === 'problems'}
           />
           <Menu.Item
             as={Link}
             link
-            name="tags"
+            content="Nhãn"
             to={`${baseURL}/tags`}
             active={activePage === 'tags'}
           />
           <Menu.Item
             as={Link}
             link
-            name="articles"
+            content="Bài viết"
             to={`${baseURL}/articles`}
             active={activePage === 'articles'}
           />
           <Menu.Item
             as={Link}
             link
-            name="submissions"
+            content="Bài nộp"
             to={`${baseURL}/submissions`}
             active={activePage === 'submissions'}
           />
         </Menu.Menu>
       </Menu.Item>
       <Menu.Item>
-        <Menu.Header>Authorization</Menu.Header>
+        <Menu.Header>Quyền hạn</Menu.Header>
         <Menu.Menu>
           <Menu.Item
             as={Link}
-            name="roles"
+            content="Vai trò"
             to={`${baseURL}/roles`}
             active={activePage === 'roles'}
           />

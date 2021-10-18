@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Header, Button } from 'semantic-ui-react';
-import { ProblemService } from '../../../service/ProblemService';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 import { Problem } from '../../../domains/problem';
 
 export namespace ProblemSettingPanel {
@@ -16,38 +14,31 @@ export const ProblemSettingPanel: React.FC<ProblemSettingPanel.Props> = (
 ) => {
   const { problem } = props;
 
-  const history = useHistory();
-
-  const handleRejudge = React.useCallback(() => {
-    return ProblemService.rejudgeProblem(problem.code).then(() => {
-      history.push(`/problems/${problem.code}/edit/rejudge`);
-    });
-  }, [problem.code]);
-
   return (
     <div className="clear-fix-container">
       <Header as="h3" floated="left">
-        Settings
+        Cài đặt
       </Header>
       <Button
         floated="right"
-        content="Edit"
+        content="Sửa"
         icon="edit"
         as={Link}
         to={`/problems/${problem.code}/edit`}
       />
       <Button
         floated="right"
-        content="Judge Config"
+        content="Cài đặt chấm bài"
         icon="setting"
         as={Link}
         to={`/problems/${problem.code}/edit/judge-config`}
       />
       <Button
         floated="right"
-        content="Rejudge"
+        content="Chấm lại"
         icon="undo"
-        onClick={handleRejudge}
+        as={Link}
+        to={`/problems/${problem.code}/edit/rejudge`}
       />
     </div>
   );

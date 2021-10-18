@@ -1,4 +1,4 @@
 export namespace WebConfig {
-  export const WebName = 'Clab';
-  export const DomainName = 'clab.vn';
+  export const WebName = 'C-lab';
+  export const DomainName = 'c-lab.vn';
 }

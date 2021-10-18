@@ -90,7 +90,7 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
     <>
       <Button
         icon="redo"
-        content="Rejudge"
+        content="Chấm lại"
         disabled={inProgress}
         onClick={rejudge}
       />

@@ -9,7 +9,10 @@ export const DeleteArticleConfirm: React.FC<
   return (
     <Confirm
       defaultOpen
-      header="Delete article"
+      header={`Xóa bài viết #${props.articleId}`}
+      cancelButton="Hủy"
+      confirmButton="Đồng ý"
+      content="Bạn có chắc chắn muốn xóa bài viết này"
       onCancel={props.onCancel}
       onConfirm={() => {
         ArticleService.deleteArticle(props.articleId).then(() => {

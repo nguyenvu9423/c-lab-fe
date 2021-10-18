@@ -6,7 +6,7 @@ import { AddTagForm } from '../forms';
 export const AddTagModal: React.FC<FormModal.Props> = (props) => {
   return (
     <Modal defaultOpen onClose={props.onCancel}>
-      <Modal.Header>Add tag</Modal.Header>
+      <Modal.Header>Tạo nhãn</Modal.Header>
       <Modal.Content>
         <AddTagForm onCancel={props.onCancel} onSuccess={props.onSuccess} />
       </Modal.Content>

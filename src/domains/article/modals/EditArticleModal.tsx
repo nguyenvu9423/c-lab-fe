@@ -9,7 +9,7 @@ export const EditArticleModal: React.FC<
   return (
     <Modal defaultOpen onClose={props.onCancel}>
       <Modal.Header>
-        Edit article <Label>#{props.articleId}</Label>
+        Sửa bài viết <Label>#{props.articleId}</Label>
       </Modal.Header>
       <Modal.Content scrolling>
         <EditArticleForm

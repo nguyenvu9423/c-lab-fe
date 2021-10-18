@@ -48,7 +48,7 @@ export const RejudgeSubButton: React.FC<{ submission: Submission }> = (
 
   return !isJudging ? (
     <Popup
-      content="Rejudge"
+      content="Chấm lại"
       trigger={
         <Button
           icon="redo"

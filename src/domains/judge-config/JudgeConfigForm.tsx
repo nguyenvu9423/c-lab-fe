@@ -1,16 +1,12 @@
 import * as React from 'react';
 import * as yup from 'yup';
 import { useFormik, FormikHelpers } from 'formik';
-import {
-  JudgerType,
-  ScoringType,
-  CustomJudger,
-  TestPackage,
-} from './JudgeConfig';
+import { JudgerType, ScoringType } from './JudgeConfig';
 import { useErrorMessageRenderer } from '../../components/form';
 import { SubmitButton, CancelButton } from '../../components/button';
-import { Form, Header, Divider } from 'semantic-ui-react';
+import { Form, Header, Divider, Button, Modal, Table } from 'semantic-ui-react';
 import { PutFileInput } from '../../page/common/inputs/PutFileInput';
+import { CustomJudger, TestPackage } from '.';
 
 const judgerOptions = JudgerType.values.map((type) => ({
   value: type,
@@ -108,11 +104,11 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
       loading={isSubmitting}
     >
       <Divider horizontal>
-        <Header as="h4">Judger</Header>
+        <Header as="h4">Máy chấm</Header>
       </Divider>
       <Form.Group>
         <Form.Field width={8}>
-          <label>Type</label>
+          <label>Kiểu chấm</label>
           <Form.Select
             compact
             name="judger"
@@ -122,7 +118,7 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
           />
         </Form.Field>
         <Form.Field width={8}>
-          <label>Scoring type</label>
+          <label>Kiểu chấm điểm</label>
           <Form.Select
             value={values.scoringType}
             options={scoringTypeOptions}
@@ -133,7 +129,7 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
       </Form.Group>
       <Form.Group widths="equal">
         <Form.Field>
-          <label>Time limit (ms)</label>
+          <label>Giới hạn thời gian (ms)</label>
           <Form.Input
             type="number"
             name="timeLimit"
@@ -144,7 +140,7 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
           {errorMessageRenderer('timeLimit')}
         </Form.Field>
         <Form.Field>
-          <label>Memory limit (mb)</label>
+          <label>Giới hạn bộ nhớ (mb)</label>
           <Form.Input
             type="number"
             name="memoryLimit"
@@ -158,7 +154,7 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
 
       {values.judgerType === JudgerType.Custom && (
         <Form.Field width={8}>
-          <label>Custom judger</label>
+          <label>Trình chấm tự chọn</label>
           <PutFileInput
             file={
               values.customJudger
@@ -177,7 +173,7 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
         </Form.Field>
       )}
       <Divider horizontal>
-        <Header as="h4">Test package</Header>
+        <Header as="h4">Tập tests</Header>
       </Divider>
       <Form.Group>
         <Form.Field width={8}>
@@ -196,6 +192,9 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
             }
             onChange={handleTestPackageChange}
           />
+          {values.testPackage && !(values.testPackage instanceof File) && (
+            <TestPackageZoomButton testPackage={values.testPackage} />
+          )}
           {errorMessageRenderer('testPackage')}
         </Form.Field>
       </Form.Group>
@@ -209,5 +208,46 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
         </>
       )}
     </Form>
+  );
+};
+
+export const TestPackageZoomButton: React.FC<{ testPackage: TestPackage }> = (
+  props
+) => {
+  const { testPackage } = props;
+  const [open, setOpen] = React.useState<boolean>(false);
+
+  return (
+    <>
+      <Button type="button" icon="zoom" onClick={() => setOpen(true)} />
+      <Modal open={open} closeIcon onClose={() => setOpen(false)}>
+        <Modal.Header>
+          Test package: {testPackage.originalFileName}
+        </Modal.Header>
+        <Modal.Content>
+          <Table style={{ border: 'none' }}>
+            <Table.Header>
+              <Table.HeaderCell>ID</Table.HeaderCell>
+              <Table.HeaderCell>Input path</Table.HeaderCell>
+              <Table.HeaderCell>Output Path</Table.HeaderCell>
+            </Table.Header>
+            <Table.Body>
+              {testPackage.tests.map((test) => (
+                <Table.Row key={test.id}>
+                  <Table.Cell>{test.id}</Table.Cell>
+                  <Table.Cell>{test.input.path}</Table.Cell>
+                  <Table.Cell>{test.output.path}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button type="button" onClick={() => setOpen(false)}>
+            Thoát
+          </Button>
+        </Modal.Actions>
+      </Modal>
+    </>
   );
 };

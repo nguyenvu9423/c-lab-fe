@@ -1,19 +1,9 @@
 import * as React from 'react';
-import {
-  Modal as UiModal,
-  Header,
-  Grid,
-  List,
-  Message,
-  Segment,
-  Divider,
-} from 'semantic-ui-react';
+import { Modal, Header, Grid, Divider } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadingState } from '../../../store/common';
 import { CodeEditor } from '../../../components/editors';
 import {
-  TestResultLabel,
-  ErrorLabel,
   useJudgesStream,
   InProgressJudge,
   Judge,
@@ -25,7 +15,6 @@ import {
   setModal,
 } from '../../../store/actions';
 import { LoadingIndicator } from '../../../components/loading-indicator';
-import { JudgeVerdict } from '../../judge';
 import {
   formatResourceTime,
   formatResourceMemory,
@@ -43,6 +32,10 @@ import {
 import { QualifySubButton } from './buttons';
 import { SubmissionStatusLabel } from './SubmissionStatusLabel';
 import { RejudgeSubButton } from './buttons/RejudgeSubButton';
+import { DateTimeUtils } from '../../../utility/data-type/DateTimeUtils';
+import { DateTimeFormat } from '../../../config';
+import { DataHolder } from '../../../store/reducers/data-holders/shared';
+import { ResultLog } from './ResultLog';
 
 export namespace DetailedSubModal {
   export interface Props {
@@ -67,17 +60,16 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
       : () => undefined
   );
 
-  const code = detailedSub?.code;
-
   const detailedJudge = useSelector(
     data.detailedJudge.loadingState === LoadingState.LOADED
       ? DetailedJudgeSelectors.byId(data.detailedJudge.result)
       : () => undefined
   );
 
-  const judgeId = submission?.judge;
   const judge = useSelector(
-    judgeId ? JudgeSelectors.byId(judgeId) : () => undefined
+    submission?.judge
+      ? JudgeSelectors.byId(submission.judge)
+      : ConstSelectors.value(undefined)
   );
 
   const detailedResult =
@@ -108,20 +100,7 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
     loadDetailedJudge();
   }, []);
 
-  const currentJudge = React.useRef<Judge | undefined>(judge);
-
-  React.useEffect(() => {
-    if (
-      currentJudge.current &&
-      InProgressJudge.isInstance(currentJudge.current) &&
-      judge &&
-      SuccessJudge.isInstance(judge)
-    ) {
-      loadDetailedJudge();
-    }
-    currentJudge.current = judge;
-  }, [judge]);
-
+  useJudgeCompletionHandler(judge, loadDetailedJudge);
   useJudgesStream(judge ? [judge.id] : []);
 
   const canUpdate = useSelector(
@@ -130,31 +109,22 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
       : ConstSelectors.value(false)
   );
 
-  const handleClose = React.useCallback(() => {
-    dispatch(setModal(null));
-  }, []);
-
-  const result = judge?.result;
-  const judgeConfig = judge?.config;
-
   return (
-    <UiModal
+    <Modal
       open={true}
       closeIcon
       closeOnEscape
       closeOnDimmerClick
-      onClose={handleClose}
+      onClose={() => dispatch(setModal(null))}
     >
-      {data.detailedSub.loadingState === LoadingState.LOADING && (
-        <LoadingIndicator />
-      )}
-
-      {data.detailedSub.loadingState === LoadingState.LOADED &&
+      {DataHolder.isLoading(data.detailedSub) && <LoadingIndicator />}
+      {DataHolder.isLoaded(data.detailedSub) &&
+        detailedSub &&
         submission &&
-        judgeId && (
+        judge && (
           <>
-            <Header color="blue">Submission #{submission.id}</Header>
-            <UiModal.Content scrolling>
+            <Header color="blue">Bài nộp #{submission.id}</Header>
+            <Modal.Content scrolling>
               <Grid>
                 {canUpdate && (
                   <>
@@ -171,104 +141,71 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
                   </>
                 )}
                 <Grid.Row>
-                  <Grid.Column width={8}>
-                    <Header as="h4">Result</Header>
+                  <Grid.Column width={4}>
+                    <Header as="h4">Kết quả</Header>
                     <SubmissionStatusLabel submission={submission} />
                   </Grid.Column>
-                  <Grid.Column width={8}>
-                    <Header as="h4">Resource</Header>
-                    <span>{`
-              ${formatResourceTime(result?.resource?.time)} - 
-              ${formatResourceMemory(result?.resource?.memory)}`}</span>
+                  <Grid.Column width={4}>
+                    <Header as="h4">Tài nguyên</Header>
+                    <span>
+                      {formatResourceTime(judge.result?.resource?.time)} /{' '}
+                      {formatResourceMemory(judge.result?.resource?.memory)}
+                    </span>
+                  </Grid.Column>
+                  <Grid.Column width={4}>
+                    <Header as="h4">Ngôn ngữ</Header>
+                    <span>{submission.language.title}</span>
+                  </Grid.Column>
+                  <Grid.Column width={4}>
+                    <Header as="h4">Thời điểm nộp</Header>
+                    <span>
+                      {DateTimeUtils.of(submission.submittedAt).format(
+                        DateTimeFormat.SHORT
+                      )}
+                    </span>
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
                   <Grid.Column>
                     <Header as="h4">Code</Header>
                     <CodeEditor
-                      style={{ maxHeight: 720 }}
-                      value={code}
+                      style={{ maxHeight: 400 }}
+                      value={detailedSub.code}
                       readOnly
                     />
                   </Grid.Column>
                 </Grid.Row>
                 {detailedResult && (
                   <Grid.Row>
-                    <Grid.Column width={16}>
+                    <Grid.Column>
                       <Header as="h4">Result Log</Header>
-                      <DetailedResult
+                      <ResultLog
                         detailedResult={detailedResult}
-                        scoringType={judgeConfig?.scoringType}
+                        scoringType={judge.config.scoringType}
                       />
                     </Grid.Column>
                   </Grid.Row>
                 )}
               </Grid>
-            </UiModal.Content>
+            </Modal.Content>
           </>
         )}
-    </UiModal>
+    </Modal>
   );
 };
 
-function DetailedResult(props) {
-  const { detailedResult, scoringType } = props;
-  const { verdict, testResults } = detailedResult;
+function useJudgeCompletionHandler(judge?: Judge, handler?: () => void) {
+  const currentJudge = React.useRef<Judge | undefined>(judge);
 
-  if (verdict === JudgeVerdict.COMPILE_ERROR) {
-    const message = detailedResult.message;
-    return (
-      <span>
-        <strong>Compilation</strong>
-        <ErrorLabel message="Compile error" />
-        <Message negative>{message}</Message>
-      </span>
-    );
-  } else
-    return (
-      <List className="result-log-list" size={'mini'}>
-        {testResults.map((testResult) => {
-          const { test } = testResult;
-          return (
-            <>
-              <List.Item key={test.id}>
-                <List.Content>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Header as="h4" style={{ display: 'inline-block' }}>
-                      Test {test.id}
-                    </Header>
-                    <TestResultLabel
-                      testResult={testResult}
-                      scoringType={scoringType}
-                    />
-                  </div>
-
-                  <Header as="h5" attached="top">
-                    Input
-                  </Header>
-                  <Segment attached>
-                    <pre>{test.input.overview}</pre>
-                  </Segment>
-
-                  <Header as="h5" attached>
-                    Output
-                  </Header>
-                  <Segment attached>
-                    <pre>{testResult.outputOverview}</pre>
-                  </Segment>
-
-                  <Header as="h5" attached>
-                    Answer
-                  </Header>
-                  <Segment attached>
-                    <pre>{test.output.overview}</pre>
-                  </Segment>
-                </List.Content>
-              </List.Item>
-              <Divider />
-            </>
-          );
-        })}
-      </List>
-    );
+  React.useEffect(() => {
+    if (
+      currentJudge.current &&
+      InProgressJudge.isInstance(currentJudge.current) &&
+      judge &&
+      SuccessJudge.isInstance(judge)
+    ) {
+      handler?.();
+    }
+    currentJudge.current = judge;
+  }, [judge]);
 }
