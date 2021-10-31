@@ -49,7 +49,7 @@ export const ProblemInfoCard: React.FC<ProblemInfoCard.Props> = (props) => {
               <Table.Cell>
                 {judgeConfig
                   ? `${judgeConfig.timeLimit} ms / ${judgeConfig.memoryLimit} mb`
-                  : 'Not specified yet'}
+                  : 'Chưa thiết lập'}
               </Table.Cell>
             </Table.Row>
             <Table.Row>
@@ -88,7 +88,9 @@ const SubmissionLangContainer: React.FC<{ langs: SubmissionLanguage[] }> = (
             textOverflow: 'ellipsis',
           }}
         >
-          {langElements}
+          {langElements.length === SubmissionLanguage.values.length
+            ? 'Tất cả'
+            : langElements}
         </Label.Group>
       }
     >

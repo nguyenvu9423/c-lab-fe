@@ -58,7 +58,7 @@ export const RolePage: React.FC = () => {
           onClick={() => setOpenAddForm(true)}
         />
       </Segment>
-      <Segment className="table-container" vertical style={{ height: 600 }}>
+      <Segment className="table-container" vertical style={{ minHeight: 600 }}>
         <Table basic="very">
           <Table.Header>
             <Table.Row>

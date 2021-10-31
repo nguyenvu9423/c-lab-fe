@@ -8,6 +8,7 @@ import { SubmissionForm } from '../../../domains/submission';
 import { Problem } from '../../../domains/problem';
 import { ProblemNavMenu } from '../components/ProblemNavMenu';
 import { TagContainer } from '../../../components';
+import { ProblemInfoCard } from '../components';
 
 export const ProblemSubmitContent: React.FC<{ problem: Problem }> = (props) => {
   const { problem } = props;
@@ -35,6 +36,7 @@ export const ProblemSubmitContent: React.FC<{ problem: Problem }> = (props) => {
         </Segment>
       </Grid.Column>
       <Grid.Column width={4}>
+        <ProblemInfoCard problem={problem} />
         <TagContainer ids={problem.tags} />
       </Grid.Column>
     </>

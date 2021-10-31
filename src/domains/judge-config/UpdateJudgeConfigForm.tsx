@@ -160,7 +160,7 @@ const AddJudgeConfigForm: React.FC<{
     return (
       <Button
         icon="add"
-        content="Add config"
+        content="Thêm cài đặt"
         labelPosition="left"
         onClick={() => setIsConfirmed(true)}
       />

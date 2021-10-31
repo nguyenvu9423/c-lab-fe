@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Segment, Table } from 'semantic-ui-react';
 import { Pagination } from '../../../../components';
 import { LoadingTableBody } from '../../../../components/table/LoadingTableBody';
+import { useJudgesStream } from '../../../../domains/judge';
+import { Submission } from '../../../../domains/submission';
 import { QualifySubButton } from '../../../../domains/submission/components/buttons';
 import { RejudgeSubButton } from '../../../../domains/submission/components/buttons/RejudgeSubButton';
 import { SubmissionStatusLabel } from '../../../../domains/submission/components/SubmissionStatusLabel';
@@ -61,12 +63,20 @@ export const SubmissionPage: React.FC = () => {
     };
   }, []);
 
+  useJudgesStream(
+    submissions
+      ? submissions
+          .filter((sub): sub is Submission => sub !== undefined)
+          .map((sub) => sub.judge)
+      : []
+  );
+
   return (
     <Segment clearing>
       <Segment vertical>
         <SubmissionFilter onChange={(query) => load({ query })} />
       </Segment>
-      <Segment vertical className="table-container" style={{ height: 651 }}>
+      <Segment vertical className="table-container" style={{ minHeight: 651 }}>
         <Table basic="very" fixed singleLine>
           <Table.Header>
             <Table.Row>

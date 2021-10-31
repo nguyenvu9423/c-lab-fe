@@ -6,16 +6,18 @@ export const ErrorTableBody: React.FC<{ message?: string }> = (props) => {
   return (
     <Table.Body style={{ position: 'relative' }}>
       <Table.Row>
-        <div
-          style={{
-            width: '100%',
-            position: 'absolute',
-            left: 0,
-            top: 0,
-          }}
-        >
-          <ErrorMessage message={props.message} />
-        </div>
+        <Table.Cell>
+          <div
+            style={{
+              width: '100%',
+              position: 'absolute',
+              left: 0,
+              top: 0,
+            }}
+          >
+            <ErrorMessage message={props.message} />
+          </div>
+        </Table.Cell>
       </Table.Row>
     </Table.Body>
   );

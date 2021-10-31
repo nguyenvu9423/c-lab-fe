@@ -10,7 +10,6 @@ export const detailedJudgeConfigEntityReducer = createReducer(
     builder.addMatcher(
       (action) => !!action.payload?.entities?.detailedJudgeConfig,
       (state, { payload }) => {
-        console.log('called');
         detailedJudgeConfigEntityAdapter.upsertMany(
           state,
           payload.entities.detailedJudgeConfig

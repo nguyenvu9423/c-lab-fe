@@ -20,6 +20,7 @@ import { TagContainer } from '../../../components';
 import { SubmissionsTable } from '../components/SubmissionsTable';
 import { Pageable } from '../../../utility';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
+import { ProblemInfoCard } from '../components';
 
 const PAGE_SIZE = 10;
 const initialPageable: Pageable = {
@@ -48,6 +49,7 @@ export const PrincipalProblemSubsContent: React.FC<{ problem: Problem }> = (
         )}
       </Grid.Column>
       <Grid.Column width={4}>
+        <ProblemInfoCard problem={problem} />
         <SubmissionCard
           problem={problem}
           onSuccess={() => tableRef.current?.reload()}
@@ -132,7 +134,7 @@ export const PrincipalSubmissionTable: React.FC<
 
   return (
     <Segment.Group>
-      <Segment style={{ height: 678, padding: 0 }}>
+      <Segment style={{ minHeight: 678, padding: 0 }}>
         <SubmissionsTable
           loading={DataHolder.isLoading(data.submissions)}
           errorMessage={

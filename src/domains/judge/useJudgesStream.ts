@@ -13,6 +13,7 @@ export const useJudgesStream = (judgeIds: number[]): void => {
       const eventSource = JudgeService.getJudgesStream(judgeIds);
 
       eventSource.addEventListener('updateEntity', (event: MessageEvent) => {
+        console.log('called 2', event.data);
         const data = JSON.parse(event.data);
         const { entities } = normalize(data, judgesSchema);
         dispatch(updateEntity({ entities }));

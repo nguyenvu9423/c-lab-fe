@@ -6,16 +6,18 @@ export const LoadingTableBody: React.FC<{ height?: number }> = (props) => {
   return (
     <Table.Body style={{ position: 'relative' }}>
       <Table.Row>
-        <div
-          style={{
-            height: props.height ?? 168,
-            position: 'absolute',
-            left: 0,
-            right: 0,
-          }}
-        >
-          <LoadingIndicator />
-        </div>
+        <Table.Cell>
+          <div
+            style={{
+              height: props.height ?? 168,
+              position: 'absolute',
+              left: 0,
+              right: 0,
+            }}
+          >
+            <LoadingIndicator />
+          </div>
+        </Table.Cell>
       </Table.Row>
     </Table.Body>
   );

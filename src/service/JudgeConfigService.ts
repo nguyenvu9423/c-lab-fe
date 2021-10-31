@@ -5,9 +5,6 @@ const BASE_URL = '/judge-configs';
 class JudgeConfigService {
   static create(formData) {
     return apiCaller.post(BASE_URL, formData, {
-      headers: {
-        'Content-Type': undefined,
-      },
       timeout: 120000,
     });
   }
@@ -22,7 +19,7 @@ class JudgeConfigService {
     return apiCaller.post(BASE_URL, formData, {
       params: { problemId },
       headers: {
-        'Content-Type': undefined,
+        'Content-Type': '',
       },
       timeout: 120000,
     });
@@ -30,3 +27,4 @@ class JudgeConfigService {
 }
 
 export { JudgeConfigService };
+//

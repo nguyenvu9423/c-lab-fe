@@ -15,7 +15,7 @@ import { Target } from '../../../store/reducers/target';
 import { SubmissionSelectors } from '../../../store/selectors';
 import { Pageable } from '../../../utility';
 import { LogicalOperator } from '../../../utility/filter';
-import { SubmissionsTable } from '../components';
+import { ProblemInfoCard, SubmissionsTable } from '../components';
 import { ProblemNavMenu } from '../components/ProblemNavMenu';
 
 export const ProblemSubmissionsContent: React.FC<{ problem: Problem }> = (
@@ -37,6 +37,7 @@ export const ProblemSubmissionsContent: React.FC<{ problem: Problem }> = (
         />
       </Grid.Column>
       <Grid.Column width={4}>
+        <ProblemInfoCard problem={problem} />
         <SubmissionFilterCard problem={problem} onQueryChange={setQuery} />
         <TagContainer ids={problem.tags} />
       </Grid.Column>
@@ -114,7 +115,7 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
 
   return (
     <Segment.Group>
-      <Segment style={{ height: 678, padding: 0 }}>
+      <Segment style={{ minHeight: 678, padding: 0 }}>
         <SubmissionsTable
           loading={DataHolder.isLoading(data.submissions)}
           errorMessage={

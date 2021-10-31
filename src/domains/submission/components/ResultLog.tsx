@@ -16,7 +16,6 @@ export const ResultLog: React.FC<{
   const { verdict, testResults } = detailedResult;
 
   if (verdict === JudgeVerdict.COMPILE_ERROR) {
-    console.log(detailedResult.message);
     return (
       <div>
         <Header as="h4" style={{ display: 'inline-block' }}>

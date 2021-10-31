@@ -47,7 +47,7 @@ export const ArticleFormSchema = yup.object({
   subtitle: yup.string().trim(),
   overview: yup.string().trim().required('Overview is required'),
   tags: yup.array().max(5),
-}) as yup.Schema<any>;
+}) as yup.SchemaOf<any>;
 
 export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
   const { initialValues, onSubmit, onCancel } = props;

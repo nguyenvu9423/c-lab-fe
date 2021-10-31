@@ -9,9 +9,6 @@ const BASE_URL = '/problems';
 export namespace ProblemService {
   export function create(problem: ProblemDTO): ServiceResponse<ProblemDTO> {
     return apiCaller.post(BASE_URL, problem, {
-      headers: {
-        'Content-Type': undefined,
-      },
       timeout: 120000,
     });
   }

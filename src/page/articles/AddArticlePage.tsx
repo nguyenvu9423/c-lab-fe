@@ -10,7 +10,7 @@ export const AddArticlePage: React.FC<{ history: History }> = (props) => {
   };
 
   const handleCancel = () => {
-    history.goBack();
+    history.back();
   };
 
   return (

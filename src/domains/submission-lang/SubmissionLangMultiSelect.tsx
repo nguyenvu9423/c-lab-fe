@@ -11,7 +11,7 @@ export namespace SubmissionLangMultiSelect {
   export interface Props {
     value: SubmissionLanguage[];
     onChange?(value: SubmissionLanguage): void;
-    onBlur?(event: React.KeyboardEvent<HTMLElement>, data: DropdownProps): void;
+    onBlur?(event: React.FocusEvent<HTMLElement>, data: DropdownProps): void;
   }
 }
 

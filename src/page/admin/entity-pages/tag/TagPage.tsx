@@ -71,7 +71,11 @@ export const TagPage: React.FC = () => {
         <Segment vertical clearing>
           <TagFilter onChange={(query) => load({ query })} />
         </Segment>
-        <Segment className="table-container" vertical style={{ height: 600 }}>
+        <Segment
+          className="table-container"
+          vertical
+          style={{ minHeight: 600 }}
+        >
           <Table basic="very" fixed singleLine>
             <Table.Header>
               <Table.Row>

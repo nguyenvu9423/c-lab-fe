@@ -73,7 +73,7 @@ export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
     <Grid container doubling padded="vertically" columns={2}>
       <Grid.Column width={12}>
         <Segment.Group>
-          <Segment style={{ height: 634, padding: 0 }}>
+          <Segment style={{ minHeight: 634, padding: 0 }}>
             <Table basic fixed singleLine style={{ border: 'none' }}>
               <Table.Header>
                 <Table.Row>
@@ -89,7 +89,7 @@ export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
               {DataHolder.isLoaded(data.problems) && problems && (
                 <Table.Body>
                   {problems.map((problem) => (
-                    <Table.Row key={problem.id} style={{ height: 42 }}>
+                    <Table.Row key={problem.id}>
                       <Table.Cell>
                         <Link to={`problems/${problem.code}`}>
                           {problem.id}

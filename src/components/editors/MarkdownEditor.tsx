@@ -1,14 +1,14 @@
 import * as React from 'react';
-import * as ReactMarkdown from 'react-markdown';
-import * as remarkMath from 'remark-math';
-import * as rehypeKatex from 'rehype-katex';
-import * as gfm from 'remark-gfm';
-import * as rehypeRaw from 'rehype-raw';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import gfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 import classNames from 'classnames';
 
 import { Button, Divider } from 'semantic-ui-react';
 import { EditorState, Editor, ContentState } from 'draft-js';
-import { Components } from 'react-markdown/src/ast-to-react';
+import { Components } from 'react-markdown';
 
 import { Styleable } from '../../common/types';
 

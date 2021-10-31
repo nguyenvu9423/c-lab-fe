@@ -46,7 +46,7 @@ export const LogoutPage: React.FC = () => {
       <Grid.Row centered column={1}>
         <Grid.Column style={{ maxWidth: 480 }}>
           <Header as="h4" attached="top" block>
-            Login
+            Đăng nhập
           </Header>
           <Segment attached>
             <LoginForm
