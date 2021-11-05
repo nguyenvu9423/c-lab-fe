@@ -27,3 +27,12 @@ jobs:
       # Runs a single command using the runners shell
       - name: install packages
         run: yarn install
+
+      - name: lint
+        run: yarn run lint
+
+      - name: compile
+        run: yarn run compile
+
+      - name: dist
+        run: yarn run build
