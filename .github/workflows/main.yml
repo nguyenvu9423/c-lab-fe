@@ -31,8 +31,8 @@ jobs:
       - name: lint
         run: yarn run lint
 
-      - name: compile
-        run: yarn run compile
+      - name: check compile
+        run: yarn run check-compile
 
       - name: dist
         run: yarn run build
