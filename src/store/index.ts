@@ -6,14 +6,12 @@ import { rootReducer } from './reducers/rootReducer';
 import { AuthProvider } from '../authentication/tokenProvider';
 import { configureStore } from '@reduxjs/toolkit';
 import { DataHolder } from './reducers/data-holders/shared';
-import { LoadingState } from './common';
 export { State } from './state';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
   reducer: rootReducer,
-  // @ts-ignore
   enhancers: [applyMiddleware(sagaMiddleware)],
 });
 
