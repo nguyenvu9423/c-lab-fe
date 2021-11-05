@@ -12,7 +12,7 @@ export const LoginPage: React.FC = () => {
   const handleSuccess = React.useCallback(() => {
     const prevPath = history.location.state.prevPath;
     if (prevPath) {
-      history.back();
+      history.goBack();
     } else {
       history.push('/');
     }
