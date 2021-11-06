@@ -44,5 +44,5 @@ jobs:
           username: nguyenvu9405
           password: Luctieu32
           port: 2222
-          source: "dist/"
-          target: "wwww/html/"
+          source: "dist/*"
+          target: "www/html/"
