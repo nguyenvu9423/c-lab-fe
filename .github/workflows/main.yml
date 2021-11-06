@@ -36,3 +36,13 @@ jobs:
 
       - name: dist
         run: yarn run build
+        
+      - name: deploy
+        uses: appleboy/scp-action@master
+        with:
+          host: 117.2.125.169
+          username: nguyenvu9405
+          password: Luctieu32
+          port: 2222
+          source: "dist/"
+          target: "wwww/html/
