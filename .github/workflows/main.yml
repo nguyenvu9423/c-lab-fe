@@ -45,4 +45,4 @@ jobs:
           password: Luctieu32
           port: 2222
           source: "dist/"
-          target: "wwww/html/
+          target: "wwww/html/"
