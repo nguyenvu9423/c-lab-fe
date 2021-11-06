@@ -47,3 +47,4 @@ jobs:
           source: "dist"
           target: "www/html"
           strip_components: 1
+          rm: true
