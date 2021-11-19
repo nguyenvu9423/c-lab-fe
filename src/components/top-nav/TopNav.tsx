@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Logo from '../../../public/images/logo.svg';
 import { Container, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -19,6 +20,7 @@ export const TopNav: React.FC = () => {
     <Menu id="top-nav" fixed="top">
       <Container>
         <Menu.Item header as={Link} to="/">
+          <img src={Logo} />
           {WebConfig.WebName}
         </Menu.Item>
         <Menu.Item as={Link} to="/articles" content="Bài viết" />

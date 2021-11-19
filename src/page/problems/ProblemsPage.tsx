@@ -70,7 +70,7 @@ export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
   }, []);
 
   return (
-    <Grid container doubling padded="vertically" columns={2}>
+    <Grid container stackable doubling columns={2}>
       <Grid.Column width={12}>
         <Segment.Group>
           <Segment style={{ minHeight: 634, padding: 0 }}>

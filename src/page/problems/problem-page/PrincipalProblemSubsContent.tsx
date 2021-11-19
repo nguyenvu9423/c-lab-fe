@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import { Grid, Pagination, Segment, Ref } from 'semantic-ui-react';
+
 import {
   SubmissionSelectors,
   PrincipalSelectors,
 } from '../../../store/selectors';
 import { fetchSubmissions } from '../../../store/actions/submission';
 import { LoadingState } from '../../../store/common';
-import { Grid, Pagination, Segment } from 'semantic-ui-react';
 import { useJudgesStream } from '../../../domains/judge';
 import { Target } from '../../../store/reducers/target';
 import { resetState } from '../../../store/actions';
@@ -18,7 +19,7 @@ import { ProblemNavMenu } from '../components/ProblemNavMenu';
 import { SubmissionCard } from '../components/SubmissionCard';
 import { TagContainer } from '../../../components';
 import { SubmissionsTable } from '../components/SubmissionsTable';
-import { Pageable } from '../../../utility';
+import { Pageable, scrollToElementTop } from '../../../utility';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
 import { ProblemInfoCard } from '../components';
 
@@ -75,6 +76,7 @@ export const PrincipalSubmissionTable: React.FC<
 > = React.forwardRef((props, ref) => {
   const { problem, user } = props;
   const history = useHistory<{ highlightSubId: number }>();
+  const tableRef = React.useRef<HTMLElement>(null);
 
   const { data } = useSelector(
     (state: State) => state.problemPageContents.principalSubmissions
@@ -129,22 +131,27 @@ export const PrincipalSubmissionTable: React.FC<
   useJudgesStream(submissions ? submissions.map((sub) => sub.judge) : []);
 
   const handlePageChange = React.useCallback((event, { activePage }) => {
-    dispatch(load({ pageable: { page: activePage - 1, size: PAGE_SIZE } }));
+    load({ pageable: { page: activePage - 1, size: PAGE_SIZE } });
+    if (tableRef.current) {
+      scrollToElementTop(tableRef.current);
+    }
   }, []);
 
   return (
     <Segment.Group>
       <Segment style={{ minHeight: 678, padding: 0 }}>
-        <SubmissionsTable
-          loading={DataHolder.isLoading(data.submissions)}
-          errorMessage={
-            DataHolder.isError(data.submissions)
-              ? data.submissions.error.message
-              : undefined
-          }
-          submissions={submissions}
-          highlightSubId={highlightSubId}
-        />
+        <Ref innerRef={tableRef}>
+          <SubmissionsTable
+            loading={DataHolder.isLoading(data.submissions)}
+            errorMessage={
+              DataHolder.isError(data.submissions)
+                ? data.submissions.error.message
+                : undefined
+            }
+            submissions={submissions}
+            highlightSubId={highlightSubId}
+          />
+        </Ref>
       </Segment>
 
       <Segment textAlign="center">

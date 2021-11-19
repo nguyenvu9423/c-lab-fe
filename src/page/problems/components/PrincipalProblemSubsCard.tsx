@@ -3,7 +3,6 @@ import { Header, Segment, Pagination, Table, Divider } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubmissions, resetState } from '../../../store/actions';
 import { SubmissionSelectors } from '../../../store/selectors/SubmissionSelectors';
-import { LoadingState } from '../../../store/common';
 import { Target } from '../../../store/reducers/target';
 
 import { useJudgesStream } from '../../../domains/judge';
@@ -18,7 +17,6 @@ import {
   DataHolderState,
 } from '../../../store/reducers/data-holders/shared';
 import { Pageable } from '../../../utility';
-import { LoadingIndicator } from '../../../components';
 import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
 
 export const PAGE_SIZE = 4;

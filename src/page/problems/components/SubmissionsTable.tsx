@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, TableProps } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { JudgeSelectors } from '../../../store/selectors/JudgeSelectors';
@@ -9,16 +9,19 @@ import { formatResourceTime, formatResourceMemory } from '../utils';
 import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
 import { DateTimeUtils } from '../../../utility/data-type/DateTimeUtils';
 
-export const SubmissionsTable: React.FC<{
-  loading?: boolean;
-  errorMessage?: string;
-  submissions?: Submission[];
-  highlightSubId?: number;
-  style?: React.CSSProperties;
-}> = (props) => {
-  const { loading, errorMessage, submissions, highlightSubId } = props;
+export namespace SubmissionsTable {
+  export interface Props extends TableProps {
+    loading?: boolean;
+    errorMessage?: string;
+    submissions?: Submission[];
+    highlightSubId?: number;
+  }
+}
+
+export const SubmissionsTable: React.FC<SubmissionsTable.Props> = (props) => {
+  const { loading, errorMessage, submissions, highlightSubId, ...rest } = props;
   return (
-    <Table basic fixed singleLine style={{ border: 'none' }}>
+    <Table basic fixed singleLine style={{ border: 'none' }} {...rest}>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell width={1}>ID</Table.HeaderCell>
@@ -41,15 +44,17 @@ export const SubmissionsTable: React.FC<{
       ) : errorMessage ? (
         <ErrorTableBody message={errorMessage} />
       ) : (
-        submissions?.map((submission) => {
-          return (
-            <SubmissionRow
-              key={submission.id}
-              submission={submission}
-              active={submission.id === highlightSubId}
-            />
-          );
-        })
+        <Table.Body>
+          {submissions?.map((submission) => {
+            return (
+              <SubmissionRow
+                key={submission.id}
+                submission={submission}
+                active={submission.id === highlightSubId}
+              />
+            );
+          })}
+        </Table.Body>
       )}
     </Table>
   );

@@ -60,7 +60,7 @@ export const ProblemPage: React.FC = () => {
   );
 
   return (
-    <Grid container doubling padded="vertically" columns={2}>
+    <Grid container doubling stackable columns={2}>
       {DataHolderState.isError(data.problem) && (
         <Container>
           <ErrorMessage message={data.problem.error.message} />
