@@ -20,8 +20,8 @@ export const TopNav: React.FC = () => {
     <Menu id="top-nav" fixed="top">
       <Container>
         <Menu.Item header as={Link} to="/">
-          <img src={Logo} />
-          {WebConfig.WebName}
+          <img alt="c-lab logo" src={Logo} style={{marginRight: 4}} height={40} />
+          <span style={{color: "#58595b" }}>{WebConfig.WebName}</span>
         </Menu.Item>
         <Menu.Item as={Link} to="/articles" content="Bài viết" />
 
