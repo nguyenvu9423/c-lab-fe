@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Article } from '../../../domains/article';
-import { Header, Button } from 'semantic-ui-react';
+import { Header, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 export namespace ArticleSettingPanel {
@@ -14,7 +14,7 @@ export const ArticleSettingPanel: React.FC<ArticleSettingPanel.Props> = (
 ) => {
   const { article } = props;
   return (
-    <div className="clear-fix-container">
+    <Segment basic clearing>
       <Header as="h3" floated="left">
         Cài đặt
       </Header>
@@ -25,6 +25,6 @@ export const ArticleSettingPanel: React.FC<ArticleSettingPanel.Props> = (
         as={Link}
         to={`/articles/${article.id}/edit`}
       />
-    </div>
+    </Segment>
   );
 };

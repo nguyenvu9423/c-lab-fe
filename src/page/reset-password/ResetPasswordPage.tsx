@@ -3,11 +3,14 @@ import * as qs from 'qs';
 
 import { Grid, Header, Segment } from 'semantic-ui-react';
 import { ResetPasswordForm } from '../../domains/user';
+import { useScrollToTop } from '../../common/hooks';
 
 export const ResetPasswordPage: React.FC<{
   location: Location;
 }> = (props) => {
   const { location } = props;
+  useScrollToTop();
+
   const [succedded, setSuccedded] = React.useState(false);
 
   const { id, token } = React.useMemo(

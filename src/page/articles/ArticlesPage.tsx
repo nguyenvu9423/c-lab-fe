@@ -11,6 +11,7 @@ import { State } from '../../store';
 import { Pageable } from '../../utility';
 import { DataHolderState } from '../../store/reducers/data-holders/shared';
 import { resetState } from '../../store/actions';
+import { useScrollToTop } from '../../common/hooks';
 
 const initialPageable: Pageable = {
   page: 0,
@@ -18,6 +19,8 @@ const initialPageable: Pageable = {
 };
 
 export const ArticlesPage: React.FC = () => {
+  useScrollToTop();
+
   const dispatch = useDispatch();
   const { data } = useSelector((state: State) => state.articlesPage);
 

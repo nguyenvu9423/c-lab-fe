@@ -111,7 +111,7 @@ export const PrincipalProblemSubsCard: React.FC<
       {submissions?.length !== 0 ? (
         <>
           <Segment style={{ height: 230, paddingTop: 0 }} attached>
-            <Table basic fixed singleLine style={{ border: 0 }}>
+            <Table basic fixed singleLine style={{ border: 0 }} unstackable>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell width="1">ID</Table.HeaderCell>

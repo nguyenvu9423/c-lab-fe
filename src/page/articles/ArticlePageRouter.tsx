@@ -7,7 +7,7 @@ import { ArticlesPage } from './ArticlesPage';
 
 const BASE_ARTICLE_URL = '/articles';
 
-export const ArticlePageRouter: React.FC<{ match: match }> = (props) => {
+export const ArticlePageRouter: React.FC<{ match: match }> = () => {
   return (
     <Switch>
       <Route path={`${BASE_ARTICLE_URL}/add`} component={AddArticlePage} />

@@ -5,8 +5,11 @@ import { AddProblemForm } from '../../domains/problem';
 import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../store/actions/toast';
+import { useScrollToTop } from '../../common/hooks';
 
 export const AddProblemPage: React.FC = () => {
+  useScrollToTop();
+
   const history = useHistory();
   const dispatch = useDispatch();
 

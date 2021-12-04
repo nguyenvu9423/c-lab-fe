@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router';
 import { Button, Grid, Header, Segment } from 'semantic-ui-react';
+import { useScrollToTop } from '../../common/hooks';
 import { ErrorMessage, LoadingIndicator } from '../../components';
 import { EmailVerificationService } from '../../service/EmailVerificationService';
 import { AuthenticationSelectors } from '../../store/selectors';
@@ -10,6 +11,8 @@ import { PageErrorMessage } from '../shared';
 type Result = { error?: false } | { error: true; message: string };
 
 export const EmailVerificationPage: React.FC = () => {
+  useScrollToTop();
+
   const match = useRouteMatch<{ id: string }>('/email-verification/:id');
   const id = match?.params.id;
 

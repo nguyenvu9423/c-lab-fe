@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { useFormik } from 'formik';
-import { Form, Input } from 'semantic-ui-react';
+import { Form, Input, Select } from 'semantic-ui-react';
 import { VerdictFilterTypes } from './options';
 import { ComparisonOperator } from '../../../../utility/filter';
 
@@ -101,9 +101,10 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
       <Form.Field>
         <label>Số test đúng</label>
       </Form.Field>
-      <Form.Group widths={16}>
-        <Form.Field width={6}>
-          <Form.Select
+      <Form.Field>
+        <div style={{ display: 'flex' }}>
+          <Select
+            style={{ width: 100, marginRight: 4, marginBottom: 0 }}
             name="operation"
             placeholder="=, <="
             compact
@@ -120,8 +121,6 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
               }
             }}
           />
-        </Form.Field>
-        <Form.Field width={10}>
           <Input
             name="testCount"
             type="number"
@@ -138,8 +137,8 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
               });
             }}
           />
-        </Form.Field>
-      </Form.Group>
+        </div>
+      </Form.Field>
 
       <Form.Button type="submit" floated="right">
         Áp dụng

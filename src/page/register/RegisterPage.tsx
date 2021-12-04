@@ -6,8 +6,11 @@ import { RegisterForm } from '../../domains/user/forms/RegisterForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToast } from '../../store/actions';
 import { AuthenticationSelectors } from '../../store/selectors';
+import { useScrollToTop } from '../../common/hooks';
 
 export const RegisterPage: React.FC = () => {
+  useScrollToTop();
+
   const dispatch = useDispatch();
   const history = useHistory();
   const authenticated = useSelector(AuthenticationSelectors.isAuthenticated());

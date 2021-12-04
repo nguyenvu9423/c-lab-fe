@@ -12,7 +12,7 @@ export const AnonymousControlMenu: React.FC = () => {
         </Button>
       </Menu.Item>
       <Menu.Item>
-        <LoginButton />
+        <LoginButton icon="sign in" />
       </Menu.Item>
     </>
   );

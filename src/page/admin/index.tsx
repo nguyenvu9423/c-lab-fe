@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Menu, Message } from 'semantic-ui-react';
+import { Grid, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { match, useRouteMatch } from 'react-router';
 import { useSelector } from 'react-redux';
@@ -12,10 +12,12 @@ import { AuthorizationSelectors } from '../../store/selectors';
 import { PageErrorMessage } from '../shared';
 import { SubmissionPage } from './entity-pages/submission';
 import { ProblemPage } from './entity-pages/problem';
+import { useScrollToTop } from '../../common/hooks';
 
 export const AdminPage: React.FC<{ match: match }> = (props) => {
-  const baseURL = props.match.url;
+  useScrollToTop();
 
+  const baseURL = props.match.url;
   const match = useRouteMatch<{ activePage: string | undefined }>({
     path: `${baseURL}/:activePage?`,
     strict: true,

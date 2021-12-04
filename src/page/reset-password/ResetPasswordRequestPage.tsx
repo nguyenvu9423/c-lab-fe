@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { Grid, Header, Icon, Label, Segment } from 'semantic-ui-react';
+import { Grid, Header, Segment } from 'semantic-ui-react';
+import { useScrollToTop } from '../../common/hooks';
 import {
   ResetPasswordRequestForm,
   ResetPasswordResponseDTO,
 } from '../../domains/user';
 
-export const ResetPasswordRequestPage: React.FC = (props) => {
+export const ResetPasswordRequestPage: React.FC = () => {
+  useScrollToTop();
+
   const [success, setSuccess] = React.useState<
     ResetPasswordResponseDTO | undefined
   >(undefined);

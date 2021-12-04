@@ -14,11 +14,14 @@ import { DataHolder } from '../../store/reducers/data-holders/shared';
 import { Pageable } from '../../utility';
 import { AcceptedLabel } from '../../domains/judge';
 import { ErrorTableBody, LoadingTableBody } from '../../components/table';
+import { useScrollToTop } from '../../common/hooks';
 
 const PROBLEMS_PAGE_SIZE = 14;
 const initialPageable: Pageable = { size: PROBLEMS_PAGE_SIZE, page: 0 };
 
 export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
+  useScrollToTop();
+
   const principal = useSelector(PrincipalSelectors.principal());
   const { data } = useSelector((state: State) => state.problemsPage);
   const dispatch = useDispatch();

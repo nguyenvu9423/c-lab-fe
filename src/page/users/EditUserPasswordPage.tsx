@@ -10,6 +10,7 @@ import { UserService } from '../../service/UserService';
 import { addToast } from '../../store/actions';
 import { AuthenticationSelectors } from '../../store/selectors';
 import { PageErrorMessage } from '../shared';
+import { useScrollToTop } from '../../common/hooks';
 
 export const EditUserPasswordPage: React.FC<{
   match: match<{ username: string }>;
@@ -17,6 +18,7 @@ export const EditUserPasswordPage: React.FC<{
   const {
     match: { params },
   } = props;
+  useScrollToTop();
 
   const history = useHistory();
   const dispatch = useDispatch();

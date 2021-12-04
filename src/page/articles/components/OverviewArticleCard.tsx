@@ -70,16 +70,16 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
                       : DefaultAvatar
                   }
                 />
-                <a
+                <Link
                   style={{
                     verticalAlign: 'middle',
                     color: 'rgba(0,0,0,.87)',
                     fontWeight: 'bold',
                   }}
-                  href={`users/${author.username}`}
+                  to={`users/${author.username}`}
                 >
                   {author.username}
-                </a>
+                </Link>
                 <span
                   style={{ verticalAlign: 'middle', color: 'rgba(0,0,0,.4)' }}
                 >

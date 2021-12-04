@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { match } from 'react-router';
 import { Grid, Header, Segment } from 'semantic-ui-react';
+import { useScrollToTop } from '../../common/hooks';
 import {} from '../../components';
 import { EditUserInfoForm } from '../../domains/user';
 import { AuthenticationSelectors } from '../../store/selectors';
@@ -13,6 +14,7 @@ export const EditUserInfoPage: React.FC<{
   const {
     match: { params },
   } = props;
+  useScrollToTop();
 
   const username = useSelector(AuthenticationSelectors.username());
   if (username !== params.username) {

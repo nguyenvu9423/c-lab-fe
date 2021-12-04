@@ -27,14 +27,7 @@ export const UserControlMenu: React.FC<{ user: User }> = (props) => {
     <>
       {(canCreateArticle || canCreateProblem) && (
         <Menu.Item>
-          <Dropdown
-            button
-            floating
-            className="icon"
-            labeled
-            icon="edit"
-            text="Tạo"
-          >
+          <Dropdown button floating className="icon" icon="edit">
             <Dropdown.Menu>
               {canCreateArticle && (
                 <Dropdown.Item

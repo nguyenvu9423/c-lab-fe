@@ -107,7 +107,7 @@ export const AvatarForm: React.FC<AvatarForm.Props> = (props) => {
         style={{ display: 'inline-block', verticalAlign: 'top' }}
       >
         <Avatar user={user} />
-        <Dimmer active={dimmerActive} inverted>
+        <Dimmer active={dimmerActive} inverted style={{ zIndex: 'unset' }}>
           <Button
             circular
             icon="photo"

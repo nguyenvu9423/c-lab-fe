@@ -8,8 +8,10 @@ export const HomePage: React.FC = () => {
     <Container>
       <div
         style={{
-          paddingTop: '12em',
-          paddingBottom: '12em',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          minHeight: 'calc(100vh - 100px)',
         }}
       >
         <Header

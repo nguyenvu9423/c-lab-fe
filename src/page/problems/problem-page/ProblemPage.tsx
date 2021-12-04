@@ -25,8 +25,11 @@ import { ProblemSubmitContent } from './ProblemSubmitContent';
 import { PrincipalProblemSubsContent } from './PrincipalProblemSubsContent';
 import { ProblemSubmissionsContent } from './ProblemSubmissionsContent';
 import { resetState } from '../../../store/actions';
+import { useScrollToTop } from '../../../common/hooks';
 
 export const ProblemPage: React.FC = () => {
+  useScrollToTop();
+
   const { url, params } = useRouteMatch<{ code: string }>();
 
   const dispatch = useDispatch();

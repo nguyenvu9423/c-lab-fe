@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router';
 import { ResetPasswordRequestPage } from './ResetPasswordRequestPage';
 import { ResetPasswordPage } from './ResetPasswordPage';
 
-export const ResetPasswordPageRouter: React.FC = (props) => {
+export const ResetPasswordPageRouter: React.FC = () => {
   return (
     <Switch>
       <Route path="/reset-password" exact component={ResetPasswordPage} />

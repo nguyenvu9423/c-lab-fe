@@ -2,11 +2,14 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router';
 import { Grid, Header, Loader, Segment } from 'semantic-ui-react';
+import { useScrollToTop } from '../../common/hooks';
 import { addToast, logout } from '../../store/actions';
 import { AuthenticationSelectors } from '../../store/selectors';
 import { LoginForm } from '../login';
 
 export const LogoutPage: React.FC = () => {
+  useScrollToTop();
+
   const dispatch = useDispatch();
   const history = useHistory();
   const isFirstRender = React.useRef(true);

@@ -15,6 +15,7 @@ import { ConstSelectors, PrincipalSelectors } from '../../store/selectors';
 import { addToast, resetState } from '../../store/actions';
 import { EmailVerificationService } from '../../service/EmailVerificationService';
 import { ContactProperties } from '../../config/ContactProperties';
+import { useScrollToTop } from '../../common/hooks';
 
 export const UserPage: React.FC<{ match: match<{ username: string }> }> = (
   props
@@ -22,6 +23,8 @@ export const UserPage: React.FC<{ match: match<{ username: string }> }> = (
   const {
     match: { params },
   } = props;
+
+  useScrollToTop();
   const dispatch = useDispatch();
 
   const { data } = useSelector((state: State) => state.userPage);

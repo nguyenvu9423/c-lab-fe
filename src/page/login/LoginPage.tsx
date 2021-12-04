@@ -6,8 +6,11 @@ import { useHistory } from 'react-router-dom';
 import { Grid, Header, Segment } from 'semantic-ui-react';
 import { LoginForm } from './LogInForm';
 import { AuthenticationSelectors } from '../../store/selectors';
+import { useScrollToTop } from '../../common/hooks';
 
 export const LoginPage: React.FC = () => {
+  useScrollToTop();
+
   const history = useHistory<{ prevPath: string }>();
   const handleSuccess = React.useCallback(() => {
     const prevPath = history.location.state.prevPath;

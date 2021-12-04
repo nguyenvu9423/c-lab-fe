@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { match, Redirect } from 'react-router';
+import { useMediaQuery } from 'react-responsive';
 import { fetchArticle } from '../../store/actions/article';
 import {
   Grid,
@@ -28,6 +29,8 @@ import { ArticleSettingPanel } from './components/ArticleSettingPanel';
 import { TagSelectors } from '../../store/selectors/TagSelectors';
 import { resetState } from '../../store/actions';
 import { DateTimeUtils } from '../../utility/data-type/DateTimeUtils';
+import { Breakpoint } from '../../utility';
+import { useScrollToTop } from '../../common/hooks';
 
 export const ArticlePage: React.FC<{
   match: match<{ id: string; slug?: string }>;
@@ -37,8 +40,13 @@ export const ArticlePage: React.FC<{
     match: { params },
     location,
   } = props;
+  useScrollToTop();
+
   const dispatch = useDispatch();
   const contextRef = React.createRef<HTMLElement>();
+  const isGreaterMediumScreen = useMediaQuery({
+    query: `(min-width: ${Breakpoint.md}px)`,
+  });
 
   const { data } = useSelector((state: State) => state.articlePage);
   const article = useSelector(ArticleSelectors.byId(params.id));
@@ -71,7 +79,7 @@ export const ArticlePage: React.FC<{
   }
 
   return (
-    <Grid container relaxed divided>
+    <Grid container relaxed stackable>
       {data.article.loadingState === LoadingState.LOADING && (
         <Grid.Row>
           <Grid.Column width="16">
@@ -97,13 +105,16 @@ export const ArticlePage: React.FC<{
             </Grid.Row>
           )}
 
-          <Grid.Row>
+          <Grid.Row divided>
             <Grid.Column width={article.contentTableShown ? 12 : 16}>
               <Ref innerRef={contextRef}>
-                <ArticleContentContainer article={article} />
+                <ArticleContentContainer
+                  article={article}
+                  showContentTable={!isGreaterMediumScreen}
+                />
               </Ref>
             </Grid.Column>
-            {article.contentTableShown && (
+            {isGreaterMediumScreen && article.contentTableShown && (
               <Grid.Column width={4}>
                 <Sticky
                   className="article table-content"
@@ -123,8 +134,17 @@ export const ArticlePage: React.FC<{
   );
 };
 
-const ArticleContentContainer: React.FC<{ article: Article }> = (props) => {
-  const { article } = props;
+namespace ArticleContentContainer {
+  export interface Props {
+    article: Article;
+    showContentTable?: boolean;
+  }
+}
+
+const ArticleContentContainer: React.FC<ArticleContentContainer.Props> = (
+  props
+) => {
+  const { article, showContentTable } = props;
   const author = useSelector(UserSelectors.selectById(article.author));
 
   const markupContent = React.useMemo(() => {
@@ -133,13 +153,13 @@ const ArticleContentContainer: React.FC<{ article: Article }> = (props) => {
 
   return (
     <div className="article text-container">
-      <Segment vertical basic>
+      <Segment basic>
         <Header as="h1">
           {article.title}
           <Header.Subheader>{article.subtitle}</Header.Subheader>
         </Header>
       </Segment>
-      <Segment vertical basic>
+      <Segment basic>
         <div>
           <Avatar user={author} style={{ width: 48, height: 48 }} />
           <span
@@ -160,7 +180,15 @@ const ArticleContentContainer: React.FC<{ article: Article }> = (props) => {
           </span>
         </div>
       </Segment>
-      <Segment vertical>
+      {showContentTable && (
+        <>
+          <Segment basic>
+            <ArticleContentTable article={article} />
+          </Segment>
+          <Divider />
+        </>
+      )}
+      <Segment basic>
         <div
           className="content text-container"
           dangerouslySetInnerHTML={{

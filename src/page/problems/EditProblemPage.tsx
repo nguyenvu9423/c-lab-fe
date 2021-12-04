@@ -6,6 +6,7 @@ import { UpdateJudgeConfigForm } from '../../domains/judge-config/UpdateJudgeCon
 import { match } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../store/actions/toast';
+import { useScrollToTop } from '../../common/hooks';
 
 export const ProblemEditPage: React.FC<{
   match: match<{ url: string; code: string }>;
@@ -15,6 +16,7 @@ export const ProblemEditPage: React.FC<{
     params: { activePage = 'definition' },
   } = useRouteMatch({ path: `${baseURL}/:activePage?`, strict: true });
 
+  useScrollToTop();
   const dispatch = useDispatch();
 
   let content;
@@ -72,7 +74,7 @@ export const ProblemEditPage: React.FC<{
   }
 
   return (
-    <Grid container>
+    <Grid container stackable>
       <Grid.Column width={4}>
         <SectionMenu problemCode={params.code} activePage={activePage} />
       </Grid.Column>

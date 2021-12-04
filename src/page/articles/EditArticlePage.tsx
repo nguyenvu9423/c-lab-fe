@@ -7,6 +7,7 @@ import { Segment, Header, Grid, Menu } from 'semantic-ui-react';
 import { EditArticleForm } from '../../domains/article';
 import { addToast } from '../../store/actions';
 import { CRUDToastBuilder } from '../../components/toast';
+import { useScrollToTop } from '../../common/hooks';
 
 export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
   props
@@ -16,11 +17,12 @@ export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
       params: { id },
     },
   } = props;
+  useScrollToTop();
 
   const dispatch = useDispatch();
 
   return (
-    <Grid container>
+    <Grid container stackable>
       <Grid.Row>
         <Grid.Column width={4}>
           <Menu vertical fluid>

@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { ArticleForm } from './ArticleForm';
 import { ArticleService } from '../../../service/ArticleService';
+import { useScrollToTop } from '../../../common/hooks';
 
 export const AddArticleForm: React.FC<{
   onCancel?: () => void;
   onSuccess?: (data: any) => void;
 }> = (props) => {
   const { onCancel, onSuccess } = props;
+  useScrollToTop();
 
   const handleSubmit = React.useCallback(
     (values) => {

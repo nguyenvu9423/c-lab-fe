@@ -13,6 +13,7 @@ export const LoginButton: React.FC<ButtonProps> = (props) => {
         pathname: '/login',
         state: { prevPath: shouldGoBack(prevPath) ? prevPath : undefined },
       }}
+      icon="sign in"
       {...props}
     >
       Đăng Nhập
