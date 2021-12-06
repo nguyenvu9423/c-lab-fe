@@ -1,19 +1,18 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { match } from 'react-router';
+import { useParams } from 'react-router';
 import { Grid, Header, Segment } from 'semantic-ui-react';
 import { useScrollToTop } from '../../common/hooks';
-import {} from '../../components';
 import { EditUserInfoForm } from '../../domains/user';
+import { UnknownException } from '../../exception/UnkownException';
 import { AuthenticationSelectors } from '../../store/selectors';
 import { PageErrorMessage } from '../shared';
 
-export const EditUserInfoPage: React.FC<{
-  match: match<{ username: string }>;
-}> = (props) => {
-  const {
-    match: { params },
-  } = props;
+export const EditUserInfoPage: React.FC = () => {
+  const params = useParams();
+  if (!params.username) {
+    throw UnknownException.createDefault();
+  }
   useScrollToTop();
 
   const username = useSelector(AuthenticationSelectors.username());
@@ -29,7 +28,7 @@ export const EditUserInfoPage: React.FC<{
         <Grid.Column style={{ maxWidth: 560 }}>
           <Segment clearing>
             <Header as="h2">Sửa thông tin</Header>
-            <EditUserInfoForm username={username} />
+            <EditUserInfoForm username={params.username} />
           </Segment>
         </Grid.Column>
       </Grid.Row>

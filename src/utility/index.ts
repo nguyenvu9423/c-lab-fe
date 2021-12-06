@@ -1,4 +1,6 @@
 export * from './data-type';
+export * from './assert';
+
 export * from './local-storage';
 export * from './responsive';
 

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Grid, Segment } from 'semantic-ui-react';
-import { match } from 'react-router';
 
 import { UserProfilePanel } from './components/UserProfilePanel';
 import { UserSettingMenu } from './components/UserSettingMenu';
@@ -16,13 +15,14 @@ import { addToast, resetState } from '../../store/actions';
 import { EmailVerificationService } from '../../service/EmailVerificationService';
 import { ContactProperties } from '../../config/ContactProperties';
 import { useScrollToTop } from '../../common/hooks';
+import { useParams } from 'react-router';
 
-export const UserPage: React.FC<{ match: match<{ username: string }> }> = (
-  props
-) => {
-  const {
-    match: { params },
-  } = props;
+export const UserPage: React.FC = () => {
+  const { username } = useParams<'username'>();
+
+  if (!username) {
+    throw new Error('Not expected');
+  }
 
   useScrollToTop();
   const dispatch = useDispatch();
@@ -38,14 +38,14 @@ export const UserPage: React.FC<{ match: match<{ username: string }> }> = (
     dispatch(
       fetchUser.request({
         type: 'byUsername',
-        username: params.username,
+        username,
         target: Target.USER_PAGE,
       })
     );
     return () => {
       dispatch(resetState({ target: Target.USER_PAGE }));
     };
-  }, [dispatch, params.username]);
+  }, [dispatch, username]);
 
   const isPrincipal = useSelector(
     user

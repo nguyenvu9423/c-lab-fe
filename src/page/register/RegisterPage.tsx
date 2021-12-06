@@ -1,22 +1,22 @@
 import * as React from 'react';
 import { Grid, Header, Segment } from 'semantic-ui-react';
-import { Redirect, useHistory } from 'react-router-dom';
 
 import { RegisterForm } from '../../domains/user/forms/RegisterForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToast } from '../../store/actions';
 import { AuthenticationSelectors } from '../../store/selectors';
 import { useScrollToTop } from '../../common/hooks';
+import { Navigate, useNavigate } from 'react-router';
 
 export const RegisterPage: React.FC = () => {
   useScrollToTop();
 
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const authenticated = useSelector(AuthenticationSelectors.isAuthenticated());
 
   const handleSuccess = React.useCallback(() => {
-    history.push('/login');
+    navigate('/login');
     dispatch(
       addToast({
         header: 'Đăng kí thành công',
@@ -28,7 +28,7 @@ export const RegisterPage: React.FC = () => {
   }, [history]);
 
   if (authenticated) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   return (

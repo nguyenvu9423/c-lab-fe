@@ -2,20 +2,20 @@ import * as React from 'react';
 
 import { Container, Segment, Header } from 'semantic-ui-react';
 import { AddProblemForm } from '../../domains/problem';
-import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../store/actions/toast';
 import { useScrollToTop } from '../../common/hooks';
+import { useNavigate } from 'react-router';
 
 export const AddProblemPage: React.FC = () => {
   useScrollToTop();
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmitSuccess = React.useCallback(
     (problem) => {
-      history.push(`/problems/${problem.code}`);
+      navigate(`/problems/${problem.code}`);
       dispatch(
         addToast({
           header: 'Add problem',
@@ -25,7 +25,7 @@ export const AddProblemPage: React.FC = () => {
         })
       );
     },
-    [history]
+    [dispatch, navigate]
   );
 
   return (

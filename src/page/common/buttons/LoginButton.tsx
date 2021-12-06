@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Button, ButtonProps } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { useLocation } from 'react-router';
 
 export const LoginButton: React.FC<ButtonProps> = (props) => {
-  const history = useHistory();
-  const prevPath = history.location.pathname;
+  const location = useLocation();
+
+  const prevPath = location.pathname;
   return (
     <Button
       as={Link}

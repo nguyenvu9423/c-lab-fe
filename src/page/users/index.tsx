@@ -1,22 +1,18 @@
 import * as React from 'react';
-import { match, Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { UserPage } from './UserPage';
 import { EditUserInfoPage } from './EditUserInfoPage';
 import { EditUserPasswordPage } from './EditUserPasswordPage';
 
-export const UserPageRouter: React.FC<{ match: match }> = (props) => {
-  const { match } = props;
+export const UserPageRouter: React.FC = () => {
   return (
-    <Switch>
+    <Routes>
       <Route
-        path={`${match.path}/:username/change-password`}
-        component={EditUserPasswordPage}
+        path=":username/change-password"
+        element={<EditUserPasswordPage />}
       />
-      <Route
-        path={`${match.path}/:username/edit`}
-        component={EditUserInfoPage}
-      />
-      <Route path={`${match.path}/:username`} component={UserPage} />
-    </Switch>
+      <Route path=":username/edit/*" element={<EditUserInfoPage />} />
+      <Route path=":username" element={<UserPage />} />
+    </Routes>
   );
 };

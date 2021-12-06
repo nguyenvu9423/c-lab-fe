@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, RouteChildrenProps } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Table, Segment, Grid } from 'semantic-ui-react';
 import { fetchProblems } from '../../store/actions/problem';
@@ -19,7 +19,7 @@ import { useScrollToTop } from '../../common/hooks';
 const PROBLEMS_PAGE_SIZE = 14;
 const initialPageable: Pageable = { size: PROBLEMS_PAGE_SIZE, page: 0 };
 
-export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
+export const ProblemsPage: React.FC = () => {
   useScrollToTop();
 
   const principal = useSelector(PrincipalSelectors.principal());
@@ -94,14 +94,10 @@ export const ProblemsPage: React.FC<RouteChildrenProps> = () => {
                   {problems.map((problem) => (
                     <Table.Row key={problem.id}>
                       <Table.Cell>
-                        <Link to={`problems/${problem.code}`}>
-                          {problem.id}
-                        </Link>
+                        <Link to={problem.code}>{problem.id}</Link>
                       </Table.Cell>
                       <Table.Cell>
-                        <Link to={`problems/${problem.code}`}>
-                          {problem.code}
-                        </Link>
+                        <Link to={problem.code}>{problem.code}</Link>
                       </Table.Cell>
                       <Table.Cell>{problem.title}</Table.Cell>
 

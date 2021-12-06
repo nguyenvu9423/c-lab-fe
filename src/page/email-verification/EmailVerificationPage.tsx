@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useMatch, useNavigate } from 'react-router';
 import { Button, Grid, Header, Segment } from 'semantic-ui-react';
 import { useScrollToTop } from '../../common/hooks';
 import { ErrorMessage, LoadingIndicator } from '../../components';
@@ -13,10 +13,10 @@ type Result = { error?: false } | { error: true; message: string };
 export const EmailVerificationPage: React.FC = () => {
   useScrollToTop();
 
-  const match = useRouteMatch<{ id: string }>('/email-verification/:id');
+  const match = useMatch('/email-verification/:id');
   const id = match?.params.id;
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const [result, setResult] = React.useState<Result | undefined>();
   const isAuthenticated = useSelector(
     AuthenticationSelectors.isAuthenticated()
@@ -60,7 +60,7 @@ export const EmailVerificationPage: React.FC = () => {
                   </p>
                   <Button
                     content="Log out"
-                    onClick={() => history.push('/logout')}
+                    onClick={() => navigate('/logout')}
                   />
                 </>
               )}

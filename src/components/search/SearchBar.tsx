@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as Lodash from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { Search } from 'semantic-ui-react';
 import { LoadingState } from '../../store/common';
 import { fetchSearch } from '../../store/actions/search';
 import { State } from '../../store';
 import { SearchResult } from '../../domains/search/SearchResult';
+import { useNavigate } from 'react-router';
 
 const DEBOUNCE_DURATION = 500;
 
@@ -19,7 +19,7 @@ export interface CategorizedResults {
 
 export const SearchBar: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [value, setValue] = React.useState('');
   const state = useSelector((state: State) => state.search);
 
@@ -43,9 +43,9 @@ export const SearchBar: React.FC = () => {
   const handleResultSelect = React.useCallback((event, { result }) => {
     setValue('');
     if (result.type === 'problem') {
-      history.push(`/problems/${result.code}`);
+      navigate(`/problems/${result.code}`);
     } else if (result.type === 'article') {
-      history.push(`/articles/${result.id}/view/${result.slug}`);
+      navigate(`/articles/${result.id}/view/${result.slug}`);
     }
   }, []);
 

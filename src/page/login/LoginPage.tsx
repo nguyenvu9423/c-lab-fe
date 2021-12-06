@@ -1,33 +1,36 @@
 import * as React from 'react';
 
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
 import { Grid, Header, Segment } from 'semantic-ui-react';
 import { LoginForm } from './LogInForm';
 import { AuthenticationSelectors } from '../../store/selectors';
 import { useScrollToTop } from '../../common/hooks';
+import { useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 
 export const LoginPage: React.FC = () => {
   useScrollToTop();
 
-  const history = useHistory<{ prevPath: string }>();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleSuccess = React.useCallback(() => {
-    const prevPath = history.location.state.prevPath;
+    const prevPath = location.state.prevPath;
     if (prevPath) {
-      history.goBack();
+      navigate(-1);
     } else {
-      history.push('/');
+      navigate('/');
     }
-  }, [history]);
+  }, [navigate, location]);
 
   const authenticated = useSelector(AuthenticationSelectors.isAuthenticated());
 
   React.useEffect(() => {
     if (authenticated) {
-      history.push('/');
+      navigate('/');
     }
-  }, [authenticated]);
+  }, [navigate, authenticated]);
 
   if (authenticated || authenticated === undefined) return null;
 

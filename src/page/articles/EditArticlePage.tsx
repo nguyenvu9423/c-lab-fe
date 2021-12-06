@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { match } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -8,15 +7,10 @@ import { EditArticleForm } from '../../domains/article';
 import { addToast } from '../../store/actions';
 import { CRUDToastBuilder } from '../../components/toast';
 import { useScrollToTop } from '../../common/hooks';
+import { useParams } from 'react-router';
 
-export const EditArticlePage: React.FC<{ match: match<{ id: string }> }> = (
-  props
-) => {
-  const {
-    match: {
-      params: { id },
-    },
-  } = props;
+export const EditArticlePage: React.FC = () => {
+  const { id } = useParams();
   useScrollToTop();
 
   const dispatch = useDispatch();

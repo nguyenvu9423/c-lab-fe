@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Grid, Container, Divider } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route, Switch } from 'react-router';
-import { useRouteMatch } from 'react-router-dom';
+import { Route, Routes, useMatch } from 'react-router';
 
 import { fetchProblem } from '../../../store/actions/problem';
 import {
@@ -26,11 +25,15 @@ import { PrincipalProblemSubsContent } from './PrincipalProblemSubsContent';
 import { ProblemSubmissionsContent } from './ProblemSubmissionsContent';
 import { resetState } from '../../../store/actions';
 import { useScrollToTop } from '../../../common/hooks';
+import { useParams } from 'react-router';
+import { UnknownException } from '../../../exception/UnkownException';
 
 export const ProblemPage: React.FC = () => {
   useScrollToTop();
-
-  const { url, params } = useRouteMatch<{ code: string }>();
+  const { code } = useParams();
+  if (!code) {
+    throw UnknownException.createDefault();
+  }
 
   const dispatch = useDispatch();
   const { data } = useSelector((state: State) => state.problemPage);
@@ -45,18 +48,18 @@ export const ProblemPage: React.FC = () => {
     dispatch(
       fetchProblem.request({
         type: 'byCode',
-        code: params.code,
+        code,
         target: Target.PROBLEM_PAGE,
       })
     );
-  }, [dispatch, params.code]);
+  }, [dispatch, code]);
 
   React.useEffect(() => {
     load();
     return () => {
       dispatch(resetState({ target: Target.PROBLEM_PAGE }));
     };
-  }, [params.code]);
+  }, [code]);
 
   const canUpdateProblem = useSelector(
     problem ? AuthorizationSelectors.canUpdateProblem(problem) : () => false
@@ -85,26 +88,24 @@ export const ProblemPage: React.FC = () => {
             </Grid.Row>
           )}
           <Grid.Row>
-            <Switch>
-              <Route path={`${url}`} exact>
-                <ProblemMainContent problem={problem} />
-              </Route>
-              <Route path={`${url}/submit`} exact>
-                <ProblemSubmitContent problem={problem} />
-              </Route>
-              <Route path={`${url}/my`} exact>
-                <PrincipalProblemSubsContent problem={problem} />
-              </Route>
-              <Route path={`${url}/status`} exact>
-                <ProblemSubmissionsContent problem={problem} />
-              </Route>
-
-              <Route>
-                <Container>
-                  <NotFoundPageMessage />
-                </Container>
-              </Route>
-            </Switch>
+            <Routes>
+              <Route
+                path=""
+                element={<ProblemMainContent problem={problem} />}
+              />
+              <Route
+                path="submit"
+                element={<ProblemSubmitContent problem={problem} />}
+              />
+              <Route
+                path="my"
+                element={<PrincipalProblemSubsContent problem={problem} />}
+              />
+              <Route
+                path="status"
+                element={<ProblemSubmissionsContent problem={problem} />}
+              />
+            </Routes>
           </Grid.Row>
         </>
       )}

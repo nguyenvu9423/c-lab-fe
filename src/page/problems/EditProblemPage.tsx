@@ -1,20 +1,21 @@
 import * as React from 'react';
 import { Segment, Header, Grid, Menu, Icon } from 'semantic-ui-react';
 import { EditProblemForm, ProblemRejudgeForm } from '../../domains/problem';
-import { Link, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import { UpdateJudgeConfigForm } from '../../domains/judge-config/UpdateJudgeConfigForm';
-import { match } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../../store/actions/toast';
 import { useScrollToTop } from '../../common/hooks';
+import { useMatch, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+import { UnknownException } from '../../exception/UnkownException';
 
-export const ProblemEditPage: React.FC<{
-  match: match<{ url: string; code: string }>;
-}> = (props) => {
-  const { url: baseURL, params } = props.match;
-  const {
-    params: { activePage = 'definition' },
-  } = useRouteMatch({ path: `${baseURL}/:activePage?`, strict: true });
+export const ProblemEditPage: React.FC = () => {
+  const params = useParams<'code'>();
+  if (!params.code) {
+    throw UnknownException.createDefault();
+  }
+  const match = useMatch({ path: `problems/${params.code}/edit/:activePage` });
+  const activePage = match?.params.activePage ?? 'definition';
 
   useScrollToTop();
   const dispatch = useDispatch();

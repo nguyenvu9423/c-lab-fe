@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { FormikHelpers } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { match, useHistory } from 'react-router';
 import { Grid, Header, Segment } from 'semantic-ui-react';
 import { EditUserPasswordForm } from '../../domains/user';
 import { ValidationException } from '../../exception';
@@ -11,16 +10,17 @@ import { addToast } from '../../store/actions';
 import { AuthenticationSelectors } from '../../store/selectors';
 import { PageErrorMessage } from '../shared';
 import { useScrollToTop } from '../../common/hooks';
+import { useNavigate, useParams } from 'react-router';
 
-export const EditUserPasswordPage: React.FC<{
-  match: match<{ username: string }>;
-}> = (props) => {
-  const {
-    match: { params },
-  } = props;
+export const EditUserPasswordPage: React.FC = () => {
+  const { username: usernameParam } = useParams<'username'>();
+  if (usernameParam === undefined) {
+    throw new Error('Could not find username');
+  }
+
   useScrollToTop();
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const username = useSelector(AuthenticationSelectors.username());
 
@@ -29,7 +29,7 @@ export const EditUserPasswordPage: React.FC<{
       value: EditUserPasswordForm.Value,
       helpers: FormikHelpers<EditUserPasswordForm.Value>
     ) => {
-      return UserService.updatePassword(params.username, {
+      return UserService.updatePassword(usernameParam, {
         newPassword: value.newPassword,
         oldPassword: value.oldPassword,
       })
@@ -42,7 +42,7 @@ export const EditUserPasswordPage: React.FC<{
               status: 'positive',
             })
           );
-          history.push(`/users/${username}`);
+          navigate(`/users/${username}`);
         })
         .catch((e) => {
           if (ValidationException.isInstance(e)) {
@@ -50,10 +50,10 @@ export const EditUserPasswordPage: React.FC<{
           }
         });
     },
-    [dispatch, params.username]
+    [dispatch, usernameParam]
   );
 
-  if (username !== params.username) {
+  if (username !== usernameParam) {
     return (
       <PageErrorMessage message="Bạn không có quyền truy cập vào trang này" />
     );
@@ -67,7 +67,7 @@ export const EditUserPasswordPage: React.FC<{
             <Header as="h2">Đổi mật khẩu</Header>
             <EditUserPasswordForm
               onCancel={() => {
-                history.push(`/users/${username}`);
+                navigate(`/users/${username}`);
               }}
               onSubmit={handleSubmit}
             />

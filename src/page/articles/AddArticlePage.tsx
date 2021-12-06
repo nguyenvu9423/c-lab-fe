@@ -1,20 +1,18 @@
-import { History } from 'history';
 import * as React from 'react';
+import { useNavigate } from 'react-router';
 import { Container, Segment, Header } from 'semantic-ui-react';
 import { useScrollToTop } from '../../common/hooks';
 import { AddArticleForm } from '../../domains/article';
 
-export const AddArticlePage: React.FC<{ history: History }> = (props) => {
-  const { history } = props;
+export const AddArticlePage: React.FC = () => {
   useScrollToTop();
 
-  const handleSuccess = (article) => {
-    history.push(`/articles/${article.id}/view/${article.slug}`);
-  };
+  const navigate = useNavigate();
 
-  const handleCancel = () => {
-    history.goBack();
+  const handleSuccess = (article) => {
+    navigate(`/articles/${article.id}/view/${article.slug}`);
   };
+  const handleCancel = () => navigate(-1);
 
   return (
     <Container>

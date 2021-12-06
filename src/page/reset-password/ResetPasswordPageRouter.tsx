@@ -1,17 +1,13 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { ResetPasswordRequestPage } from './ResetPasswordRequestPage';
 import { ResetPasswordPage } from './ResetPasswordPage';
 
 export const ResetPasswordPageRouter: React.FC = () => {
   return (
-    <Switch>
-      <Route path="/reset-password" exact component={ResetPasswordPage} />
-      <Route
-        path="/reset-password/request"
-        exact
-        component={ResetPasswordRequestPage}
-      />
-    </Switch>
+    <Routes>
+      <Route path="/" element={<ResetPasswordPage />} />
+      <Route path="/request" element={<ResetPasswordRequestPage />} />
+    </Routes>
   );
 };

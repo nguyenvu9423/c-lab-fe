@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 import { Grid, Header, Loader, Segment } from 'semantic-ui-react';
 import { useScrollToTop } from '../../common/hooks';
 import { addToast, logout } from '../../store/actions';
@@ -11,7 +11,7 @@ export const LogoutPage: React.FC = () => {
   useScrollToTop();
 
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const isFirstRender = React.useRef(true);
 
   const isAuthenticated = useSelector(
@@ -37,7 +37,7 @@ export const LogoutPage: React.FC = () => {
   }, []);
 
   if (isFirstRender.current && !isAuthenticated) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   if (isAuthenticated) {
@@ -54,7 +54,7 @@ export const LogoutPage: React.FC = () => {
           <Segment attached>
             <LoginForm
               onSuccess={() => {
-                history.push('/');
+                navigate('/');
               }}
             />
           </Segment>

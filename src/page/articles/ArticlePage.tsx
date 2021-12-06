@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { match, Redirect } from 'react-router';
+import { Navigate, useParams } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
 import { fetchArticle } from '../../store/actions/article';
 import {
@@ -31,15 +31,16 @@ import { resetState } from '../../store/actions';
 import { DateTimeUtils } from '../../utility/data-type/DateTimeUtils';
 import { Breakpoint } from '../../utility';
 import { useScrollToTop } from '../../common/hooks';
+import { UnknownException } from '../../exception/UnkownException';
 
-export const ArticlePage: React.FC<{
-  match: match<{ id: string; slug?: string }>;
-  location: Location;
-}> = (props) => {
-  const {
-    match: { params },
-    location,
-  } = props;
+export const ArticlePage: React.FC = () => {
+  const params = useParams();
+  const slug = params['*'];
+
+  if (!params.id || !slug) {
+    throw UnknownException.createDefault();
+  }
+
   useScrollToTop();
 
   const dispatch = useDispatch();
@@ -74,8 +75,8 @@ export const ArticlePage: React.FC<{
     }
   });
 
-  if (article && article.slug && params.slug !== article.slug) {
-    return <Redirect to={`/articles/${article.id}/view/${article.slug}`} />;
+  if (article && article.slug && slug !== article.slug) {
+    return <Navigate to={`/articles/${article.id}/view/${article.slug}`} />;
   }
 
   return (

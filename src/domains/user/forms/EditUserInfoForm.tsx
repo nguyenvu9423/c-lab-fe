@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import { LoadingIndicator } from '../../../components';
 import { UserService } from '../../../service/UserService';
 import { State } from '../../../store';
@@ -19,7 +19,7 @@ export namespace EditUserInfoForm {
 export const EditUserInfoForm: React.FC<EditUserInfoForm.Props> = (props) => {
   const { username } = props;
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { data } = useSelector((state: State) => state.editUserInfoForm);
   const user = useSelector(
@@ -49,7 +49,7 @@ export const EditUserInfoForm: React.FC<EditUserInfoForm.Props> = (props) => {
     (value) => {
       if (user) {
         return UserService.updateInfo(user.username, value).then(() => {
-          history.push(`/users/${user.username}`);
+          navigate(`/users/${user.username}`);
         });
       }
     },
@@ -63,7 +63,7 @@ export const EditUserInfoForm: React.FC<EditUserInfoForm.Props> = (props) => {
         <UserInfoForm
           initialValues={user}
           onCancel={() => {
-            history.push(`/users/${user.username}`);
+            navigate(`/users/${user.username}`);
           }}
           onSubmit={handleSubmit}
         />

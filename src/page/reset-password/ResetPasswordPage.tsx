@@ -4,11 +4,10 @@ import * as qs from 'qs';
 import { Grid, Header, Segment } from 'semantic-ui-react';
 import { ResetPasswordForm } from '../../domains/user';
 import { useScrollToTop } from '../../common/hooks';
+import { useLocation } from 'react-router';
 
-export const ResetPasswordPage: React.FC<{
-  location: Location;
-}> = (props) => {
-  const { location } = props;
+export const ResetPasswordPage: React.FC = () => {
+  const location = useLocation();
   useScrollToTop();
 
   const [succedded, setSuccedded] = React.useState(false);

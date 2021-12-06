@@ -15,8 +15,8 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
   const { article } = props;
 
   const author = useSelector(UserSelectors.selectById(article.author));
-
   const tags = useSelector(TagSelectors.selectByIds(article.tags));
+
   return (
     <Card fluid>
       <Card.Content>
@@ -36,7 +36,10 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
               }}
             />
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <Header as={Link} to={`/articles/${article.id}/view`}>
+              <Header
+                as={Link}
+                to={`/articles/${article.id}/view/${article.slug}`}
+              >
                 {article.title}
               </Header>
               <div
@@ -76,7 +79,7 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
                     color: 'rgba(0,0,0,.87)',
                     fontWeight: 'bold',
                   }}
-                  to={`users/${author.username}`}
+                  to={`/users/${author.username}`}
                 >
                   {author.username}
                 </Link>

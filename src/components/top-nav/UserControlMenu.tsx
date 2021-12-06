@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+
+import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Dropdown, Menu } from 'semantic-ui-react';
 import { User } from '../../domains/user';
@@ -9,11 +10,11 @@ import { Avatar } from '../avatar/Avatar';
 
 export const UserControlMenu: React.FC<{ user: User }> = (props) => {
   const { user } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleLogOut = React.useCallback(() => {
-    history.push('/logout');
-  }, [history]);
+    navigate('/logout');
+  }, [navigate]);
 
   const canCreateArticle = useSelector(
     AuthorizationSelectors.canCreateArticle()

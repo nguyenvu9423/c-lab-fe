@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
+
 import { Grid, Pagination, Segment, Ref } from 'semantic-ui-react';
 
 import {
@@ -22,6 +22,7 @@ import { SubmissionsTable } from '../components/SubmissionsTable';
 import { Pageable, scrollToElementTop } from '../../../utility';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
 import { ProblemInfoCard } from '../components';
+import { useLocation } from 'react-router';
 
 const PAGE_SIZE = 10;
 const initialPageable: Pageable = {
@@ -75,14 +76,14 @@ export const PrincipalSubmissionTable: React.FC<
     React.RefAttributes<PrincipalSubmissionTable.Ref>
 > = React.forwardRef((props, ref) => {
   const { problem, user } = props;
-  const history = useHistory<{ highlightSubId: number }>();
+  const location = useLocation();
   const tableRef = React.useRef<HTMLElement>(null);
 
   const { data } = useSelector(
     (state: State) => state.problemPageContents.principalSubmissions
   );
 
-  const highlightSubId = history.location.state?.highlightSubId;
+  const highlightSubId = location.state?.highlightSubId;
   const dispatch = useDispatch();
 
   const pageable = DataHolder.usePageable(data.submissions, initialPageable);

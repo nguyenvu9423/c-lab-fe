@@ -1,26 +1,17 @@
 import * as React from 'react';
-import { match, Route, Switch } from 'react-router';
+import { Routes, Route } from 'react-router';
 import { ArticlePage } from './ArticlePage';
 import { AddArticlePage } from './AddArticlePage';
 import { EditArticlePage } from './EditArticlePage';
 import { ArticlesPage } from './ArticlesPage';
 
-const BASE_ARTICLE_URL = '/articles';
-
-export const ArticlePageRouter: React.FC<{ match: match }> = () => {
+export const ArticlePageRouter: React.FC = () => {
   return (
-    <Switch>
-      <Route path={`${BASE_ARTICLE_URL}/add`} component={AddArticlePage} />
-      <Route
-        exact={true}
-        path={`${BASE_ARTICLE_URL}/:id/edit`}
-        component={EditArticlePage}
-      />
-      <Route
-        path={`${BASE_ARTICLE_URL}/:id/view/:slug?`}
-        component={ArticlePage}
-      />
-      <Route path={`${BASE_ARTICLE_URL}`} component={ArticlesPage} />
-    </Switch>
+    <Routes>
+      <Route path="add" element={<AddArticlePage />} />
+      <Route path=":id/edit" element={<EditArticlePage />} />
+      <Route path=":id/view/*" element={<ArticlePage />} />
+      <Route path="/" element={<ArticlesPage />} />
+    </Routes>
   );
 };

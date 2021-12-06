@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Icon, Menu } from 'semantic-ui-react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { User } from '../../../domains/user';
 
 export namespace UserSettingMenu {
@@ -11,28 +12,19 @@ export namespace UserSettingMenu {
 
 export const UserSettingMenu: React.FC<UserSettingMenu.Props> = (props) => {
   const { user } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Menu vertical fluid>
-      <Menu.Item
-        name="update-info"
-        link
-        as={Link}
-        to={user ? `${user.username}/edit` : ''}
-      >
+      <Menu.Item name="update-info" link as={Link} to="edit">
         <Icon name="edit" />
         Sửa thông tin
       </Menu.Item>
-      <Menu.Item
-        link
-        as={Link}
-        to={user ? `${user.username}/change-password` : ''}
-      >
+      <Menu.Item link as={Link} to="change-password">
         <Icon name="lock" />
         Đổi mật khẩu
       </Menu.Item>
-      <Menu.Item name="logout" link onClick={() => history.push('/logout')}>
+      <Menu.Item name="logout" link onClick={() => navigate('/logout')}>
         <Icon name="angle double right" />
         Đăng xuất
       </Menu.Item>

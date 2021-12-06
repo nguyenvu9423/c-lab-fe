@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useHistory } from 'react-router';
+
 import { useSelector } from 'react-redux';
 import { Grid, Segment } from 'semantic-ui-react';
 
@@ -9,14 +9,15 @@ import { Problem } from '../../../domains/problem';
 import { ProblemNavMenu } from '../components/ProblemNavMenu';
 import { TagContainer } from '../../../components';
 import { ProblemInfoCard } from '../components';
+import { useNavigate } from 'react-router';
 
 export const ProblemSubmitContent: React.FC<{ problem: Problem }> = (props) => {
   const { problem } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
   const canSubmit = useSelector(AuthorizationSelectors.canSubmit());
 
   const handleSuccess = React.useCallback(
-    (sub) => history.push('my', { highlightSubId: sub.id }),
+    (sub) => navigate('my', { state: { highlightSubId: sub.id } }),
     [history]
   );
 

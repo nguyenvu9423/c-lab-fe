@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, Menu } from 'semantic-ui-react';
+import { useMatch } from 'react-router';
 import { Link } from 'react-router-dom';
-import { match, useRouteMatch } from 'react-router';
 import { useSelector } from 'react-redux';
 
 import { TagPage } from './entity-pages/tag';
@@ -14,15 +14,10 @@ import { SubmissionPage } from './entity-pages/submission';
 import { ProblemPage } from './entity-pages/problem';
 import { useScrollToTop } from '../../common/hooks';
 
-export const AdminPage: React.FC<{ match: match }> = (props) => {
+export const AdminPage: React.FC = () => {
   useScrollToTop();
 
-  const baseURL = props.match.url;
-  const match = useRouteMatch<{ activePage: string | undefined }>({
-    path: `${baseURL}/:activePage?`,
-    strict: true,
-  });
-
+  const match = useMatch({ path: 'admin/:activePage' });
   const activePage = match?.params.activePage ?? 'users';
 
   const hasAdminRole = useSelector(AuthorizationSelectors.hasAdminRole());
@@ -59,7 +54,8 @@ export const AdminPage: React.FC<{ match: match }> = (props) => {
     <Grid container doubling stackable>
       <Grid.Row>
         <Grid.Column width={4}>
-          <ControlMenu baseURL={baseURL} activePage={activePage} />
+          {/* TOOD: refactor here */}
+          <ControlMenu baseURL={'/admin'} activePage={activePage} />
         </Grid.Column>
         <Grid.Column width={12}>{content}</Grid.Column>{' '}
       </Grid.Row>
