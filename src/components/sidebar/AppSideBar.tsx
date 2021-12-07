@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Logo from '../../../public/images/logo.svg';
 import { Menu } from 'semantic-ui-react';
-import { WebConfig } from '../../config';
 import { LoadingState } from '../../store/common';
 import { PrincipalSelectors } from '../../store/selectors';
+import { LogoWithName } from '..';
 
 export namespace AppSideBar {
   export interface Props {
@@ -27,13 +26,7 @@ export const AppSideBar: React.FC<AppSideBar.Props> = (props) => {
     >
       <Menu className="sidebar-menu" vertical fixed="left">
         <Menu.Item header as={Link} to="/" onClick={onHide}>
-          <img
-            alt="c-lab logo"
-            src={Logo}
-            style={{ marginRight: 4 }}
-            height={32}
-          />
-          <span style={{ color: '#58595b' }}>{WebConfig.WebName}</span>
+          <LogoWithName />
         </Menu.Item>
         <Menu.Item
           as={Link}

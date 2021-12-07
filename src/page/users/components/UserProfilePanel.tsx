@@ -99,12 +99,11 @@ export const AvatarForm: React.FC<AvatarForm.Props> = (props) => {
   }, [dispatch, user]);
 
   return (
-    <>
+    <div className="avatar-form">
       <Dimmer.Dimmable
         dimmed={dimmerActive}
         onMouseEnter={() => setDimmerActive(true)}
         onMouseLeave={() => setDimmerActive(false)}
-        style={{ display: 'inline-block', verticalAlign: 'top' }}
       >
         <Avatar user={user} />
         <Dimmer active={dimmerActive} inverted style={{ zIndex: 'unset' }}>
@@ -135,6 +134,6 @@ export const AvatarForm: React.FC<AvatarForm.Props> = (props) => {
           onChange={handleChange}
         />
       </form>
-    </>
+    </div>
   );
 };

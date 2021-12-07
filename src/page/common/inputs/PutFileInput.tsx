@@ -36,9 +36,9 @@ export const PutFileInput: React.FC<PutFileInput.Props> = (props) => {
   }, [onChange]);
 
   return (
-    <div style={{ display: 'inline-flex' }}>
-      <Button as="div" labelPosition="left" style={{ flex: 1 }}>
-        <Label as="a" basic style={{ minWidth: 160, flex: 1 }}>
+    <div className="put-file-input">
+      <Button as="div" labelPosition="left">
+        <Label className="file-name" as="a" basic>
           {file ? file.name : 'No file has uploaded'}
         </Label>
       </Button>

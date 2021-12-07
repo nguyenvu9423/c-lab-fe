@@ -9,15 +9,7 @@ export const ToastGroup: React.FC = () => {
 
   return (
     <Portal defaultOpen closeOnEscape={false} closeOnDocumentClick={false}>
-      <List
-        id="toast-group"
-        style={{
-          right: 32,
-          bottom: 32,
-          position: 'fixed',
-          zIndex: 1000,
-        }}
-      >
+      <List id="toast-group">
         {toasts.map((toast, id) => (
           <NotificationToast key={id} toast={toast} />
         ))}

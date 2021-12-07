@@ -4,19 +4,21 @@ import AvatarPlaceholderImg from '../../../public/images/avatar-placeholder.png'
 import { BackEndConfig } from '../../config';
 import { User } from '../../domains/user';
 
-export const Avatar: React.FC<{ user: User; style?: any }> = (props) => {
+export namespace Avatar {
+  export interface Props {
+    user: User;
+    style?: React.CSSProperties;
+  }
+}
+
+export const Avatar: React.FC<Avatar.Props> = (props) => {
   const { user, style } = props;
   return (
     <Image
+      className="avatar"
       circular
       bordered
-      style={{
-        objectFit: 'cover',
-        width: 128,
-        height: 128,
-        display: 'inline-block',
-        ...style,
-      }}
+      style={style}
       src={
         user?.avatarUrl
           ? `${BackEndConfig.API_URL}${user.avatarUrl}`

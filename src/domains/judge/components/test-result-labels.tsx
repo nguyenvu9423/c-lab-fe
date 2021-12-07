@@ -4,7 +4,6 @@ import { AcceptedLabel, ErrorLabel, ScoreLabel } from './ui-labels';
 import { ScoringType } from '../../judge-config';
 import { DetailedTestResult, TestResult } from '../';
 import { LabelStyles } from './shared';
-import { Header, List } from 'semantic-ui-react';
 
 export namespace SubmissionTestResultLabel {
   export interface Props extends LabelStyles {

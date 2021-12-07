@@ -1,9 +1,43 @@
-.article
+.article-container
+    .additional-info
+        .avatar
+            width: 48px
+            height: 48px
+            margin-right: 14px
+        .info-container
+            display: inline-block
+            vertical-align: middle
     .content                    
         img 
             max-width: 100%
             height: auto
-    &.table-content
-        .sticky
-            z-index: 5
+    
 
+.overview-article-card
+    display: flex
+    .thumbnail
+        width: 150px
+        margin-right: 14px
+        object-fit: cover
+    .content
+        display: flex
+        flex-direction: column
+        .description
+            flex-grow: 1
+        .additional-info
+            display: inline-block
+            margin-top: 1rem
+            margin-bottom: 1rem
+            .username-label
+                vertical-align: middle
+            .created-at-label
+                vertical-align: middle                
+            .avatar
+                width: 24px
+                height: 24px
+                margin: 0 1rem 0 0 
+
+.username-label
+    font-weight: bold
+.created-at-label
+    color: rgba(0, 0, 0, .6)

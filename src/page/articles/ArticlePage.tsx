@@ -32,6 +32,7 @@ import { DateTimeUtils } from '../../utility/data-type/DateTimeUtils';
 import { Breakpoint } from '../../utility';
 import { useScrollToTop } from '../../common/hooks';
 import { UnknownException } from '../../exception/UnkownException';
+import { Link } from 'react-router-dom';
 
 export const ArticlePage: React.FC = () => {
   const params = useParams();
@@ -118,7 +119,7 @@ export const ArticlePage: React.FC = () => {
             {isGreaterMediumScreen && article.contentTableShown && (
               <Grid.Column width={4}>
                 <Sticky
-                  className="article table-content"
+                  className="table-content"
                   context={contextRef}
                   offset={76}
                 >
@@ -153,33 +154,25 @@ const ArticleContentContainer: React.FC<ArticleContentContainer.Props> = (
   }, [article?.content]);
 
   return (
-    <div className="article text-container">
+    <div className="article-container text-container">
       <Segment basic>
         <Header as="h1">
           {article.title}
           <Header.Subheader>{article.subtitle}</Header.Subheader>
         </Header>
       </Segment>
-      <Segment basic>
-        <div>
-          <Avatar user={author} style={{ width: 48, height: 48 }} />
-          <span
-            style={{
-              display: 'inline-block',
-              marginLeft: 14,
-              verticalAlign: 'middle',
-            }}
-          >
-            <div>{`${author.firstName} ${author.lastName}`}</div>
-            <div
-              style={{
-                color: 'rgba(0,0,0,.6)',
-              }}
-            >
-              {DateTimeUtils.of(article.createdAt).fromNow()}
-            </div>
-          </span>
-        </div>
+      <Segment className="additional-info" basic>
+        <Link to={`/users/${author.username}`}>
+          <Avatar user={author} />
+        </Link>
+        <span className="info-container">
+          <Link className="username-label" to={`/users/${author.username}`}>
+            {author.username}
+          </Link>
+          <div className="created-at-label">
+            {DateTimeUtils.of(article.createdAt).fromNow()}
+          </div>
+        </span>
       </Segment>
       {showContentTable && (
         <>
@@ -191,7 +184,7 @@ const ArticleContentContainer: React.FC<ArticleContentContainer.Props> = (
       )}
       <Segment basic>
         <div
-          className="content text-container"
+          className="text-container"
           dangerouslySetInnerHTML={{
             __html: markupContent ?? '',
           }}

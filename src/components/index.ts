@@ -10,3 +10,5 @@ export * from './toast/ToastGroup';
 export * from './top-nav';
 export * from './error-boundary';
 export * from './sidebar';
+export * from './logo';
+export * from './search';

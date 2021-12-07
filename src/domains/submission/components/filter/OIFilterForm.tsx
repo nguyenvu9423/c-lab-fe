@@ -6,6 +6,7 @@ import { ComparisonOperator } from '../../../../utility/filter';
 import { FilterUtils } from '../../../../utility/filter/utils';
 import { VerdictFilterTypes } from './options';
 import { languageOptions, operationOptions } from './shared';
+import { ValuePredicateInput } from './ValuePredicateInput';
 
 const verdictOptions: DropdownItemProps[] = [{ key: '', text: '' }].concat(
   [VerdictFilterTypes.AC, VerdictFilterTypes.WA].map((type) => ({
@@ -22,7 +23,7 @@ export namespace OIFilterForm {
   export interface Value {
     verdict?: VerdictFilterTypes;
     language?: string;
-    score?: { operator: ComparisonOperator; score: string };
+    score?: { operator: ComparisonOperator; value: number };
   }
 }
 
@@ -45,11 +46,11 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
         );
       }
       if (values.score) {
-        const { operator, score } = values.score;
+        const { operator, value } = values.score;
         if (operator) {
           query = FilterUtils.joinAnd(
             query,
-            `judge.result.score${operator}${Number(score) / 100}`
+            `judge.result.score${operator}${Number(value) / 100}`
           );
         }
       }
@@ -101,45 +102,17 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
       <Form.Field>
         <label>Điểm</label>
       </Form.Field>
-      <Form.Group widths={16}>
-        <Form.Field width={6}>
-          <Form.Select
-            compact
-            placeholder="=, <="
-            options={operationOptions}
-            name="operation"
-            value={values.score?.operator}
-            onChange={(event, { value }) => {
-              if (value === undefined) {
-                setFieldValue('score', undefined);
-              } else {
-                setFieldValue('score', {
-                  operator: value,
-                  score: values.score?.score ?? 0,
-                });
-              }
-            }}
-          />
-        </Form.Field>
-        <Form.Field width="10">
-          <Input
-            type="number"
-            min="0"
-            max="100"
-            label="điểm"
-            labelPosition="right"
-            fluid
-            disabled={!values.score}
-            value={values.score?.score}
-            onChange={(event, { value }) => {
-              setFieldValue('score', {
-                ...values.score,
-                score: value,
-              });
-            }}
-          />
-        </Form.Field>
-      </Form.Group>
+      <Form.Field>
+        <ValuePredicateInput
+          min={0}
+          max={100}
+          unit="điểm"
+          value={values.score}
+          onChange={(value) => {
+            setFieldValue('score', value);
+          }}
+        />
+      </Form.Field>
 
       <Form.Button type="submit" floated="right">
         Áp dụng

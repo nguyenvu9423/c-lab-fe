@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { fetchArticles } from '../../store/actions/article';
-import { Card, Grid, GridColumn, Pagination } from 'semantic-ui-react';
+import { Card, Grid, Pagination } from 'semantic-ui-react';
 import { OverviewArticleCard } from './components/OverviewArticleCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { Target } from '../../store/reducers/target';
@@ -9,7 +9,7 @@ import { LoadingIndicator, TagFilterCard } from '../../components';
 import { ArticleSelectors } from '../../store/selectors';
 import { State } from '../../store';
 import { Pageable } from '../../utility';
-import { DataHolderState } from '../../store/reducers/data-holders/shared';
+import { DataHolder } from '../../store/reducers/data-holders/shared';
 import { resetState } from '../../store/actions';
 import { useScrollToTop } from '../../common/hooks';
 
@@ -24,13 +24,12 @@ export const ArticlesPage: React.FC = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state: State) => state.articlesPage);
 
-  const currentPageable = DataHolderState.isLoadRequested(data.articles)
-    ? data.articles.pageable
-    : initialPageable;
-
-  const currentQuery = DataHolderState.isLoadRequested(data.articles)
-    ? data.articles.query
-    : undefined;
+  const currentPageable = DataHolder.usePageable(
+    data.articles,
+    initialPageable
+  );
+  const currentQuery = DataHolder.useQuery(data.articles);
+  const totalPage = DataHolder.useTotalPages(data.articles);
 
   const load = React.useCallback(
     ({ pageable, query } = {}) => {
@@ -92,11 +91,7 @@ export const ArticlesPage: React.FC = () => {
               </Card.Group>
               <div style={{ marginTop: 25, textAlign: 'center' }}>
                 <Pagination
-                  totalPages={
-                    data.articles.loadingState === LoadingState.LOADED
-                      ? data.articles.totalPages
-                      : currentPageable.page + 1
-                  }
+                  totalPages={totalPage}
                   activePage={currentPageable.page + 1}
                 />
               </div>

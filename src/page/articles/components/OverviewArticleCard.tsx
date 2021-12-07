@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Image, Card, Label, Header } from 'semantic-ui-react';
 import DefaultThumbnail from '../../../../public/images/default-thumbnail.png';
-import DefaultAvatar from '../../../../public/images/avatar-placeholder.png';
 import { ArrayUtils } from '../../../utility';
 import { Article } from '../../../domains/article';
 import { useSelector } from 'react-redux';
@@ -10,6 +9,7 @@ import { TagSelectors } from '../../../store/selectors/TagSelectors';
 import { UserSelectors } from '../../../store/selectors';
 import { BackEndConfig } from '../../../config';
 import { DateTimeUtils } from '../../../utility/data-type/DateTimeUtils';
+import { Avatar } from '../../../components/avatar/Avatar';
 
 export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
   const { article } = props;
@@ -21,21 +21,17 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
     <Card fluid>
       <Card.Content>
         <Card.Description>
-          <div style={{ display: 'flex' }}>
+          <div className="overview-article-card">
             <Image
+              className="thumbnail"
               bordered
               src={
                 article.thumbnail
-                  ? '/api' + article.thumbnail
+                  ? BackEndConfig.API_URL + article.thumbnail
                   : DefaultThumbnail
               }
-              style={{
-                width: 150,
-                marginRight: 14,
-                objectFit: 'cover',
-              }}
             />
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="content">
               <Header
                 as={Link}
                 to={`/articles/${article.id}/view/${article.slug}`}
@@ -43,49 +39,18 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
                 {article.title}
               </Header>
               <div
-                style={{ flexGrow: 1 }}
-                className={'article-container'}
-                dangerouslySetInnerHTML={{
-                  __html: article.overview,
-                }}
+                className="description"
+                dangerouslySetInnerHTML={{ __html: article.overview }}
               />
-              <div
-                style={{
-                  display: 'inline-block',
-                  marginTop: '1rem',
-                  marginBottom: '1rem',
-                }}
-              >
-                <Image
-                  circular
-                  size="mini"
-                  floated="left"
-                  bordered
-                  style={{
-                    width: 24,
-                    height: 24,
-                    margin: '0 1rem 0 0',
-                    objectFit: 'cover',
-                  }}
-                  src={
-                    author.avatarUrl
-                      ? `${BackEndConfig.API_URL}${author.avatarUrl}`
-                      : DefaultAvatar
-                  }
-                />
+              <div className="additional-info">
                 <Link
-                  style={{
-                    verticalAlign: 'middle',
-                    color: 'rgba(0,0,0,.87)',
-                    fontWeight: 'bold',
-                  }}
+                  className="username-label"
                   to={`/users/${author.username}`}
                 >
+                  <Avatar user={author} />
                   {author.username}
                 </Link>
-                <span
-                  style={{ verticalAlign: 'middle', color: 'rgba(0,0,0,.4)' }}
-                >
+                <span className="created-at-label">
                   {' '}
                   - {DateTimeUtils.of(article.createdAt).fromNow()}
                 </span>

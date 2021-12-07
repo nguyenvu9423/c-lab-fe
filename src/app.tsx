@@ -32,12 +32,11 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <AppSideBar
-        visible={sideBarVisible}
-        onHide={() => setSideBarVisible(false)}
-      />
-
       <div id="root-container">
+        <AppSideBar
+          visible={sideBarVisible}
+          onHide={() => setSideBarVisible(false)}
+        />
         <MediaQuery minWidth={Breakpoint.md}>
           {(matched) =>
             matched ? (
@@ -47,7 +46,7 @@ const App: React.FC = () => {
             )
           }
         </MediaQuery>
-        <div className="content" style={{ paddingTop: '7em' }}>
+        <div className="page-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/register" element={<RegisterPage />} />
@@ -67,9 +66,9 @@ const App: React.FC = () => {
             <Route path="/problems/*" element={<ProblemPageRouter />} />
             <Route path="/admin/*" element={<AdminPage />} />
           </Routes>
-          <ToastGroup />
-          <Modal />
         </div>
+        <ToastGroup />
+        <Modal />
       </div>
     </ErrorBoundary>
   );

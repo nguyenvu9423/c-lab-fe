@@ -1,15 +1,13 @@
 import * as React from 'react';
-import Logo from '../../../public/images/logo.svg';
 import { Container, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { SearchBar } from '../../components/search/SearchBar';
+import { SearchBar, LogoWithName } from '../../components';
 import { PrincipalSelectors } from '../../store/selectors';
 import { LoadingState } from '../../store/common';
 import { AnonymousControlMenu } from './AnonymousControlMenu';
 import { UserControlMenu } from './UserControlMenu';
-import { WebConfig } from '../../config';
 
 export const TopNav: React.FC = () => {
   const { loadingState, principal } = useSelector(
@@ -21,13 +19,7 @@ export const TopNav: React.FC = () => {
       <Container>
         <Menu.Menu position="left">
           <Menu.Item header as={Link} to="/">
-            <img
-              alt="c-lab logo"
-              src={Logo}
-              style={{ marginRight: 4 }}
-              height={40}
-            />
-            <span style={{ color: '#58595b' }}>{WebConfig.WebName}</span>
+            <LogoWithName height={40} />
           </Menu.Item>
           <Menu.Item as={Link} to="/articles" content="Bài viết" />
           <Menu.Item as={Link} to="/problems" content="Bài tập" />

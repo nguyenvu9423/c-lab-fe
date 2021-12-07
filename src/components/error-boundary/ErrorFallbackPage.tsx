@@ -14,7 +14,7 @@ export const ErrorFallbackPage: React.FC<ErrorFallbackPage.Props> = (props) => {
   const { error, onNavigate } = props;
   const navigate = useNavigate();
   return (
-    <Container style={{ paddingTop: '7em' }}>
+    <Container className="page-content">
       <Message
         icon="warning circle"
         error

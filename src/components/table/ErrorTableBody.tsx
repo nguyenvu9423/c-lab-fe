@@ -4,17 +4,10 @@ import { ErrorMessage } from '..';
 
 export const ErrorTableBody: React.FC<{ message?: string }> = (props) => {
   return (
-    <Table.Body style={{ position: 'relative' }}>
+    <Table.Body className="error-table-body">
       <Table.Row>
         <Table.Cell>
-          <div
-            style={{
-              width: '100%',
-              position: 'absolute',
-              left: 0,
-              top: 0,
-            }}
-          >
+          <div className="error-message-container">
             <ErrorMessage message={props.message} />
           </div>
         </Table.Cell>

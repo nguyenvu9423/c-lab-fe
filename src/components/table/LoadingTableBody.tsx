@@ -4,17 +4,10 @@ import { LoadingIndicator } from '..';
 
 export const LoadingTableBody: React.FC<{ height?: number }> = (props) => {
   return (
-    <Table.Body style={{ position: 'relative' }}>
+    <Table.Body className="loading-table-body">
       <Table.Row>
         <Table.Cell>
-          <div
-            style={{
-              height: props.height ?? 168,
-              position: 'absolute',
-              left: 0,
-              right: 0,
-            }}
-          >
+          <div className="loader-container" style={{ height: props.height }}>
             <LoadingIndicator />
           </div>
         </Table.Cell>

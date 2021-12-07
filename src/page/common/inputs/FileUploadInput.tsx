@@ -7,7 +7,7 @@ export namespace FileUploadInput {
     name?: string;
     placeHolder?: string;
     onChange?(file: File | undefined): void;
-    style?: Record<string, any>;
+    style?: React.CSSProperties;
   }
 }
 
@@ -25,9 +25,10 @@ export const FileUploadInput: React.FC<FileUploadInput.Props> = (props) => {
 
   return (
     <Button
+      className="file-upload-input"
       as="div"
       labelPosition="right"
-      style={{ display: 'flex', ...style }}
+      style={style}
       onClick={() => {
         inputRef.current?.click();
       }}
@@ -36,7 +37,7 @@ export const FileUploadInput: React.FC<FileUploadInput.Props> = (props) => {
         <Icon name="attach" />
         Tệp
       </Button>
-      <Label basic pointing="left" style={{ flexGrow: '1' }}>
+      <Label className="file-name" basic pointing="left">
         {file ? file.name : placeHolder}
       </Label>
       <input

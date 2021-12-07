@@ -1,12 +1,13 @@
 import * as React from 'react';
 
 import { useFormik } from 'formik';
-import { Form, Input, Select } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import { VerdictFilterTypes } from './options';
 import { ComparisonOperator } from '../../../../utility/filter';
 
-import { languageOptions, operationOptions } from './shared';
+import { languageOptions } from './shared';
 import { FilterUtils } from '../../../../utility/filter/utils';
+import { ValuePredicateInput } from './ValuePredicateInput';
 
 const verdictOptions: { value?: string; text: string }[] = [
   { key: '', text: '' },
@@ -26,7 +27,7 @@ export namespace AcmFilterForm {
   export interface Value {
     verdict?: VerdictFilterTypes;
     language?: string;
-    passedTestCount?: { operator: ComparisonOperator; testCount: string };
+    passedTestCount?: { operator: ComparisonOperator; value: number };
   }
 }
 
@@ -50,10 +51,10 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
       }
 
       if (values.passedTestCount) {
-        const { operator, testCount } = values.passedTestCount;
+        const { operator, value } = values.passedTestCount;
         query = FilterUtils.joinAnd(
           query,
-          `judge.result.passedTestCount${operator}${testCount}`
+          `judge.result.passedTestCount${operator}${value}`
         );
       }
 
@@ -102,42 +103,12 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
         <label>Số test đúng</label>
       </Form.Field>
       <Form.Field>
-        <div style={{ display: 'flex' }}>
-          <Select
-            style={{ width: 100, marginRight: 4, marginBottom: 0 }}
-            name="operation"
-            placeholder="=, <="
-            compact
-            options={operationOptions}
-            value={values.passedTestCount?.operator}
-            onChange={(event, { value }) => {
-              if (value === undefined) {
-                setFieldValue('passedTestCount', undefined);
-              } else {
-                setFieldValue('passedTestCount', {
-                  operator: value,
-                  testCount: values.passedTestCount?.testCount ?? 0,
-                });
-              }
-            }}
-          />
-          <Input
-            name="testCount"
-            type="number"
-            min={0}
-            fluid
-            label="tests"
-            labelPosition="right"
-            disabled={!values.passedTestCount}
-            value={values.passedTestCount?.testCount}
-            onChange={(event, { value }) => {
-              setFieldValue('passedTestCount', {
-                ...values.passedTestCount,
-                testCount: value,
-              });
-            }}
-          />
-        </div>
+        <ValuePredicateInput
+          value={values.passedTestCount}
+          unit="tests"
+          min={0}
+          onChange={(value) => setFieldValue('passedTestCount', value)}
+        />
       </Form.Field>
 
       <Form.Button type="submit" floated="right">
