@@ -79,7 +79,7 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
   );
 
   if (!canUpdate) {
-    return <p>Bạn không có quyền truy cập vào trang n</p>;
+    return <p>Bạn không có quyền truy cập vào trang này</p>;
   }
 
   if (DataHolder.isLoading(data.detailedProblem)) {

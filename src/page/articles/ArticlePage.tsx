@@ -38,7 +38,7 @@ export const ArticlePage: React.FC = () => {
   const params = useParams();
   const slug = params['*'];
 
-  if (!params.id || !slug) {
+  if (!params.id) {
     throw UnknownException.createDefault();
   }
 

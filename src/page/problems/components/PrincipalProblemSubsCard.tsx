@@ -160,7 +160,7 @@ export const PrincipalProblemSubsCard: React.FC<
         </>
       ) : (
         <Segment basic attached="bottom">
-          <p>No submissions has been submitted</p>
+          <p>Chưa nộp bài</p>
         </Segment>
       )}
     </>

@@ -312,6 +312,13 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
+"@types/react-responsive@8.0.4":
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/@types/react-responsive/-/react-responsive-8.0.4.tgz#13fe66fcecc23eb96d14ffcb90abdcee81d3619e"
+  integrity sha512-/IrXSbm5aeSvtAD2vFGgPpQsHRQEJ2eWr6EdPEBPlTvad/qJYjXZax4CfOi5xCM5fjq/xpNW3WIHwKOrcdIGcA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router-dom@5.3.2":
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.3.2.tgz#ebd8e145cf056db5c66eb1dac63c72f52e8542ee"

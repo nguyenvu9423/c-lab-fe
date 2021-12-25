@@ -39,7 +39,7 @@ export const PutFileInput: React.FC<PutFileInput.Props> = (props) => {
     <div className="put-file-input">
       <Button as="div" labelPosition="left">
         <Label className="file-name" as="a" basic>
-          {file ? file.name : 'No file has uploaded'}
+          {file ? file.name : 'Chưa có file'}
         </Label>
       </Button>
       {file ? (

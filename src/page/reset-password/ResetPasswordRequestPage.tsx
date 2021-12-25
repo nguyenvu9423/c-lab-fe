@@ -22,7 +22,7 @@ export const ResetPasswordRequestPage: React.FC = () => {
       <Grid.Row centered>
         {!success ? (
           <Grid.Column width="6">
-            <Header as="h3" content="Reset password" attached="top" />
+            <Header as="h3" content="Thay đổi mật khẩu" attached="top" />
             <Segment attached="bottom">
               <ResetPasswordRequestForm onSuccess={handleSuccess} />
             </Segment>
@@ -30,11 +30,13 @@ export const ResetPasswordRequestPage: React.FC = () => {
         ) : (
           <Grid.Column width="6">
             <Segment color="green">
-              <Header as="h3">Request successfully</Header>
+              <Header as="h3">Thay đổi mật khẩu</Header>
               <p>
-                An email is sent to your email address: <u>{success.email}</u>
+                Một email đã được gửi đến địa chỉ của bạn tại:{' '}
+                <u>{success.email}</u>
                 <br />
-                Please follow the email instruction to reset the password.
+                Vui lòng làm theo sự hướng dẫn đề cập trong email này để thay
+                đổi mật khẩu
               </p>
             </Segment>
           </Grid.Column>

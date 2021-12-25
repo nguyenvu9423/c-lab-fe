@@ -37,7 +37,12 @@ const App: React.FC = () => {
           visible={sideBarVisible}
           onHide={() => setSideBarVisible(false)}
         />
-        <MediaQuery minWidth={Breakpoint.md}>
+        <MediaQuery
+          minWidth={Breakpoint.md}
+          onChange={(matched) => {
+            if (matched) setSideBarVisible(false);
+          }}
+        >
           {(matched) =>
             matched ? (
               <TopNav />
@@ -53,11 +58,11 @@ const App: React.FC = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/logout" element={<LogoutPage />} />
             <Route
-              path="/email-verification"
+              path="/email-verification/:id"
               element={<EmailVerificationPage />}
             />
             <Route
-              path="/reset-password"
+              path="/reset-password/*"
               element={<ResetPasswordPageRouter />}
             />
 

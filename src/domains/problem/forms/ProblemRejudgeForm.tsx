@@ -75,7 +75,7 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
   );
 
   if (canRejudge === false) {
-    return <p>You do not have the permission to rejudge this problem</p>;
+    return <p>Bạn không có quyền chấm lại bài này</p>;
   }
 
   if (DataHolder.isLoading(data.detailedProblem)) {

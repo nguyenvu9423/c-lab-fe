@@ -17,7 +17,7 @@ export const ProblemSubmitContent: React.FC<{ problem: Problem }> = (props) => {
   const canSubmit = useSelector(AuthorizationSelectors.canSubmit());
 
   const handleSuccess = React.useCallback(
-    (sub) => navigate('my', { state: { highlightSubId: sub.id } }),
+    (sub) => navigate('../my', { state: { highlightSubId: sub.id } }),
     [history]
   );
 

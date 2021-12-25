@@ -17,9 +17,7 @@ export const EditUserInfoPage: React.FC = () => {
 
   const username = useSelector(AuthenticationSelectors.username());
   if (username !== params.username) {
-    return (
-      <PageErrorMessage message="You do not have permission to access this page" />
-    );
+    return <PageErrorMessage message="Bạn không có quyền truy cập trang này" />;
   }
 
   return (

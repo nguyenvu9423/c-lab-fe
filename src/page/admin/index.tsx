@@ -46,16 +46,13 @@ export const AdminPage: React.FC = () => {
       content = undefined;
   }
   if (!hasAdminRole) {
-    return (
-      <PageErrorMessage message="You do not have admin permission to access this page" />
-    );
+    return <PageErrorMessage message="Bạn không có quyền truy cập trang này" />;
   }
   return (
     <Grid container doubling stackable>
       <Grid.Row>
         <Grid.Column width={4}>
-          {/* TOOD: refactor here */}
-          <ControlMenu baseURL={'/admin'} activePage={activePage} />
+          <ControlMenu baseURL="/admin" activePage={activePage} />
         </Grid.Column>
         <Grid.Column width={12}>{content}</Grid.Column>{' '}
       </Grid.Row>

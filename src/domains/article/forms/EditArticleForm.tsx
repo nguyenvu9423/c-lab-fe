@@ -87,7 +87,7 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
   );
 
   if (canEdit === false) {
-    return <p>You do not have the permission to edit the article</p>;
+    return <p>Bạn không có quyền chỉnh sửa bài viết này</p>;
   }
 
   if (LoadingState.isInProgress(data.article.loadingState)) {

@@ -2,13 +2,14 @@ import * as React from 'react';
 import * as yup from 'yup';
 
 import { useFormik } from 'formik';
-import { Button, Form } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import {
   ErrorMessage,
   LoadingIndicator,
   useErrorMessageRenderer,
 } from '../../../components';
 import { ResetPasswordService } from '../../../service/ResetPasswordService';
+import { SubmitButton } from '../../../components/button';
 
 export namespace ResetPasswordForm {
   export interface Props {
@@ -102,7 +103,7 @@ const BaseRequestPasswordForm: React.FC<BaseRequestPasswordForm.Props> = (
       onSubmit={handleSubmit}
     >
       <Form.Field>
-        <label>New password</label>
+        <label>Mật khẩu mới</label>
         <Form.Input
           type="password"
           name="newPassword"
@@ -113,7 +114,7 @@ const BaseRequestPasswordForm: React.FC<BaseRequestPasswordForm.Props> = (
         {errorMsgRenderer('newPassword')}
       </Form.Field>
       <Form.Field>
-        <label>Confirm new password</label>
+        <label>Xác nhận mật khẩu mới</label>
         <Form.Input
           type="password"
           name="confirmNewPassword"
@@ -124,7 +125,7 @@ const BaseRequestPasswordForm: React.FC<BaseRequestPasswordForm.Props> = (
         {errorMsgRenderer('confirmNewPassword')}
       </Form.Field>
       <Form.Field>
-        <Button floated="right" content="Submit" primary />
+        <SubmitButton floated="right" />
       </Form.Field>
     </Form>
   );

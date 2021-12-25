@@ -39,19 +39,19 @@ export namespace JudgeConfigForm {
 export const JudgeConfigFormSchema = yup.object({
   timeLimit: yup
     .number()
-    .required('Time limit should be defined')
-    .min(1, 'Timelimit should be greater than 0ms')
-    .max(20000, 'Timelimit shoud be less than 20000ms'),
+    .required('Vui lòng điền giới hạn thời gian')
+    .min(1, 'Giới hạn thời gian phải lớn hơn 0ms')
+    .max(20000, 'Giới hạn thời gian không được quá 20000ms'),
   memoryLimit: yup
     .number()
-    .required('Memory limit should be defined')
-    .min(1, 'Memorylimit should be greater than 32mb')
-    .max(1024, 'Memorylimit should be less than 1024mb'),
+    .required('Vui lòng điền giới hạn bộ nhớ ')
+    .min(1, 'Giới hạn bộ nhớ phải lớn hơn 0mb')
+    .max(1024, 'Giới hạn bộ nhớ không được quá 1024mb'),
   customJudger: yup.mixed().when('judgerType', {
     is: JudgerType.Custom,
-    then: yup.mixed().required('Custom judger is required'),
+    then: yup.mixed().required('Vui lòng tải lên trình chấm'),
   }),
-  testPackage: yup.mixed().required('Test package is required'),
+  testPackage: yup.mixed().required('Vui lòng tải lên bộ test'),
 });
 
 export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {

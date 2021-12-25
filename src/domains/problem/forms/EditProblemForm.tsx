@@ -82,7 +82,7 @@ export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
   );
 
   if (canEdit === false) {
-    return <p>You do not have the permission to update the problem</p>;
+    return <p>Bạn không có quyền chỉnh sửa bài tập này</p>;
   }
 
   if (LoadingState.isInProgress(data.problem.loadingState)) {

@@ -41,6 +41,8 @@ const ProblemFormSchema = yup.object({
     .max(64, 'Tiêu đề không được vượt quá 64 kí tự'),
   definition: yup
     .string()
+    .required('Vui lòng điền nội dung')
+    .min(3, 'Đê bài phải có ít nhất 3 kí tự')
     .max(640000, 'Đề bài không được vượt quá 64000 kí tự'),
   allowedLanguages: yup.array().min(1, 'Vui lòng chọn ít nhất 1 ngôn ngữ'),
 });
@@ -110,7 +112,7 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
         </Form.Group>
 
         <Form.Field>
-          <label>Đề bài</label>
+          <label>Nội dung</label>
           <MarkdownEditor
             className="problem-editor"
             initialValue={initialValues?.definition ?? ''}

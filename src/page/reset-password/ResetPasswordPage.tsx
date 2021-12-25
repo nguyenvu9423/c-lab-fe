@@ -26,7 +26,7 @@ export const ResetPasswordPage: React.FC = () => {
       <Grid.Row centered>
         {!succedded ? (
           <Grid.Column width={6}>
-            <Header as="h3" content="Reset password" attached="top" />
+            <Header as="h3" content="Thay đổi mật khẩu" attached="top" />
             <Segment attached="bottom">
               <ResetPasswordForm
                 id={id as string}
@@ -38,8 +38,8 @@ export const ResetPasswordPage: React.FC = () => {
         ) : (
           <Grid.Column width={6}>
             <Segment color="green">
-              <Header>Reset password</Header>
-              <p>You have set the new password successfully!</p>
+              <Header>Thay đổi mật khẩu</Header>
+              <p>Bạn đã thay đổi mật khẩu thành công</p>
             </Segment>
           </Grid.Column>
         )}
