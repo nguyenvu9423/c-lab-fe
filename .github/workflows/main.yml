@@ -42,6 +42,7 @@ jobs:
         with:
           host: 117.2.125.196
           key: ${{ secrets.SSH_KEY }}
+          passphrase: "Luctieu32"
           port: 2222
           source: "dist"
           target: "www/html"
