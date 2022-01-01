@@ -83,7 +83,7 @@ export const PrincipalSubmissionTable: React.FC<
     (state: State) => state.problemPageContents.principalSubmissions
   );
 
-  const highlightSubId = location.state?.highlightSubId;
+  const highlightSubId = (location.state as any).highlightSubId;
   const dispatch = useDispatch();
 
   const pageable = DataHolder.usePageable(data.submissions, initialPageable);

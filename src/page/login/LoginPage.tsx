@@ -16,7 +16,7 @@ export const LoginPage: React.FC = () => {
   const location = useLocation();
 
   const handleSuccess = React.useCallback(() => {
-    const prevPath = location.state.prevPath;
+    const prevPath = (location.state as any).prevPath;
     if (prevPath) {
       navigate(-1);
     } else {

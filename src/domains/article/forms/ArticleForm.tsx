@@ -17,6 +17,7 @@ import { SubmitButton, CancelButton } from '../../../components/button';
 import { useErrorMessageRenderer, RichTextEditor } from '../../../components';
 import { articleStatusValues } from '../ArticleStatus';
 import { FieldError } from '../../../exception';
+import { BackEndConfig } from '../../../config';
 
 export namespace ArticleForm {
   export interface Props {
@@ -204,7 +205,7 @@ export const ImageUploader: React.FC<{
       value
         ? value instanceof File
           ? URL.createObjectURL(value)
-          : '/api' + value
+          : BackEndConfig.API_URL + value
         : undefined,
     [value]
   );

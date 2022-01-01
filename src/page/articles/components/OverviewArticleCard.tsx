@@ -16,6 +16,7 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
 
   const author = useSelector(UserSelectors.selectById(article.author));
   const tags = useSelector(TagSelectors.selectByIds(article.tags));
+  const linkToArticle = `/articles/${article.id}/view/${article.slug}`;
 
   return (
     <Card fluid>
@@ -24,6 +25,8 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
           <div className="overview-article-card">
             <Image
               className="thumbnail"
+              as={Link}
+              to={linkToArticle}
               bordered
               src={
                 article.thumbnail
@@ -32,10 +35,7 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
               }
             />
             <div className="content">
-              <Header
-                as={Link}
-                to={`/articles/${article.id}/view/${article.slug}`}
-              >
+              <Header as={Link} to={linkToArticle}>
                 {article.title}
               </Header>
               <div
