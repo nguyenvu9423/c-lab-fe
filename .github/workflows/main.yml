@@ -41,8 +41,7 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: 117.2.125.196
-          username: nguyenvu9405
-          password: Luctieu32
+          key: ${{ secrets.SSH_KEY }}
           port: 2222
           source: "dist"
           target: "www/html"
