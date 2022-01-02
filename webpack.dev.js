@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
@@ -8,9 +9,13 @@ module.exports = merge(common, {
     historyApiFallback: true,
     compress: false,
     https: true,
-    port: 3000,
-    // proxy: {
-    //   '/api': { target: 'https://localhost:8080', secure: false },
-    // },
+    port: 3000,    
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'API_URL': '"https://localhost:8080/api/"'
+      }
+    }),
+  ]
 });

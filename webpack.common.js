@@ -64,7 +64,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({ title: 'c-lab', template: './src/index.html' }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin(),  
   ],
   optimization: {
     splitChunks: {
