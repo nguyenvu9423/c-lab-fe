@@ -9,6 +9,8 @@ import { SubmissionForm } from './SubmissionForm';
 import { FileUploadInput } from '../../../page/common/inputs/FileUploadInput';
 import { useErrorMessageRenderer } from '../../../components';
 import { SubmissionLangSelect } from '../../submission-lang/SubmissionLangSelect';
+import { normalize } from 'normalizr';
+import { submissionSchema } from '../../../entity-schemas';
 
 export namespace CompactSubmissionForm {
   export type Props = SubmissionForm.Props;

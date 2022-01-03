@@ -60,10 +60,10 @@ export const SubmissionsTable: React.FC<SubmissionsTable.Props> = (props) => {
   );
 };
 
-const SubmissionRow: React.FC<{ submission: Submission; active?: boolean }> = ({
-  submission,
-  active,
-}) => {
+const SubmissionRow: React.FC<{ submission: Submission; active?: boolean }> = (
+  props
+) => {
+  const { active, submission } = props;
   const { user } = submission;
 
   const judge = useSelector(JudgeSelectors.byId(submission.judge));

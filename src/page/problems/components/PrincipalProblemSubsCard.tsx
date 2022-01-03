@@ -18,6 +18,7 @@ import {
 } from '../../../store/reducers/data-holders/shared';
 import { Pageable } from '../../../utility';
 import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
+import { useHighlightSub } from '../useHighlightSub';
 
 export const PAGE_SIZE = 4;
 
@@ -33,7 +34,7 @@ export namespace PrincipalProblemSubsCard {
   }
 
   export interface Ref {
-    reload: () => void;
+    reload: (params: { highlightSubId?: number }) => void;
   }
 }
 
@@ -55,9 +56,12 @@ export const PrincipalProblemSubsCard: React.FC<
   );
   const pageable = DataHolder.usePageable(data.submissions, initialPageable);
   const totalPages = DataHolder.useTotalPages(data.submissions);
+  const [highlightSubId, setHighLightSubId] = React.useState<
+    number | undefined
+  >(undefined);
 
   const load = React.useCallback(
-    (params?: { pageable?: Pageable }) => {
+    (params?: { pageable?: Pageable; highlightSubId?: number }) => {
       dispatch(
         fetchSubmissions.request({
           type: 'byUserAndProblem',
@@ -67,6 +71,10 @@ export const PrincipalProblemSubsCard: React.FC<
           target: Target.PRINCIPAL_PROBLEM_SUBS_CARD,
         })
       );
+      if (params?.highlightSubId) {
+        console.log(params.highlightSubId);
+        setHighLightSubId(params.highlightSubId);
+      }
     },
     [dispatch, userId, problemCode, pageable]
   );
@@ -103,6 +111,8 @@ export const PrincipalProblemSubsCard: React.FC<
     [load]
   );
 
+  const uiHighlightSubId = useHighlightSub(highlightSubId);
+
   return (
     <>
       <Header as="h3" attached="top">
@@ -125,7 +135,11 @@ export const PrincipalProblemSubsCard: React.FC<
                 <Table.Body>
                   {submissions.map((submission) => {
                     return (
-                      <Table.Row key={submission.id} style={{ height: 42 }}>
+                      <Table.Row
+                        key={submission.id}
+                        style={{ height: 42 }}
+                        active={uiHighlightSubId === submission.id}
+                      >
                         <Table.Cell>
                           <SubmissionDetailsLink submission={submission} />
                         </Table.Cell>

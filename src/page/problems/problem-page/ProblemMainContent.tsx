@@ -27,7 +27,9 @@ export const ProblemMainContent: React.FC<{ problem: Problem }> = (props) => {
         <ProblemInfoCard problem={problem} />
         <SubmissionCard
           problem={problem}
-          onSuccess={() => subsCardRef.current?.reload()}
+          onSuccess={(sub) =>
+            subsCardRef.current?.reload({ highlightSubId: sub.id })
+          }
         />
         {principal && (
           <PrincipalProblemSubsCard

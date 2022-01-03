@@ -13,12 +13,13 @@ import {
   SubmissionLanguage,
 } from '../../submission-lang';
 import { useErrorMessageRenderer } from '../../../components';
+import { SubmissionDTO } from '..';
 
 export namespace SubmissionForm {
   export interface Props {
     problem: Problem;
 
-    onSuccess?(value: any): void;
+    onSuccess?(value: SubmissionDTO): void;
   }
 
   export interface Value {

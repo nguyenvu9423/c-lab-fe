@@ -24,6 +24,7 @@ import { Pageable, scrollToElementTop } from '../../../utility';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
 import { ProblemInfoCard } from '../components';
 import { useLocation } from 'react-router';
+import { useHighlightSub } from '../useHighlightSub';
 
 const PAGE_SIZE = 10;
 const initialPageable: Pageable = {
@@ -84,9 +85,8 @@ export const PrincipalSubmissionTable: React.FC<
     (state: State) => state.problemPageContents.principalSubmissions
   );
 
-  const highlightSubId: number | undefined = Lodash.get(
-    location.state,
-    'highlightSubId'
+  const uiHighlightSubId = useHighlightSub(
+    Lodash.get(location.state, 'highlightSubId')
   );
 
   const dispatch = useDispatch();
@@ -155,7 +155,7 @@ export const PrincipalSubmissionTable: React.FC<
                 : undefined
             }
             submissions={submissions}
-            highlightSubId={highlightSubId}
+            highlightSubId={uiHighlightSubId}
           />
         </Ref>
       </Segment>
