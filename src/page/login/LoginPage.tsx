@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import Lodash from 'lodash';
 import { useSelector } from 'react-redux';
 
 import { Grid, Header, Segment } from 'semantic-ui-react';
@@ -16,7 +16,7 @@ export const LoginPage: React.FC = () => {
   const location = useLocation();
 
   const handleSuccess = React.useCallback(() => {
-    const prevPath = (location.state as any).prevPath;
+    const prevPath: string | undefined = Lodash.get(location.state, 'prevPath');
     if (prevPath) {
       navigate(-1);
     } else {

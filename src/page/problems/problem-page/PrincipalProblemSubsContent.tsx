@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Lodash from 'lodash';
 
 import { Grid, Pagination, Segment, Ref } from 'semantic-ui-react';
 
@@ -83,7 +84,11 @@ export const PrincipalSubmissionTable: React.FC<
     (state: State) => state.problemPageContents.principalSubmissions
   );
 
-  const highlightSubId = (location.state as any).highlightSubId;
+  const highlightSubId: number | undefined = Lodash.get(
+    location.state,
+    'highlightSubId'
+  );
+
   const dispatch = useDispatch();
 
   const pageable = DataHolder.usePageable(data.submissions, initialPageable);

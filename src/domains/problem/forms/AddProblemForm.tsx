@@ -21,7 +21,6 @@ export const AddProblemForm: React.FC<AddProblemForm.Props> = (props) => {
 
   const onSubmitHandler = React.useCallback(
     (values, helpers: FormikHelpers<ProblemForm.Value>) => {
-      console.log(values);
       return ProblemService.create(values)
         .then(({ data }) => {
           onSuccess?.(data);

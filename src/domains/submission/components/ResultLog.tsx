@@ -33,8 +33,8 @@ export const ResultLog: React.FC<{
         {testResults.map((testResult) => {
           const { test } = testResult;
           return (
-            <>
-              <List.Item key={test.id}>
+            <React.Fragment key={test.id}>
+              <List.Item>
                 <List.Content>
                   <div className="test-name">
                     <Header as="h4">Test {test.id}</Header>:{' '}
@@ -64,7 +64,7 @@ export const ResultLog: React.FC<{
                 </List.Content>
               </List.Item>
               <Divider />
-            </>
+            </React.Fragment>
           );
         })}
       </List>

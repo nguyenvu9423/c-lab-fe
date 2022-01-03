@@ -23,7 +23,6 @@ export const useJudgesStream = (judgeIds: number[]): void => {
       };
 
       return () => {
-        console.log('closed');
         eventSource.close();
       };
     }
