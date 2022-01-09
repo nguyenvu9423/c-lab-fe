@@ -1,4 +1,4 @@
-name: Release
+name: Deploy
 
 on:
   push:
@@ -6,11 +6,12 @@ on:
       - v*
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - name: check out
+        uses: actions/checkout@v2
 
       - name: install packages
         run: yarn install
