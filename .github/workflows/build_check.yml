@@ -17,4 +17,4 @@ jobs:
         run: yarn install
 
       - name: check code
-        uses: ./.github/actions/code-check.yml
+        uses: ./.github/actions/code-check
