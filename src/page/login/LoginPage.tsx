@@ -17,6 +17,7 @@ export const LoginPage: React.FC = () => {
 
   const handleSuccess = React.useCallback(() => {
     const prevPath: string | undefined = Lodash.get(location.state, 'prevPath');
+
     if (prevPath) {
       navigate(-1);
     } else {

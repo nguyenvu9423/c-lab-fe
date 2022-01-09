@@ -12,3 +12,4 @@ export * from './error-boundary';
 export * from './sidebar';
 export * from './logo';
 export * from './search';
+export * from './containers';

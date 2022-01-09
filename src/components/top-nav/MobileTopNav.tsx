@@ -33,7 +33,7 @@ export const MobileTopNav: React.FC<MobileTopNav.Props> = (props) => {
             <UserControlMenu user={principal} />
           ) : (
             <Menu.Item>
-              <LoginButton icon="sign in" />
+              <LoginButton icon="sign in" content={undefined} />
             </Menu.Item>
           )
         ) : undefined}

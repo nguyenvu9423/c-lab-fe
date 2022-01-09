@@ -7,25 +7,23 @@ export const LoginButton: React.FC<ButtonProps> = (props) => {
   const location = useLocation();
 
   const prevPath = location.pathname;
+
   return (
     <Button
       as={Link}
-      to={{
-        pathname: '/login',
-        state: { prevPath: shouldGoBack(prevPath) ? prevPath : undefined },
-      }}
-      icon="sign in"
+      to="/login"
+      state={{ prevPath: shouldGoBack(prevPath) ? prevPath : undefined }}
+      content="Đăng nhập"
       {...props}
-    >
-      Đăng Nhập
-    </Button>
+    />
   );
 };
 
 function shouldGoBack(url: string) {
-  return (
-    !url.startsWith('/logout') &&
-    !url.startsWith('/login') &&
-    !url.startsWith('reset-password')
+  return !(
+    url.startsWith('/login') ||
+    url.startsWith('/logout') ||
+    url.startsWith('/email-verification') ||
+    url.startsWith('/reset-password')
   );
 }

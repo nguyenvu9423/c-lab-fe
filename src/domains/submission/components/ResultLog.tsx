@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Divider, Header, List, Message, Segment } from 'semantic-ui-react';
+import { TextFileOverview } from '../../../components';
 import {
   DetailedJudgeResult,
   ErrorLabel,
@@ -23,7 +24,7 @@ export const ResultLog: React.FC<{
         </Header>
         : <ErrorLabel message="Compile error" />
         <Message negative>
-          <pre style={{ whiteSpace: 'pre-wrap' }}>{detailedResult.message}</pre>
+          <TextFileOverview>{detailedResult.message}</TextFileOverview>
         </Message>
       </div>
     );
@@ -48,17 +49,21 @@ export const ResultLog: React.FC<{
                       <Header as="h5">Input</Header>
                     </Segment>
                     <Segment>
-                      <pre>{test.input.overview}</pre>
+                      <TextFileOverview>{test.input.overview}</TextFileOverview>
                     </Segment>
                     <Segment as="h5">Output</Segment>
                     <Segment>
-                      <pre>{testResult.outputOverview}</pre>
+                      <TextFileOverview>
+                        {testResult.outputOverview}
+                      </TextFileOverview>
                     </Segment>
                     <Segment>
                       <Header as="h5">Answer</Header>
                     </Segment>
                     <Segment>
-                      <pre>{test.output.overview}</pre>
+                      <TextFileOverview>
+                        {test.output.overview}
+                      </TextFileOverview>
                     </Segment>
                   </Segment.Group>
                 </List.Content>

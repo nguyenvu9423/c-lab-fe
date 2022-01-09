@@ -1,0 +1,22 @@
+name: Build check
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install packages
+        run: yarn install
+
+      - name: lint
+        run: yarn run lint
+
+      - name: check compile
+        run: yarn run check-compile

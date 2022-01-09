@@ -72,7 +72,6 @@ export const PrincipalProblemSubsCard: React.FC<
         })
       );
       if (params?.highlightSubId) {
-        console.log(params.highlightSubId);
         setHighLightSubId(params.highlightSubId);
       }
     },
@@ -116,7 +115,7 @@ export const PrincipalProblemSubsCard: React.FC<
   return (
     <>
       <Header as="h3" attached="top">
-        Bài đã nộp
+        Bài đã nộplear
       </Header>
       {submissions?.length !== 0 ? (
         <>
