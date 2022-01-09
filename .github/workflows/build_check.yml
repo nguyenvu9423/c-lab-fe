@@ -1,4 +1,4 @@
-name: Build check
+name: Build Check
 
 on:
   push:
@@ -10,13 +10,11 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - name: check out
+        uses: actions/checkout@v2
 
       - name: install packages
         run: yarn install
 
-      - name: lint
-        run: yarn run lint
-
-      - name: check compile
-        run: yarn run check-compile
+      - name: check code
+        uses: ./.github/actions/code-check

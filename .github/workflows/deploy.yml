@@ -1,4 +1,4 @@
-name: Release
+name: Deploy
 
 on:
   push:
@@ -6,20 +6,18 @@ on:
       - v*
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - name: check out
+        uses: actions/checkout@v2
 
       - name: install packages
         run: yarn install
 
-      - name: lint
-        run: yarn run lint
-
-      - name: check compile
-        run: yarn run check-compile
+      - name: check code
+        uses: ./.github/actions/code-check
 
       - name: dist
         run: yarn run build
@@ -27,11 +25,11 @@ jobs:
       - name: deploy
         uses: appleboy/scp-action@master
         with:
-          host: 117.2.125.196
-          username: 'nguyenvu9405'
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT }}
+          username: ${{ secrets.SERVER_USER_NAME }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: 'Luctieu32'
-          port: 2222
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: 'dist'
           target: 'www/html'
           strip_components: 1

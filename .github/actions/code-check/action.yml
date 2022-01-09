@@ -1,0 +1,12 @@
+name: Code Check
+
+runs:
+  using: 'composite'
+  steps:
+    - name: lint
+      run: yarn run lint
+      shell: bash
+
+    - name: check compile
+      run: yarn run check-compile
+      shell: bash
