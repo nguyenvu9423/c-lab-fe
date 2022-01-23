@@ -25,9 +25,9 @@ jobs:
       - name: deploy
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          port: ${{ secrets.SERVER_PORT }}
-          username: ${{ secrets.SERVER_USER_NAME }}
+          host: 117.2.125.196
+          port: 2222
+          username: nguyenvu9405
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: 'dist'
