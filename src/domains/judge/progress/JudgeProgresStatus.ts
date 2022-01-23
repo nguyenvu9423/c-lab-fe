@@ -8,6 +8,7 @@ export enum JudgeProgressStatus {
   SUCCESS = 'SUCCESS',
   CANCELLED = 'CANCELLED',
   ERROR = 'ERROR',
+  REJECTED = 'REJECTED',
 }
 
 export namespace JudgeProgressStatus {

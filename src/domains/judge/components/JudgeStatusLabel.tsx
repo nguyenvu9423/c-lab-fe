@@ -8,6 +8,7 @@ import { SuccessJudge, SystemErrorJudge, InProgressJudge } from '../Judge';
 import { CancelledJudge } from '../Judge';
 import { ErrorLabel } from './ui-labels';
 import { LabelStyles } from './shared';
+import { RejectedJudge } from '..';
 
 export namespace JudgeStatusLabel {
   export interface Props extends LabelStyles {
@@ -36,6 +37,8 @@ export const JudgeStatusLabel: React.FC<JudgeStatusLabel.Props> = (props) => {
     return <JudgeErrorLabel compact={compact} progress={progress} />;
   } else if (CancelledJudge.isInstance(judge)) {
     return <ErrorLabel message="Cancelled" />;
+  } else if (RejectedJudge.isInstance(judge)) {
+    return <ErrorLabel message="Rejected" />;
   } else {
     return null;
   }

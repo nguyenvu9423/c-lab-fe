@@ -9,6 +9,7 @@ export enum ProblemRejudgeStatus {
   IN_PROGRESS = 'IN_PROGRESS',
   SUCCESSFUL = 'SUCCESSFUL',
   CANCELLED = 'CANCELLED',
+  REJECTED = 'REJECTED',
   ERROR = 'ERROR',
 }
 

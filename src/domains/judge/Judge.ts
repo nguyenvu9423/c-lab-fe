@@ -67,3 +67,9 @@ export namespace CancelledJudge {
     return judge.progress.status === JudgeProgressStatus.CANCELLED;
   }
 }
+
+export namespace RejectedJudge {
+  export function isInstance(judge: Judge): boolean {
+    return judge.progress.status === JudgeProgressStatus.REJECTED;
+  }
+}

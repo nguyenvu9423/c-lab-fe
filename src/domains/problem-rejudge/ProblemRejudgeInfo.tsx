@@ -59,6 +59,10 @@ export const ProblemRejudgeInfo: React.FC<ProblemRejudgeInfo.Props> = ({
         <Progress error percent={100} label="Cancelled" />
       )}
 
+      {status === ProblemRejudgeStatus.REJECTED && (
+        <Progress error percent={100} label="Rejected" />
+      )}
+
       {status === ProblemRejudgeStatus.ERROR && (
         <Progress error percent={100} label="Error" />
       )}
@@ -71,7 +75,7 @@ const ProblemRejudgeResult: React.FC<{ problemRejudge: ProblemRejudge }> = (
 ) => {
   const {
     total,
-    progress: { doneCount },
+    result: { doneCount, successCount, failureCount },
   } = props.problemRejudge;
 
   return (
@@ -79,12 +83,18 @@ const ProblemRejudgeResult: React.FC<{ problemRejudge: ProblemRejudge }> = (
       size="mini"
       items={[
         { key: 'total', label: 'total', value: total },
-        { key: 'done', label: 'success', color: 'green', value: doneCount },
+        { key: 'submitted', label: 'submitted', value: doneCount },
+        {
+          key: 'success',
+          label: 'success',
+          color: 'green',
+          value: successCount,
+        },
         {
           key: 'failed',
           label: 'failed',
           color: 'red',
-          value: total - doneCount,
+          value: failureCount,
         },
       ]}
     />
