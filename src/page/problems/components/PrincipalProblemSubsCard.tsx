@@ -115,7 +115,7 @@ export const PrincipalProblemSubsCard: React.FC<
   return (
     <>
       <Header as="h3" attached="top">
-        Bài đã nộplear
+        Bài đã nộp
       </Header>
       {submissions?.length !== 0 ? (
         <>

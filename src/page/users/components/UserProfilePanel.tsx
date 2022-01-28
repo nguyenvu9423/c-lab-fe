@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as moment from 'moment';
 import { Header, Table, Dimmer, Button } from 'semantic-ui-react';
 import { normalize } from 'normalizr';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateEntity } from '../../../store/actions';
 import { DateFormat } from '../../../config';
 import { Avatar } from '../../../components/avatar/Avatar';
@@ -10,6 +10,7 @@ import { UserService } from '../../../service/UserService';
 import { userSchema } from '../../../entity-schemas/userSchema';
 import { User } from '../../../domains/user';
 import { DateTimeUtils } from '../../../utility/data-type/DateTimeUtils';
+import { ConstSelectors, PrincipalSelectors } from '../../../store/selectors';
 
 export namespace UserProfilePanel {
   export interface Props {
@@ -98,42 +99,55 @@ export const AvatarForm: React.FC<AvatarForm.Props> = (props) => {
     });
   }, [dispatch, user]);
 
+  const isPrincipal = useSelector(
+    user
+      ? PrincipalSelectors.isPrincipal(user)
+      : ConstSelectors.value(undefined)
+  );
+
   return (
     <div className="avatar-form">
-      <Dimmer.Dimmable
-        dimmed={dimmerActive}
-        onMouseEnter={() => setDimmerActive(true)}
-        onMouseLeave={() => setDimmerActive(false)}
-      >
-        <Avatar user={user} />
-        <Dimmer active={dimmerActive} inverted style={{ zIndex: 'unset' }}>
-          <Button
-            circular
-            icon="photo"
-            color="blue"
-            size="medium"
-            onClick={() => fileRef.current?.click()}
-          />
-          {user.avatarUrl && (
-            <Button
-              circular
-              negative
-              icon="remove"
-              size="medium"
-              onClick={handleRemove}
+      {isPrincipal ? (
+        <>
+          <Dimmer.Dimmable
+            dimmed={dimmerActive}
+            onMouseEnter={() => setDimmerActive(true)}
+            onMouseLeave={() => setDimmerActive(false)}
+          >
+            <Avatar user={user} />
+            <Dimmer active={dimmerActive} inverted style={{ zIndex: 'unset' }}>
+              <Button
+                circular
+                icon="photo"
+                color="blue"
+                size="medium"
+                onClick={() => fileRef.current?.click()}
+              />
+              {user.avatarUrl && (
+                <Button
+                  circular
+                  negative
+                  icon="remove"
+                  size="medium"
+                  onClick={handleRemove}
+                />
+              )}
+            </Dimmer>
+          </Dimmer.Dimmable>
+          <form>
+            <input
+              ref={fileRef}
+              type="file"
+              style={{ display: 'none' }}
+              onChange={handleChange}
             />
-          )}
-        </Dimmer>
-      </Dimmer.Dimmable>
+          </form>
+        </>
+      ) : (
+        <Avatar user={user} />
+      )}
+
       <Header as="h4">{user.username}</Header>
-      <form>
-        <input
-          ref={fileRef}
-          type="file"
-          style={{ display: 'none' }}
-          onChange={handleChange}
-        />
-      </form>
     </div>
   );
 };
