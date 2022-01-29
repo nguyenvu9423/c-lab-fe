@@ -77,6 +77,7 @@ export const MarkdownEditor: React.FC<MarkdownEditor.Props> = (props) => {
 export const MarkdownView: React.FC<{ children: string }> = ({ children }) => {
   return (
     <ReactMarkdown
+      className="markdown-container"
       remarkPlugins={[gfm, remarkMath]}
       rehypePlugins={[rehypeRaw, rehypeKatex]}
       components={components}
@@ -91,4 +92,5 @@ const components: Components = {
   h2: 'h4',
   h3: 'h5',
   h4: 'h6',
+  table: (props) => <table className="ui table">{props.children}</table>,
 };

@@ -184,7 +184,7 @@ const ArticleContentContainer: React.FC<ArticleContentContainer.Props> = (
       )}
       <Segment basic>
         <div
-          className="text-container"
+          className="rdw-result-container"
           dangerouslySetInnerHTML={{
             __html: markupContent ?? '',
           }}
