@@ -87,10 +87,14 @@ export const MarkdownView: React.FC<{ children: string }> = ({ children }) => {
   );
 };
 
+const Table: React.FC = (props) => (
+  <table className="ui table">{props.children}</table>
+);
+
 const components: Components = {
   h1: 'h3',
   h2: 'h4',
   h3: 'h5',
   h4: 'h6',
-  table: (props) => <table className="ui table">{props.children}</table>,
+  table: Table,
 };
