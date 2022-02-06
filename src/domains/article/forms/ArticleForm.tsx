@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as yup from 'yup';
-
 import {
   Button,
   Form,
@@ -14,7 +13,7 @@ import DefaultThumbnail from '../../../../public/images/default-thumbnail.png';
 import { ArticleStatus } from '../';
 import { TagSelect, Tag } from '../../tag';
 import { SubmitButton, CancelButton } from '../../../components/button';
-import { useErrorMessageRenderer, RichTextEditor } from '../../../components';
+import { useErrorMessageRenderer, MarkdownEditor } from '../../../components';
 import { articleStatusValues } from '../ArticleStatus';
 import { FieldError } from '../../../exception';
 import { BackEndConfig } from '../../../config';
@@ -141,7 +140,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
       </Form.Group>
       <Form.Field>
         <label>Nội dung</label>
-        <RichTextEditor
+        <MarkdownEditor
           className="article-editor"
           initialValue={initialValues?.content}
           onChange={(value) => setFieldValue('content', value)}

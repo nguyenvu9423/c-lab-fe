@@ -14,7 +14,7 @@ import {
 } from 'semantic-ui-react';
 import { ArticleContentTable } from './components/ArticleContentTable';
 import { LoadingState } from '../../store/common';
-import { ErrorMessage, LoadingIndicator } from '../../components';
+import { ErrorMessage, LoadingIndicator, MarkdownView } from '../../components';
 import {
   ArticleSelectors,
   AuthorizationSelectors,
@@ -149,10 +149,6 @@ const ArticleContentContainer: React.FC<ArticleContentContainer.Props> = (
   const { article, showContentTable } = props;
   const author = useSelector(UserSelectors.selectById(article.author));
 
-  const markupContent = React.useMemo(() => {
-    return article ? ArticleUtils.markupContent(article.content) : undefined;
-  }, [article?.content]);
-
   return (
     <div className="article-container text-container">
       <Segment basic>
@@ -183,11 +179,7 @@ const ArticleContentContainer: React.FC<ArticleContentContainer.Props> = (
         </>
       )}
       <Segment basic>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: markupContent ?? '',
-          }}
-        />
+        <MarkdownView>{article.content}</MarkdownView>
       </Segment>
 
       <Segment vertical>

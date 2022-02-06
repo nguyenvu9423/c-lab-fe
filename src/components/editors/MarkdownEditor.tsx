@@ -11,10 +11,12 @@ import { EditorState, Editor, ContentState } from 'draft-js';
 import { Components } from 'react-markdown';
 
 import { Styleable } from '../../common/types';
+import { slugifyHeading } from '../../page/articles/utils';
+import { HeadingProps } from 'react-markdown/lib/ast-to-react';
 
 export namespace MarkdownEditor {
   export interface Props extends Styleable {
-    initialValue: string;
+    initialValue?: string;
     onChange?(value: string): void;
   }
 }
@@ -91,10 +93,28 @@ const Table: React.FC = (props) => (
   <table className="ui table">{props.children}</table>
 );
 
+const Heading: React.FC<HeadingProps> = (props) => {
+  const textNode = props.node.children[0];
+  const label = textNode.type === 'text' ? textNode.value : '';
+  const id = slugifyHeading(label);
+  const TagName = `h${props.level + 1}` as any;
+
+  return (
+    <TagName>
+      <span className="anchor-tag" id={id}>
+        <a href={`#${id}`}>#</a>
+      </span>
+      {props.children}
+    </TagName>
+  );
+};
+
 const components: Components = {
-  h1: 'h3',
-  h2: 'h4',
-  h3: 'h5',
-  h4: 'h6',
+  h1: Heading,
+  h2: Heading,
+  h3: Heading,
+  h4: Heading,
+  h5: Heading,
+  h6: Heading,
   table: Table,
 };

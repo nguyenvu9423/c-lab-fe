@@ -5,6 +5,8 @@ import { HashLink } from 'react-router-hash-link';
 import { slugifyHeading } from '../utils';
 import { ArrayUtils } from '../../../utility';
 import { Article } from '../../../domains/article';
+import { fromMarkdown } from 'mdast-util-from-markdown';
+import { visit } from 'unist-util-visit';
 
 export namespace ArticleContentTable {
   export interface Props {
@@ -15,7 +17,7 @@ export namespace ArticleContentTable {
   export interface BaseNode {
     parent: Node | null;
     children: Node[];
-    tagName?: string;
+    depth?: number;
   }
 
   export interface RootNode extends BaseNode {
@@ -28,7 +30,7 @@ export namespace ArticleContentTable {
     parent: Node;
     children: HeaderNode[];
     label: string;
-    tagName: string;
+    depth?: number;
   }
 }
 
@@ -36,6 +38,7 @@ export const ArticleContentTable: React.FC<ArticleContentTable.Props> = (
   props
 ) => {
   const { article } = props;
+
   const rootNode = React.useMemo(
     () => getContentTable(article.content),
     [article]
@@ -67,33 +70,34 @@ function renderNode(node: ArticleContentTable.Node) {
   }
 }
 
-function getContentTable(str: string): ArticleContentTable.RootNode {
+function getContentTable(content: string): ArticleContentTable.RootNode {
   const result: ArticleContentTable.RootNode = { parent: null, children: [] };
   let nearestNode: ArticleContentTable.Node = result;
-  const $ = cherrio.load(str);
-  $('h2,h3,h4').each((index, element) => {
-    if (element.type !== 'tag') return;
+  const tree = fromMarkdown(content);
 
-    const id = slugifyHeading($(element).text());
-    let current: ArticleContentTable.Node | undefined = nearestNode;
-
-    while (current) {
-      if (current.parent === null || element.tagName > current.tagName) {
-        break;
+  visit(tree, (node) => {
+    if (node.type === 'heading') {
+      let current: ArticleContentTable.Node | undefined = nearestNode;
+      while (current) {
+        if (current.parent == null || node.depth > Number(current?.depth)) {
+          break;
+        }
+        current = current.parent;
       }
-      current = current.parent;
-    }
+      const parentNode = current;
+      const textNode = node.children[0];
+      const label = textNode.type === 'text' ? textNode.value : '';
 
-    const parentNode = current;
-    const node: ArticleContentTable.HeaderNode = {
-      id,
-      parent: parentNode,
-      label: $(element).text(),
-      tagName: element.tagName,
-      children: [],
-    };
-    parentNode.children.push(node);
-    nearestNode = node;
+      const nextNode: ArticleContentTable.HeaderNode = {
+        id: slugifyHeading(label),
+        parent: parentNode,
+        label,
+        depth: node.depth,
+        children: [],
+      };
+      parentNode.children.push(nextNode);
+      nearestNode = nextNode;
+    }
   });
 
   return result;
