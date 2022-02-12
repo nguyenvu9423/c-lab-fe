@@ -63,7 +63,7 @@ module.exports = {
     publicPath: '/',
   },
   plugins: [
-    new HtmlWebpackPlugin({ title: 'c-lab', template: './src/index.html' }),
+    new HtmlWebpackPlugin({ title: 'c-lab', template: './public/index.html', favicon: './public/images/logo.svg' }),
     new MiniCssExtractPlugin(),  
   ],
   optimization: {
