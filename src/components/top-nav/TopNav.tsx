@@ -19,7 +19,7 @@ export const TopNav: React.FC = () => {
       <Container>
         <Menu.Menu position="left">
           <Menu.Item header as={Link} to="/">
-            <LogoWithName height={40} />
+            <LogoWithName height={24} />
           </Menu.Item>
           <Menu.Item as={Link} to="/articles" content="Bài viết" />
           <Menu.Item as={Link} to="/problems" content="Bài tập" />
