@@ -21,7 +21,6 @@ import {
   UserSelectors,
 } from '../../store/selectors';
 import { Target } from '../../store/reducers/target';
-import { ArticleUtils } from './utils';
 import { Avatar } from '../../components/avatar/Avatar';
 import { State } from '../../store';
 import { Article } from '../../domains/article';
@@ -179,7 +178,7 @@ const ArticleContentContainer: React.FC<ArticleContentContainer.Props> = (
         </>
       )}
       <Segment basic>
-        <MarkdownView>{article.content}</MarkdownView>
+        <MarkdownView useAnchorHeading>{article.content}</MarkdownView>
       </Segment>
 
       <Segment vertical>

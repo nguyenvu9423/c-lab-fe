@@ -13,6 +13,7 @@ import { Components } from 'react-markdown';
 import { Styleable } from '../../common/types';
 import { slugifyHeading } from '../../page/articles/utils';
 import { HeadingProps } from 'react-markdown/lib/ast-to-react';
+import { Link } from 'react-router-dom';
 
 export namespace MarkdownEditor {
   export interface Props extends Styleable {
@@ -76,7 +77,18 @@ export const MarkdownEditor: React.FC<MarkdownEditor.Props> = (props) => {
   );
 };
 
-export const MarkdownView: React.FC<{ children: string }> = ({ children }) => {
+export const MarkdownView: React.FC<{
+  children: string;
+  useAnchorHeading?: boolean;
+}> = (props) => {
+  const { children, useAnchorHeading } = props;
+  const components = React.useMemo(
+    () =>
+      useAnchorHeading
+        ? { ...baseComponents, anchorHeadingComponents }
+        : baseComponents,
+    [useAnchorHeading]
+  );
   return (
     <ReactMarkdown
       className="markdown-container"
@@ -89,11 +101,11 @@ export const MarkdownView: React.FC<{ children: string }> = ({ children }) => {
   );
 };
 
-const Table: React.FC = (props) => (
+const MarkdownTable: React.FC = (props) => (
   <table className="ui table">{props.children}</table>
 );
 
-const Heading: React.FC<HeadingProps> = (props) => {
+const AnchorHeading: React.FC<HeadingProps> = (props) => {
   const textNode = props.node.children[0];
   const label = textNode.type === 'text' ? textNode.value : '';
   const id = slugifyHeading(label);
@@ -109,12 +121,20 @@ const Heading: React.FC<HeadingProps> = (props) => {
   );
 };
 
-const components: Components = {
-  h1: Heading,
-  h2: Heading,
-  h3: Heading,
-  h4: Heading,
-  h5: Heading,
-  h6: Heading,
-  table: Table,
+const MarkdownLink: React.FC<{ href?: string }> = (props) => (
+  <Link to={props.href ?? '/'}>{props.children}</Link>
+);
+
+const baseComponents: Components = {
+  table: MarkdownTable,
+  a: MarkdownLink,
+};
+
+const anchorHeadingComponents: Components = {
+  h1: AnchorHeading,
+  h2: AnchorHeading,
+  h3: AnchorHeading,
+  h4: AnchorHeading,
+  h5: AnchorHeading,
+  h6: AnchorHeading,
 };

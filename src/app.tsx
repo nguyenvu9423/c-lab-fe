@@ -17,6 +17,7 @@ import {
   LogoutPage,
   ResetPasswordPageRouter,
   EmailVerificationPage,
+  IntroPage,
 } from './page';
 import { Modal } from './components/modals';
 import { PrincipalSelectors } from './store/selectors';
@@ -70,6 +71,7 @@ const App: React.FC = () => {
             <Route path="/articles/*" element={<ArticlePageRouter />} />
             <Route path="/problems/*" element={<ProblemPageRouter />} />
             <Route path="/admin/*" element={<AdminPage />} />
+            <Route path="/intro/*" element={<IntroPage />} />
           </Routes>
         </div>
         <ToastGroup />

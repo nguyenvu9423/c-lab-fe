@@ -28,8 +28,7 @@ export const HomePage: React.FC = () => {
           as="h2"
           content="          
               Đây là nơi bạn có thể học thêm những kiến thức về thuật
-              toán và rèn luyện kĩ năng giải thuật của mình thông qua những bài
-              tập được chấm tự động
+              toán và rèn luyện kĩ năng giải thuật của mình
             "
           style={{
             fontSize: '1.7em',
@@ -47,7 +46,7 @@ export const HomePage: React.FC = () => {
                 <Button floated="right" icon="arrow right" size="mini" />
               </Card.Header>
             </Card.Content>
-            <Card.Content description="Trang tổng hợp các bài viết về kiến thức thuật toán" />
+            <Card.Content description="Trang tổng hợp các bài viết về thuật toán và cấu trúc dữ liệu" />
           </Card>
           <Card as={Link} to="/problems" color="green">
             <Card.Content>
@@ -56,16 +55,16 @@ export const HomePage: React.FC = () => {
                 <Button floated="right" icon="arrow right" size="mini" />
               </Card.Header>
             </Card.Content>
-            <Card.Content description="Nơi tổng hợp các bài tập về thuật toán. Bạn có thể nộp bài và xem kết quả bài nộp" />
+            <Card.Content description="Trang tổng hợp các bài tập về thuật toán. Bạn có thể nộp bài và xem kết quả lập tức" />
           </Card>
-          <Card as={Link} to="/problems" color="green">
+          <Card as={Link} to="/intro" color="green">
             <Card.Content>
               <Card.Header>
                 Giới thiệu
                 <Button floated="right" icon="arrow right" size="mini" />
               </Card.Header>
             </Card.Content>
-            <Card.Content description="Nơi tổng hợp các bài tập về thuật toán. Bạn có thể nộp bài và xem kết quả bài nộp" />
+            <Card.Content description="Trang giới thiệu về c-lab và hướng dẫn dành cho những bạn mới" />
           </Card>
         </Card.Group>
       </div>
