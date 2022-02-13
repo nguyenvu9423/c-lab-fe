@@ -4,9 +4,9 @@ import { Grid, Menu } from 'semantic-ui-react';
 import { IntroContent } from './contents/IntroContent';
 import { GuideContent } from './contents/GuideContent';
 
-export const IntroPage: React.FC = () => {
-  const match = useMatch('/intro/:activeItem');
-  const activeItem = match?.params.activeItem ?? 'home';
+export const InfoPage: React.FC = () => {
+  const match = useMatch('/info/:activeItem');
+  const activeItem = match?.params.activeItem ?? 'intro';
   const navigate = useNavigate();
 
   return (
@@ -15,8 +15,8 @@ export const IntroPage: React.FC = () => {
         <Menu pointing vertical fluid>
           <Menu.Item
             content="Giới thiệu"
-            active={activeItem === 'home'}
-            onClick={() => navigate('home')}
+            active={activeItem === 'intro'}
+            onClick={() => navigate('intro')}
           />
           <Menu.Item
             content="Hướng dẫn"
@@ -26,7 +26,7 @@ export const IntroPage: React.FC = () => {
         </Menu>
       </Grid.Column>
       <Grid.Column width={12}>
-        {activeItem === 'home' ? <IntroContent /> : <GuideContent />}
+        {activeItem === 'intro' ? <IntroContent /> : <GuideContent />}
       </Grid.Column>
     </Grid>
   );

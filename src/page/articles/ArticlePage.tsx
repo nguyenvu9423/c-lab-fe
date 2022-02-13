@@ -32,6 +32,7 @@ import { Breakpoint } from '../../utility';
 import { useScrollToTop } from '../../common/hooks';
 import { UnknownException } from '../../exception/UnkownException';
 import { Link } from 'react-router-dom';
+import { ArticleMarkdownView } from './components/ArticleMarkdownView';
 
 export const ArticlePage: React.FC = () => {
   const params = useParams();
@@ -178,7 +179,7 @@ const ArticleContentContainer: React.FC<ArticleContentContainer.Props> = (
         </>
       )}
       <Segment basic>
-        <MarkdownView useAnchorHeading>{article.content}</MarkdownView>
+        <ArticleMarkdownView>{article.content}</ArticleMarkdownView>
       </Segment>
 
       <Segment vertical>

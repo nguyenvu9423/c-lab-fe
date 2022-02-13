@@ -57,7 +57,7 @@ export const HomePage: React.FC = () => {
             </Card.Content>
             <Card.Content description="Trang tổng hợp các bài tập về thuật toán. Bạn có thể nộp bài và xem kết quả lập tức" />
           </Card>
-          <Card as={Link} to="/intro" color="green">
+          <Card as={Link} to="/info" color="green">
             <Card.Content>
               <Card.Header>
                 Giới thiệu

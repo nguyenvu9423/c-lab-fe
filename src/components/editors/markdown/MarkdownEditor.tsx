@@ -1,19 +1,14 @@
 import * as React from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-import gfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
 import classNames from 'classnames';
 
 import { Button, Divider } from 'semantic-ui-react';
 import { EditorState, Editor, ContentState } from 'draft-js';
 import { Components } from 'react-markdown';
 
-import { Styleable } from '../../common/types';
-import { slugifyHeading } from '../../page/articles/utils';
+import { Styleable } from '../../../common/types';
+import { slugifyHeading } from '../../../page/articles/utils';
 import { HeadingProps } from 'react-markdown/lib/ast-to-react';
-import { Link } from 'react-router-dom';
+import { MarkdownView } from './MarkdownView';
 
 export namespace MarkdownEditor {
   export interface Props extends Styleable {
@@ -75,66 +70,4 @@ export const MarkdownEditor: React.FC<MarkdownEditor.Props> = (props) => {
       )}
     </div>
   );
-};
-
-export const MarkdownView: React.FC<{
-  children: string;
-  useAnchorHeading?: boolean;
-}> = (props) => {
-  const { children, useAnchorHeading } = props;
-  const components = React.useMemo(
-    () =>
-      useAnchorHeading
-        ? { ...baseComponents, anchorHeadingComponents }
-        : baseComponents,
-    [useAnchorHeading]
-  );
-  return (
-    <ReactMarkdown
-      className="markdown-container"
-      remarkPlugins={[gfm, remarkMath]}
-      rehypePlugins={[rehypeRaw, rehypeKatex]}
-      components={components}
-    >
-      {children}
-    </ReactMarkdown>
-  );
-};
-
-const MarkdownTable: React.FC = (props) => (
-  <table className="ui table">{props.children}</table>
-);
-
-const AnchorHeading: React.FC<HeadingProps> = (props) => {
-  const textNode = props.node.children[0];
-  const label = textNode.type === 'text' ? textNode.value : '';
-  const id = slugifyHeading(label);
-  const TagName = `h${props.level + 1}` as any;
-
-  return (
-    <TagName>
-      <span className="anchor-tag" id={id}>
-        <a href={`#${id}`}>#</a>
-      </span>
-      {props.children}
-    </TagName>
-  );
-};
-
-const MarkdownLink: React.FC<{ href?: string }> = (props) => (
-  <Link to={props.href ?? '/'}>{props.children}</Link>
-);
-
-const baseComponents: Components = {
-  table: MarkdownTable,
-  a: MarkdownLink,
-};
-
-const anchorHeadingComponents: Components = {
-  h1: AnchorHeading,
-  h2: AnchorHeading,
-  h3: AnchorHeading,
-  h4: AnchorHeading,
-  h5: AnchorHeading,
-  h6: AnchorHeading,
 };

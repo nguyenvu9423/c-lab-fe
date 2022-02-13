@@ -8,4 +8,4 @@ export * from './register';
 export * from './users';
 export * from './reset-password';
 export * from './email-verification';
-export * from './intro';
+export * from './info';
