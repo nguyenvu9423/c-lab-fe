@@ -16,6 +16,7 @@ import { EmailVerificationService } from '../../service/EmailVerificationService
 import { ContactProperties } from '../../config/ContactProperties';
 import { useScrollToTop } from '../../common/hooks';
 import { useParams } from 'react-router';
+import { UserSubsCard } from './components/UserSubsCard';
 
 export const UserPage: React.FC = () => {
   const { username } = useParams<'username'>();
@@ -66,6 +67,7 @@ export const UserPage: React.FC = () => {
               </>
             )}
             <UserProfilePanel user={user} />
+            <UserSubsCard username={username} />
           </Grid.Column>
           <Grid.Column width={4}>
             {isPrincipal && <UserSettingMenu user={user} />}

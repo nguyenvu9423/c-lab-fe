@@ -37,9 +37,9 @@ export namespace SubmissionService {
   export function getSubmissions(
     params:
       | { query?: string }
-      | { userId: number }
+      | { username: string }
       | { problemCode: string }
-      | { userId: number; problemCode: string },
+      | { username: string; problemCode: string },
     pageable?: Pageable
   ): ServiceResponse<Page<SubmissionDTO>> {
     const query =

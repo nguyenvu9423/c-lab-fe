@@ -7,6 +7,7 @@ import { SubmitButton, CancelButton } from '../../components/button';
 import { Form, Header, Divider, Button, Modal, Table } from 'semantic-ui-react';
 import { PutFileInput } from '../../page/common/inputs/PutFileInput';
 import { CustomJudger, TestPackage } from '.';
+import { BackEndConfig } from '../../config';
 
 const judgerOptions = JudgerType.values.map((type) => ({
   value: type,
@@ -186,7 +187,7 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
                   : {
                       name: values.testPackage.originalFileName,
                       uploaded: true,
-                      downloadLink: `/api/test-package/${values.testPackage.id}/file`,
+                      downloadLink: `${BackEndConfig.API_URL}/test-package/${values.testPackage.id}/file`,
                     }
                 : undefined
             }

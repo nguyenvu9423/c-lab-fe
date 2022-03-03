@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Search, SearchProps } from 'semantic-ui-react';
-import { Key } from '../../utility';
+import { Key } from 'ts-key-enum';
 
 export namespace SearchInput {
   export interface Props extends SearchProps {

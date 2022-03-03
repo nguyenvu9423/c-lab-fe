@@ -30,7 +30,7 @@ const initialPageable: Pageable = {
 export namespace PrincipalProblemSubsCard {
   export interface Props {
     problemCode: string;
-    userId: number;
+    username: string;
   }
 
   export interface Ref {
@@ -44,7 +44,7 @@ export const PrincipalProblemSubsCard: React.FC<
 > = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
 
-  const { problemCode, userId } = props;
+  const { problemCode, username } = props;
   const { data } = useSelector(
     (state: State) => state.principalProblemSubsCard
   );
@@ -66,7 +66,7 @@ export const PrincipalProblemSubsCard: React.FC<
         fetchSubmissions.request({
           type: 'byUserAndProblem',
           problemCode,
-          userId,
+          username,
           pageable: params?.pageable ?? pageable,
           target: Target.PRINCIPAL_PROBLEM_SUBS_CARD,
         })
@@ -75,7 +75,7 @@ export const PrincipalProblemSubsCard: React.FC<
         setHighLightSubId(params.highlightSubId);
       }
     },
-    [dispatch, userId, problemCode, pageable]
+    [dispatch, username, problemCode, pageable]
   );
 
   React.useEffect(() => {

@@ -23,17 +23,18 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
       <Card.Content>
         <Card.Description>
           <div className="overview-article-card">
-            <Image
-              className="thumbnail"
-              as={Link}
-              to={linkToArticle}
-              bordered
-              src={
-                article.thumbnail
-                  ? BackEndConfig.API_URL + article.thumbnail
-                  : DefaultThumbnail
-              }
-            />
+            <Link to={linkToArticle}>
+              <Image
+                bordered
+                className="thumbnail"
+                src={
+                  article.thumbnail
+                    ? BackEndConfig.API_URL + article.thumbnail
+                    : DefaultThumbnail
+                }
+              />
+            </Link>
+
             <div className="content">
               <Header as={Link} to={linkToArticle}>
                 {article.title}

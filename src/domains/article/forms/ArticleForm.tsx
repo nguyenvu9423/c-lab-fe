@@ -1,22 +1,20 @@
 import * as React from 'react';
 import * as yup from 'yup';
-import {
-  Button,
-  Form,
-  Segment,
-  TextArea,
-  Image,
-  Checkbox,
-} from 'semantic-ui-react';
+import { Form, TextArea, Checkbox } from 'semantic-ui-react';
 import { useFormik } from 'formik';
-import DefaultThumbnail from '../../../../public/images/default-thumbnail.png';
+
 import { ArticleStatus } from '../';
 import { TagSelect, Tag } from '../../tag';
 import { SubmitButton, CancelButton } from '../../../components/button';
-import { useErrorMessageRenderer, MarkdownEditor } from '../../../components';
+import {
+  useErrorMessageRenderer,
+  MarkdownEditor,
+  RichTextEditor,
+} from '../../../components';
 import { articleStatusValues } from '../ArticleStatus';
 import { FieldError } from '../../../exception';
-import { BackEndConfig } from '../../../config';
+import { ImageUploader } from '../../../components/input';
+import { convertToRaw, RawDraftContentState } from 'draft-js';
 
 export namespace ArticleForm {
   export interface Props {
@@ -31,7 +29,7 @@ export namespace ArticleForm {
     title: string;
     subtitle: string;
     overview: string;
-    content: string;
+    content: RawDraftContentState | undefined;
     thumbnail: string | File | undefined;
     contentTableShown: boolean;
     tags: Tag[];
@@ -51,6 +49,7 @@ export const ArticleFormSchema = yup.object({
 
 export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
   const { initialValues, onSubmit, onCancel } = props;
+
   const {
     values,
     setFieldValue,
@@ -67,7 +66,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
       title: initialValues?.title ?? '',
       subtitle: initialValues?.subtitle ?? '',
       overview: initialValues?.overview ?? '',
-      content: initialValues?.content ?? '',
+      content: initialValues?.content,
       thumbnail: initialValues?.thumbnail,
       contentTableShown: initialValues?.contentTableShown ?? true,
       tags: initialValues?.tags ?? [],
@@ -140,7 +139,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
       </Form.Group>
       <Form.Field>
         <label>Nội dung</label>
-        <MarkdownEditor
+        <RichTextEditor
           className="article-editor"
           initialValue={initialValues?.content}
           onChange={(value) => setFieldValue('content', value)}
@@ -175,6 +174,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
       <Form.Field>
         <label>Thumbnail</label>
         <ImageUploader
+          initialValue={initialValues?.thumbnail}
           value={values.thumbnail}
           onChange={(value) => setFieldValue('thumbnail', value)}
         />
@@ -192,55 +192,3 @@ const statusOptions = articleStatusValues.map((item) => {
     value: item,
   };
 });
-
-export const ImageUploader: React.FC<{
-  value?: string | File | undefined;
-  onChange?: (value: string | File) => void;
-}> = (props) => {
-  const { value } = props;
-
-  const url = React.useMemo(
-    () =>
-      value
-        ? value instanceof File
-          ? URL.createObjectURL(value)
-          : BackEndConfig.API_URL + value
-        : undefined,
-    [value]
-  );
-
-  const inputRef = React.useRef<HTMLInputElement | null>(null);
-  return (
-    <div style={{ display: 'inline-block' }}>
-      <Segment attached="top">
-        <Image
-          src={url ?? DefaultThumbnail}
-          style={{
-            width: 150,
-            height: 150,
-            display: 'inline-block',
-            objectFit: 'cover',
-          }}
-        />
-      </Segment>
-      <input
-        type="file"
-        ref={inputRef}
-        hidden
-        onChange={(event) => {
-          const files = event.target.files;
-          if (files && files[0]) {
-            props.onChange?.(files[0]);
-          }
-        }}
-      />
-      <Button
-        type="button"
-        attached="bottom"
-        onClick={() => inputRef.current?.click()}
-        icon="upload"
-        content="Chọn ảnh"
-      />
-    </div>
-  );
-};
