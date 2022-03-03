@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Input, InputProps } from 'semantic-ui-react';
-import { Key } from '../../utility';
+import { Key } from 'ts-key-enum';
 
 export namespace BufferedInput {
   export interface Props extends Omit<InputProps, 'onChange'> {

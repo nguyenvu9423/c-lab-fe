@@ -4,14 +4,15 @@ import { Header, List } from 'semantic-ui-react';
 import { HashLink } from 'react-router-hash-link';
 import { slugifyHeading } from '../utils';
 import { ArrayUtils } from '../../../utility';
-import { Article } from '../../../domains/article';
 import { fromMarkdown } from 'mdast-util-from-markdown';
 import { visit } from 'unist-util-visit';
+import { RawDraftContentState } from 'draft-js';
 
 export namespace ArticleContentTable {
   export interface Props {
-    article: Article;
+    contentState: RawDraftContentState;
   }
+
   export type Node = RootNode | HeaderNode;
 
   export interface BaseNode {
@@ -37,11 +38,11 @@ export namespace ArticleContentTable {
 export const ArticleContentTable: React.FC<ArticleContentTable.Props> = (
   props
 ) => {
-  const { article } = props;
+  const { contentState } = props;
 
   const rootNode = React.useMemo(
-    () => getContentTable(article.content),
-    [article]
+    () => getContentTable(contentState),
+    [contentState]
   );
 
   return (
@@ -70,29 +71,30 @@ function renderNode(node: ArticleContentTable.Node) {
   }
 }
 
-function getContentTable(content: string): ArticleContentTable.RootNode {
+function getContentTable(
+  content: RawDraftContentState
+): ArticleContentTable.RootNode {
   const result: ArticleContentTable.RootNode = { parent: null, children: [] };
   let nearestNode: ArticleContentTable.Node = result;
-  const tree = fromMarkdown(content);
 
-  visit(tree, (node) => {
-    if (node.type === 'heading') {
+  content.blocks.forEach((block) => {
+    if (block.type.startsWith('header')) {
       let current: ArticleContentTable.Node | undefined = nearestNode;
+      const depth = getHeaderDepth(block.type);
       while (current) {
-        if (current.parent == null || node.depth > Number(current?.depth)) {
+        if (current.parent == null || depth > Number(current?.depth)) {
           break;
         }
         current = current.parent;
       }
       const parentNode = current;
-      const textNode = node.children[0];
-      const label = textNode.type === 'text' ? textNode.value : '';
+      const label = block.text;
 
       const nextNode: ArticleContentTable.HeaderNode = {
         id: slugifyHeading(label),
         parent: parentNode,
         label,
-        depth: node.depth,
+        depth,
         children: [],
       };
       parentNode.children.push(nextNode);
@@ -101,4 +103,16 @@ function getContentTable(content: string): ArticleContentTable.RootNode {
   });
 
   return result;
+}
+
+function getHeaderDepth(type: string): number {
+  switch (type) {
+    case 'header-one':
+      return 1;
+    case 'header-two':
+      return 2;
+    case 'header-three':
+      return 3;
+  }
+  return 0;
 }

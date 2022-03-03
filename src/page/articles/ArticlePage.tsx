@@ -14,7 +14,7 @@ import {
 } from 'semantic-ui-react';
 import { ArticleContentTable } from './components/ArticleContentTable';
 import { LoadingState } from '../../store/common';
-import { ErrorMessage, LoadingIndicator, MarkdownView } from '../../components';
+import { ErrorMessage, LoadingIndicator } from '../../components';
 import {
   ArticleSelectors,
   AuthorizationSelectors,
@@ -32,7 +32,10 @@ import { Breakpoint } from '../../utility';
 import { useScrollToTop } from '../../common/hooks';
 import { UnknownException } from '../../exception/UnkownException';
 import { Link } from 'react-router-dom';
-import { ArticleMarkdownView } from './components/ArticleMarkdownView';
+import { RawDraftContentState } from 'draft-js';
+import { RichTextView } from '../../components/editors/rich-text';
+import { TagPanel } from './components/TagPanel';
+import { ArticleContentContainer } from './components/ArticleContentContainer';
 
 export const ArticlePage: React.FC = () => {
   const params = useParams();
@@ -45,16 +48,9 @@ export const ArticlePage: React.FC = () => {
   useScrollToTop();
 
   const dispatch = useDispatch();
-  const contextRef = React.createRef<HTMLElement>();
-  const isGreaterMediumScreen = useMediaQuery({
-    query: `(min-width: ${Breakpoint.md}px)`,
-  });
 
   const { data } = useSelector((state: State) => state.articlePage);
   const article = useSelector(ArticleSelectors.byId(params.id));
-  const canEdit = useSelector(
-    article ? AuthorizationSelectors.canUpdateArticle(article) : () => undefined
-  );
 
   React.useEffect(() => {
     dispatch(
@@ -67,14 +63,6 @@ export const ArticlePage: React.FC = () => {
       dispatch(resetState({ target: Target.ARTICLE_PAGE }));
     };
   }, [dispatch, params.id]);
-
-  React.useEffect(() => {
-    if (article && location.hash) {
-      const elementId = location.hash.substr(1);
-      const element = document.getElementById(elementId);
-      if (element) element.scrollIntoView();
-    }
-  });
 
   if (article && article.slug && slug !== article.slug) {
     return <Navigate to={`/articles/${article.id}/view/${article.slug}`} />;
@@ -97,106 +85,69 @@ export const ArticlePage: React.FC = () => {
         </Grid.Row>
       )}
       {data.article.loadingState === LoadingState.LOADED && article && (
-        <>
-          {canEdit && (
-            <Grid.Row>
-              <Grid.Column floated="right" textAlign="right" width="16">
-                <ArticleSettingPanel article={article} />
-                <Divider />
-              </Grid.Column>
-            </Grid.Row>
-          )}
-
-          <Grid.Row divided>
-            <Grid.Column width={article.contentTableShown ? 12 : 16}>
-              <Ref innerRef={contextRef}>
-                <ArticleContentContainer
-                  article={article}
-                  showContentTable={!isGreaterMediumScreen}
-                />
-              </Ref>
-            </Grid.Column>
-            {isGreaterMediumScreen && article.contentTableShown && (
-              <Grid.Column width={4}>
-                <Sticky
-                  className="table-content"
-                  context={contextRef}
-                  offset={76}
-                >
-                  <Segment basic>
-                    <ArticleContentTable article={article} />
-                  </Segment>
-                </Sticky>
-              </Grid.Column>
-            )}
-          </Grid.Row>
-        </>
+        <LoadedArticleView article={article} />
       )}
     </Grid>
   );
 };
 
-namespace ArticleContentContainer {
-  export interface Props {
-    article: Article;
-    showContentTable?: boolean;
-  }
-}
+export const LoadedArticleView: React.FC<{ article: Article }> = (props) => {
+  const { article } = props;
 
-const ArticleContentContainer: React.FC<ArticleContentContainer.Props> = (
-  props
-) => {
-  const { article, showContentTable } = props;
-  const author = useSelector(UserSelectors.selectById(article.author));
+  const contextRef = React.createRef<HTMLElement>();
+  const isGreaterMediumScreen = useMediaQuery({
+    query: `(min-width: ${Breakpoint.md}px)`,
+  });
 
-  return (
-    <div className="article-container text-container">
-      <Segment basic>
-        <Header as="h1">
-          {article.title}
-          <Header.Subheader>{article.subtitle}</Header.Subheader>
-        </Header>
-      </Segment>
-      <Segment className="additional-info" basic>
-        <Link to={`/users/${author.username}`}>
-          <Avatar user={author} />
-        </Link>
-        <span className="info-container">
-          <Link className="username-label" to={`/users/${author.username}`}>
-            {author.username}
-          </Link>
-          <div className="created-at-label">
-            {DateTimeUtils.of(article.createdAt).fromNow()}
-          </div>
-        </span>
-      </Segment>
-      {showContentTable && (
-        <>
-          <Segment basic>
-            <ArticleContentTable article={article} />
-          </Segment>
-          <Divider />
-        </>
-      )}
-      <Segment basic>
-        <ArticleMarkdownView>{article.content}</ArticleMarkdownView>
-      </Segment>
-
-      <Segment vertical>
-        <TagPanel tagIds={article.tags} />
-      </Segment>
-    </div>
+  const canEdit = useSelector(
+    article ? AuthorizationSelectors.canUpdateArticle(article) : () => undefined
   );
-};
 
-const TagPanel: React.FC<{ tagIds: number[] }> = (props) => {
-  const { tagIds } = props;
-  const tags = useSelector(TagSelectors.selectByIds(tagIds));
+  React.useEffect(() => {
+    if (article && location.hash) {
+      const elementId = location.hash.substr(1);
+      const element = document.getElementById(elementId);
+      if (element) element.scrollIntoView();
+    }
+  });
+
+  const rawContentState: RawDraftContentState = React.useMemo(
+    () => JSON.parse(article.content),
+    [article?.content]
+  );
   return (
-    <Label.Group tag>
-      {tags.map((tag) => (
-        <Label key={tag.id}>{tag.name}</Label>
-      ))}
-    </Label.Group>
+    <>
+      {canEdit && (
+        <Grid.Row>
+          <Grid.Column floated="right" textAlign="right" width="16">
+            <ArticleSettingPanel article={article} />
+            <Divider />
+          </Grid.Column>
+        </Grid.Row>
+      )}
+
+      <Grid.Row divided>
+        <Grid.Column width={article.contentTableShown ? 12 : 16}>
+          <Ref innerRef={contextRef}>
+            <ArticleContentContainer
+              article={article}
+              contentState={rawContentState}
+              showContentTable={!isGreaterMediumScreen}
+            />
+          </Ref>
+        </Grid.Column>
+        {isGreaterMediumScreen && article.contentTableShown && (
+          <Grid.Column width={4}>
+            <Sticky className="table-content" context={contextRef} offset={76}>
+              <Segment basic>
+                {rawContentState && (
+                  <ArticleContentTable contentState={rawContentState} />
+                )}
+              </Segment>
+            </Sticky>
+          </Grid.Column>
+        )}
+      </Grid.Row>
+    </>
   );
 };

@@ -38,13 +38,15 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
     article ? TagSelectors.selectTagsByIds(article.tags) : () => undefined
   );
 
-  const initialValues =
-    article && tags
+  const initialValues = React.useMemo(() => {
+    return article && tags
       ? {
           ...article,
+          content: JSON.parse(article.content),
           tags,
         }
       : undefined;
+  }, [article, tags]);
 
   const [errors, setErrors] = React.useState<FieldError[] | undefined>();
 
@@ -59,15 +61,21 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
 
   const handleSubmit = React.useCallback(
     (values) => {
-      const { thumbnail, ...dto } = values;
+      const { thumbnail, content, ...dto } = values;
+      dto.content = JSON.stringify(content);
+
       const formData = new FormData();
+
+      if (typeof thumbnail === 'string') {
+        dto['thumbnail'] = thumbnail;
+      } else if (thumbnail instanceof File) {
+        formData.append('thumbnail', thumbnail);
+      }
+
       formData.append(
         'article',
         new Blob([JSON.stringify(dto)], { type: 'application/json' })
       );
-      if (thumbnail instanceof File) {
-        formData.append('thumbnail', thumbnail);
-      }
 
       return ArticleService.updateArticle(articleId, formData)
         .then((response) => {

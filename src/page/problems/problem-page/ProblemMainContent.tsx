@@ -35,7 +35,7 @@ export const ProblemMainContent: React.FC<{ problem: Problem }> = (props) => {
           <PrincipalProblemSubsCard
             ref={subsCardRef}
             problemCode={problem.code}
-            userId={principal.id}
+            username={principal.username}
           />
         )}
         <TagContainer ids={problem.tags} />

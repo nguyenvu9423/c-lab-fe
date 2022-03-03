@@ -81,7 +81,7 @@ function* getSubmissions(
       response = yield call(
         SubmissionService.getSubmissions,
         {
-          userId: payload.userId,
+          username: payload.username,
         },
         pageable
       );
@@ -90,7 +90,7 @@ function* getSubmissions(
       response = yield call(
         SubmissionService.getSubmissions,
         {
-          userId: payload.userId,
+          username: payload.username,
           problemCode: payload.problemCode,
         },
         pageable

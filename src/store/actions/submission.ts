@@ -20,12 +20,12 @@ export namespace FetchSubmissions {
 
   export interface byUser extends BaseRequestPayload {
     type: 'byUser';
-    userId: number;
+    username: string;
   }
 
   export interface byUserAndProblem extends BaseRequestPayload {
     type: 'byUserAndProblem';
-    userId: number;
+    username: string;
     problemCode: string;
   }
 

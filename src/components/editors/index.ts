@@ -1,3 +1,3 @@
 export * from './markdown';
-export * from './RichTextEditor';
+export * from './rich-text';
 export * from './CodeEditor';
