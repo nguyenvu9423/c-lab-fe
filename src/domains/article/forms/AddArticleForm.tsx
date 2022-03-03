@@ -12,7 +12,7 @@ export const AddArticleForm: React.FC<{
 
   const handleSubmit = React.useCallback(
     (values) => {
-      let { thumbnail, content, ...article } = values;
+      const { thumbnail, content, ...article } = values;
       article.content = JSON.stringify(content);
 
       const formData = new FormData();

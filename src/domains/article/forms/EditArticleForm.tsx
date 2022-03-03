@@ -61,7 +61,7 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
 
   const handleSubmit = React.useCallback(
     (values) => {
-      let { thumbnail, content, ...dto } = values;
+      const { thumbnail, content, ...dto } = values;
       dto.content = JSON.stringify(content);
 
       const formData = new FormData();

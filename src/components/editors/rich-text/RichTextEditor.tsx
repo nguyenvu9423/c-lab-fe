@@ -177,7 +177,7 @@ function useHandleTab(
       ) {
         return RichUtils.onTab(e, currentState, 3);
       } else {
-        let newContentState = Modifier.replaceText(
+        const newContentState = Modifier.replaceText(
           currentState.getCurrentContent(),
           currentState.getSelection(),
           '    '
