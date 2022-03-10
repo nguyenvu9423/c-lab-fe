@@ -28,4 +28,5 @@ export const fetchSearch = {
     'fetchSearch/error',
     (payload: FetchSearch.ErrorPayload) => ({ payload, error: true })
   ),
+  clear: createAction('fetchSearch/clear'),
 };

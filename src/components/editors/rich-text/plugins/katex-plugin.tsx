@@ -73,11 +73,7 @@ function KatexBlock(props) {
   const { text } = props.contentState.getEntity(props.entityKey).getData();
   return (
     <span>
-      <span
-        dangerouslySetInnerHTML={{
-          __html: katex.renderToString(text),
-        }}
-      />
+      <span dangerouslySetInnerHTML={{ __html: katex.renderToString(text) }} />
       <span style={{ display: 'none' }}>{props.children}</span>
     </span>
   );

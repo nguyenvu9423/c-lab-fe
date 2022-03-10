@@ -10,7 +10,7 @@ import createImagePlugin from '@draft-js-plugins/image';
 import createLinkPlugin from '@draft-js-plugins/anchor';
 import createAlignmentPlugin from '@draft-js-plugins/alignment';
 import createResizeablePlugin from '@draft-js-plugins/resizeable';
-import { codeBlockStyleFn, katexDecorator } from './plugins';
+import { katexDecorator } from './plugins';
 import { slugifyHeading } from '../../../page/articles/utils';
 
 import '@draft-js-plugins/image/lib/plugin.css';
@@ -40,7 +40,6 @@ export const RichTextView: React.FC<{ contentState: RawDraftContentState }> = (
   return (
     <div className="text-container">
       <Editor
-        blockStyleFn={codeBlockStyleFn}
         blockRenderMap={blockRenderMap}
         decorators={[katexDecorator]}
         editorState={editorState}

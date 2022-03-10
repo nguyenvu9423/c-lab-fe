@@ -28,26 +28,43 @@ export const SearchBar: React.FC = () => {
       ? convertToResults(state.results)
       : undefined;
 
-  const query = React.useCallback(
-    Lodash.debounce((value) => {
-      dispatch(fetchSearch.request(value));
-    }, DEBOUNCE_DURATION),
-    []
+  const query = React.useMemo(
+    () =>
+      Lodash.debounce((value) => {
+        dispatch(fetchSearch.request(value));
+      }, DEBOUNCE_DURATION),
+    [dispatch]
   );
 
-  const handleSearchChange = React.useCallback((event, { value }) => {
-    setValue(value);
-    if (value) query(value);
-  }, []);
+  const clear = React.useCallback(
+    () => dispatch(fetchSearch.clear()),
+    [dispatch]
+  );
 
-  const handleResultSelect = React.useCallback((event, { result }) => {
-    setValue('');
-    if (result.type === 'problem') {
-      navigate(`/problems/${result.code}`);
-    } else if (result.type === 'article') {
-      navigate(`/articles/${result.id}/view/${result.slug}`);
-    }
-  }, []);
+  const handleSearchChange = React.useCallback(
+    (event, { value }) => {
+      setValue(value);
+      if (value) {
+        query(value);
+      } else {
+        clear();
+      }
+    },
+    [query, clear]
+  );
+
+  const handleResultSelect = React.useCallback(
+    (event, { result }) => {
+      setValue('');
+      clear();
+      if (result.type === 'problem') {
+        navigate(`/problems/${result.code}`);
+      } else if (result.type === 'article') {
+        navigate(`/articles/${result.id}/view/${result.slug}`);
+      }
+    },
+    [clear, navigate]
+  );
 
   return (
     <Search

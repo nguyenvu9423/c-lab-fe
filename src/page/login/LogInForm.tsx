@@ -89,7 +89,7 @@ export const LoginForm: React.FC<LoginForm.Props> = (props) => {
       <Form.Field>
         <label>Mật khẩu</label>
         <Input
-          placeholder="Password"
+          placeholder="Mật khẩu"
           name="password"
           type="password"
           value={values.password}

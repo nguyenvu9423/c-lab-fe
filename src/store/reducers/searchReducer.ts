@@ -39,6 +39,9 @@ export const searchReducer = createReducer<SearchState>(
         }
         return state;
       })
+      .addCase(fetchSearch.clear, () => {
+        return initialState;
+      })
       .addCase(fetchSearch.error, (state, action) => {
         const { requestId, error } = action.payload;
         if (
