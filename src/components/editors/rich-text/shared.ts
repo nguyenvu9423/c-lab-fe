@@ -1,11 +1,5 @@
 import Immutable from 'immutable';
-import { ContentBlock, DefaultDraftBlockRenderMap } from 'draft-js';
-
-export function blockStyleFn(contentBlock: ContentBlock) {
-  if (contentBlock.getType() == 'code-block') {
-    return 'code-block';
-  }
-}
+import { DefaultDraftBlockRenderMap } from 'draft-js';
 
 export const blockRenderMap: Draft.DraftBlockRenderMap =
   DefaultDraftBlockRenderMap.merge(
@@ -18,6 +12,9 @@ export const blockRenderMap: Draft.DraftBlockRenderMap =
       },
       'header-three': {
         element: 'h4',
+      },
+      code: {
+        element: 'code',
       },
     })
   );

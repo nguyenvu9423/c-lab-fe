@@ -42,7 +42,6 @@ import {
   KatexButton,
   katexDecorator,
   CodeBlockButton,
-  codeBlockStyleFn,
 } from './plugins';
 import { blockRenderMap } from './shared';
 
@@ -101,7 +100,6 @@ export const RichTextEditor: React.FC<{
         decorators={[katexDecorator]}
         editorState={editorState}
         onChange={setEditorState}
-        blockStyleFn={codeBlockStyleFn}
         blockRenderMap={blockRenderMap}
         handleReturn={handleReturn}
         onTab={handleTab}
