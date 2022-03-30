@@ -5,7 +5,10 @@ import { Segment, Table } from 'semantic-ui-react';
 import { Pagination } from '../../../../components';
 import { LoadingTableBody } from '../../../../components/table/LoadingTableBody';
 import { useJudgesStream } from '../../../../domains/judge';
-import { Submission } from '../../../../domains/submission';
+import {
+  Submission,
+  SubmissionDetailsLink,
+} from '../../../../domains/submission';
 import { QualifySubButton } from '../../../../domains/submission/components/buttons';
 import { RejudgeSubButton } from '../../../../domains/submission/components/buttons/RejudgeSubButton';
 import { SubmissionStatusLabel } from '../../../../domains/submission/components/SubmissionStatusLabel';
@@ -92,7 +95,11 @@ export const SubmissionPage: React.FC = () => {
             <Table.Body>
               {submissions.map((submission) => (
                 <Table.Row key={submission.id}>
-                  <Table.Cell>{submission.id}</Table.Cell>
+                  <Table.Cell>
+                    <SubmissionDetailsLink submission={submission}>
+                      {submission.id}
+                    </SubmissionDetailsLink>
+                  </Table.Cell>
                   <Table.Cell>
                     <Link to={`/problems/${submission.problem.code}`}>
                       {submission.problem.code}

@@ -92,6 +92,7 @@ export const LoginForm: React.FC<LoginForm.Props> = (props) => {
           placeholder="Mật khẩu"
           name="password"
           type="password"
+          autoComplete="on"
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}

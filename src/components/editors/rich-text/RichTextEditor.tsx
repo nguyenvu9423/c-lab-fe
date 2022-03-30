@@ -5,8 +5,6 @@ import {
   convertToRaw,
   RawDraftContentState,
   convertFromRaw,
-  RichUtils,
-  Modifier,
 } from 'draft-js';
 
 import Editor, { composeDecorators } from '@draft-js-plugins/editor';
@@ -39,11 +37,12 @@ import {
 } from '@draft-js-plugins/buttons';
 import {
   ImageButton,
-  KatexButton,
-  katexDecorator,
   CodeBlockButton,
+  KatexDecorator,
+  KatextInlineButton,
 } from './plugins';
 import { blockRenderMap } from './shared';
+import { useKeyHandler, useReturnHandler, useTabHandler } from './handlers';
 
 const alignmentPlugin = createAlignmentPlugin();
 
@@ -82,8 +81,10 @@ export const RichTextEditor: React.FC<{
       : EditorState.createEmpty()
   );
 
-  const handleReturn = useHandleReturn(setEditorState);
-  const handleTab = useHandleTab(setEditorState);
+  const handleReturn = useReturnHandler(setEditorState);
+  const handleTab = useTabHandler(setEditorState);
+  const { handleKeyCommand, keyBindingFn } = useKeyHandler(setEditorState);
+
   const handleAddImage = React.useCallback((url: string) => {
     setEditorState((state) => imagePlugin.addImage(state, url, {}));
   }, []);
@@ -97,20 +98,22 @@ export const RichTextEditor: React.FC<{
       }
     >
       <Editor
-        decorators={[katexDecorator]}
+        decorators={[KatexDecorator]}
         editorState={editorState}
         onChange={setEditorState}
         blockRenderMap={blockRenderMap}
         handleReturn={handleReturn}
         onTab={handleTab}
         plugins={plugins}
+        keyBindingFn={keyBindingFn}
+        handleKeyCommand={handleKeyCommand}
         onBlur={() =>
           props.onChange?.(convertToRaw(editorState.getCurrentContent()))
         }
         readOnly={props.readonly}
       />
       {!props.readonly && (
-        <>
+        <div className="toolbar-wrapper">
           <Toolbar>
             {(props) => (
               <>
@@ -129,66 +132,13 @@ export const RichTextEditor: React.FC<{
                 <linkPlugin.LinkButton {...props} />
                 <Separator />
                 <ImageButton {...props} onAdd={handleAddImage} />
-                <KatexButton {...props} />
+                <KatextInlineButton {...props} />
               </>
             )}
           </Toolbar>
           <AlignmentTool />
-        </>
+        </div>
       )}
     </div>
   );
 };
-
-function useHandleReturn(
-  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>
-): Draft.EditorProps['handleReturn'] {
-  return React.useCallback(
-    (evt, editorState) => {
-      if (evt.key != 'Enter' || !evt.shiftKey) {
-        return 'not-handled';
-      }
-      const newState = RichUtils.insertSoftNewline(editorState);
-      setEditorState(newState);
-      return 'handled';
-    },
-    [setEditorState]
-  );
-}
-
-function useHandleTab(
-  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>
-): Draft.EditorProps['onTab'] {
-  const handleTab: Draft.EditorProps['onTab'] = React.useCallback((e) => {
-    e.preventDefault();
-
-    setEditorState((currentState) => {
-      const selection = currentState.getSelection();
-      const blockType = currentState
-        .getCurrentContent()
-        .getBlockForKey(selection.getStartKey())
-        .getType();
-
-      if (
-        blockType === 'unordered-list-item' ||
-        blockType === 'ordered-list-item'
-      ) {
-        return RichUtils.onTab(e, currentState, 3);
-      } else {
-        const newContentState = Modifier.replaceText(
-          currentState.getCurrentContent(),
-          currentState.getSelection(),
-          '    '
-        );
-
-        return EditorState.push(
-          currentState,
-          newContentState,
-          'insert-characters'
-        );
-      }
-    });
-  }, []);
-
-  return handleTab;
-}

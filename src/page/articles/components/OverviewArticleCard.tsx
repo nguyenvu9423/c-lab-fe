@@ -10,20 +10,20 @@ import { UserSelectors } from '../../../store/selectors';
 import { BackEndConfig } from '../../../config';
 import { DateTimeUtils } from '../../../utility/data-type/DateTimeUtils';
 import { Avatar } from '../../../components/avatar/Avatar';
+import { ArticlePageLink } from '../ArticlePageLink';
 
 export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
   const { article } = props;
 
   const author = useSelector(UserSelectors.selectById(article.author));
   const tags = useSelector(TagSelectors.selectByIds(article.tags));
-  const linkToArticle = `/articles/${article.id}/view/${article.slug}`;
 
   return (
     <Card fluid>
       <Card.Content>
         <Card.Description>
           <div className="overview-article-card">
-            <Link to={linkToArticle}>
+            <ArticlePageLink article={article}>
               <Image
                 bordered
                 className="thumbnail"
@@ -33,12 +33,13 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
                     : DefaultThumbnail
                 }
               />
-            </Link>
+            </ArticlePageLink>
 
             <div className="content">
-              <Header as={Link} to={linkToArticle}>
-                {article.title}
-              </Header>
+              <ArticlePageLink article={article}>
+                <Header>{article.title}</Header>
+              </ArticlePageLink>
+
               <div
                 className="description"
                 dangerouslySetInnerHTML={{ __html: article.overview }}

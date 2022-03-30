@@ -3,39 +3,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
 import { fetchArticle } from '../../store/actions/article';
-import {
-  Grid,
-  Header,
-  Ref,
-  Sticky,
-  Label,
-  Segment,
-  Divider,
-} from 'semantic-ui-react';
+import { Grid, Ref, Sticky, Segment, Divider } from 'semantic-ui-react';
 import { ArticleContentTable } from './components/ArticleContentTable';
 import { LoadingState } from '../../store/common';
 import { ErrorMessage, LoadingIndicator } from '../../components';
 import {
   ArticleSelectors,
   AuthorizationSelectors,
-  UserSelectors,
 } from '../../store/selectors';
 import { Target } from '../../store/reducers/target';
-import { Avatar } from '../../components/avatar/Avatar';
 import { State } from '../../store';
 import { Article } from '../../domains/article';
 import { ArticleSettingPanel } from './components/ArticleSettingPanel';
-import { TagSelectors } from '../../store/selectors/TagSelectors';
 import { resetState } from '../../store/actions';
-import { DateTimeUtils } from '../../utility/data-type/DateTimeUtils';
 import { Breakpoint } from '../../utility';
 import { useScrollToTop } from '../../common/hooks';
 import { UnknownException } from '../../exception/UnkownException';
-import { Link } from 'react-router-dom';
 import { RawDraftContentState } from 'draft-js';
-import { RichTextView } from '../../components/editors/rich-text';
-import { TagPanel } from './components/TagPanel';
 import { ArticleContentContainer } from './components/ArticleContentContainer';
+import { TOP_NAV_OFFSET } from '../../common/variables';
 
 export const ArticlePage: React.FC = () => {
   const params = useParams();
@@ -94,7 +80,7 @@ export const ArticlePage: React.FC = () => {
 export const LoadedArticleView: React.FC<{ article: Article }> = (props) => {
   const { article } = props;
 
-  const contextRef = React.createRef<HTMLElement>();
+  const contextRef = React.useRef<HTMLElement>(null);
   const isGreaterMediumScreen = useMediaQuery({
     query: `(min-width: ${Breakpoint.md}px)`,
   });
@@ -138,7 +124,11 @@ export const LoadedArticleView: React.FC<{ article: Article }> = (props) => {
         </Grid.Column>
         {isGreaterMediumScreen && article.contentTableShown && (
           <Grid.Column width={4}>
-            <Sticky className="table-content" context={contextRef} offset={76}>
+            <Sticky
+              className="table-content"
+              context={contextRef}
+              offset={TOP_NAV_OFFSET}
+            >
               <Segment basic>
                 {rawContentState && (
                   <ArticleContentTable contentState={rawContentState} />

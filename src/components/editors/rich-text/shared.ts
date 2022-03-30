@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { DefaultDraftBlockRenderMap } from 'draft-js';
+import { DefaultDraftBlockRenderMap, EditorState } from 'draft-js';
 
 export const blockRenderMap: Draft.DraftBlockRenderMap =
   DefaultDraftBlockRenderMap.merge(
@@ -18,3 +18,5 @@ export const blockRenderMap: Draft.DraftBlockRenderMap =
       },
     })
   );
+
+export type SetEditorState = React.Dispatch<React.SetStateAction<EditorState>>;

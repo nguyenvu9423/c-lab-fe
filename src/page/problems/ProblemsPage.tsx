@@ -15,6 +15,7 @@ import { Pageable } from '../../utility';
 import { AcceptedLabel } from '../../domains/judge';
 import { ErrorTableBody, LoadingTableBody } from '../../components/table';
 import { useScrollToTop } from '../../common/hooks';
+import { ProblemPageLink } from './problem-page/ProblemPageLink';
 
 const PROBLEMS_PAGE_SIZE = 14;
 const initialPageable: Pageable = { size: PROBLEMS_PAGE_SIZE, page: 0 };
@@ -94,10 +95,12 @@ export const ProblemsPage: React.FC = () => {
                   {problems.map((problem) => (
                     <Table.Row key={problem.id}>
                       <Table.Cell>
-                        <Link to={problem.code}>{problem.id}</Link>
+                        <ProblemPageLink code={problem.code}>
+                          {problem.id}
+                        </ProblemPageLink>
                       </Table.Cell>
                       <Table.Cell>
-                        <Link to={problem.code}>{problem.code}</Link>
+                        <ProblemPageLink code={problem.code} />
                       </Table.Cell>
                       <Table.Cell>{problem.title}</Table.Cell>
 
