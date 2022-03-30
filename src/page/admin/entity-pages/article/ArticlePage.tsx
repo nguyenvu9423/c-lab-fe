@@ -21,6 +21,7 @@ import {
   DeleteArticleConfirm,
 } from '../../../../domains/article';
 import { ErrorTableBody, LoadingTableBody } from '../../../../components/table';
+import { ArticlePageLink } from '../../..';
 
 const PAGE_SIZE = 10;
 
@@ -115,8 +116,16 @@ export const ArticlePage: React.FC = () => {
                 (article) =>
                   article && (
                     <Table.Row key={article.id}>
-                      <Table.Cell>{article.id}</Table.Cell>
-                      <Table.Cell>{article.title}</Table.Cell>
+                      <Table.Cell>
+                        <ArticlePageLink article={article}>
+                          {article.id}
+                        </ArticlePageLink>
+                      </Table.Cell>
+                      <Table.Cell>
+                        <ArticlePageLink article={article}>
+                          {article.title}
+                        </ArticlePageLink>
+                      </Table.Cell>
                       <Table.Cell>{article.subtitle}</Table.Cell>
                       <Table.Cell>{article.overview}</Table.Cell>
                       <Table.Cell textAlign="right">

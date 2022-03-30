@@ -6,7 +6,7 @@ import { addToast, fetchUsers, resetState } from '../../../../store/actions';
 import { Target } from '../../../../store/reducers/target';
 import { ConstSelectors, UserSelectors } from '../../../../store/selectors';
 import { Pagination } from '../../../../components';
-import { EditUserModal } from '../../../../domains/user';
+import { EditUserModal, UserPageLink } from '../../../../domains/user';
 import { State } from '../../../../store';
 import { Pageable } from '../../../../utility';
 import { DataHolder } from '../../../../store/reducers/data-holders/shared';
@@ -83,7 +83,9 @@ export const UserPage: React.FC = () => {
               {users.map((user) => (
                 <Table.Row key={user.id}>
                   <Table.Cell>{user.id}</Table.Cell>
-                  <Table.Cell>{user.username}</Table.Cell>
+                  <Table.Cell>
+                    <UserPageLink username={user.username} />
+                  </Table.Cell>
                   <Table.Cell>{user.firstName}</Table.Cell>
                   <Table.Cell>{user.lastName}</Table.Cell>
                   <Table.Cell textAlign="right">

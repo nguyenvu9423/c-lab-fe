@@ -23,6 +23,7 @@ import {
   UpdateJudgeConfigModal,
 } from '../../../../domains/problem';
 import { LoadingTableBody, ErrorTableBody } from '../../../../components/table';
+import { ProblemPageLink } from '../../../problems/problem-page/ProblemPageLink';
 
 const PAGE_SIZE = 10;
 
@@ -105,8 +106,16 @@ export const ProblemPage: React.FC = () => {
               <Table.Body>
                 {problems.map((problem) => (
                   <Table.Row key={problem.id}>
-                    <Table.Cell>{problem.id}</Table.Cell>
-                    <Table.Cell>{problem.code}</Table.Cell>
+                    <Table.Cell>
+                      <ProblemPageLink code={problem.code}>
+                        {problem.id}
+                      </ProblemPageLink>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <ProblemPageLink code={problem.code}>
+                        {problem.code}
+                      </ProblemPageLink>
+                    </Table.Cell>
                     <Table.Cell>{problem.title}</Table.Cell>
                     <Table.Cell textAlign="right">
                       <EditRowButton

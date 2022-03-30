@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Menu } from 'semantic-ui-react';
+import { Grid, Menu, Ref, Sticky } from 'semantic-ui-react';
 import { useMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { PageErrorMessage } from '../shared';
 import { SubmissionPage } from './entity-pages/submission';
 import { ProblemPage } from './entity-pages/problem';
 import { useScrollToTop } from '../../common/hooks';
+import { TOP_NAV_OFFSET } from '../../common/variables';
 
 export const AdminPage: React.FC = () => {
   useScrollToTop();
@@ -45,17 +46,25 @@ export const AdminPage: React.FC = () => {
     default:
       content = undefined;
   }
+
+  const contextRef = React.useRef<HTMLElement>(null);
+
   if (!hasAdminRole) {
     return <PageErrorMessage message="Bạn không có quyền truy cập trang này" />;
   }
+
   return (
     <Grid container doubling stackable>
-      <Grid.Row>
-        <Grid.Column width={4}>
-          <ControlMenu baseURL="/admin" activePage={activePage} />
-        </Grid.Column>
-        <Grid.Column width={12}>{content}</Grid.Column>{' '}
-      </Grid.Row>
+      <Ref innerRef={contextRef}>
+        <Grid.Row>
+          <Grid.Column width={4}>
+            <Sticky context={contextRef} offset={TOP_NAV_OFFSET}>
+              <ControlMenu baseURL="/admin" activePage={activePage} />
+            </Sticky>
+          </Grid.Column>
+          <Grid.Column width={12}>{content}</Grid.Column>{' '}
+        </Grid.Row>
+      </Ref>
     </Grid>
   );
 };
