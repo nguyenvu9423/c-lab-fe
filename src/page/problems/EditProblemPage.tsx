@@ -1,5 +1,13 @@
 import * as React from 'react';
-import { Segment, Header, Grid, Menu, Icon } from 'semantic-ui-react';
+import {
+  Segment,
+  Header,
+  Grid,
+  Menu,
+  Icon,
+  Ref,
+  Sticky,
+} from 'semantic-ui-react';
 import { EditProblemForm, ProblemRejudgeForm } from '../../domains/problem';
 import { UpdateJudgeConfigForm } from '../../domains/judge-config/UpdateJudgeConfigForm';
 import { useDispatch } from 'react-redux';
@@ -8,6 +16,7 @@ import { useScrollToTop } from '../../common/hooks';
 import { useMatch, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { UnknownException } from '../../exception/UnkownException';
+import { TOP_NAV_OFFSET } from '../../common/variables';
 
 export const ProblemEditPage: React.FC = () => {
   const params = useParams<'code'>();
@@ -74,12 +83,20 @@ export const ProblemEditPage: React.FC = () => {
       content = undefined;
   }
 
+  const contextRef = React.useRef<HTMLElement>(null);
+
   return (
     <Grid container stackable>
-      <Grid.Column width={4}>
-        <SectionMenu problemCode={params.code} activePage={activePage} />
-      </Grid.Column>
-      <Grid.Column width={12}>{content}</Grid.Column>
+      <Ref innerRef={contextRef}>
+        <Grid.Row>
+          <Grid.Column width={4}>
+            <Sticky context={contextRef} offset={TOP_NAV_OFFSET}>
+              <SectionMenu problemCode={params.code} activePage={activePage} />
+            </Sticky>
+          </Grid.Column>
+          <Grid.Column width={12}>{content}</Grid.Column>
+        </Grid.Row>
+      </Ref>
     </Grid>
   );
 };
