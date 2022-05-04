@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Image, Card, Label, Header } from 'semantic-ui-react';
+import { Image, Card, Label, Header, Grid } from 'semantic-ui-react';
 import DefaultThumbnail from '../../../../public/images/default-thumbnail.png';
 import { ArrayUtils } from '../../../utility';
 import { Article } from '../../../domains/article';
@@ -11,6 +11,7 @@ import { BackEndConfig } from '../../../config';
 import { DateTimeUtils } from '../../../utility/data-type/DateTimeUtils';
 import { Avatar } from '../../../components/avatar/Avatar';
 import { ArticlePageLink } from '../ArticlePageLink';
+import { MarkdownView } from '../../../components';
 
 export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
   const { article } = props;
@@ -19,31 +20,28 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
   const tags = useSelector(TagSelectors.selectByIds(article.tags));
 
   return (
-    <Card fluid>
+    <Card className="overview-article-card" fluid>
       <Card.Content>
         <Card.Description>
-          <div className="overview-article-card">
-            <ArticlePageLink article={article}>
-              <Image
-                bordered
-                className="thumbnail"
-                src={
-                  article.thumbnail
-                    ? BackEndConfig.API_URL + article.thumbnail
-                    : DefaultThumbnail
-                }
-              />
-            </ArticlePageLink>
-
-            <div className="content">
+          <Grid stackable>
+            <Grid.Column width={4}>
+              <ArticlePageLink article={article}>
+                <Image
+                  bordered
+                  className="thumbnail"
+                  src={
+                    article.thumbnail
+                      ? BackEndConfig.API_URL + article.thumbnail
+                      : DefaultThumbnail
+                  }
+                />
+              </ArticlePageLink>
+            </Grid.Column>
+            <Grid.Column className="info" width={12}>
               <ArticlePageLink article={article}>
                 <Header>{article.title}</Header>
               </ArticlePageLink>
-
-              <div
-                className="description"
-                dangerouslySetInnerHTML={{ __html: article.overview }}
-              />
+              <MarkdownView>{article.overview}</MarkdownView>
               <div className="additional-info">
                 <Link
                   className="username-label"
@@ -57,8 +55,8 @@ export const OverviewArticleCard: React.FC<{ article: Article }> = (props) => {
                   - {DateTimeUtils.of(article.createdAt).fromNow()}
                 </span>
               </div>
-            </div>
-          </div>
+            </Grid.Column>
+          </Grid>
         </Card.Description>
       </Card.Content>
       {ArrayUtils.isNotEmpty(article.tags) && (

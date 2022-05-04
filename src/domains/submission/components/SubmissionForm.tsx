@@ -1,14 +1,13 @@
 import * as React from 'react';
 import * as yup from 'yup';
-import { Form, Message, Dropdown } from 'semantic-ui-react';
+import { Form, Message } from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import { SubmissionService } from '../../../service/SubmissionService';
 import { CodeEditor } from '../../../components/editors';
 import { Problem } from '../../../domains/problem';
 import { FileUploadInput } from '../../../page/common/inputs/FileUploadInput';
-import { RequestException } from '../../../exception/BaseResponseException';
+import { ResponseException } from '../../../exception';
 import {
-  getSubLangTitle,
   SubmissionLangSelect,
   SubmissionLanguage,
 } from '../../submission-lang';
@@ -42,7 +41,7 @@ export const SubmissionFormSchema = yup.object({
 
 export const SubmissionForm: React.FC<SubmissionForm.Props> = (props) => {
   const { problem, onSuccess } = props;
-  const [overallError, setOverallError] = React.useState<RequestException>();
+  const [overallError, setOverallError] = React.useState<ResponseException>();
 
   const initialLang = SubmissionLanguage.useInitial(problem.allowedLanguages);
 
