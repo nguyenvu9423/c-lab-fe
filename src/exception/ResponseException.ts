@@ -1,5 +1,5 @@
 import { BaseException } from './BaseException';
 
-export interface RequestException extends BaseException {
+export interface ResponseException extends BaseException {
   status: number;
 }

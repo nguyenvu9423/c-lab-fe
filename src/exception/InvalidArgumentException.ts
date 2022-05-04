@@ -1,7 +1,7 @@
 import { FormikErrors } from 'formik';
-import { RequestException } from './BaseResponseException';
+import { ResponseException } from './ResponseException';
 
-export interface ValidationException extends RequestException {
+export interface ValidationException extends ResponseException {
   type: 'MethodArgumentNotValid';
 
   errors: FieldError[];

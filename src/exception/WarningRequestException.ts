@@ -1,5 +1,5 @@
 import { BaseException } from './BaseException';
-import { RequestException } from './BaseResponseException';
+import { ResponseException } from './ResponseException';
 
 export namespace WarningRequestException {
   export function isInstance(
@@ -9,6 +9,6 @@ export namespace WarningRequestException {
   }
 }
 
-export interface WarningRequestException extends RequestException {
+export interface WarningRequestException extends ResponseException {
   type: 'WarningRequestException';
 }

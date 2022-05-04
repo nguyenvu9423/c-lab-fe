@@ -2,6 +2,7 @@ import axios from 'axios';
 import { UnknownException } from './../exception/UnkownException';
 import { AuthProvider } from '../authentication/tokenProvider';
 import { BackEndConfig } from '../config';
+import { BaseException, RateLimitExceededException } from '../exception';
 
 const instance = axios.create({
   baseURL: BackEndConfig.API_URL,
@@ -28,10 +29,21 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    const responseError = error?.response?.data;
+    const responseError = error?.response?.data as BaseException;
+    let parsedError: BaseException | undefined;
 
-    if (responseError) return Promise.reject(responseError);
-    else return Promise.reject(UnknownException.createDefault());
+    if (responseError) {
+      if (RateLimitExceededException.isInstance(responseError)) {
+        parsedError = {
+          ...responseError,
+          message: RateLimitExceededException.toMessage(responseError),
+        };
+      } else {
+        parsedError = responseError;
+      }
+    } else parsedError = UnknownException.createDefault();
+
+    return Promise.reject(parsedError);
   }
 );
 

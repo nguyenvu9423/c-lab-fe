@@ -12,24 +12,18 @@
             max-width: 100%
             height: auto
 
-
 .overview-article-card
-    display: flex
-    .thumbnail
-        width: 150px
+    .thumbnail        
         height: 100%
-        margin-right: 14px
         object-fit: contain
         object-position: center center
-    .content
-        display: flex
-        flex-direction: column
-        .description
-            flex-grow: 1
+    .info
+        &>*
+            margin-top: 1rem
+            &:first-child
+                margin-top: 0
         .additional-info
             display: inline-block
-            margin-top: 1rem
-            margin-bottom: 1rem
             .username-label
                 vertical-align: middle
             .created-at-label
