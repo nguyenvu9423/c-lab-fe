@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { fetchArticles } from '../../store/actions/article';
-import { Card, Grid, Pagination } from 'semantic-ui-react';
+import { Card, Grid } from 'semantic-ui-react';
 import { OverviewArticleCard } from './components/OverviewArticleCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { Target } from '../../store/reducers/target';
 import { LoadingState } from '../../store/common';
-import { LoadingIndicator, TagFilterCard } from '../../components';
+import { LoadingIndicator, Pagination, TagFilterCard } from '../../components';
 import { ArticleSelectors } from '../../store/selectors';
 import { State } from '../../store';
 import { Pageable } from '../../utility';
@@ -13,9 +13,11 @@ import { DataHolder } from '../../store/reducers/data-holders/shared';
 import { resetState } from '../../store/actions';
 import { useScrollToTop } from '../../common/hooks';
 
+const ARTICLES_PAGE_SIZE = 10;
+
 const initialPageable: Pageable = {
   page: 0,
-  size: 10,
+  size: ARTICLES_PAGE_SIZE,
 };
 
 export const ArticlesPage: React.FC = () => {
@@ -50,6 +52,13 @@ export const ArticlesPage: React.FC = () => {
       dispatch(resetState({ target: Target.ARTICLES_PAGE }));
     };
   }, []);
+
+  const handlePageChange = React.useCallback(
+    (event, { activePage }) => {
+      load({ pageable: { page: activePage - 1, size: ARTICLES_PAGE_SIZE } });
+    },
+    [load]
+  );
 
   const handleFilterChange = React.useCallback(
     (tags) => {
@@ -93,6 +102,7 @@ export const ArticlesPage: React.FC = () => {
                 <Pagination
                   totalPages={totalPage}
                   activePage={currentPageable.page + 1}
+                  onPageChange={handlePageChange}
                 />
               </div>
             </>
