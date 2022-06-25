@@ -225,4 +225,7 @@ const validationSchema = yup.object().shape({
     .string()
     .required('Vui lòng điền email')
     .email('Email không hợp lệ'),
+  workplace: yup
+    .string()
+    .max(255, 'Nơi làm việc không được vượt quá 255 kí tự'),
 });

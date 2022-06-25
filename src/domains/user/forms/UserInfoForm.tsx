@@ -92,6 +92,7 @@ export const UserInfoForm: React.FC<UserInfoForm.Props> = (props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          {errorMsgRenderer('workplace')}
         </Form.Field>
       </Form.Group>
       <Form.Field>
@@ -119,4 +120,7 @@ const validationSchema = yup.object().shape({
     .required('Vui lòng điền họ')
     .min(2, 'Họ phải có ít nhất 2 kí tự')
     .max(24, 'Họ không được vượt quá 64 kí tự'),
+  workplace: yup
+    .string()
+    .max(255, 'Nơi làm việc không được vượt quá 255 kí tự'),
 });

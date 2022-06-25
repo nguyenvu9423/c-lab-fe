@@ -6,15 +6,11 @@ import { useFormik } from 'formik';
 import { ArticleStatus } from '../';
 import { TagSelect, Tag } from '../../tag';
 import { SubmitButton, CancelButton } from '../../../components/button';
-import {
-  useErrorMessageRenderer,
-  MarkdownEditor,
-  RichTextEditor,
-} from '../../../components';
+import { useErrorMessageRenderer, RichTextEditor } from '../../../components';
 import { articleStatusValues } from '../ArticleStatus';
 import { FieldError } from '../../../exception';
 import { ImageUploader } from '../../../components/input';
-import { convertToRaw, RawDraftContentState } from 'draft-js';
+import { RawDraftContentState } from 'draft-js';
 
 export namespace ArticleForm {
   export interface Props {
@@ -40,11 +36,27 @@ export const ArticleFormSchema = yup.object({
   title: yup
     .string()
     .trim()
-    .required('Title is required')
-    .min(3, 'Title should be at last 3 characters'),
-  subtitle: yup.string().trim(),
-  overview: yup.string().trim().required('Overview is required'),
-  tags: yup.array().max(5),
+    .required('Vui lòng điền tiêu đề')
+    .min(3, 'Tiêu đề phải có ít nhất 3 kí tự')
+    .max(255, 'Tiêu đề không được vượt quá 255 kí tự'),
+  subtitle: yup
+    .string()
+    .trim()
+    .max(255, 'Phụ đề không được vượt quá 255 kí tự'),
+  overview: yup
+    .string()
+    .trim()
+    .required('Vui lòng điền tổng quan')
+    .max(1023, 'Tổng quan không được vượt quá 1023 kí tự'),
+  tags: yup
+    .array()
+    .of(
+      yup.object().shape({
+        id: yup.number().required(),
+        name: yup.string().trim().required(),
+      })
+    )
+    .required(),
 }) as yup.SchemaOf<any>;
 
 export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
@@ -81,6 +93,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
     status: props.status,
   });
 
+  console.log(errors);
   return (
     <Form
       className={'article clear-fix-container'}
@@ -126,6 +139,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          {errorMessageRender('subtitle')}
         </Form.Field>
         <Form.Field>
           <label>Nhãn</label>
@@ -155,7 +169,7 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
             placeholder="Tổng quan về bài viết.."
             value={values.overview}
             onChange={(event, { value }) => setFieldValue('overview', value)}
-            onBlur={handleBlur}
+            onBlur={() => setFieldTouched('overview')}
           />
           {errorMessageRender('overview')}
         </Form.Field>
