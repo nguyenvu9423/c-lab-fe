@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as yup from 'yup';
 import { Button, Form, Input, Divider, Checkbox } from 'semantic-ui-react';
 import { useFormik } from 'formik';
-import { Role, RoleSelect } from '../../role';
+import { RoleSelect } from '../../role';
 
 export namespace UserForm {
   export interface Props {
@@ -171,4 +171,7 @@ const validationSchema = yup.object().shape({
     .string()
     .required('Vui lòng điền email')
     .email('Email không hợp lệ'),
+  workplace: yup
+    .string()
+    .max(255, 'Nơi làm việc khoogn được vượt quá 255 kí tự'),
 });

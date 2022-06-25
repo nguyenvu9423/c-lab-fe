@@ -9,7 +9,13 @@ module.exports = merge(common, {
     historyApiFallback: true,
     compress: false,
     https: true,
-    port: 3000,    
+    port: 3000,
+    // proxy: {
+    //   '/api': {
+    //     target: 'https://c-lab.vn',
+    //     secure: false,
+    //   },
+    // },
   },
   plugins: [
     new webpack.DefinePlugin({

@@ -218,6 +218,10 @@ export const TestPackageZoomButton: React.FC<{ testPackage: TestPackage }> = (
   const { testPackage } = props;
   const [open, setOpen] = React.useState<boolean>(false);
 
+  const sortedTests = React.useMemo(() => {
+    return [...testPackage.tests].sort((a, b) => a.id - b.id);
+  }, [testPackage.tests]);
+
   return (
     <>
       <Button type="button" icon="zoom" onClick={() => setOpen(true)} />
@@ -233,7 +237,7 @@ export const TestPackageZoomButton: React.FC<{ testPackage: TestPackage }> = (
               <Table.HeaderCell>Output Path</Table.HeaderCell>
             </Table.Header>
             <Table.Body>
-              {testPackage.tests.map((test) => (
+              {sortedTests.map((test) => (
                 <Table.Row key={test.id}>
                   <Table.Cell>{test.id}</Table.Cell>
                   <Table.Cell>{test.input.path}</Table.Cell>

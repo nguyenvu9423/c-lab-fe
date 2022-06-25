@@ -12,7 +12,8 @@ export const validationSchema = yup.object().shape({
     .matches(
       /^ROLE_[A-Z0-9_]*$/,
       'Tên chỉ có thể chứa các chữ cái in hoa, số, dấu gạch dưới và phải bắt đầu với "ROLE_"'
-    ),
+    )
+    .max(24, 'Tên không được vượt quá 24 kí tự'),
   permissions: yup.array().min(1, 'Vai trò cần ít nhất 1 quyền hạn'),
 });
 
