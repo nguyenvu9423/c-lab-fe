@@ -28,7 +28,11 @@ export const ScoreLabel: React.FC<{
   const { score, style } = props;
   return (
     <span className="status-label score">
-      <span style={style}>{score}</span>
+      <span style={style}>
+        {score.toString().indexOf('.') === -1
+          ? score.toString()
+          : score.toFixed(2)}
+      </span>
     </span>
   );
 };
