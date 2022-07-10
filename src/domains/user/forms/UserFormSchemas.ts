@@ -17,7 +17,7 @@ export namespace UserFieldSchemas {
     .min(8, 'Mật khẩu phải có ít nhất 8 kí tự')
     .max(24, 'Mật khẩu không được vượt quá 24 kí tự')
     .matches(
-      /^email[a-zA-Z0-9._!@#$%^&*-]+$/,
+      /^[a-zA-Z0-9._!@#$%^&*-]+$/,
       'Mật khẩu chỉ có thứa các chữ cái, số và các kí tự đặc biệt: ._!@#$%^&*-'
     );
 
