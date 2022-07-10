@@ -6,6 +6,7 @@ import { FormikHelpers, useFormik } from 'formik';
 import { useErrorMessageRenderer } from '../../../components';
 import { RegisterService } from '../../../service/RegisterService';
 import { ValidationException } from '../../../exception';
+import { UserFieldSchemas } from './UserFormSchemas';
 
 export namespace RegisterForm {
   export interface Props {
@@ -197,35 +198,14 @@ export const BaseRegisterForm: React.FC<BaseRegisterForm.Props> = (props) => {
 };
 
 const validationSchema = yup.object().shape({
-  username: yup
-    .string()
-    .required('Vui lòng điền tên đăng nhập')
-    .min(8, 'Tên đăng nhập phải có ít nhất 8 kí tự')
-    .max(24, 'Tên đăng nhập không được vượt quá 24 kí tự'),
-  password: yup
-    .string()
-    .required('Vui lòng điền mật khẩu')
-    .min(8, 'Mật khẩu phải có ít nhất 8 kí tự')
-    .max(24, 'Mật khẩu không được vượt quá 24 kí tự'),
+  username: UserFieldSchemas.username,
+  password: UserFieldSchemas.password,
   confirmPassword: yup
     .string()
     .required('Vui lòng điền mật khẩu xác nhận')
-    .equals([yup.ref('password')], 'Mật khẩu xác nhận không phù hợp '),
-  firstName: yup
-    .string()
-    .required('Vui lòng điền tên')
-    .min(2, 'Tên phải có ít nhất 2 kí tự')
-    .max(24, 'Tên không được vượt quá 64 kí tự'),
-  lastName: yup
-    .string()
-    .required('Vui lòng điền họ')
-    .min(2, 'Họ phải có ít nhất 2 kí tự')
-    .max(24, 'Họ phải có ít nhất 2 kí tự'),
-  email: yup
-    .string()
-    .required('Vui lòng điền email')
-    .email('Email không hợp lệ'),
-  workplace: yup
-    .string()
-    .max(255, 'Nơi làm việc không được vượt quá 255 kí tự'),
+    .equals([yup.ref('password')], 'Mật khẩu xác nhận không trùng khớp'),
+  firstName: UserFieldSchemas.firstName,
+  lastName: UserFieldSchemas.lastName,
+  email: UserFieldSchemas.email,
+  workplace: UserFieldSchemas.workplace,
 });

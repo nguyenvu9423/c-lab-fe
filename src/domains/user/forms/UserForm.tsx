@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { Button, Form, Input, Divider, Checkbox } from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import { RoleSelect } from '../../role';
+import { UserFieldSchemas } from './UserFormSchemas';
 
 export namespace UserForm {
   export interface Props {
@@ -157,21 +158,8 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
 };
 
 const validationSchema = yup.object().shape({
-  firstName: yup
-    .string()
-    .required('Vui lòng điền tên')
-    .min(2, 'Tên phải có ít nhất 2 kí tự')
-    .max(24, 'Tên không được vượt quá 64 kí tự'),
-  lastName: yup
-    .string()
-    .required('Vui lòng điền họ')
-    .min(2, 'Họ phải có ít nhất 2 kí tự')
-    .max(24, 'Họ không được vượt quá 64 kí tự'),
-  email: yup
-    .string()
-    .required('Vui lòng điền email')
-    .email('Email không hợp lệ'),
-  workplace: yup
-    .string()
-    .max(255, 'Nơi làm việc khoogn được vượt quá 255 kí tự'),
+  firstName: UserFieldSchemas.firstName,
+  lastName: UserFieldSchemas.lastName,
+  email: UserFieldSchemas.email,
+  workplace: UserFieldSchemas.workplace,
 });

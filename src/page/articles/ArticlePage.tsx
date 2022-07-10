@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
+import { Helmet } from 'react-helmet';
 import { fetchArticle } from '../../store/actions/article';
 import { Grid, Ref, Sticky, Segment, Divider } from 'semantic-ui-react';
 import { ArticleContentTable } from './components/ArticleContentTable';
@@ -103,6 +104,10 @@ export const LoadedArticleView: React.FC<{ article: Article }> = (props) => {
   );
   return (
     <>
+      <Helmet>
+        <title>{article.title}</title>
+      </Helmet>
+
       {canEdit && (
         <Grid.Row>
           <Grid.Column floated="right" textAlign="right" width="16">

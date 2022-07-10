@@ -3,6 +3,7 @@ import { Grid, Menu, Ref, Sticky } from 'semantic-ui-react';
 import { useMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import { TagPage } from './entity-pages/tag';
 import { ArticlePage } from './entity-pages/article';
@@ -54,18 +55,23 @@ export const AdminPage: React.FC = () => {
   }
 
   return (
-    <Grid container doubling stackable>
-      <Ref innerRef={contextRef}>
-        <Grid.Row>
-          <Grid.Column width={4}>
-            <Sticky context={contextRef} offset={TOP_NAV_OFFSET}>
-              <ControlMenu baseURL="/admin" activePage={activePage} />
-            </Sticky>
-          </Grid.Column>
-          <Grid.Column width={12}>{content}</Grid.Column>{' '}
-        </Grid.Row>
-      </Ref>
-    </Grid>
+    <>
+      <Helmet>
+        <title>Quản lý</title>
+      </Helmet>
+      <Grid container doubling stackable>
+        <Ref innerRef={contextRef}>
+          <Grid.Row>
+            <Grid.Column width={4}>
+              <Sticky context={contextRef} offset={TOP_NAV_OFFSET}>
+                <ControlMenu baseURL="/admin" activePage={activePage} />
+              </Sticky>
+            </Grid.Column>
+            <Grid.Column width={12}>{content}</Grid.Column>{' '}
+          </Grid.Row>
+        </Ref>
+      </Grid>
+    </>
   );
 };
 

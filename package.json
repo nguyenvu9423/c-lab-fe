@@ -41,6 +41,7 @@
     "react": "17.0.2",
     "react-ace": "9.5.0",
     "react-dom": "17.0.2",
+    "react-helmet": "6.1.0",
     "react-markdown": "7.1.0",
     "react-mde": "11.5.0",
     "react-redux": "7.2.5",
@@ -59,8 +60,8 @@
     "semantic-ui-react": "2.0.4",
     "slugify": "1.6.1",
     "source-map-loader": "3.0.0",
+    "ts-key-enum": "2.0.11",
     "ts-loader": "9.2.6",
-    "ts-key-enum":"2.0.11",
     "uuid": "8.3.2",
     "yarn": "1.22.17",
     "yup": "0.32.11"

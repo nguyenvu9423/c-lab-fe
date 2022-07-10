@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Grid, Segment } from 'semantic-ui-react';
+import { useParams } from 'react-router';
+import { Helmet } from 'react-helmet';
 
 import { UserProfilePanel } from './components/UserProfilePanel';
 import { UserSettingMenu } from './components/UserSettingMenu';
@@ -15,7 +17,6 @@ import { addToast, resetState } from '../../store/actions';
 import { EmailVerificationService } from '../../service/EmailVerificationService';
 import { ContactProperties } from '../../config/ContactProperties';
 import { useScrollToTop } from '../../common/hooks';
-import { useParams } from 'react-router';
 import { UserSubsCard } from './components/UserSubsCard';
 
 export const UserPage: React.FC = () => {
@@ -58,21 +59,26 @@ export const UserPage: React.FC = () => {
     <Grid container doubling columns={2}>
       {DataHolder.isLoading(data.user) && <LoadingIndicator />}
       {DataHolder.isLoaded(data.user) && user && (
-        <Grid.Row>
-          <Grid.Column width={12}>
-            {isPrincipal && (
-              <>
-                {!user.emailVerified && <UnverifiedEmailSection />}
-                {user.banned && <BannedUserMessage />}
-              </>
-            )}
-            <UserProfilePanel user={user} />
-            <UserSubsCard username={username} />
-          </Grid.Column>
-          <Grid.Column width={4}>
-            {isPrincipal && <UserSettingMenu user={user} />}
-          </Grid.Column>
-        </Grid.Row>
+        <>
+          <Helmet>
+            <title>{user.username}</title>
+          </Helmet>
+          <Grid.Row>
+            <Grid.Column width={12}>
+              {isPrincipal && (
+                <>
+                  {!user.emailVerified && <UnverifiedEmailSection />}
+                  {user.banned && <BannedUserMessage />}
+                </>
+              )}
+              <UserProfilePanel user={user} />
+              <UserSubsCard username={username} />
+            </Grid.Column>
+            <Grid.Column width={4}>
+              {isPrincipal && <UserSettingMenu user={user} />}
+            </Grid.Column>
+          </Grid.Row>
+        </>
       )}
     </Grid>
   );

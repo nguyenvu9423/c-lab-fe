@@ -10,6 +10,7 @@ import {
 } from '../../../components';
 import { ResetPasswordService } from '../../../service/ResetPasswordService';
 import { SubmitButton } from '../../../components/button';
+import { UserFieldSchemas } from './UserFormSchemas';
 
 export namespace ResetPasswordForm {
   export interface Props {
@@ -132,12 +133,8 @@ const BaseRequestPasswordForm: React.FC<BaseRequestPasswordForm.Props> = (
 };
 
 const validationSchema = yup.object({
-  newPassword: yup
-    .string()
-    .required('New password is required')
-    .min(8, 'Password should be at least 8 characters')
-    .max(24, 'Password should be at most 24 characters'),
+  newPassword: UserFieldSchemas.password,
   confirmNewPassword: yup
     .string()
-    .equals([yup.ref('newPassword')], 'Confirm password does not match'),
+    .equals([yup.ref('newPassword')], 'Mật khẩu xác nhận không trùng khớp'),
 });

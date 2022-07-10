@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Grid, Header, Segment } from 'semantic-ui-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router';
+import { Helmet } from 'react-helmet';
 
 import { RegisterForm } from '../../domains/user/forms/RegisterForm';
-import { useDispatch, useSelector } from 'react-redux';
 import { addToast } from '../../store/actions';
 import { AuthenticationSelectors } from '../../store/selectors';
 import { useScrollToTop } from '../../common/hooks';
-import { Navigate, useNavigate } from 'react-router';
 
 export const RegisterPage: React.FC = () => {
   useScrollToTop();
@@ -32,17 +33,22 @@ export const RegisterPage: React.FC = () => {
   }
 
   return (
-    <Grid container>
-      <Grid.Row centered columns={1}>
-        <Grid.Column style={{ maxWidth: 560 }}>
-          <Header as="h3" attached="top" block>
-            Đăng kí
-          </Header>
-          <Segment attached>
-            <RegisterForm onSuccess={handleSuccess} />
-          </Segment>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <>
+      <Helmet>
+        <title>Đăng kí</title>
+      </Helmet>
+      <Grid container>
+        <Grid.Row centered columns={1}>
+          <Grid.Column style={{ maxWidth: 560 }}>
+            <Header as="h3" attached="top" block>
+              Đăng kí
+            </Header>
+            <Segment attached>
+              <RegisterForm onSuccess={handleSuccess} />
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   );
 };

@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { FormikHelpers, useFormik } from 'formik';
 import { Button, Form } from 'semantic-ui-react';
 import { useErrorMessageRenderer } from '../../../components';
+import { UserFieldSchemas } from './UserFormSchemas';
 
 export namespace EditUserPasswordForm {
   export interface Props {
@@ -99,18 +100,10 @@ export const EditUserPasswordForm: React.FC<EditUserPasswordForm.Props> = (
 };
 
 const validationSchema = yup.object().shape({
-  newPassword: yup
-    .string()
-    .required('Vui lòng điền mật khẩu mới')
-    .min(8, 'Mật khẩu phải có ít nhất 8 kí tự')
-    .max(24, 'Mật khẩu không được vượt quá 24 kí tự'),
+  newPassword: UserFieldSchemas.password,
   confirmNewPassword: yup
     .string()
     .required('Vui lòng điền mật khẩu xác nhận')
     .equals([yup.ref('newPassword')], 'Mật khẩu xác nhận không phù hợp'),
-  oldPassword: yup
-    .string()
-    .required('Vui lòng điền mật khẩu hiện tại')
-    .min(8, 'Mật khẩu phải có ít nhất 8 kí tự')
-    .max(24, 'Mật khẩu không được vượt quá 24 kí tự'),
+  oldPassword: yup.string().required('Vui lòng điền mật khẩu hiện tại'),
 });
