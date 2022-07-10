@@ -1,8 +1,10 @@
 import * as React from 'react';
-
 import { FormikHelpers } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Header, Segment } from 'semantic-ui-react';
+import { useNavigate, useParams } from 'react-router';
+import { Helmet } from 'react-helmet';
+
 import { EditUserPasswordForm } from '../../domains/user';
 import { ValidationException } from '../../exception';
 import { UserService } from '../../service/UserService';
@@ -10,7 +12,6 @@ import { addToast } from '../../store/actions';
 import { AuthenticationSelectors } from '../../store/selectors';
 import { PageErrorMessage } from '../shared';
 import { useScrollToTop } from '../../common/hooks';
-import { useNavigate, useParams } from 'react-router';
 
 export const EditUserPasswordPage: React.FC = () => {
   const { username: usernameParam } = useParams<'username'>();
@@ -60,20 +61,25 @@ export const EditUserPasswordPage: React.FC = () => {
   }
 
   return (
-    <Grid container>
-      <Grid.Row centered columns={1}>
-        <Grid.Column style={{ maxWidth: 560 }}>
-          <Segment clearing>
-            <Header as="h2">Đổi mật khẩu</Header>
-            <EditUserPasswordForm
-              onCancel={() => {
-                navigate(`/users/${username}`);
-              }}
-              onSubmit={handleSubmit}
-            />
-          </Segment>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <>
+      <Helmet>
+        <title>Đổi mật khẩu</title>
+      </Helmet>
+      <Grid container>
+        <Grid.Row centered columns={1}>
+          <Grid.Column style={{ maxWidth: 560 }}>
+            <Segment clearing>
+              <Header as="h2">Đổi mật khẩu</Header>
+              <EditUserPasswordForm
+                onCancel={() => {
+                  navigate(`/users/${username}`);
+                }}
+                onSubmit={handleSubmit}
+              />
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   );
 };

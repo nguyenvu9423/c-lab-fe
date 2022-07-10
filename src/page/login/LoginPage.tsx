@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Lodash from 'lodash';
 import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import { Grid, Header, Segment } from 'semantic-ui-react';
 import { LoginForm } from './LogInForm';
@@ -36,17 +37,22 @@ export const LoginPage: React.FC = () => {
   if (authenticated || authenticated === undefined) return null;
 
   return (
-    <Grid container>
-      <Grid.Row centered column={1}>
-        <Grid.Column style={{ maxWidth: 480 }}>
-          <Header as="h4" attached="top" block>
-            Đăng nhập
-          </Header>
-          <Segment attached>
-            <LoginForm onSuccess={handleSuccess} />
-          </Segment>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <>
+      <Helmet>
+        <title>Đăng nhập</title>
+      </Helmet>
+      <Grid container>
+        <Grid.Row centered column={1}>
+          <Grid.Column style={{ maxWidth: 480 }}>
+            <Header as="h4" attached="top" block>
+              Đăng nhập
+            </Header>
+            <Segment attached>
+              <LoginForm onSuccess={handleSuccess} />
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   );
 };

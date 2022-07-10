@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-
+import { Helmet } from 'react-helmet';
 import { Table, Segment, Grid } from 'semantic-ui-react';
+
 import { fetchProblems } from '../../store/actions/problem';
 import { useDispatch, useSelector } from 'react-redux';
 import { PrincipalSelectors, ProblemSelectors } from '../../store/selectors';
@@ -74,62 +74,67 @@ export const ProblemsPage: React.FC = () => {
   }, []);
 
   return (
-    <Grid container stackable doubling columns={2}>
-      <Grid.Column width={12}>
-        <Segment.Group>
-          <Segment style={{ minHeight: 634, padding: 0 }}>
-            <Table basic fixed singleLine style={{ border: 'none' }}>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell width={2}>ID</Table.HeaderCell>
-                  <Table.HeaderCell width={4}>Mã bài</Table.HeaderCell>
-                  <Table.HeaderCell width={6}>Tiêu đề</Table.HeaderCell>
-                  {principal && (
-                    <Table.HeaderCell width={2}>Đã giải</Table.HeaderCell>
-                  )}
-                </Table.Row>
-              </Table.Header>
-              {DataHolder.isLoading(data.problems) && <LoadingTableBody />}
-              {DataHolder.isLoaded(data.problems) && problems && (
-                <Table.Body>
-                  {problems.map((problem) => (
-                    <Table.Row key={problem.id}>
-                      <Table.Cell>
-                        <ProblemPageLink code={problem.code}>
-                          {problem.id}
-                        </ProblemPageLink>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <ProblemPageLink code={problem.code} />
-                      </Table.Cell>
-                      <Table.Cell>{problem.title}</Table.Cell>
-
-                      {principal && (
+    <>
+      <Helmet>
+        <title>Bài tập</title>
+      </Helmet>
+      <Grid container stackable doubling columns={2}>
+        <Grid.Column width={12}>
+          <Segment.Group>
+            <Segment style={{ minHeight: 634, padding: 0 }}>
+              <Table basic fixed singleLine style={{ border: 'none' }}>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell width={2}>ID</Table.HeaderCell>
+                    <Table.HeaderCell width={4}>Mã bài</Table.HeaderCell>
+                    <Table.HeaderCell width={6}>Tiêu đề</Table.HeaderCell>
+                    {principal && (
+                      <Table.HeaderCell width={2}>Đã giải</Table.HeaderCell>
+                    )}
+                  </Table.Row>
+                </Table.Header>
+                {DataHolder.isLoading(data.problems) && <LoadingTableBody />}
+                {DataHolder.isLoaded(data.problems) && problems && (
+                  <Table.Body>
+                    {problems.map((problem) => (
+                      <Table.Row key={problem.id}>
                         <Table.Cell>
-                          {problem.solvedByPrincipal && <AcceptedLabel />}
+                          <ProblemPageLink code={problem.code}>
+                            {problem.id}
+                          </ProblemPageLink>
                         </Table.Cell>
-                      )}
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              )}
-              {DataHolder.isError(data.problems) && (
-                <ErrorTableBody message={data.problems.error.message} />
-              )}
-            </Table>
-          </Segment>
-          <Segment textAlign="center">
-            <Pagination
-              activePage={pageable.page + 1}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </Segment>
-        </Segment.Group>
-      </Grid.Column>
-      <Grid.Column width={4}>
-        <TagFilterCard onSubmit={handleFilterChange} />
-      </Grid.Column>
-    </Grid>
+                        <Table.Cell>
+                          <ProblemPageLink code={problem.code} />
+                        </Table.Cell>
+                        <Table.Cell>{problem.title}</Table.Cell>
+
+                        {principal && (
+                          <Table.Cell>
+                            {problem.solvedByPrincipal && <AcceptedLabel />}
+                          </Table.Cell>
+                        )}
+                      </Table.Row>
+                    ))}
+                  </Table.Body>
+                )}
+                {DataHolder.isError(data.problems) && (
+                  <ErrorTableBody message={data.problems.error.message} />
+                )}
+              </Table>
+            </Segment>
+            <Segment textAlign="center">
+              <Pagination
+                activePage={pageable.page + 1}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </Segment>
+          </Segment.Group>
+        </Grid.Column>
+        <Grid.Column width={4}>
+          <TagFilterCard onSubmit={handleFilterChange} />
+        </Grid.Column>
+      </Grid>
+    </>
   );
 };

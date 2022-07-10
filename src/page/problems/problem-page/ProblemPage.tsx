@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Grid, Container, Divider } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route, Routes, useMatch } from 'react-router';
+import { Route, Routes } from 'react-router';
+import { Helmet } from 'react-helmet';
 
 import { fetchProblem } from '../../../store/actions/problem';
 import {
@@ -9,11 +10,7 @@ import {
   ProblemSelectors,
 } from '../../../store/selectors';
 import { LoadingState } from '../../../store/common';
-import {
-  ErrorMessage,
-  LoadingIndicator,
-  NotFoundPageMessage,
-} from '../../../components';
+import { ErrorMessage, LoadingIndicator } from '../../../components';
 import { Target } from '../../../store/reducers/target';
 import { State } from '../../../store/state';
 import { ProblemSettingPanel } from '../components';
@@ -66,49 +63,55 @@ export const ProblemPage: React.FC = () => {
   );
 
   return (
-    <Grid container doubling stackable columns={2}>
-      {DataHolderState.isError(data.problem) && (
-        <Container>
-          <ErrorMessage message={data.problem.error.message} />
-        </Container>
-      )}
-      {DataHolderState.isLoading(data.problem) && (
-        <Grid.Row>
-          <LoadingIndicator />
-        </Grid.Row>
-      )}
-      {DataHolderState.isLoaded(data.problem) && problem && (
-        <>
-          {canUpdateProblem && (
-            <Grid.Row>
-              <Grid.Column width={16}>
-                <ProblemSettingPanel problem={problem} />
-                <Divider />
-              </Grid.Column>
-            </Grid.Row>
-          )}
+    <>
+      <Grid container doubling stackable columns={2}>
+        {DataHolderState.isError(data.problem) && (
+          <Container>
+            <ErrorMessage message={data.problem.error.message} />
+          </Container>
+        )}
+        {DataHolderState.isLoading(data.problem) && (
           <Grid.Row>
-            <Routes>
-              <Route
-                path=""
-                element={<ProblemMainContent problem={problem} />}
-              />
-              <Route
-                path="submit"
-                element={<ProblemSubmitContent problem={problem} />}
-              />
-              <Route
-                path="my"
-                element={<PrincipalProblemSubsContent problem={problem} />}
-              />
-              <Route
-                path="status"
-                element={<ProblemSubmissionsContent problem={problem} />}
-              />
-            </Routes>
+            <LoadingIndicator />
           </Grid.Row>
-        </>
-      )}
-    </Grid>
+        )}
+        {DataHolderState.isLoaded(data.problem) && problem && (
+          <>
+            <Helmet>
+              <title>{problem.code}</title>
+            </Helmet>
+
+            {canUpdateProblem && (
+              <Grid.Row>
+                <Grid.Column width={16}>
+                  <ProblemSettingPanel problem={problem} />
+                  <Divider />
+                </Grid.Column>
+              </Grid.Row>
+            )}
+            <Grid.Row>
+              <Routes>
+                <Route
+                  path=""
+                  element={<ProblemMainContent problem={problem} />}
+                />
+                <Route
+                  path="submit"
+                  element={<ProblemSubmitContent problem={problem} />}
+                />
+                <Route
+                  path="my"
+                  element={<PrincipalProblemSubsContent problem={problem} />}
+                />
+                <Route
+                  path="status"
+                  element={<ProblemSubmissionsContent problem={problem} />}
+                />
+              </Routes>
+            </Grid.Row>
+          </>
+        )}
+      </Grid>
+    </>
   );
 };

@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router';
 import { Button, Grid, Header, Segment } from 'semantic-ui-react';
+import { Helmet } from 'react-helmet';
+
 import { useScrollToTop } from '../../common/hooks';
 import { ErrorMessage, LoadingIndicator } from '../../components';
 import { EmailVerificationService } from '../../service/EmailVerificationService';
@@ -47,31 +49,36 @@ export const EmailVerificationPage: React.FC = () => {
   }
 
   return (
-    <Grid container>
-      <Grid.Row centered>
-        <Grid.Column style={{ maxWidth: 420 }}>
-          {!result.error ? (
-            <Segment color="green">
-              <Header content="Xác nhận email" />
-              <p>Email của bạn đã được xác nhận thành công</p>
-              {isAuthenticated && (
-                <>
-                  <p>
-                    <strong>Lưu ý: </strong> Bạn cần đăng nhập lại để nhận được
-                    sự thay đổi.
-                  </p>
-                  <Button
-                    content="Log out"
-                    onClick={() => navigate('/logout')}
-                  />
-                </>
-              )}
-            </Segment>
-          ) : (
-            <ErrorMessage message={result.message} />
-          )}
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <>
+      <Helmet>
+        <title>Xác nhận email</title>
+      </Helmet>
+      <Grid container>
+        <Grid.Row centered>
+          <Grid.Column style={{ maxWidth: 420 }}>
+            {!result.error ? (
+              <Segment color="green">
+                <Header content="Xác nhận email" />
+                <p>Email của bạn đã được xác nhận thành công</p>
+                {isAuthenticated && (
+                  <>
+                    <p>
+                      <strong>Lưu ý: </strong> Bạn cần đăng nhập lại để nhận
+                      được sự thay đổi.
+                    </p>
+                    <Button
+                      content="Log out"
+                      onClick={() => navigate('/logout')}
+                    />
+                  </>
+                )}
+              </Segment>
+            ) : (
+              <ErrorMessage message={result.message} />
+            )}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   );
 };

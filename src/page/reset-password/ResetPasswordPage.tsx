@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as qs from 'qs';
-
 import { Grid, Header, Segment } from 'semantic-ui-react';
+import { useLocation } from 'react-router';
+import { Helmet } from 'react-helmet';
+
 import { ResetPasswordForm } from '../../domains/user';
 import { useScrollToTop } from '../../common/hooks';
-import { useLocation } from 'react-router';
 
 export const ResetPasswordPage: React.FC = () => {
   const location = useLocation();
@@ -22,28 +23,33 @@ export const ResetPasswordPage: React.FC = () => {
   }, []);
 
   return (
-    <Grid container doubling>
-      <Grid.Row centered>
-        {!succedded ? (
-          <Grid.Column width={6}>
-            <Header as="h3" content="Thay đổi mật khẩu" attached="top" />
-            <Segment attached="bottom">
-              <ResetPasswordForm
-                id={id as string}
-                token={token as string}
-                onSuccess={handleSuccess}
-              />
-            </Segment>
-          </Grid.Column>
-        ) : (
-          <Grid.Column width={6}>
-            <Segment color="green">
-              <Header>Thay đổi mật khẩu</Header>
-              <p>Bạn đã thay đổi mật khẩu thành công</p>
-            </Segment>
-          </Grid.Column>
-        )}
-      </Grid.Row>
-    </Grid>
+    <>
+      <Helmet>
+        <title>Đổi mật khẩu</title>
+      </Helmet>
+      <Grid container doubling>
+        <Grid.Row centered>
+          {!succedded ? (
+            <Grid.Column width={6}>
+              <Header as="h3" content="Thay đổi mật khẩu" attached="top" />
+              <Segment attached="bottom">
+                <ResetPasswordForm
+                  id={id as string}
+                  token={token as string}
+                  onSuccess={handleSuccess}
+                />
+              </Segment>
+            </Grid.Column>
+          ) : (
+            <Grid.Column width={6}>
+              <Segment color="green">
+                <Header>Thay đổi mật khẩu</Header>
+                <p>Bạn đã thay đổi mật khẩu thành công</p>
+              </Segment>
+            </Grid.Column>
+          )}
+        </Grid.Row>
+      </Grid>
+    </>
   );
 };

@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import { useErrorMessageRenderer } from '../../../components';
+import { UserFieldSchemas } from './UserFormSchemas';
 
 export namespace UserInfoForm {
   export interface Props {
@@ -110,17 +111,7 @@ export const UserInfoForm: React.FC<UserInfoForm.Props> = (props) => {
 };
 
 const validationSchema = yup.object().shape({
-  firstName: yup
-    .string()
-    .required('Vui lòng điền tên')
-    .min(2, 'Tên phải có ít nhất 2 kí tự')
-    .max(24, 'Tên không được vượt quá 64 kí tự'),
-  lastName: yup
-    .string()
-    .required('Vui lòng điền họ')
-    .min(2, 'Họ phải có ít nhất 2 kí tự')
-    .max(24, 'Họ không được vượt quá 64 kí tự'),
-  workplace: yup
-    .string()
-    .max(255, 'Nơi làm việc không được vượt quá 255 kí tự'),
+  firstName: UserFieldSchemas.firstName,
+  lastName: UserFieldSchemas.lastName,
+  workplace: UserFieldSchemas.workplace,
 });

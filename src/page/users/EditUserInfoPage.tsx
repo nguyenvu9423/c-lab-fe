@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { Grid, Header, Segment } from 'semantic-ui-react';
+import { Helmet } from 'react-helmet';
+
 import { useScrollToTop } from '../../common/hooks';
 import { EditUserInfoForm } from '../../domains/user';
 import { UnknownException } from '../../exception/UnkownException';
@@ -21,15 +23,20 @@ export const EditUserInfoPage: React.FC = () => {
   }
 
   return (
-    <Grid container>
-      <Grid.Row centered>
-        <Grid.Column style={{ maxWidth: 560 }}>
-          <Segment clearing>
-            <Header as="h2">Sửa thông tin</Header>
-            <EditUserInfoForm username={params.username} />
-          </Segment>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <>
+      <Helmet>
+        <title>Sửa thông tin</title>
+      </Helmet>
+      <Grid container>
+        <Grid.Row centered>
+          <Grid.Column style={{ maxWidth: 560 }}>
+            <Segment clearing>
+              <Header as="h2">Sửa thông tin</Header>
+              <EditUserInfoForm username={params.username} />
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   );
 };

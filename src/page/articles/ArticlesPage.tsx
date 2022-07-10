@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { fetchArticles } from '../../store/actions/article';
 import { Card, Grid } from 'semantic-ui-react';
+import { Helmet } from 'react-helmet';
+
+import { fetchArticles } from '../../store/actions/article';
 import { OverviewArticleCard } from './components/OverviewArticleCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { Target } from '../../store/reducers/target';
@@ -78,40 +80,45 @@ export const ArticlesPage: React.FC = () => {
   );
 
   return (
-    <Grid container stackable doubling>
-      <Grid.Row>
-        <Grid.Column width={12}>
-          {LoadingState.isInProgress(data.articles.loadingState) ? (
-            <LoadingIndicator />
-          ) : (
-            <>
-              <Card.Group>
-                {articles
-                  ? articles.map(
-                      (article) =>
-                        article && (
-                          <OverviewArticleCard
-                            key={article.id}
-                            article={article}
-                          />
-                        )
-                    )
-                  : null}
-              </Card.Group>
-              <div style={{ marginTop: 25, textAlign: 'center' }}>
-                <Pagination
-                  totalPages={totalPage}
-                  activePage={currentPageable.page + 1}
-                  onPageChange={handlePageChange}
-                />
-              </div>
-            </>
-          )}
-        </Grid.Column>
-        <Grid.Column width={4}>
-          <TagFilterCard onSubmit={handleFilterChange} />
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <>
+      <Helmet>
+        <title>Bài viết</title>
+      </Helmet>
+      <Grid container stackable doubling>
+        <Grid.Row>
+          <Grid.Column width={12}>
+            {LoadingState.isInProgress(data.articles.loadingState) ? (
+              <LoadingIndicator />
+            ) : (
+              <>
+                <Card.Group>
+                  {articles
+                    ? articles.map(
+                        (article) =>
+                          article && (
+                            <OverviewArticleCard
+                              key={article.id}
+                              article={article}
+                            />
+                          )
+                      )
+                    : null}
+                </Card.Group>
+                <div style={{ marginTop: 25, textAlign: 'center' }}>
+                  <Pagination
+                    totalPages={totalPage}
+                    activePage={currentPageable.page + 1}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </>
+            )}
+          </Grid.Column>
+          <Grid.Column width={4}>
+            <TagFilterCard onSubmit={handleFilterChange} />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   );
 };

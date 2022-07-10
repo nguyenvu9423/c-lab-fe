@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
 import { Grid, Header, Loader, Segment } from 'semantic-ui-react';
+import { Helmet } from 'react-helmet';
+
 import { useScrollToTop } from '../../common/hooks';
 import { addToast, logout } from '../../store/actions';
 import { AuthenticationSelectors } from '../../store/selectors';
@@ -45,21 +47,26 @@ export const LogoutPage: React.FC = () => {
   }
 
   return (
-    <Grid container>
-      <Grid.Row centered column={1}>
-        <Grid.Column style={{ maxWidth: 480 }}>
-          <Header as="h4" attached="top" block>
-            Đăng nhập
-          </Header>
-          <Segment attached>
-            <LoginForm
-              onSuccess={() => {
-                navigate('/');
-              }}
-            />
-          </Segment>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <>
+      <Helmet>
+        <title>Đăng xuất</title>
+      </Helmet>
+      <Grid container>
+        <Grid.Row centered column={1}>
+          <Grid.Column style={{ maxWidth: 480 }}>
+            <Header as="h4" attached="top" block>
+              Đăng nhập
+            </Header>
+            <Segment attached>
+              <LoginForm
+                onSuccess={() => {
+                  navigate('/');
+                }}
+              />
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   );
 };
