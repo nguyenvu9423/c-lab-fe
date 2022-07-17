@@ -7,6 +7,7 @@ import { fetchSearch } from '../../store/actions/search';
 import { State } from '../../store';
 import { SearchResult } from '../../domains/search/SearchResult';
 import { useNavigate } from 'react-router';
+import { MarkdownView } from '../editors';
 
 const DEBOUNCE_DURATION = 500;
 
@@ -68,7 +69,6 @@ export const SearchBar: React.FC = () => {
 
   return (
     <Search
-      size="small"
       placeholder="Tìm kiếm"
       fluid
       category
@@ -108,7 +108,9 @@ const resultRenderer = (result: SearchResult) => {
     return (
       <div className="content">
         <div className="title">{result.title}</div>
-        <div className="description">{result.description}</div>
+        <div className="description">
+          <MarkdownView>{result.description}</MarkdownView>
+        </div>
       </div>
     );
   }

@@ -3,11 +3,8 @@ import classNames from 'classnames';
 
 import { Button, Divider } from 'semantic-ui-react';
 import { EditorState, Editor, ContentState } from 'draft-js';
-import { Components } from 'react-markdown';
 
 import { Styleable } from '../../../common/types';
-import { slugifyHeading } from '../../../page/articles/utils';
-import { HeadingProps } from 'react-markdown/lib/ast-to-react';
 import { MarkdownView } from './MarkdownView';
 
 export namespace MarkdownEditor {
