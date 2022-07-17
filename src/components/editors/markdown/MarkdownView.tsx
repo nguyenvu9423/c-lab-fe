@@ -4,6 +4,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import gfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import { Image } from 'semantic-ui-react';
 
 export const MarkdownView: React.FC<{ components?: Components }> = (props) => {
   const components = React.useMemo(
@@ -29,6 +30,11 @@ const MarkdownTable: React.FC = (props) => (
   <table className="ui table">{props.children}</table>
 );
 
+const ImageContainer: React.FC = (props) => {
+  return <Image {...props} centered />;
+};
+
 const baseComponents: Components = {
   table: MarkdownTable,
+  img: ImageContainer,
 };
