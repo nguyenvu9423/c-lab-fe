@@ -13,8 +13,8 @@ export const blockRenderMap: Draft.DraftBlockRenderMap =
       'header-three': {
         element: 'h4',
       },
-      code: {
-        element: 'code',
+      'code-block': {
+        element: 'pre',
       },
     })
   );
