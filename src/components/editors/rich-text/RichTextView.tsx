@@ -53,8 +53,9 @@ export const RichTextView: React.FC<{ contentState: RawDraftContentState }> = (
 };
 
 const AnchorHeading: React.FC<any> = (props) => {
-  const { content } = props.blockProps;
-  const id = slugifyHeading(content);
+  const { key, content } = props.blockProps;
+
+  const id = slugifyHeading(content, key);
   return (
     <>
       <span className="anchor-tag" id={id}>
@@ -67,6 +68,7 @@ const AnchorHeading: React.FC<any> = (props) => {
 
 function blockRendererFn(contentBlock: ContentBlock) {
   const type = contentBlock.getType();
+
   if (
     type === 'header-one' ||
     type === 'header-two' ||
@@ -77,6 +79,7 @@ function blockRendererFn(contentBlock: ContentBlock) {
       editable: false,
       props: {
         content: contentBlock.getText(),
+        key: contentBlock.getKey(),
       },
     };
   }

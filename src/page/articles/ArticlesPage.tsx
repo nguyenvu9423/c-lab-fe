@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Card, Grid } from 'semantic-ui-react';
 import { Helmet } from 'react-helmet';
+import QueryString from 'qs';
 
 import { fetchArticles } from '../../store/actions/article';
 import { OverviewArticleCard } from './components/OverviewArticleCard';
@@ -10,67 +11,76 @@ import { LoadingState } from '../../store/common';
 import { LoadingIndicator, Pagination, TagFilterCard } from '../../components';
 import { ArticleSelectors } from '../../store/selectors';
 import { State } from '../../store';
-import { Pageable } from '../../utility';
 import { DataHolder } from '../../store/reducers/data-holders/shared';
 import { resetState } from '../../store/actions';
 import { useScrollToTop } from '../../common/hooks';
+import { useNavigate } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
+import { PageUtils } from '../shared';
+import { OnlyNameTag } from '../../domains/tag';
+import { RsqlUtils } from '../../utility';
 
 const ARTICLES_PAGE_SIZE = 10;
 
-const initialPageable: Pageable = {
-  page: 0,
-  size: ARTICLES_PAGE_SIZE,
-};
-
 export const ArticlesPage: React.FC = () => {
   useScrollToTop();
+  const navigate = useNavigate();
 
+  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
+
+  const page = Number(searchParams.get('page')) || 1;
+  const query = searchParams.get('query') ?? undefined;
+
   const { data } = useSelector((state: State) => state.articlesPage);
+  const loadTotalPages = DataHolder.useExactTotalPage(data.articles);
+  const totalPages = PageUtils.useTotalPage(loadTotalPages);
+  PageUtils.useCorrectPage(page, totalPages);
 
-  const currentPageable = DataHolder.usePageable(
-    data.articles,
-    initialPageable
-  );
-  const currentQuery = DataHolder.useQuery(data.articles);
-  const totalPage = DataHolder.useTotalPages(data.articles);
-
-  const load = React.useCallback(
-    ({ pageable, query } = {}) => {
-      dispatch(
-        fetchArticles.request({
-          pageable: pageable ?? currentPageable,
-          query: query ?? currentQuery,
-          target: Target.ARTICLES_PAGE,
-        })
-      );
-    },
-    [dispatch, currentPageable, currentQuery]
-  );
+  const load = React.useCallback(() => {
+    dispatch(
+      fetchArticles.request({
+        pageable: { page: page - 1, size: ARTICLES_PAGE_SIZE },
+        query,
+        target: Target.ARTICLES_PAGE,
+      })
+    );
+  }, [dispatch, page, query]);
 
   React.useEffect(() => {
     load();
     return () => {
       dispatch(resetState({ target: Target.ARTICLES_PAGE }));
     };
-  }, []);
+  }, [load, dispatch]);
 
   const handlePageChange = React.useCallback(
     (event, { activePage }) => {
-      load({ pageable: { page: activePage - 1, size: ARTICLES_PAGE_SIZE } });
+      navigate({ search: QueryString.stringify({ page: activePage, query }) });
     },
-    [load]
+    [query, navigate]
   );
 
   const handleFilterChange = React.useCallback(
     (tags) => {
-      let query = '';
-      if (tags?.length) {
-        query = `tags=include=(${tags.map((tag) => tag.name)})`;
-      }
-      load({ query });
+      const newQuery =
+        tags.length > 0
+          ? RsqlUtils.emit(
+              RsqlUtils.Bulder.comparison(
+                'tags',
+                '=include=',
+                tags.map((tag) => tag.name)
+              )
+            )
+          : undefined;
+      navigate({ search: QueryString.stringify({ page, query: newQuery }) });
     },
-    [load]
+    [page, navigate]
+  );
+
+  const initialTags: OnlyNameTag[] = React.useMemo(
+    () => (query ? PageUtils.getTagsFromQuery(query) : []),
+    []
   );
 
   const articles = useSelector(
@@ -106,8 +116,8 @@ export const ArticlesPage: React.FC = () => {
                 </Card.Group>
                 <div style={{ marginTop: 25, textAlign: 'center' }}>
                   <Pagination
-                    totalPages={totalPage}
-                    activePage={currentPageable.page + 1}
+                    totalPages={totalPages || 0}
+                    activePage={page}
                     onPageChange={handlePageChange}
                   />
                 </div>
@@ -115,7 +125,10 @@ export const ArticlesPage: React.FC = () => {
             )}
           </Grid.Column>
           <Grid.Column width={4}>
-            <TagFilterCard onSubmit={handleFilterChange} />
+            <TagFilterCard
+              initialTags={initialTags}
+              onSubmit={handleFilterChange}
+            />
           </Grid.Column>
         </Grid.Row>
       </Grid>

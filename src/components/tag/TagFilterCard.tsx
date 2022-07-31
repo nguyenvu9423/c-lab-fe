@@ -1,12 +1,17 @@
 import * as React from 'react';
 import { Segment, Header, Button, Form } from 'semantic-ui-react';
-import { TagSelect, Tag } from '../../domains/tag';
+import { TagSelect, OnlyNameTag } from '../../domains/tag';
 
-export const TagFilterCard: React.FC<{ onSubmit?(tag: Tag[]): void }> = (
-  props
-) => {
-  const { onSubmit } = props;
-  const [tags, setTags] = React.useState([]);
+export namespace TagFilterCard {
+  export interface Props {
+    initialTags?: OnlyNameTag[];
+    onSubmit?(tag: OnlyNameTag[]): void;
+  }
+}
+
+export const TagFilterCard: React.FC<TagFilterCard.Props> = (props) => {
+  const { initialTags, onSubmit } = props;
+  const [tags, setTags] = React.useState<OnlyNameTag[]>(initialTags ?? []);
 
   return (
     <>

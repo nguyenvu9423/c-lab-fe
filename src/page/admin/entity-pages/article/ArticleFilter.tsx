@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Grid } from 'semantic-ui-react';
 import { BufferedInput } from '../../../../components/input';
 import { ArticleTitleSelect } from '../../../../domains/article/input/ArticleTitleSelect';
-import { TagDTO, TagSelect } from '../../../../domains/tag';
+import { OnlyNameTag, TagSelect } from '../../../../domains/tag';
 import { UserDTO } from '../../../../domains/user';
 import { UserSelect } from '../../../../domains/user/UserSelect';
 import { ComparisonOperator } from '../../../../utility/filter';
@@ -17,7 +17,7 @@ export namespace ArticleFilter {
     id?: string;
     title?: string;
     author?: UserDTO;
-    tags?: TagDTO[];
+    tags?: OnlyNameTag[];
   }
 }
 

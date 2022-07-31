@@ -1,11 +1,8 @@
 import * as React from 'react';
-import * as cherrio from 'cheerio';
 import { Header, List } from 'semantic-ui-react';
 import { HashLink } from 'react-router-hash-link';
 import { slugifyHeading } from '../utils';
 import { ArrayUtils } from '../../../utility';
-import { fromMarkdown } from 'mdast-util-from-markdown';
-import { visit } from 'unist-util-visit';
 import { RawDraftContentState } from 'draft-js';
 
 export namespace ArticleContentTable {
@@ -91,7 +88,7 @@ function getContentTable(
       const label = block.text;
 
       const nextNode: ArticleContentTable.HeaderNode = {
-        id: slugifyHeading(label),
+        id: slugifyHeading(label, block.key),
         parent: parentNode,
         label,
         depth,

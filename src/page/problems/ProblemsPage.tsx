@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 import { Table, Segment, Grid } from 'semantic-ui-react';
+import QueryString from 'qs';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 
 import { fetchProblems } from '../../store/actions/problem';
-import { useDispatch, useSelector } from 'react-redux';
 import { PrincipalSelectors, ProblemSelectors } from '../../store/selectors';
 import { LoadingState } from '../../store/common';
 import { TagFilterCard, Pagination } from '../../components';
@@ -11,38 +14,43 @@ import { Target } from '../../store/reducers/target';
 import { resetState } from '../../store/actions/state';
 import { State } from '../../store/state';
 import { DataHolder } from '../../store/reducers/data-holders/shared';
-import { Pageable } from '../../utility';
+import { RsqlUtils } from '../../utility';
 import { AcceptedLabel } from '../../domains/judge';
 import { ErrorTableBody, LoadingTableBody } from '../../components/table';
 import { useScrollToTop } from '../../common/hooks';
 import { ProblemPageLink } from './problem-page/ProblemPageLink';
+import { PageUtils } from '../shared';
+import { OnlyNameTag } from '../../domains/tag';
 
 const PROBLEMS_PAGE_SIZE = 14;
-const initialPageable: Pageable = { size: PROBLEMS_PAGE_SIZE, page: 0 };
 
 export const ProblemsPage: React.FC = () => {
   useScrollToTop();
 
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
   const principal = useSelector(PrincipalSelectors.principal());
-  const { data } = useSelector((state: State) => state.problemsPage);
   const dispatch = useDispatch();
 
-  const pageable = DataHolder.usePageable(data.problems, initialPageable);
-  const query = DataHolder.useQuery(data.problems);
-  const totalPages = DataHolder.useTotalPages(data.problems);
+  const page = Number(searchParams.get('page')) || 1;
+  const query = searchParams.get('query') ?? undefined;
 
-  const load = React.useCallback(
-    (params?: { pageable?: Pageable; query?: string }) => {
-      dispatch(
-        fetchProblems.request({
-          pageable: params?.pageable ?? pageable,
-          query: params?.query ?? query,
-          target: Target.PROBLEMS_PAGE,
-        })
-      );
-    },
-    [dispatch, pageable, query]
-  );
+  const { data } = useSelector((state: State) => state.problemsPage);
+  const loadTotalPages = DataHolder.useExactTotalPage(data.problems);
+  const totalPages = PageUtils.useTotalPage(loadTotalPages);
+
+  PageUtils.useCorrectPage(page, totalPages);
+
+  const load = React.useCallback(() => {
+    dispatch(
+      fetchProblems.request({
+        pageable: { page: page - 1, size: PROBLEMS_PAGE_SIZE },
+        query,
+        target: Target.PROBLEMS_PAGE,
+      })
+    );
+  }, [dispatch, page, query]);
 
   const problems = useSelector(
     data.problems.loadingState === LoadingState.LOADED
@@ -52,18 +60,26 @@ export const ProblemsPage: React.FC = () => {
 
   const handlePageChange = React.useCallback(
     (event, { activePage }) => {
-      load({ pageable: { page: activePage - 1, size: PROBLEMS_PAGE_SIZE } });
+      navigate({ search: QueryString.stringify({ page: activePage, query }) });
     },
-    [load]
+    [query, navigate]
   );
 
   const handleFilterChange = React.useCallback(
     (tags) => {
-      const query =
-        tags.length > 0 ? `tags=include=(${tags.map((tag) => tag.name)})` : '';
-      load({ query });
+      const newQuery =
+        tags.length > 0
+          ? RsqlUtils.emit(
+              RsqlUtils.Bulder.comparison(
+                'tags',
+                '=include=',
+                tags.map((tag) => tag.name)
+              )
+            )
+          : undefined;
+      navigate({ search: QueryString.stringify({ page, query: newQuery }) });
     },
-    [load]
+    [page, navigate]
   );
 
   React.useEffect(() => {
@@ -71,7 +87,12 @@ export const ProblemsPage: React.FC = () => {
     return () => {
       dispatch(resetState({ target: Target.PROBLEMS_PAGE }));
     };
-  }, []);
+  }, [load, dispatch]);
+
+  const initialTags: OnlyNameTag[] = React.useMemo(
+    () => (query ? PageUtils.getTagsFromQuery(query) : []),
+    []
+  );
 
   return (
     <>
@@ -81,7 +102,7 @@ export const ProblemsPage: React.FC = () => {
       <Grid container stackable doubling columns={2}>
         <Grid.Column width={12}>
           <Segment.Group>
-            <Segment style={{ minHeight: 634, padding: 0 }}>
+            <Segment style={{ minHeight: 648, padding: 0 }}>
               <Table basic fixed singleLine style={{ border: 'none' }}>
                 <Table.Header>
                   <Table.Row>
@@ -124,15 +145,18 @@ export const ProblemsPage: React.FC = () => {
             </Segment>
             <Segment textAlign="center">
               <Pagination
-                activePage={pageable.page + 1}
-                totalPages={totalPages}
+                activePage={page}
+                totalPages={totalPages || 0}
                 onPageChange={handlePageChange}
               />
             </Segment>
           </Segment.Group>
         </Grid.Column>
         <Grid.Column width={4}>
-          <TagFilterCard onSubmit={handleFilterChange} />
+          <TagFilterCard
+            initialTags={initialTags}
+            onSubmit={handleFilterChange}
+          />
         </Grid.Column>
       </Grid>
     </>

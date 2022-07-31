@@ -48,11 +48,11 @@ export const ResultLog: React.FC<{
                     <Segment>
                       <Header as="h5">Input</Header>
                     </Segment>
-                    <Segment>
+                    <Segment className="text-file-view-container">
                       <TextFileOverview>{test.input.overview}</TextFileOverview>
                     </Segment>
                     <Segment as="h5">Output</Segment>
-                    <Segment>
+                    <Segment className="text-file-view-container">
                       <TextFileOverview>
                         {testResult.outputOverview}
                       </TextFileOverview>
@@ -60,7 +60,7 @@ export const ResultLog: React.FC<{
                     <Segment>
                       <Header as="h5">Answer</Header>
                     </Segment>
-                    <Segment>
+                    <Segment className="text-file-view-container">
                       <TextFileOverview>
                         {test.output.overview}
                       </TextFileOverview>

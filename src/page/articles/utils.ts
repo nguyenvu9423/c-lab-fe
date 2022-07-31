@@ -15,7 +15,7 @@ export namespace ArticleUtils {
 }
 
 export function slugifyHeading(str: string, suffix = ''): string {
-  const slug = slugify(str).substring(0, 256);
+  const slug = slugify(str.substring(0, 256));
   if (suffix) return slug + '-' + suffix;
   return slug;
 }

@@ -236,6 +236,32 @@
     redux-thunk "^2.3.0"
     reselect "^4.0.0"
 
+"@rsql/ast@1.4.0", "@rsql/ast@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@rsql/ast/-/ast-1.4.0.tgz#f8ef6ed2380a900a95677b656b3a574a082e21ce"
+  integrity sha512-X5q/Nr9alOyj7vXoLE9PO8U/30UJdN0p3GAWp2ywX4Gf1ihcrAh3uQadKtIjjp8PdmeX6NlzSjgAV9EkXwARlA==
+
+"@rsql/builder@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@rsql/builder/-/builder-1.4.0.tgz#3435b48d34f5edf199a3361bce6dd5d84e55b765"
+  integrity sha512-zNG6db9qMkbBW7TpOJYpP/B2eGlzrxIzSokGC8TrcQnFHsDjt66BuirD6bm3uh5Q0jgcOHI4LcLLNYYbFRu69g==
+  dependencies:
+    "@rsql/ast" "^1.4.0"
+
+"@rsql/emitter@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@rsql/emitter/-/emitter-1.4.0.tgz#44ff71e5b102a2641b5e1b501055e8f290ce1a51"
+  integrity sha512-KC+bS/LDolPCf3tdaAapUUoMzbxQZ66CMA8rMDIAEUu9Dh8dE4DBlZ2kxj99bHnH/KRYFEEZ1E7LW2rfeTZStQ==
+  dependencies:
+    "@rsql/ast" "^1.4.0"
+
+"@rsql/parser@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@rsql/parser/-/parser-1.4.0.tgz#b64e4dd459c5bd7449abfa509b5278032b21f114"
+  integrity sha512-pKEEgvgzf/nK1WmPav+Rrarap4GSrgHYU8lR/d9uN4J3mINEVvXWRbStAYbMxk5k0id8hfgKQC+Be/Om5yFkzg==
+  dependencies:
+    "@rsql/ast" "^1.4.0"
+
 "@semantic-ui-react/event-stack@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@semantic-ui-react/event-stack/-/event-stack-3.1.2.tgz#14fac9796695aa3967962d94ea9733a85325f9c4"
@@ -319,7 +345,7 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.9.tgz#97edc9037ea0c38585320b28964dde3b39e4660d"
   integrity sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==
 
-"@types/katex@^0.11.0", "@types/katex@^0.11.1":
+"@types/katex@0.11.1", "@types/katex@^0.11.0":
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/@types/katex/-/katex-0.11.1.tgz#34de04477dcf79e2ef6c8d23b41a3d81f9ebeaf5"
   integrity sha512-DUlIj2nk0YnJdlWgsFuVKcX27MLW0KbKmGVoUHmFr+74FYYNUDAaj9ZqTADvsbE8rfxuVmSFc7KczYn5Y09ozg==
@@ -421,6 +447,11 @@
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.6.tgz#250a7b16c3b91f672a24552ec64678eeb1d3a08d"
   integrity sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==
+
+"@types/uuid@8.3.4":
+  version "8.3.4"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
+  integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
 
 "@types/yup@0.29.13":
   version "0.29.13"
@@ -2925,17 +2956,17 @@ jwt-decode@3.1.2:
   resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
   integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
 
+katex@0.15.2:
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.15.2.tgz#c05ece41ab497597b17abca2cecde3e4c0127f9d"
+  integrity sha512-FfZ/f6f8bQdLmJ3McXDNTkKenQkoXkItpW0I9bsG2wgb+8JAY5bwpXFtI8ZVrg5hc1wo1X/UIhdkVMpok46tEQ==
+  dependencies:
+    commander "^8.0.0"
+
 katex@^0.13.0:
   version "0.13.24"
   resolved "https://registry.yarnpkg.com/katex/-/katex-0.13.24.tgz#fe55455eb455698cb24b911a353d16a3c855d905"
   integrity sha512-jZxYuKCma3VS5UuxOx/rFV1QyGSl3Uy/i0kTJF3HgQ5xMinCQVF8Zd4bMY/9aI9b9A2pjIBOsjSSm68ykTAr8w==
-  dependencies:
-    commander "^8.0.0"
-
-katex@^0.15.2:
-  version "0.15.2"
-  resolved "https://registry.yarnpkg.com/katex/-/katex-0.15.2.tgz#c05ece41ab497597b17abca2cecde3e4c0127f9d"
-  integrity sha512-FfZ/f6f8bQdLmJ3McXDNTkKenQkoXkItpW0I9bsG2wgb+8JAY5bwpXFtI8ZVrg5hc1wo1X/UIhdkVMpok46tEQ==
   dependencies:
     commander "^8.0.0"
 
@@ -4278,7 +4309,7 @@ react-fast-compare@^3.0.1, react-fast-compare@^3.1.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
 
-react-helmet@^6.1.0:
+react-helmet@6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-6.1.0.tgz#a750d5165cb13cf213e44747502652e794468726"
   integrity sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==

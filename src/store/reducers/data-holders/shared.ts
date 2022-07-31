@@ -118,6 +118,15 @@ export namespace DataHolder {
     return totalPages;
   }
 
+  export function useExactTotalPage(
+    state: DataHolderState<Record<string, any>, { totalPages: number }>
+  ): number | undefined {
+    if (DataHolderState.isLoaded(state)) {
+      return state.totalPages;
+    }
+    return undefined;
+  }
+
   export function usePageable(
     state: DataHolderState<
       { pageable: Pageable },

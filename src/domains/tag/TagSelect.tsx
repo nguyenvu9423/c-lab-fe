@@ -2,19 +2,19 @@ import * as React from 'react';
 import { TagService } from '../../service/TagService';
 import { Dropdown } from 'semantic-ui-react';
 import { SelectConfig } from '../../components/select';
-import { Tag } from './Tag';
+import { OnlyNameTag } from './Tag';
 
 export const useFetchTagBySearch = (props: {
-  initialTags: Tag[];
+  initialTags: OnlyNameTag[];
 }): {
-  tags: Tag[];
+  tags: OnlyNameTag[];
   isFetching: boolean;
   handleSearch: (search: string) => void;
 } => {
   const { initialTags } = props;
 
   const [isFetching, setIsFetching] = React.useState(false);
-  const [tags, setTags] = React.useState<Tag[]>(initialTags ?? []);
+  const [tags, setTags] = React.useState<OnlyNameTag[]>(initialTags ?? []);
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
 
   const load = React.useCallback((searchQuery) => {
@@ -46,11 +46,13 @@ export const useFetchTagBySearch = (props: {
   };
 };
 
-export const TagSelect: React.FC<{
-  value?: Tag[];
-  onChange: any;
+export interface TagSelectProps {
+  value?: OnlyNameTag[];
+  onChange: (tags: OnlyNameTag[]) => void;
   onBlur?: any;
-}> = (props) => {
+}
+
+export const TagSelect: React.FC<TagSelectProps> = (props) => {
   const { onChange, onBlur } = props;
 
   const [internalValue, setInternalValue] = React.useState(props.value);
