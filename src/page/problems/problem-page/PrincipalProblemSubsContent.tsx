@@ -20,18 +20,14 @@ import { ProblemNavMenu } from '../components/ProblemNavMenu';
 import { SubmissionCard } from '../components/SubmissionCard';
 import { TagContainer } from '../../../components';
 import { SubmissionsTable } from '../components/SubmissionsTable';
-import { Pageable, scrollToElementTop } from '../../../utility';
+import { scrollToElementTop } from '../../../utility';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
 import { ProblemInfoCard } from '../components';
 import { useLocation } from 'react-router';
 import { useHighlightSub } from '../useHighlightSub';
+import { PageUtils } from '../../shared';
 
 const PAGE_SIZE = 10;
-const initialPageable: Pageable = {
-  page: 0,
-  size: PAGE_SIZE,
-};
-
 export const PrincipalProblemSubsContent: React.FC<{ problem: Problem }> = (
   props
 ) => {
@@ -79,7 +75,9 @@ export const PrincipalSubmissionTable: React.FC<
 > = React.forwardRef((props, ref) => {
   const { problem, user } = props;
   const location = useLocation();
-  const tableRef = React.useRef<HTMLElement>(null);
+  const dispatch = useDispatch();
+
+  const [page, setPage] = React.useState(1);
 
   const { data } = useSelector(
     (state: State) => state.problemPageContents.principalSubmissions
@@ -89,44 +87,30 @@ export const PrincipalSubmissionTable: React.FC<
     Lodash.get(location.state, 'highlightSubId')
   );
 
-  const dispatch = useDispatch();
+  const loadTotalPages = DataHolder.useTotalPages(data.submissions);
+  const totalPages = PageUtils.useTotalPages(loadTotalPages);
 
-  const pageable = DataHolder.usePageable(data.submissions, initialPageable);
-  const totalPages = DataHolder.useTotalPages(data.submissions);
+  const load = React.useCallback(() => {
+    dispatch(
+      fetchSubmissions.request({
+        type: 'byUserAndProblem',
+        username: user.username,
+        problemCode: problem.code,
+        pageable: { page, size: PAGE_SIZE },
+        target: Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS,
+      })
+    );
+  }, [dispatch, user.username, problem.code, page]);
 
-  const load = React.useCallback(
-    (params?: { pageable: Pageable }) => {
-      dispatch(
-        fetchSubmissions.request({
-          type: 'byUserAndProblem',
-          username: user.username,
-          problemCode: problem.code,
-          pageable: params?.pageable ?? pageable,
-          target: Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS,
-        })
-      );
-    },
-    [dispatch, data, user.username, problem.code, pageable]
-  );
-
-  React.useImperativeHandle(
-    ref,
-    () => ({
-      reload: () => load(),
-    }),
-    [load]
-  );
-
+  React.useImperativeHandle(ref, () => ({ reload: () => load() }), [load]);
   React.useEffect(() => {
-    load({ pageable: { page: 0, size: PAGE_SIZE } });
+    load();
     return () => {
       dispatch(
-        resetState({
-          target: Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS,
-        })
+        resetState({ target: Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS })
       );
     };
-  }, []);
+  }, [load, dispatch]);
 
   const submissions = useSelector(
     data.submissions.loadingState === LoadingState.LOADED
@@ -136,8 +120,9 @@ export const PrincipalSubmissionTable: React.FC<
 
   useJudgesStream(submissions ? submissions.map((sub) => sub.judge) : []);
 
+  const tableRef = React.useRef<HTMLElement>(null);
   const handlePageChange = React.useCallback((event, { activePage }) => {
-    load({ pageable: { page: activePage - 1, size: PAGE_SIZE } });
+    setPage(activePage);
     if (tableRef.current) {
       scrollToElementTop(tableRef.current);
     }
@@ -162,8 +147,8 @@ export const PrincipalSubmissionTable: React.FC<
 
       <Segment textAlign="center">
         <Pagination
-          activePage={pageable.page + 1}
-          totalPages={totalPages}
+          activePage={page}
+          totalPages={totalPages || 0}
           onPageChange={handlePageChange}
         />
       </Segment>

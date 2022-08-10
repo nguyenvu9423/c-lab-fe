@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header, Segment, Pagination, Table, Divider } from 'semantic-ui-react';
+import { Header, Segment, Pagination, Table } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubmissions, resetState } from '../../../store/actions';
 import { SubmissionSelectors } from '../../../store/selectors/SubmissionSelectors';
@@ -16,16 +16,11 @@ import {
   DataHolder,
   DataHolderState,
 } from '../../../store/reducers/data-holders/shared';
-import { Pageable } from '../../../utility';
 import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
 import { useHighlightSub } from '../useHighlightSub';
+import { PageUtils } from '../../shared';
 
 export const PAGE_SIZE = 4;
-
-const initialPageable: Pageable = {
-  page: 0,
-  size: PAGE_SIZE,
-};
 
 export namespace PrincipalProblemSubsCard {
   export interface Props {
@@ -54,20 +49,24 @@ export const PrincipalProblemSubsCard: React.FC<
       ? SubmissionSelectors.byIds(data.submissions.ids)
       : () => undefined
   );
-  const pageable = DataHolder.usePageable(data.submissions, initialPageable);
-  const totalPages = DataHolder.useTotalPages(data.submissions);
+
+  const [page, setPage] = React.useState(1);
+  const loadTotalPages = DataHolder.useTotalPages(data.submissions);
+  const totalPages = PageUtils.useTotalPages(loadTotalPages);
+  PageUtils.useCorrectPageListener(page, totalPages, setPage);
+
   const [highlightSubId, setHighLightSubId] = React.useState<
     number | undefined
   >(undefined);
 
   const load = React.useCallback(
-    (params?: { pageable?: Pageable; highlightSubId?: number }) => {
+    (params?: { highlightSubId?: number }) => {
       dispatch(
         fetchSubmissions.request({
           type: 'byUserAndProblem',
           problemCode,
           username,
-          pageable: params?.pageable ?? pageable,
+          pageable: { page, size: PAGE_SIZE },
           target: Target.PRINCIPAL_PROBLEM_SUBS_CARD,
         })
       );
@@ -75,7 +74,7 @@ export const PrincipalProblemSubsCard: React.FC<
         setHighLightSubId(params.highlightSubId);
       }
     },
-    [dispatch, username, problemCode, pageable]
+    [dispatch, username, problemCode, page]
   );
 
   React.useEffect(() => {
@@ -83,7 +82,7 @@ export const PrincipalProblemSubsCard: React.FC<
     return () => {
       dispatch(resetState({ target: Target.PRINCIPAL_PROBLEM_SUBS_CARD }));
     };
-  }, []);
+  }, [load, dispatch]);
 
   useJudgesStream(
     submissions
@@ -96,10 +95,8 @@ export const PrincipalProblemSubsCard: React.FC<
   );
 
   const handlePageChange = React.useCallback(
-    (event, { activePage }) => {
-      load({ pageable: { page: activePage - 1, size: PAGE_SIZE } });
-    },
-    [load]
+    (event, { activePage }) => setPage(activePage),
+    [setPage]
   );
 
   React.useImperativeHandle(
@@ -165,8 +162,8 @@ export const PrincipalProblemSubsCard: React.FC<
               firstItem={null}
               lastItem={null}
               boundaryRange={0}
-              activePage={pageable.page + 1}
-              totalPages={totalPages}
+              activePage={page}
+              totalPages={totalPages || 0}
               onPageChange={handlePageChange}
             />
           </Segment>

@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { Dropdown, DropdownItemProps, Grid } from 'semantic-ui-react';
+import { ExpressionNode } from '@rsql/ast';
+
 import { BufferedInput } from '../../../../components/input';
 import { JudgeProgressStatus } from '../../../../domains/judge';
 import { ProblemCodeSelect } from '../../../../domains/problem';
 import { VerdictFilterTypes } from '../../../../domains/submission/components/filter/options';
 import { UserSelect } from '../../../../domains/user';
-import { FilterUtils } from '../../../../utility/filter/utils';
+import { RsqlUtils } from '../../../../utility';
 
 export namespace SubmissionFilter {
   export interface Props {
-    onChange?(query: string): void;
+    onChange?(query: string | undefined): void;
   }
 
   export interface Value {
@@ -17,7 +19,7 @@ export namespace SubmissionFilter {
     problemCode?: string;
     username?: string;
     disqualified?: boolean;
-    judgeProgressStatus?: string;
+    judgeProgressStatus?: ExpressionNode;
     verdict?: VerdictFilterTypes;
   }
 }
@@ -31,40 +33,42 @@ export const SubmissionFilter: React.FC<SubmissionFilter.Props> = (props) => {
   const handleFitlersChange = React.useCallback(
     (filters: SubmissionFilter.Value) => {
       setFilters(filters);
-      let query = '';
+      const predicates: ExpressionNode[] = [];
+
       if (filters.id) {
-        query = FilterUtils.joinAnd(query, `id==${filters.id}`);
+        predicates.push(RsqlUtils.Builder.eq('id', filters.id));
       }
       if (filters.problemCode) {
-        query = FilterUtils.joinAnd(
-          query,
-          `problem.code==*${filters.problemCode}*`
+        predicates.push(
+          RsqlUtils.Builder.eq('problem.code', `*${filters.problemCode}*`)
         );
       }
       if (filters.username) {
-        query = FilterUtils.joinAnd(
-          query,
-          `user.username==${filters.username}`
+        predicates.push(
+          RsqlUtils.Builder.eq('user.username', filters.username)
         );
       }
 
       if (filters.disqualified !== undefined) {
-        query = FilterUtils.joinAnd(
-          query,
-          `disqualified==${filters.disqualified}`
+        predicates.push(
+          RsqlUtils.Builder.eq('disqualified', String(filters.disqualified))
         );
       }
 
       if (filters.judgeProgressStatus) {
-        query = FilterUtils.joinAnd(query, filters.judgeProgressStatus);
+        predicates.push(filters.judgeProgressStatus);
       }
 
       if (filters.verdict) {
         const match = VerdictFilterTypes.getProperties(filters.verdict);
-        if (match.query) query = FilterUtils.joinAnd(query, match.query);
+        if (match.rsqlNode) predicates.push(match.rsqlNode);
       }
 
-      onChange?.(query);
+      if (predicates.length > 0) {
+        const andPredicates = RsqlUtils.Builder.and(...predicates);
+        const query = RsqlUtils.emit(andPredicates);
+        onChange?.(query);
+      } else onChange?.(undefined);
     },
     [onChange]
   );
@@ -122,7 +126,7 @@ export const SubmissionFilter: React.FC<SubmissionFilter.Props> = (props) => {
               );
               handleFitlersChange({
                 ...filters,
-                judgeProgressStatus: match?.query,
+                judgeProgressStatus: match?.rsqlNode,
               });
             }}
           />
@@ -169,7 +173,9 @@ const disqualifiedOptions: DropdownItemProps[] = [
   },
 ];
 
-const judgeStatusOptions: (DropdownItemProps & { query?: string })[] = [
+const judgeStatusOptions: (DropdownItemProps & {
+  rsqlNode?: ExpressionNode;
+})[] = [
   {
     key: 'any',
     text: '',
@@ -179,32 +185,45 @@ const judgeStatusOptions: (DropdownItemProps & { query?: string })[] = [
     key: 'in_progress',
     text: 'In progress',
     value: 'in_progress',
-    query: `judge.progress.status=in=(${JudgeProgressStatus.InProgressValues.join(
-      ','
-    )})`,
+    rsqlNode: RsqlUtils.Builder.in(
+      'judge.progress.status',
+      JudgeProgressStatus.InProgressValues
+    ),
   },
   {
     key: 'success',
     text: 'Success',
     value: 'success',
-    query: `judge.progress.status==${JudgeProgressStatus.SUCCESS}`,
+    rsqlNode: RsqlUtils.Builder.eq(
+      'judge.progress.status',
+      JudgeProgressStatus.SUCCESS
+    ),
   },
   {
     key: 'cancelled',
     text: 'Cancelled',
     value: 'cancelled',
-    query: `judge.progress.status==${JudgeProgressStatus.CANCELLED}`,
+    rsqlNode: RsqlUtils.Builder.eq(
+      'judge.progress.status',
+      JudgeProgressStatus.CANCELLED
+    ),
   },
   {
     key: 'rejected',
     text: 'Rejected',
     value: 'rejected',
-    query: `judge.progress.status==${JudgeProgressStatus.REJECTED}`,
+    rsqlNode: RsqlUtils.Builder.eq(
+      'judge.progress.status',
+      JudgeProgressStatus.REJECTED
+    ),
   },
   {
     key: 'error',
     text: 'System error',
     value: 'error',
-    query: `judge.progress.status==${JudgeProgressStatus.ERROR}`,
+    rsqlNode: RsqlUtils.Builder.eq(
+      'judge.progress.status',
+      JudgeProgressStatus.ERROR
+    ),
   },
 ];

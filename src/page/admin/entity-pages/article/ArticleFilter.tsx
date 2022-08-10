@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { Grid } from 'semantic-ui-react';
+import { ExpressionNode } from '@rsql/ast';
 import { BufferedInput } from '../../../../components/input';
 import { ArticleTitleSelect } from '../../../../domains/article/input/ArticleTitleSelect';
 import { OnlyNameTag, TagSelect } from '../../../../domains/tag';
 import { UserDTO } from '../../../../domains/user';
 import { UserSelect } from '../../../../domains/user/UserSelect';
-import { ComparisonOperator } from '../../../../utility/filter';
-import { FilterUtils } from '../../../../utility/filter/utils';
+import { RsqlUtils } from '../../../../utility';
 
 export namespace ArticleFilter {
   export interface Props {
-    onChange?(query: string): void;
+    onChange?(query: string | undefined): void;
   }
 
   export interface Value {
@@ -28,31 +28,35 @@ export const ArticleFilter: React.FC<ArticleFilter.Props> = (props) => {
   const handleFilterChange = React.useCallback(
     (filters: ArticleFilter.Value) => {
       setFilters(filters);
-      let query = '';
+      const predicates: ExpressionNode[] = [];
+
       if (filters.id) {
-        query = FilterUtils.joinAnd(
-          query,
-          `id${ComparisonOperator.EQUAL}${filters.id}`
-        );
+        predicates.push(RsqlUtils.Builder.eq('id', filters.id));
       }
+
       if (filters.title) {
-        query = FilterUtils.joinAnd(
-          query,
-          `title${ComparisonOperator.EQUAL}'*${filters.title}*'`
-        );
+        predicates.push(RsqlUtils.Builder.eq('title', `*${filters.title}*`));
       }
+
       if (filters.author) {
-        query = FilterUtils.joinAnd(
-          query,
-          `author.username${ComparisonOperator.EQUAL}${filters.author.username}`
+        predicates.push(
+          RsqlUtils.Builder.eq('author.username', filters.author.username)
         );
       }
       if (filters.tags && filters.tags.length) {
-        query = FilterUtils.joinAnd(
-          query,
-          `tags=include=(${filters.tags.map((tag) => tag.name)})`
+        predicates.push(
+          RsqlUtils.Builder.comparison(
+            'tags',
+            '=include=',
+            filters.tags.map((tag) => tag.name)
+          )
         );
       }
+
+      const query =
+        predicates.length > 0
+          ? RsqlUtils.emit(RsqlUtils.Builder.and(...predicates))
+          : undefined;
 
       onChange?.(query);
     },

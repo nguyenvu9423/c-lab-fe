@@ -26,6 +26,23 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+instance.interceptors.request.use(
+  (config) => {
+    const params = config.params;
+    if (params?.page !== undefined) {
+      return {
+        ...config,
+        params: {
+          ...params,
+          page: params.page - 1,
+        },
+      };
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 instance.interceptors.response.use(
   (response) => response,
   (error) => {

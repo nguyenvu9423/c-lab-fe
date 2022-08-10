@@ -8,7 +8,6 @@ import { Pagination } from '../../../../components';
 import { CRUDToastBuilder } from '../../../../components/toast';
 
 import { State } from '../../../../store';
-import { Pageable } from '../../../../utility';
 import {
   DataHolder,
   DataHolderState,
@@ -24,13 +23,9 @@ import {
 } from '../../../../domains/problem';
 import { LoadingTableBody, ErrorTableBody } from '../../../../components/table';
 import { ProblemPageLink } from '../../../problems/problem-page/ProblemPageLink';
+import { PageUtils } from '../../../shared';
 
 const PAGE_SIZE = 10;
-
-const initialPageable: Pageable = {
-  page: 0,
-  size: PAGE_SIZE,
-};
 
 export const ProblemPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -51,31 +46,28 @@ export const ProblemPage: React.FC = () => {
     | undefined
   >(undefined);
 
-  const pageable = DataHolder.usePageable(data.problems, initialPageable);
-  const query = DataHolder.useQuery(data.problems);
-  const totalPages = DataHolder.useTotalPages(data.problems);
+  const [page, setPage] = React.useState(1);
+  const [query, setQuery] = React.useState<string | undefined>();
+  const loadTotalPages = DataHolder.useTotalPages(data.problems);
+  const totalPages = PageUtils.useTotalPages(loadTotalPages);
+  PageUtils.useCorrectPageListener(page, totalPages, setPage);
 
-  const load = React.useCallback(
-    (params: { pageable?: Pageable; query?: string } = {}) => {
-      dispatch(
-        fetchProblems.request({
-          pageable: params.pageable ?? pageable,
-          query: params.query ?? query,
-          target: Target.AdminPage.PROBLEM,
-        })
-      );
-    },
-    [dispatch, pageable, query]
-  );
+  const load = React.useCallback(() => {
+    dispatch(
+      fetchProblems.request({
+        pageable: { page, size: PAGE_SIZE },
+        query,
+        target: Target.AdminPage.PROBLEM,
+      })
+    );
+  }, [dispatch, page, query]);
 
   React.useEffect(() => {
     load();
     return () => {
       dispatch(resetState({ target: Target.AdminPage.PROBLEM }));
     };
-  }, []);
-
-  DataHolder.useReloadHelper(data.problems, load);
+  }, [load, dispatch]);
 
   return (
     <>
@@ -84,7 +76,7 @@ export const ProblemPage: React.FC = () => {
           <AddButton label="Thêm" onClick={() => setOpenAddForm(true)} />
         </Segment>
         <Segment vertical>
-          <ProblemFilter onChange={(query) => load({ query })} />
+          <ProblemFilter onChange={setQuery} />
         </Segment>
 
         <Segment
@@ -161,16 +153,9 @@ export const ProblemPage: React.FC = () => {
         <Segment vertical>
           <Pagination
             floated="right"
-            totalPages={totalPages}
-            activePage={pageable.page + 1}
-            onPageChange={(event, { activePage }) =>
-              load({
-                pageable: {
-                  page: Number(activePage) - 1,
-                  size: PAGE_SIZE,
-                },
-              })
-            }
+            totalPages={totalPages || 0}
+            activePage={page}
+            onPageChange={(e, { activePage }) => setPage(Number(activePage))}
           />
         </Segment>
       </Segment>

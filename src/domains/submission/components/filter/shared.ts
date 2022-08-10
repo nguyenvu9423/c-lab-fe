@@ -1,5 +1,5 @@
+import { EQ, GE, LE } from '@rsql/ast';
 import { DropdownItemProps } from 'semantic-ui-react';
-import { ComparisonOperator } from '../../../../utility/filter';
 import {
   getSubLangTitle,
   SubmissionLanguage,
@@ -16,10 +16,7 @@ export const languageOptions = [
 
 export const operationOptions: DropdownItemProps[] = [
   { key: '', text: '' },
-].concat(
-  ComparisonOperator.values.map((type) => ({
-    key: type,
-    value: type,
-    text: ComparisonOperator.getDisplayedValue(type),
-  }))
-);
+  { key: EQ, value: EQ, text: '=' },
+  { key: GE, value: GE, text: '>=' },
+  { key: LE, value: LE, text: '<=' },
+];

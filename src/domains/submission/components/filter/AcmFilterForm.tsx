@@ -3,11 +3,11 @@ import * as React from 'react';
 import { useFormik } from 'formik';
 import { Form } from 'semantic-ui-react';
 import { VerdictFilterTypes } from './options';
-import { ComparisonOperator } from '../../../../utility/filter';
 
 import { languageOptions } from './shared';
-import { FilterUtils } from '../../../../utility/filter/utils';
 import { ValuePredicateInput } from './ValuePredicateInput';
+import { RsqlUtils } from '../../../../utility';
+import { ComparisonOperator, ExpressionNode } from '@rsql/ast';
 
 const verdictOptions: { value?: string; text: string }[] = [
   { key: '', text: '' },
@@ -36,29 +36,35 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
 
   const onSubmit = React.useCallback(
     (values: AcmFilterForm.Value) => {
-      let query = '';
+      const predicates: ExpressionNode[] = [];
+
       if (values.language && values.language !== 'ANY') {
-        query = FilterUtils.joinAnd(
-          query,
-          `language${ComparisonOperator.EQUAL}${values.language}`
-        );
+        predicates.push(RsqlUtils.Builder.eq('language', values.language));
       }
+
       if (values.verdict) {
-        query = FilterUtils.joinAnd(
-          query,
-          VerdictFilterTypes.getProperties(values.verdict).query ?? ''
-        );
+        const filterProps = VerdictFilterTypes.getProperties(values.verdict);
+        if (filterProps.rsqlNode) {
+          predicates.push(filterProps.rsqlNode);
+        }
       }
 
       if (values.passedTestCount) {
         const { operator, value } = values.passedTestCount;
-        query = FilterUtils.joinAnd(
-          query,
-          `judge.result.passedTestCount${operator}${value}`
+        predicates.push(
+          RsqlUtils.Builder.comparison(
+            'judge.result.passedTestCount',
+            operator,
+            value
+          )
         );
       }
-
-      onQueryChange?.(query ? query : undefined);
+      if (predicates.length > 0) {
+        const andPredicates = RsqlUtils.Builder.and(...predicates);
+        onQueryChange?.(RsqlUtils.emit(andPredicates));
+      } else {
+        onQueryChange?.(undefined);
+      }
     },
     [onQueryChange]
   );

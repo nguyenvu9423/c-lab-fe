@@ -12,19 +12,13 @@ import {
 import { Pagination } from '../../../../components';
 import { AddButton, DeleteRowButton, EditRowButton } from '../shared';
 import { State } from '../../../../store';
-import { Pageable } from '../../../../utility';
 import { DataHolder } from '../../../../store/reducers/data-holders/shared';
 import { ConstSelectors } from '../../../../store/selectors';
-
 import { TagFilter } from './TagFilter';
 import { ErrorTableBody, LoadingTableBody } from '../../../../components/table';
+import { PageUtils } from '../../../shared';
 
-const pageSize = 10;
-
-const initialPageable: Pageable = {
-  page: 0,
-  size: pageSize,
-};
+const PAGE_SIZE = 10;
 
 export const TagPage: React.FC = () => {
   const { data } = useSelector((state: State) => state.adminPage.tag);
@@ -38,20 +32,22 @@ export const TagPage: React.FC = () => {
   const [editedTagId, setEditedTagId] = React.useState<number | undefined>();
   const [deletedTagId, setDeletedTagId] = React.useState<number | undefined>();
 
-  const pageable = DataHolder.usePageable(data.tags, initialPageable);
   const query = DataHolder.useQuery(data.tags);
-  const totalPages = DataHolder.useTotalPages(data.tags);
+  const [page, setPage] = React.useState(1);
+  const loadTotalPages = DataHolder.useTotalPages(data.tags);
+  const totalPages = PageUtils.useTotalPages(loadTotalPages);
+  PageUtils.useCorrectPageListener(page, totalPages, setPage);
 
   const load = React.useCallback(
-    (params: { pageable?: Pageable; query?: string } = {}) =>
+    (params: { query?: string } = {}) =>
       dispatch(
         fetchTags.request({
-          pageable: params.pageable ?? pageable,
+          pageable: { page, size: PAGE_SIZE },
           query: params.query ?? query,
           target: Target.AdminPage.TAG,
         })
       ),
-    [dispatch, pageable, query]
+    [dispatch, page, query]
   );
 
   React.useEffect(() => {
@@ -59,9 +55,8 @@ export const TagPage: React.FC = () => {
     return () => {
       dispatch(resetState({ target: Target.AdminPage.TAG }));
     };
-  }, []);
+  }, [load, dispatch]);
 
-  DataHolder.useReloadHelper(data.tags, load);
   return (
     <>
       <Segment clearing>
@@ -108,14 +103,10 @@ export const TagPage: React.FC = () => {
         </Segment>
         <Segment vertical>
           <Pagination
-            activePage={pageable.page + 1}
-            totalPages={totalPages}
+            activePage={page}
+            totalPages={totalPages || 0}
             floated="right"
-            onPageChange={(event, { activePage }) => {
-              load({
-                pageable: { page: Number(activePage) - 1, size: pageSize },
-              });
-            }}
+            onPageChange={(e, { activePage }) => setPage(Number(activePage))}
           />
         </Segment>
       </Segment>

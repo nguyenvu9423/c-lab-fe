@@ -20,16 +20,14 @@ import {
   ConstSelectors,
   SubmissionSelectors,
 } from '../../../../store/selectors';
-import { Pageable } from '../../../../utility';
+import { PageUtils } from '../../../shared';
 import { SubmissionFilter } from './SubmissionFilter';
 
 const PAGE_SIZE = 10;
-const initialPageable: Pageable = {
-  page: 0,
-  size: PAGE_SIZE,
-};
 
 export const SubmissionPage: React.FC = () => {
+  const dispatch = useDispatch();
+
   const { data } = useSelector((state: State) => state.adminPage.submission);
   const submissions = useSelector(
     DataHolder.isLoaded(data.submissions)
@@ -37,34 +35,30 @@ export const SubmissionPage: React.FC = () => {
       : ConstSelectors.value(undefined)
   );
 
-  const pageable: Pageable = DataHolder.isLoadRequested(data.submissions)
-    ? data.submissions.pageable
-    : initialPageable;
+  const [page, setPage] = React.useState(1);
+  const [query, setQuery] = React.useState<string | undefined>(undefined);
 
-  const query = DataHolder.useQuery(data.submissions);
-  const totalPages = DataHolder.useTotalPages(data.submissions);
-  const dispatch = useDispatch();
+  const loadTotalPages = DataHolder.useTotalPages(data.submissions);
+  const totalPages = PageUtils.useTotalPages(loadTotalPages);
+  PageUtils.useCorrectPageListener(page, totalPages, setPage);
 
-  const load = React.useCallback(
-    (params?: { pageable?: Pageable; query?: string }) => {
-      dispatch(
-        fetchSubmissions.request({
-          type: 'byQuery',
-          pageable: params?.pageable ?? pageable,
-          query: params?.query ?? query,
-          target: Target.AdminPage.SUBMISSION,
-        })
-      );
-    },
-    [dispatch, pageable, query]
-  );
+  const load = React.useCallback(() => {
+    dispatch(
+      fetchSubmissions.request({
+        type: 'byQuery',
+        pageable: { page, size: PAGE_SIZE },
+        query: query,
+        target: Target.AdminPage.SUBMISSION,
+      })
+    );
+  }, [dispatch, page, query]);
 
   React.useEffect(() => {
     load();
     return () => {
       dispatch(resetState({ target: Target.AdminPage.SUBMISSION }));
     };
-  }, []);
+  }, [load, dispatch]);
 
   useJudgesStream(
     submissions
@@ -77,7 +71,7 @@ export const SubmissionPage: React.FC = () => {
   return (
     <Segment clearing>
       <Segment vertical>
-        <SubmissionFilter onChange={(query) => load({ query })} />
+        <SubmissionFilter onChange={setQuery} />
       </Segment>
       <Segment vertical className="table-container" style={{ minHeight: 651 }}>
         <Table basic="very" fixed singleLine>
@@ -125,14 +119,10 @@ export const SubmissionPage: React.FC = () => {
       </Segment>
       <Segment vertical>
         <Pagination
-          activePage={pageable.page + 1}
-          totalPages={totalPages}
+          activePage={page}
+          totalPages={totalPages || 0}
           floated="right"
-          onPageChange={(event, { activePage }) => {
-            load({
-              pageable: { page: Number(activePage) - 1, size: PAGE_SIZE },
-            });
-          }}
+          onPageChange={(event, { activePage }) => setPage(Number(activePage))}
         />
       </Segment>
     </Segment>

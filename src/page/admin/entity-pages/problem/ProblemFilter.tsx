@@ -1,14 +1,15 @@
 import * as React from 'react';
+import { ExpressionNode } from '@rsql/ast';
 import { Grid } from 'semantic-ui-react';
 import { BufferedInput } from '../../../../components/input';
 import { TagDTO, TagSelect } from '../../../../domains/tag';
-import { FilterUtils } from '../../../../utility/filter/utils';
+import { RsqlUtils } from '../../../../utility';
 import { ProblemCodeSelect } from './../../../../domains/problem';
 import { UserDTO, UserSelect } from './../../../../domains/user';
 
 export namespace ProblemFilter {
   export interface Props {
-    onChange?(value: string): void;
+    onChange?(value: string | undefined): void;
   }
 
   export interface Value {
@@ -32,25 +33,33 @@ export const ProblemFilter: React.FC<ProblemFilter.Props> = (props) => {
   const handleFitlersChange = React.useCallback(
     (filters) => {
       setFilters(filters);
-      let query = '';
+      const predicates: ExpressionNode[] = [];
+
       if (filters.id) {
-        query = FilterUtils.joinAnd(query, `id==${filters.id}`);
+        predicates.push(RsqlUtils.Builder.eq('id', filters.id));
       }
       if (filters.code) {
-        query = FilterUtils.joinAnd(query, `code==*${filters.code}*`);
+        predicates.push(RsqlUtils.Builder.eq('code', `*${filters.code}*`));
       }
       if (filters.author) {
-        query = FilterUtils.joinAnd(
-          query,
-          `author.username==${filters.author.username}`
+        predicates.push(
+          RsqlUtils.Builder.eq('author.username', filters.author.username)
         );
       }
       if (filters.tags.length > 0) {
-        query = FilterUtils.joinAnd(
-          query,
-          `tags=include=(${filters.tags.map((tag) => tag.name)})`
+        predicates.push(
+          RsqlUtils.Builder.comparison(
+            'tags',
+            '=include=',
+            filters.tags.map((tag) => tag.name)
+          )
         );
       }
+      const query =
+        predicates.length > 0
+          ? RsqlUtils.emit(RsqlUtils.Builder.and(...predicates))
+          : undefined;
+
       onChange?.(query);
     },
     [onChange]

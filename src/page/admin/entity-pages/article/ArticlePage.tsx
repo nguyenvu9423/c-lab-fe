@@ -9,7 +9,6 @@ import { Pagination } from '../../../../components';
 import { AddButton, EditRowButton, DeleteRowButton } from '../shared';
 import { LoadingState } from '../../../../store/common';
 import { State } from '../../../../store';
-import { Pageable } from '../../../../utility';
 import {
   DataHolder,
   DataHolderState,
@@ -22,13 +21,9 @@ import {
 } from '../../../../domains/article';
 import { ErrorTableBody, LoadingTableBody } from '../../../../components/table';
 import { ArticlePageLink } from '../../..';
+import { PageUtils } from '../../../shared';
 
 const PAGE_SIZE = 10;
-
-const initialPageable: Pageable = {
-  page: 0,
-  size: PAGE_SIZE,
-};
 
 export const ArticlePage: React.FC = () => {
   const dispatch = useDispatch();
@@ -43,45 +38,29 @@ export const ArticlePage: React.FC = () => {
     number | undefined
   >(undefined);
 
-  const currentPageable = DataHolder.usePageable(
-    data.articles,
-    initialPageable
-  );
-  const currentQuery = DataHolder.useQuery(data.articles);
+  const [page, setPage] = React.useState(1);
+  const [query, setQuery] = React.useState<string | undefined>();
 
-  const load = React.useCallback(
-    ({ pageable, query } = {}) => {
-      dispatch(
-        fetchArticles.request({
-          pageable: pageable ?? currentPageable,
-          query: query ?? currentQuery,
-          target: Target.AdminPage.ARTICLE,
-        })
-      );
-    },
-    [dispatch, currentPageable, currentQuery]
-  );
+  const loadTotalPages = DataHolder.useTotalPages(data.articles);
+  const totalPages = PageUtils.useTotalPages(loadTotalPages);
+  PageUtils.useCorrectPageListener(page, totalPages, setPage);
+
+  const load = React.useCallback(() => {
+    dispatch(
+      fetchArticles.request({
+        pageable: { page, size: PAGE_SIZE },
+        query,
+        target: Target.AdminPage.ARTICLE,
+      })
+    );
+  }, [dispatch, page, query]);
 
   React.useEffect(() => {
     load();
     return () => {
       dispatch(resetState({ target: Target.AdminPage.ARTICLE }));
     };
-  }, []);
-
-  const [totalPages, setTotalPages] = React.useState<number>(0);
-
-  React.useEffect(() => {
-    if (DataHolderState.isLoaded(data.articles)) {
-      setTotalPages(data.articles.totalPages);
-    }
-  }, [data.articles]);
-
-  React.useEffect(() => {
-    if (totalPages && totalPages > 0 && currentPageable.page > totalPages - 1) {
-      load({ pageable: { page: totalPages - 1, size: PAGE_SIZE } });
-    }
-  }, [totalPages, currentPageable.page]);
+  }, [load, dispatch]);
 
   const articles = useSelector(
     data.articles.loadingState === LoadingState.LOADED
@@ -95,7 +74,7 @@ export const ArticlePage: React.FC = () => {
         <AddButton label="Thêm" onClick={() => setOpenAddForm(true)} />
       </Segment>
       <Segment vertical>
-        <ArticleFilter onChange={(query) => load({ query })} />
+        <ArticleFilter onChange={setQuery} />
       </Segment>
       <Segment className="table-container" vertical style={{ minHeight: 600 }}>
         <Table basic="very" fixed singleLine>
@@ -149,13 +128,9 @@ export const ArticlePage: React.FC = () => {
       </Segment>
       <Segment vertical textAlign="right">
         <Pagination
-          activePage={currentPageable.page + 1}
-          totalPages={totalPages}
-          onPageChange={(event, { activePage }) => {
-            load({
-              pageable: { page: Number(activePage) - 1, size: PAGE_SIZE },
-            });
-          }}
+          activePage={page}
+          totalPages={totalPages || 0}
+          onPageChange={(event, { activePage }) => setPage(Number(activePage))}
         />
       </Segment>
 

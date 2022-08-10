@@ -1,5 +1,6 @@
 import { JudgeVerdict, TestVerdict } from './../../../judge';
-import { ComparisonOperator } from './../../../../utility/filter/ComparisonOperator';
+import { ExpressionNode } from '@rsql/ast';
+import { RsqlUtils } from '../../../../utility';
 
 export enum VerdictFilterTypes {
   COMPILE_ERROR = 'COMPILE_ERROR',
@@ -22,7 +23,7 @@ export namespace VerdictFilterTypes {
 
   export interface Properties {
     text: string;
-    query?: string;
+    rsqlNode?: ExpressionNode;
   }
 
   export function getProperties(
@@ -35,59 +36,45 @@ export namespace VerdictFilterTypes {
     {
       [VerdictFilterTypes.AC]: {
         text: 'Accepted',
-        query: `judge.result.verdict${ComparisonOperator.EQUAL}${JudgeVerdict.ACCEPTED}`,
+        rsqlNode: RsqlUtils.Builder.eq(
+          'judge.result.verdict',
+          JudgeVerdict.ACCEPTED
+        ),
       },
       [VerdictFilterTypes.COMPILE_ERROR]: {
         text: 'Compile error',
-        query: `judge.result.verdict${ComparisonOperator.EQUAL}${JudgeVerdict.COMPILE_ERROR}`,
+        rsqlNode: RsqlUtils.Builder.eq(
+          'judge.result.verdict',
+          JudgeVerdict.COMPILE_ERROR
+        ),
       },
       [VerdictFilterTypes.WA]: {
         text: 'Wrong answer',
-        query: `judge.result.testError.verdict${ComparisonOperator.EQUAL}${TestVerdict.WA}`,
+        rsqlNode: RsqlUtils.Builder.eq(
+          'judge.result.testError.verdict',
+          TestVerdict.WA
+        ),
       },
       [VerdictFilterTypes.TLE]: {
         text: 'Time limit exceeded',
-        query: `judge.result.testError.verdict${ComparisonOperator.EQUAL}${TestVerdict.TLE}`,
+        rsqlNode: RsqlUtils.Builder.eq(
+          'judge.result.testError.verdict',
+          TestVerdict.TLE
+        ),
       },
       [VerdictFilterTypes.MLE]: {
         text: 'Memory limit exceeded',
-        query: `judge.result.testError.verdict${ComparisonOperator.EQUAL}${TestVerdict.MLE}`,
+        rsqlNode: RsqlUtils.Builder.eq(
+          'judge.result.testError.verdict$',
+          TestVerdict.MLE
+        ),
       },
       [VerdictFilterTypes.RE]: {
         text: 'Runtime error',
-        query: `judge.result.testError.verdict${ComparisonOperator.EQUAL}${TestVerdict.RE}`,
+        rsqlNode: RsqlUtils.Builder.eq(
+          'judge.result.testError.verdict',
+          TestVerdict.RE
+        ),
       },
     };
 }
-
-export enum OperationFilterTypes {
-  NONE = '<>',
-  EQUAL = '=',
-  LOE = '<=',
-  GOE = '>=',
-}
-
-export namespace OperationFilterTypes {
-  export const values = [
-    OperationFilterTypes.NONE,
-    OperationFilterTypes.EQUAL,
-    OperationFilterTypes.LOE,
-    OperationFilterTypes.GOE,
-  ];
-
-  export function getOperator(
-    operation: OperationFilterTypes
-  ): ComparisonOperator | undefined {
-    return operationMap[operation];
-  }
-}
-
-const operationMap: Record<
-  OperationFilterTypes,
-  ComparisonOperator | undefined
-> = {
-  [OperationFilterTypes.NONE]: undefined,
-  [OperationFilterTypes.EQUAL]: ComparisonOperator.EQUAL,
-  [OperationFilterTypes.LOE]: ComparisonOperator.LESS_THAN_OR_EQUAL,
-  [OperationFilterTypes.GOE]: ComparisonOperator.GREATER_THAN_OR_EQUAL,
-};

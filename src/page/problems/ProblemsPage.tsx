@@ -37,15 +37,15 @@ export const ProblemsPage: React.FC = () => {
   const query = searchParams.get('query') ?? undefined;
 
   const { data } = useSelector((state: State) => state.problemsPage);
-  const loadTotalPages = DataHolder.useExactTotalPage(data.problems);
-  const totalPages = PageUtils.useTotalPage(loadTotalPages);
+  const loadTotalPages = DataHolder.useTotalPages(data.problems);
+  const totalPages = PageUtils.useTotalPages(loadTotalPages);
 
   PageUtils.useCorrectPage(page, totalPages);
 
   const load = React.useCallback(() => {
     dispatch(
       fetchProblems.request({
-        pageable: { page: page - 1, size: PROBLEMS_PAGE_SIZE },
+        pageable: { page, size: PROBLEMS_PAGE_SIZE },
         query,
         target: Target.PROBLEMS_PAGE,
       })
@@ -70,7 +70,7 @@ export const ProblemsPage: React.FC = () => {
       const newQuery =
         tags.length > 0
           ? RsqlUtils.emit(
-              RsqlUtils.Bulder.comparison(
+              RsqlUtils.Builder.comparison(
                 'tags',
                 '=include=',
                 tags.map((tag) => tag.name)

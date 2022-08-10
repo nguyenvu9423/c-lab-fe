@@ -7,16 +7,11 @@ import { Segment, Table, Button } from 'semantic-ui-react';
 import { ConstSelectors, RoleSelectors } from '../../../store/selectors';
 import { Pagination } from '../../../components';
 import { AddRoleModal, EditRoleModal } from '../../../domains/role';
-import { Pageable } from '../../../utility';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
 import { PAGE_SIZE } from '../../problems/components';
 import { CRUDToastBuilder } from '../../../components/toast';
 import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
-
-const initialPageable: Pageable = {
-  page: 0,
-  size: 10,
-};
+import { PageUtils } from '../../shared';
 
 export const RolePage: React.FC = () => {
   const dispatch = useDispatch();
@@ -27,23 +22,22 @@ export const RolePage: React.FC = () => {
       : ConstSelectors.value(undefined)
   );
 
-  const pageable = DataHolder.usePageable(data.roles, initialPageable);
-  const totalPages = DataHolder.useTotalPages(data.roles);
+  const [page, setPage] = React.useState(1);
 
-  const load = React.useCallback(
-    (params: { pageable?: Pageable } = {}) => {
-      dispatch(
-        fetchRoles.request({
-          pageable: params?.pageable ?? pageable,
-          target: Target.AdminPage.ROLE,
-        })
-      );
-    },
-    [dispatch, pageable]
-  );
+  const loadTotalPages = DataHolder.useTotalPages(data.roles);
+  const totalPages = PageUtils.useTotalPages(loadTotalPages);
 
-  React.useEffect(() => load(), []);
-  DataHolder.useReloadHelper(data.roles, load);
+  const load = React.useCallback(() => {
+    dispatch(
+      fetchRoles.request({
+        pageable: { page, size: PAGE_SIZE },
+        target: Target.AdminPage.ROLE,
+      })
+    );
+  }, [dispatch, page]);
+
+  React.useEffect(() => load(), [load]);
+  PageUtils.useCorrectPageListener(page, totalPages, setPage);
 
   const [editedRoleId, setEditedRoleId] = React.useState<number | undefined>();
   const [openAddForm, setOpenAddForm] = React.useState(false);
@@ -95,13 +89,9 @@ export const RolePage: React.FC = () => {
       <Segment vertical>
         <Pagination
           floated="right"
-          totalPages={totalPages}
-          activePage={pageable.page + 1}
-          onPageChange={(event, { activePage }) =>
-            load({
-              pageable: { page: Number(activePage) - 1, size: PAGE_SIZE },
-            })
-          }
+          totalPages={totalPages || 0}
+          activePage={page + 1}
+          onPageChange={(event, { activePage }) => setPage(Number(activePage))}
         />
       </Segment>
       {openAddForm && (

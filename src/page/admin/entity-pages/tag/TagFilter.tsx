@@ -1,14 +1,14 @@
 import * as React from 'react';
+import { ExpressionNode } from '@rsql/ast';
 import { Grid } from 'semantic-ui-react';
 
 import { BufferedInput } from '../../../../components/input';
 import { TagNameSelect } from '../../../../domains/tag';
-import { ComparisonOperator } from '../../../../utility/filter';
-import { FilterUtils } from '../../../../utility/filter/utils';
+import { RsqlUtils } from '../../../../utility';
 
 export namespace TagFilter {
   export interface Props {
-    onChange?(value: string): void;
+    onChange?(value: string | undefined): void;
   }
 
   export interface Value {
@@ -24,19 +24,18 @@ export const TagFilter: React.FC<TagFilter.Props> = (props) => {
   const handleChange = React.useCallback(
     (filters) => {
       setFilters(filters);
-      let query = '';
+      const predicates: ExpressionNode[] = [];
       if (filters.id) {
-        query = FilterUtils.joinAnd(
-          query,
-          `id${ComparisonOperator.EQUAL}${filters.id}`
-        );
+        predicates.push(RsqlUtils.Builder.eq('id', filters.id));
       }
       if (filters.name) {
-        query = FilterUtils.joinAnd(
-          query,
-          `name${ComparisonOperator.EQUAL}*${filters.name}*`
-        );
+        predicates.push(RsqlUtils.Builder.eq('name', `*${filters.name}*`));
       }
+      const query =
+        predicates.length > 0
+          ? RsqlUtils.emit(RsqlUtils.Builder.and(...predicates))
+          : undefined;
+
       onChange?.(query);
     },
     [onChange]

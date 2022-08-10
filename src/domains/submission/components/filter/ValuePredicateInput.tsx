@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Select } from 'semantic-ui-react';
-import { ComparisonOperator } from '../../../../utility/filter';
+import { ComparisonOperator } from '@rsql/ast';
 import { operationOptions } from './shared';
 
 export namespace ValuePredicateInput {

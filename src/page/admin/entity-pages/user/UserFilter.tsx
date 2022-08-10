@@ -1,12 +1,13 @@
 import * as React from 'react';
+import { ExpressionNode } from '@rsql/ast';
 import { Grid } from 'semantic-ui-react';
 import { BufferedInput } from '../../../../components/input';
 import { UserSelect } from '../../../../domains/user';
-import { FilterUtils } from '../../../../utility/filter/utils';
+import { RsqlUtils } from '../../../../utility';
 
 export namespace UserFilter {
   export interface Props {
-    onChange?(query: string): void;
+    onChange?(query: string | undefined): void;
   }
 
   export interface Value {
@@ -23,13 +24,18 @@ export const UserFilter: React.FC<UserFilter.Props> = (props) => {
   const handleFitlersChange = React.useCallback(
     (filters) => {
       setFilters(filters);
-      let query = '';
+      const predicates: ExpressionNode[] = [];
+
       if (filters.id) {
-        query = FilterUtils.joinAnd(query, `id==${filters.id}`);
+        predicates.push(RsqlUtils.Builder.eq('id', filters.id));
       }
       if (filters.username) {
-        query = FilterUtils.joinAnd(query, `username==${filters.username}`);
+        predicates.push(RsqlUtils.Builder.eq('username', filters.username));
       }
+      const query =
+        predicates.length > 0
+          ? RsqlUtils.emit(RsqlUtils.Builder.and(...predicates))
+          : undefined;
       onChange?.(query);
     },
     [onChange]

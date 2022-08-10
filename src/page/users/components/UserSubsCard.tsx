@@ -15,10 +15,11 @@ import {
 import { Target } from '../../../store/reducers/target';
 import { SubmissionSelectors } from '../../../store/selectors';
 import { JudgeSelectors } from '../../../store/selectors/JudgeSelectors';
-import { Pageable, scrollToElementTop } from '../../../utility';
+import { scrollToElementTop } from '../../../utility';
 import { DateTimeUtils } from '../../../utility/data-type/DateTimeUtils';
 import { SubmissionsTable } from '../../problems/components';
 import { formatResourceMemory, formatResourceTime } from '../../problems/utils';
+import { PageUtils } from '../../shared';
 
 export namespace UserSubsCard {
   export interface Props {
@@ -28,16 +29,16 @@ export namespace UserSubsCard {
 
 const PAGE_SIZE = 5;
 
-const initialPageable: Pageable = { page: 0, size: PAGE_SIZE };
-
 export const UserSubsCard: React.FC<UserSubsCard.Props> = (props) => {
   const { username } = props;
   const tableRef = React.useRef<HTMLElement>(null);
   const dispatch = useDispatch();
   const { data } = useSelector((state: State) => state.userPage);
 
-  const pageable = DataHolder.usePageable(data.submissions, initialPageable);
-  const totalPage = DataHolder.useTotalPages(data.submissions);
+  const [page, setPage] = React.useState(1);
+  const loadTotalPage = DataHolder.useTotalPages(data.submissions);
+  const totalPage = PageUtils.useTotalPages(loadTotalPage);
+  PageUtils.useCorrectPageListener(page, totalPage, setPage);
 
   const submissions = useSelector(
     DataHolderState.isLoaded(data.submissions)
@@ -45,35 +46,32 @@ export const UserSubsCard: React.FC<UserSubsCard.Props> = (props) => {
       : () => undefined
   );
 
-  const load = React.useCallback(
-    (params?: { pageable?: Pageable }) => {
-      dispatch(
-        fetchSubmissions.request({
-          type: 'byUser',
-          username,
-          pageable: params?.pageable ?? pageable,
-          target: Target.USER_PAGE,
-        })
-      );
-    },
-    [dispatch, username, pageable]
-  );
+  const load = React.useCallback(() => {
+    dispatch(
+      fetchSubmissions.request({
+        type: 'byUser',
+        username,
+        pageable: { page, size: PAGE_SIZE },
+        target: Target.USER_PAGE,
+      })
+    );
+  }, [dispatch, username, page]);
 
   React.useEffect(() => {
     load();
     return () => {
       dispatch(resetState({ target: Target.ProblemPageContents.SUBMISSIONS }));
     };
-  }, []);
+  }, [load, dispatch]);
 
   const handlePageChange = React.useCallback(
     (event, { activePage }) => {
-      load({ pageable: { page: activePage - 1, size: PAGE_SIZE } });
+      setPage(Number(activePage));
       if (tableRef.current) {
         scrollToElementTop(tableRef.current);
       }
     },
-    [load]
+    [setPage]
   );
 
   useJudgesStream(
@@ -103,8 +101,8 @@ export const UserSubsCard: React.FC<UserSubsCard.Props> = (props) => {
 
       <Segment textAlign="center" attached>
         <Pagination
-          activePage={pageable.page + 1}
-          totalPages={totalPage}
+          activePage={page}
+          totalPages={totalPage || 0}
           onPageChange={handlePageChange}
         />
       </Segment>
@@ -152,7 +150,6 @@ const UserSubsTable: React.FC<SubmissionsTable.Props> = (props) => {
 
 const SubmissionRow: React.FC<{ submission: Submission }> = (props) => {
   const { submission } = props;
-  const { user } = submission;
 
   const judge = useSelector(JudgeSelectors.byId(submission.judge));
 

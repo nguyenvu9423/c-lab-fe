@@ -8,18 +8,13 @@ import { ConstSelectors, UserSelectors } from '../../../../store/selectors';
 import { Pagination } from '../../../../components';
 import { EditUserModal, UserPageLink } from '../../../../domains/user';
 import { State } from '../../../../store';
-import { Pageable } from '../../../../utility';
 import { DataHolder } from '../../../../store/reducers/data-holders/shared';
 import { UserFilter } from './UserFilter';
 import { CRUDToastBuilder } from '../../../../components/toast';
 import { ErrorTableBody, LoadingTableBody } from '../../../../components/table';
+import { PageUtils } from '../../../shared';
 
 const PAGE_SIZE = 10;
-
-const initialPageable: Pageable = {
-  page: 0,
-  size: PAGE_SIZE,
-};
 
 export const UserPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,36 +29,33 @@ export const UserPage: React.FC = () => {
     { username: string; type: 'definition' | 'status' } | undefined
   >(undefined);
 
-  const pageable = DataHolder.usePageable(data.users, initialPageable);
-  const query = DataHolder.useQuery(data.users);
-  const totalPages = DataHolder.useTotalPages(data.users);
+  const [page, setPage] = React.useState(1);
+  const [query, setQuery] = React.useState<string | undefined>();
+  const loadTotalPages = DataHolder.useTotalPages(data.users);
+  const totalPages = PageUtils.useTotalPages(loadTotalPages);
+  PageUtils.useCorrectPageListener(page, totalPages, setPage);
 
-  const load = React.useCallback(
-    (params: { pageable?: Pageable; query?: string } = {}) => {
-      dispatch(
-        fetchUsers.request({
-          pageable: params.pageable ?? pageable,
-          query: params.query ?? query,
-          target: Target.AdminPage.USER,
-        })
-      );
-    },
-    [dispatch, pageable, query]
-  );
+  const load = React.useCallback(() => {
+    dispatch(
+      fetchUsers.request({
+        pageable: { page, size: PAGE_SIZE },
+        query,
+        target: Target.AdminPage.USER,
+      })
+    );
+  }, [dispatch, page, query]);
 
   React.useEffect(() => {
     load();
     return () => {
       dispatch(resetState({ target: Target.AdminPage.USER }));
     };
-  }, []);
-
-  DataHolder.useReloadHelper(data.users);
+  }, [load, dispatch]);
 
   return (
     <Segment clearing>
       <Segment vertical clearing>
-        <UserFilter onChange={(query) => load({ query })} />
+        <UserFilter onChange={setQuery} />
       </Segment>
       <Segment className="table-container" vertical style={{ minHeight: 600 }}>
         <Table basic="very" fixed singleLine>
@@ -111,18 +103,9 @@ export const UserPage: React.FC = () => {
       <Segment vertical>
         <Pagination
           floated="right"
-          totalPages={totalPages}
-          activePage={pageable.page + 1}
-          onPageChange={(event, { activePage }) => {
-            if (typeof activePage === 'number') {
-              load({
-                pageable: {
-                  page: activePage - 1,
-                  size: PAGE_SIZE,
-                },
-              });
-            }
-          }}
+          totalPages={totalPages || 0}
+          activePage={page}
+          onPageChange={(event, { activePage }) => setPage(Number(activePage))}
         />
       </Segment>
       {openEditForm && openEditForm.type === 'definition' && (

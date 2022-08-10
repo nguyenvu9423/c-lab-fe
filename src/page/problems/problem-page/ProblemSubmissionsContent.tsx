@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { AND } from '@rsql/ast';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Segment, Ref } from 'semantic-ui-react';
+
 import { Pagination, TagContainer } from '../../../components';
 import { useJudgesStream } from '../../../domains/judge';
 import { Problem } from '../../../domains/problem';
@@ -13,8 +15,8 @@ import {
 } from '../../../store/reducers/data-holders/shared';
 import { Target } from '../../../store/reducers/target';
 import { SubmissionSelectors } from '../../../store/selectors';
-import { Pageable, scrollToElementTop } from '../../../utility';
-import { LogicalOperator } from '../../../utility/filter';
+import { scrollToElementTop } from '../../../utility';
+import { PageUtils } from '../../shared';
 import { ProblemInfoCard, SubmissionsTable } from '../components';
 import { ProblemNavMenu } from '../components/ProblemNavMenu';
 
@@ -31,7 +33,7 @@ export const ProblemSubmissionsContent: React.FC<{ problem: Problem }> = (
           problem={problem}
           query={
             query
-              ? `${query}${LogicalOperator.AND}problem.code==${problem.code}`
+              ? `${query}${AND}problem.code==${problem.code}`
               : `problem.code==${problem.code}`
           }
         />
@@ -54,54 +56,50 @@ export namespace ProblemSubmissionTable {
 
 const PAGE_SIZE = 10;
 
-const initialPageable: Pageable = {
-  page: 0,
-  size: PAGE_SIZE,
-};
-
 export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
   props
 ) => {
-  const { problem, query } = props;
+  const { query } = props;
+  const [page, setPage] = React.useState(1);
+
   const dispatch = useDispatch();
   const { data } = useSelector(
     (state: State) => state.problemPageContents.submissions
   );
 
-  const tableRef = React.useRef<HTMLElement>(null);
+  const loadTotalPages = DataHolder.useTotalPages(data.submissions);
+  const totalPages = PageUtils.useTotalPages(loadTotalPages);
 
-  const pageable = DataHolder.usePageable(data.submissions, initialPageable);
-  const totalPage = DataHolder.useTotalPages(data.submissions);
+  PageUtils.useCorrectPageListener(page, totalPages, setPage);
 
-  const load = React.useCallback(
-    (params?: { pageable?: Pageable }) => {
-      dispatch(
-        fetchSubmissions.request({
-          type: 'byQuery',
-          query,
-          pageable: params?.pageable ?? pageable,
-          target: Target.ProblemPageContents.SUBMISSIONS,
-        })
-      );
-    },
-    [dispatch, problem.code, query, pageable]
-  );
+  const load = React.useCallback(() => {
+    dispatch(
+      fetchSubmissions.request({
+        type: 'byQuery',
+        query,
+        target: Target.ProblemPageContents.SUBMISSIONS,
+        pageable: { page, size: PAGE_SIZE },
+      })
+    );
+  }, [dispatch, query, page]);
 
   React.useEffect(() => {
     load();
     return () => {
       dispatch(resetState({ target: Target.ProblemPageContents.SUBMISSIONS }));
     };
-  }, [query]);
+  }, [load, dispatch]);
+
+  const tableRef = React.useRef<HTMLElement>(null);
 
   const handlePageChange = React.useCallback(
     (event, { activePage }) => {
-      load({ pageable: { page: activePage - 1, size: PAGE_SIZE } });
+      setPage(activePage);
       if (tableRef.current) {
         scrollToElementTop(tableRef.current);
       }
     },
-    [load]
+    [setPage]
   );
 
   const submissions = useSelector(
@@ -136,8 +134,8 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
 
       <Segment textAlign="center">
         <Pagination
-          activePage={pageable.page + 1}
-          totalPages={totalPage}
+          activePage={page}
+          totalPages={totalPages || 0}
           onPageChange={handlePageChange}
         />
       </Segment>

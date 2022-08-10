@@ -107,19 +107,6 @@ export namespace DataHolder {
 
   export function useTotalPages(
     state: DataHolderState<Record<string, any>, { totalPages: number }>
-  ): number {
-    const [totalPages, setTotalPages] = React.useState<number>(0);
-
-    React.useEffect(() => {
-      if (DataHolderState.isLoaded(state)) {
-        setTotalPages(state.totalPages);
-      }
-    }, [state]);
-    return totalPages;
-  }
-
-  export function useExactTotalPage(
-    state: DataHolderState<Record<string, any>, { totalPages: number }>
   ): number | undefined {
     if (DataHolderState.isLoaded(state)) {
       return state.totalPages;

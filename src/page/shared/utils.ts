@@ -5,7 +5,7 @@ import { OnlyNameTag } from '../../domains/tag';
 import { RsqlUtils } from '../../utility';
 
 export namespace PageUtils {
-  export function useTotalPage(
+  export function useTotalPages(
     totalPages: number | undefined
   ): number | undefined {
     const [result, setResult] = React.useState<number | undefined>(undefined);
@@ -27,6 +27,19 @@ export namespace PageUtils {
       searchParams.set('page', totalPages.toString());
       setSearchParams(searchParams);
     }
+  }
+
+  export function useCorrectPageListener(
+    page: number,
+    totalPages: number | undefined,
+    handler: (page: number) => void
+  ) {
+    React.useEffect(() => {
+      if (totalPages === undefined) return;
+      if (page > totalPages) {
+        handler(totalPages);
+      }
+    }, [page, totalPages]);
   }
 
   export function getTagsFromQuery(query: string): OnlyNameTag[] {

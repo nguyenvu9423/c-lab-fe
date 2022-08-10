@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useFormik } from 'formik';
 
-import { DropdownItemProps, Form, Input } from 'semantic-ui-react';
-import { ComparisonOperator } from '../../../../utility/filter';
-import { FilterUtils } from '../../../../utility/filter/utils';
+import { DropdownItemProps, Form } from 'semantic-ui-react';
 import { VerdictFilterTypes } from './options';
-import { languageOptions, operationOptions } from './shared';
+import { languageOptions } from './shared';
 import { ValuePredicateInput } from './ValuePredicateInput';
+import { ComparisonOperator, ExpressionNode } from '@rsql/ast';
+import { RsqlUtils } from '../../../../utility';
 
 const verdictOptions: DropdownItemProps[] = [{ key: '', text: '' }].concat(
   [VerdictFilterTypes.AC, VerdictFilterTypes.WA].map((type) => ({
@@ -32,28 +32,34 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
 
   const onSubmit = React.useCallback(
     (values: OIFilterForm.Value) => {
-      let query = '';
+      const predicates: ExpressionNode[] = [];
+
       if (values.language && values.language !== 'ANY') {
-        query = FilterUtils.joinAnd(
-          query,
-          `language${ComparisonOperator.EQUAL}${values.language}`
-        );
+        predicates.push(RsqlUtils.Builder.eq('language', values.language));
       }
+
       if (values.verdict) {
-        query = FilterUtils.joinAnd(
-          query,
-          VerdictFilterTypes.getProperties(values.verdict).query ?? ''
-        );
+        const filterProps = VerdictFilterTypes.getProperties(values.verdict);
+        if (filterProps.rsqlNode) {
+          predicates.push(filterProps.rsqlNode);
+        }
       }
       if (values.score) {
         const { operator, value } = values.score;
-        if (operator) {
-          query = FilterUtils.joinAnd(
-            query,
-            `judge.result.score${operator}${Number(value) / 100}`
-          );
-        }
+        predicates.push(
+          RsqlUtils.Builder.comparison(
+            'judge.result.score',
+            operator,
+            Number(value) / 100
+          )
+        );
       }
+
+      const query =
+        predicates.length > 0
+          ? RsqlUtils.emit(RsqlUtils.Builder.and(...predicates))
+          : undefined;
+
       onQueryChange?.(query ? query : undefined);
     },
     [onQueryChange]
