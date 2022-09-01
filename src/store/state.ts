@@ -41,6 +41,7 @@ import { ToastsState } from './reducers/toastsReducer';
 import { SearchState } from './reducers/searchReducer';
 import { AuthenticationState } from './reducers/authentication/authenticationReducer';
 import { ModalState } from './reducers/modalReducer';
+import { EmailVerificationPageState } from './reducers/page-reducers/emailVerificationPageReducer';
 
 export interface State {
   entity: {
@@ -78,6 +79,8 @@ export interface State {
   articlePage: ArticlePageState;
   articlesPage: ArticlesPageState;
   editArticlePage: EditArticlePageState;
+
+  emailVerificationPage: EmailVerificationPageState;
 
   detailedSubModal: DetailedSubModalState;
   adminPage: AdminPageState;

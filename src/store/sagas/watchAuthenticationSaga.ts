@@ -1,83 +1,96 @@
-import { take, fork, call, delay, put, race, cancel } from 'redux-saga/effects';
+import { SagaIterator } from 'redux-saga';
+import {
+  take,
+  fork,
+  call,
+  delay,
+  put,
+  race,
+  cancel,
+  select,
+  takeEvery,
+} from 'redux-saga/effects';
+
 import { login, logout, setToken, refreshToken, resetState } from '../actions';
 import { AuthenticationService } from '../../service/AuthenticationService';
 import { AuthProvider } from '../../authentication/tokenProvider';
-import { SagaIterator } from 'redux-saga';
-import { Jwt, RefreshTokenPayload } from '../../utility';
-import jwtDecode from 'jwt-decode';
+import { Jwt } from '../../utility';
+import { AuthenticationSelectors } from '../selectors';
 
-function* initToken(): SagaIterator<Jwt | null> {
+export function* refreshTokenSaga(): SagaIterator {
+  const currentToken: Jwt | undefined = yield select(
+    AuthenticationSelectors.token()
+  );
+  try {
+    if (!currentToken) {
+      throw new Error();
+    }
+    const response = yield call(
+      AuthenticationService.refreshToken,
+      currentToken.refresh_token
+    );
+
+    const newToken = response.data;
+    yield put(refreshToken.response({ token: newToken }));
+  } catch (error) {
+    yield put(refreshToken.failed({ error }));
+  }
+}
+
+function* initToken(): SagaIterator {
   const storedToken = AuthProvider.getToken();
+  let newToken: Jwt | null = null;
   if (storedToken) {
     try {
-      const { data: newToken } = yield call(
+      const response = yield call(
         AuthenticationService.refreshToken,
         storedToken.refresh_token
       );
-      return newToken;
+      newToken = response.data;
     } catch (e) {
       console.log(e);
     }
   }
-  yield put(setToken({ token: null }));
-  return null;
+  yield put(setToken({ token: newToken }));
 }
 
-function* autoRefreshToken(initialToken: Jwt) {
-  let accessTokenExpireIn = initialToken.expires_in;
-  let currentRefreshToken = initialToken.refresh_token;
-  const refreshTokenExpiredAt =
-    jwtDecode<RefreshTokenPayload>(currentRefreshToken).exp;
-
+function* autoRefreshToken() {
   while (true) {
-    try {
-      yield delay((accessTokenExpireIn - 75) * 1000);
-      if (Date.now() > refreshTokenExpiredAt * 1000) {
-        yield put(refreshToken.failed());
-        return;
-      }
-
-      const { data: newToken } = yield call(
-        AuthenticationService.refreshToken,
-        currentRefreshToken
-      );
-      yield put(setToken({ token: newToken, isRefreshing: true }));
-
-      currentRefreshToken = newToken.refresh_token;
-      accessTokenExpireIn = newToken.expires_in;
-    } catch (e) {
-      yield put(refreshToken.failed());
-      return;
+    const currentToken = yield select(AuthenticationSelectors.token());
+    if (!currentToken) {
+      throw new Error();
     }
+    yield delay((currentToken.expires_in - 75) * 1000);
+    yield call(refreshTokenSaga);
   }
 }
 
-export function* watchAuthenticationSaga(): SagaIterator {
-  let currentToken: Jwt | null = yield call(initToken);
+export function* watchAuthFlowSaga(): SagaIterator {
+  yield call(initToken);
   while (true) {
-    if (currentToken === null) {
+    const currentToken = yield select(AuthenticationSelectors.token());
+    if (!currentToken) {
       const action = yield take(login);
-      currentToken = action.payload.token as Jwt;
+      yield put(setToken({ token: action.payload.token as Jwt }));
     }
 
-    yield put(setToken({ token: currentToken }));
-    const autoRefreshTask = yield fork(autoRefreshToken, currentToken);
+    const autoRefreshTask = yield fork(autoRefreshToken);
 
-    const { logoutAction } = yield race({
+    yield race({
       logoutAction: take(logout),
       tokenExpired: take(refreshToken.failed),
     });
-
-    if (logoutAction) {
-      yield cancel(autoRefreshTask);
-    }
-
+    yield cancel(autoRefreshTask);
     yield call(handleLogout);
-    currentToken = null;
   }
 }
 
 function* handleLogout(): SagaIterator<void> {
   yield put(resetState());
   yield put(setToken({ token: null }));
+}
+
+export function* watchAuthenticationSaga() {
+  yield takeEvery(refreshToken.request, refreshTokenSaga);
+  yield fork(watchAuthFlowSaga);
 }

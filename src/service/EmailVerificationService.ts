@@ -1,13 +1,14 @@
+import { EmailVerificationDTO } from '../domains/email-verification';
 import { apiCaller } from './../utility/Axios';
 
 const BASE_URL = '/email-verification';
 
 export namespace EmailVerificationService {
-  export function verify(id: string): Promise<any> {
+  export function verify(id: string): Promise<EmailVerificationDTO> {
     return apiCaller.post(`${BASE_URL}/${id}`);
   }
 
-  export function resend(): Promise<any> {
+  export function resend(): Promise<void> {
     return apiCaller.post(`${BASE_URL}/resend`);
   }
 }

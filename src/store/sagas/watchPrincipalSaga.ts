@@ -14,8 +14,5 @@ function* fetchPrincipalSaga(action: PayloadAction<SetTokenPayload>) {
 }
 
 export function* watchPrincipalSaga(): SagaIterator {
-  yield takeEvery(
-    (action) => setToken.match(action) && !action.payload.isRefreshing,
-    fetchPrincipalSaga
-  );
+  yield takeEvery((action) => setToken.match(action), fetchPrincipalSaga);
 }

@@ -13,3 +13,4 @@ export * from './role';
 export * from './judge';
 export * from './judge-config';
 export * from './toast';
+export * from './email-verification';

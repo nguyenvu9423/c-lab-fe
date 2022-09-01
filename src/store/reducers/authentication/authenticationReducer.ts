@@ -6,7 +6,7 @@ import {
   RefreshTokenPayload,
   Jwt,
 } from './../../../utility/Token';
-import { setToken } from '../../actions';
+import { refreshToken, setToken } from '../../actions';
 import { DataHolderState } from '../data-holders/shared';
 
 export type AuthenticationState = DataHolderState<
@@ -30,36 +30,39 @@ const initialState: AuthenticationState = {
 export const authenticationReducer = createReducer<AuthenticationState>(
   initialState,
   (builder) => {
-    builder.addCase(setToken, (state, action) => {
-      const { token } = action.payload;
-      if (token) {
-        const accessTokenPayload = jwtDecode<AccessTokenPayload>(
-          token.access_token
-        );
-        const refreshTokenPayload = jwtDecode<RefreshTokenPayload>(
-          token.refresh_token
-        );
+    builder.addMatcher(
+      (action) => setToken.match(action) || refreshToken.response.match(action),
+      (state, action) => {
+        const { token } = action.payload;
+        if (token) {
+          const accessTokenPayload = jwtDecode<AccessTokenPayload>(
+            token.access_token
+          );
+          const refreshTokenPayload = jwtDecode<RefreshTokenPayload>(
+            token.refresh_token
+          );
 
-        const { authorities } = accessTokenPayload;
+          const { authorities } = accessTokenPayload;
 
-        const permissions =
-          authorities?.reduce((map, item) => {
-            map[item] = true;
-            return map;
-          }, {}) ?? {};
+          const permissions =
+            authorities?.reduce((map, item) => {
+              map[item] = true;
+              return map;
+            }, {}) ?? {};
 
-        return {
-          loadingState: LoadingState.LOADED,
-          token,
-          permissions,
-          accessTokenPayload,
-          refreshTokenPayload,
-        };
-      } else {
-        return {
-          loadingState: LoadingState.WITHOUT,
-        };
+          return {
+            loadingState: LoadingState.LOADED,
+            token,
+            permissions,
+            accessTokenPayload,
+            refreshTokenPayload,
+          };
+        } else {
+          return {
+            loadingState: LoadingState.WITHOUT,
+          };
+        }
       }
-    });
+    );
   }
 );

@@ -36,6 +36,7 @@ import {
 import { searchReducer } from './searchReducer';
 import { authenticationReducer, principalReducer } from './authentication';
 import { resetState } from '../actions';
+import { emailVerificationPageReducer } from './page-reducers/emailVerificationPageReducer';
 
 const rootReducer: Reducer<State> = (state, action) => {
   if (resetState.match(action) && action.payload.target === undefined) {
@@ -71,6 +72,8 @@ const appReducer = combineReducers<State>({
   articlesPage: articlesPageReducer,
   editArticlePage: editArticlePageReducer,
   editArticleForm: editArticleFormReducer,
+
+  emailVerificationPage: emailVerificationPageReducer,
 
   adminPage: adminPageReducer,
   editUserForm: editUserFormReducer,

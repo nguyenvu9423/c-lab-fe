@@ -95,7 +95,12 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
               setFieldValue('emailVerified', data.checked)
             }
           />
-          <Button content="Gửi lại email xác nhận" icon="send" basic />
+          <Button
+            type="button"
+            content="Gửi lại email xác nhận"
+            icon="send"
+            basic
+          />
         </Form.Field>
       </Form.Group>
 

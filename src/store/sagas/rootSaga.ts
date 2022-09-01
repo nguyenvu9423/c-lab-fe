@@ -12,6 +12,7 @@ import { watchRoleSaga } from './watchRoleSaga';
 import { watchJudgeSaga } from './watchJudgeSaga';
 import { watchPrincipalSaga } from './watchPrincipalSaga';
 import { watchJudgeConfigSaga } from './watchJudgeConfigSaga';
+import { watchEmailVerificationSaga } from './watchEmailVerificationSaga';
 
 function* rootSaga(): SagaIterator {
   yield all([
@@ -27,6 +28,7 @@ function* rootSaga(): SagaIterator {
     call(watchRoleSaga),
     call(watchJudgeSaga),
     call(watchJudgeConfigSaga),
+    call(watchEmailVerificationSaga),
   ]);
 }
 

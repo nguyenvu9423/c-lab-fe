@@ -19,6 +19,8 @@ export const Target = {
   USER_PAGE: 'userPage',
   EDIT_USER_INFO_FORM: 'editUserInfoForm',
 
+  EMAIL_VERIFICATION_PAGE: 'emailVerificationPage',
+
   ARTICLES_PAGE: 'articlesPage',
   ARTICLE_PAGE: 'articlePage',
   EDIT_ARTICLE_PAGE: 'editArticlePage',
