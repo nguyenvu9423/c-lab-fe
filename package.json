@@ -1,7 +1,7 @@
 {
-  "name": "logn",
-  "version": "1.0.0",
-  "description": "Algorithm Blog",
+  "name": "c-lab-frontend",
+  "version": "1.0.0-alpha.1",
+  "description": "Online Judge",
   "license": "MIT",
   "author": "Vu Tran",
   "scripts": {

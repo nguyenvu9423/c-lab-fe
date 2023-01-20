@@ -10,18 +10,12 @@ module.exports = merge(common, {
     compress: false,
     https: true,
     port: 3000,
-    // proxy: {
-    //   '/api': {
-    //     target: 'https://c-lab.vn',
-    //     secure: false,
-    //   },
-    // },
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        'API_URL': '"https://localhost:8080/api"'
-      }
-    }),
-  ]
+    proxy: {
+      '/api': {
+        target: 'https://localhost:8080/api',
+        secure: false,
+        pathRewrite: {'^/api' : ''},
+      },
+    },
+  }
 });
