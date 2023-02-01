@@ -40,21 +40,21 @@ jobs:
       - name: build and push docker image
         id: build-image
         env:
-          image_repo: ${{ steps.login-ecr.outputs.registry }}/c-lab-frontend
-          image_tag: ${{ env.RELEASE_VERSION }}
+          IMAGE_REPO: ${{ steps.login-ecr.outputs.registry }}/c-lab-frontend
+          IMAGE_TAG: ${{ env.RELEASE_VERSION }}
         run: |
-          docker build -t $image_repo:$image_tag .
-          docker push $image_repo:$image_tag
-          echo "image_repo=$image_repo" >> $GITHUB_OUTPUT
-          echo "image_tag=$image_tag" >> $GITHUB_OUTPUT
+          docker build -t ${IMAGE_REPO}:${IMAGE_TAG} .
+          docker push ${IMAGE_REPO}:${IMAGE_TAG}
+          echo "image_repo=${IMAGE_REPO}" >> $GITHUB_OUTPUT
+          echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
 
       - name: '[Deploy to server] login to docker'
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.TESTING_SERVER_HOST }}
-          port: ${{ secrets.TESTING_SERVER_PORT }}
-          username: ${{ secrets.TESTING_SERVER_USERNAME }}
-          password: ${{ secrets.TESTING_SERVER_PASSWORD }}
+          host: ${{ vars.SERVER_HOST }}
+          port: ${{ vars.SERVER_PORT }}
+          username: ${{ vars.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           script: >
             docker login ${{ steps.login-ecr.outputs.registry }}
             -u ${{ steps.login-ecr.outputs.docker_username_449313530982_dkr_ecr_us_east_2_amazonaws_com }}
@@ -63,12 +63,14 @@ jobs:
       - name: '[Deploy to server] run the image'
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.TESTING_SERVER_HOST }}
-          port: ${{ secrets.TESTING_SERVER_PORT }}
-          username: ${{ secrets.TESTING_SERVER_USERNAME }}
-          password: ${{ secrets.TESTING_SERVER_PASSWORD }}
+          host: ${{ vars.SERVER_HOST }}
+          port: ${{ vars.SERVER_PORT }}
+          username: ${{ vars.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd ./c-lab-frontend
             docker compose down
             docker system prune -a -f
-            IMAGE_REPO=${{ steps.build-image.outputs.image_repo }} IMAGE_TAG=${{ steps.build-image.outputs.image_tag }} docker compose up -d
+            export IMAGE_REPO=${{ steps.build-image.outputs.image_repo }} 
+            export IMAGE_TAG=${{ steps.build-image.outputs.image_tag }} 
+            docker compose up -d

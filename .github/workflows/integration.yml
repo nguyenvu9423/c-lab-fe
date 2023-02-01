@@ -1,4 +1,4 @@
-name: Build Check
+name: Integration
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [master]
 jobs:
-  build:
+  integration:
     runs-on: ubuntu-20.04
 
     steps:
