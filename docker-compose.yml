@@ -1,6 +1,7 @@
 services:
   c-lab-frontend:
     image: ${IMAGE_REPO:-c-lab-frontend}:${IMAGE_TAG:-latest}
+    restart: true
     ports:
       - 8443:443
     volumes:
