@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
@@ -7,15 +6,14 @@ module.exports = merge(common, {
   devServer: {
     http2: true,
     historyApiFallback: true,
-    compress: false,
     https: true,
     port: 3000,
     proxy: {
       '/api': {
         target: 'https://localhost:8080/api',
         secure: false,
-        pathRewrite: {'^/api' : ''},
+        pathRewrite: { '^/api': '' },
       },
     },
-  }
+  },
 });

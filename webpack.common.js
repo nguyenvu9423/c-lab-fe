@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -63,8 +64,15 @@ module.exports = {
     publicPath: '/',
   },
   plugins: [
-    new HtmlWebpackPlugin({ title: 'c-lab', template: './public/index.html', favicon: './public/images/logo.svg' }),
+    new HtmlWebpackPlugin({
+      title: 'c-lab',
+      template: './public/index.html',
+      favicon: './public/images/logo.svg',
+    }),
     new MiniCssExtractPlugin(),
+    new webpack.DefinePlugin({
+      process: { env: {} },
+    }),
   ],
   optimization: {
     splitChunks: {
