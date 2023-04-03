@@ -1,5 +1,5 @@
 # Build
-## Prequitesites
+## Prerequisites
 ### Tools
 | Name | Version |
 |------|---------|
