@@ -70,9 +70,7 @@ module.exports = {
       favicon: './public/images/logo.svg',
     }),
     new MiniCssExtractPlugin(),
-    new webpack.DefinePlugin({
-      process: { env: {} },
-    }),
+    new webpack.DefinePlugin({ process: {} }),
   ],
   optimization: {
     splitChunks: {

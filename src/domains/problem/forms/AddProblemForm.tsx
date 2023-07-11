@@ -3,7 +3,6 @@ import { ProblemService } from '../../../service/ProblemService';
 import { ValidationException } from '../../../exception';
 import { ProblemForm } from './ProblemForm';
 import { FormikHelpers } from 'formik';
-import { SubmissionLanguage } from '../../submission-lang/SubmissionLanguage';
 
 export namespace AddProblemForm {
   export interface Props {
@@ -12,9 +11,7 @@ export namespace AddProblemForm {
   }
 }
 
-const initialValues: Partial<ProblemForm.Value> = {
-  allowedLanguages: SubmissionLanguage.values,
-};
+const initialValues: Partial<ProblemForm.Value> = {};
 
 export const AddProblemForm: React.FC<AddProblemForm.Props> = (props) => {
   const { onSuccess, onCancel } = props;
