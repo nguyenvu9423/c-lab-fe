@@ -43,7 +43,7 @@ export const SubmissionForm: React.FC<SubmissionForm.Props> = (props) => {
   const { problem, onSuccess } = props;
   const [overallError, setOverallError] = React.useState<ResponseException>();
 
-  const initialLang = SubmissionLanguage.useInitial(problem.allowedLanguages);
+  const initialLang = SubmissionLanguage.useInitial(SubmissionLanguage.values);
 
   const { values, touched, errors, setFieldValue, handleSubmit, isSubmitting } =
     useFormik({
@@ -101,7 +101,7 @@ export const SubmissionForm: React.FC<SubmissionForm.Props> = (props) => {
         <label>Ngôn ngữ</label>
         <SubmissionLangSelect
           value={values.language}
-          options={problem.allowedLanguages}
+          options={SubmissionLanguage.values}
           onChange={(value) => setFieldValue('language', value)}
         />
 

@@ -1,5 +1,3 @@
-import { SubmissionLanguage } from '../submission-lang/SubmissionLanguage';
-
 export interface Problem {
   id: number;
 
@@ -14,8 +12,6 @@ export interface Problem {
   judgeConfig?: number;
 
   tags: number[];
-
-  allowedLanguages: SubmissionLanguage[];
 
   solvedByPrincipal?: boolean;
 }

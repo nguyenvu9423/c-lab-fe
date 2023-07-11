@@ -54,7 +54,7 @@ export const CompactSubmissionForm: React.FC<CompactSubmissionForm.Props> = (
   );
 
   const initialLanguage = SubmissionLanguage.useInitial(
-    problem.allowedLanguages
+    SubmissionLanguage.values
   );
 
   const { values, touched, errors, handleSubmit, setFieldValue, isSubmitting } =
@@ -84,7 +84,7 @@ export const CompactSubmissionForm: React.FC<CompactSubmissionForm.Props> = (
       <Form.Field>
         <SubmissionLangSelect
           value={values.language}
-          options={problem.allowedLanguages}
+          options={SubmissionLanguage.values}
           onChange={(lang) => setFieldValue('language', lang)}
         />
         {errorMsgRenderer('language')}

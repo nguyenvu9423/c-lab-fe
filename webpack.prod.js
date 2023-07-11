@@ -7,8 +7,8 @@ module.exports = merge(common, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        'API_URL': '"/api"'
-      }
+        API_URL: '"/api"',
+      },
     }),
-  ]
+  ],
 });

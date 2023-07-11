@@ -5,10 +5,6 @@ import { MarkdownEditor, useErrorMessageRenderer } from '../../../components';
 import { TagSelect, Tag } from '../../tag';
 import { SubmitButton, CancelButton } from '../../../components/button';
 import { useFormik, FormikHelpers } from 'formik';
-import {
-  SubmissionLanguage,
-  SubmissionLangMultiSelect,
-} from '../../submission-lang';
 
 export namespace ProblemForm {
   export interface Props {
@@ -22,7 +18,6 @@ export namespace ProblemForm {
     title: string;
     definition: string;
     tags: Tag[];
-    allowedLanguages: SubmissionLanguage[];
   }
 }
 
@@ -44,7 +39,6 @@ const ProblemFormSchema = yup.object({
     .required('Vui lòng điền nội dung')
     .min(3, 'Đê bài phải có ít nhất 3 kí tự')
     .max(640000, 'Đề bài không được vượt quá 64000 kí tự'),
-  allowedLanguages: yup.array().min(1, 'Vui lòng chọn ít nhất 1 ngôn ngữ'),
 });
 
 export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
@@ -55,7 +49,6 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
     touched,
     errors,
     setFieldValue,
-    setFieldTouched,
     isSubmitting,
     handleSubmit,
     handleBlur,
@@ -65,7 +58,6 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
       code: initialValues?.code ?? '',
       title: initialValues?.title ?? '',
       definition: initialValues?.definition ?? '',
-      allowedLanguages: initialValues?.allowedLanguages ?? [],
       tags: initialValues?.tags ?? [],
     },
     validationSchema: ProblemFormSchema,
@@ -121,26 +113,13 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
           {errorMessageRenderer('definition')}
         </Form.Field>
 
-        <Form.Group widths="equal">
-          <Form.Field>
-            <label>Ngôn ngữ cho phép</label>
-            <SubmissionLangMultiSelect
-              value={values.allowedLanguages}
-              onChange={(value) => {
-                setFieldValue('allowedLanguages', value);
-              }}
-              onBlur={() => setFieldTouched('allowedLanguages', true)}
-            />
-            {errorMessageRenderer('allowedLanguages')}
-          </Form.Field>
-          <Form.Field>
-            <label>Nhãn</label>
-            <TagSelect
-              value={values.tags}
-              onChange={(value) => setFieldValue('tags', value)}
-            />
-          </Form.Field>
-        </Form.Group>
+        <Form.Field>
+          <label>Nhãn</label>
+          <TagSelect
+            value={values.tags}
+            onChange={(value) => setFieldValue('tags', value)}
+          />
+        </Form.Field>
         <SubmitButton floated="right" />
         {onCancel && <CancelButton floated="right" onClick={onCancel} />}
       </Form>

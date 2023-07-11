@@ -5,6 +5,12 @@ export enum SubmissionLanguage {
   CPP_14 = 'CPP_14',
   CPP_17 = 'CPP_17',
 
+  Java_11 = 'Java_11',
+  Java_17 = 'Java_17',
+
+  Python_3_9 = 'Python_3_9',
+  Python_3_9_PyPy = 'Python_3_9_PyPy',
+
   FPC_3_0_4 = 'FPC_3_0_4',
 }
 
@@ -13,6 +19,12 @@ export namespace SubmissionLanguage {
     SubmissionLanguage.CPP_11,
     SubmissionLanguage.CPP_14,
     SubmissionLanguage.CPP_17,
+
+    SubmissionLanguage.Java_11,
+    SubmissionLanguage.Java_17,
+
+    SubmissionLanguage.Python_3_9,
+    SubmissionLanguage.Python_3_9_PyPy,
 
     SubmissionLanguage.FPC_3_0_4,
   ];
@@ -59,9 +71,13 @@ export function getSubLangTitle(lang: SubmissionLanguage): string {
   return SubLangTitleMap[lang];
 }
 
-const SubLangTitleMap = {
+const SubLangTitleMap: Record<SubmissionLanguage, string> = {
   [SubmissionLanguage.CPP_11]: 'C++ 11',
   [SubmissionLanguage.CPP_14]: 'C++ 14',
   [SubmissionLanguage.CPP_17]: 'C++ 17',
+  [SubmissionLanguage.Java_11]: 'Java 11',
+  [SubmissionLanguage.Java_17]: 'Java 17',
+  [SubmissionLanguage.Python_3_9]: 'Python 3.9',
+  [SubmissionLanguage.Python_3_9_PyPy]: 'Python 3.9 (PyPy)',
   [SubmissionLanguage.FPC_3_0_4]: 'FPC 3.0.4',
 };
