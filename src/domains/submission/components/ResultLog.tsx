@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Divider, Header, List, Message, Segment } from 'semantic-ui-react';
-import { TextFileOverview } from '../../../components';
+import {
+  TextFileOverviewContainer,
+  TextFileOverview,
+} from '../../../components';
 import {
   DetailedJudgeResult,
   ErrorLabel,
@@ -48,23 +51,19 @@ export const ResultLog: React.FC<{
                     <Segment>
                       <Header as="h5">Input</Header>
                     </Segment>
-                    <Segment className="text-file-view-container">
-                      <TextFileOverview>{test.input.overview}</TextFileOverview>
-                    </Segment>
+                    <TextFileOverviewContainer>
+                      {test.input.overview}
+                    </TextFileOverviewContainer>
                     <Segment as="h5">Output</Segment>
-                    <Segment className="text-file-view-container">
-                      <TextFileOverview>
-                        {testResult.outputOverview}
-                      </TextFileOverview>
-                    </Segment>
+                    <TextFileOverviewContainer>
+                      {testResult.outputOverview}
+                    </TextFileOverviewContainer>
                     <Segment>
                       <Header as="h5">Answer</Header>
                     </Segment>
-                    <Segment className="text-file-view-container">
-                      <TextFileOverview>
-                        {test.output.overview}
-                      </TextFileOverview>
-                    </Segment>
+                    <TextFileOverviewContainer>
+                      {test.output.overview}
+                    </TextFileOverviewContainer>
                   </Segment.Group>
                 </List.Content>
               </List.Item>
