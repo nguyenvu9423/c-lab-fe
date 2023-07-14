@@ -4,10 +4,19 @@ import { useFormik, FormikHelpers } from 'formik';
 import { JudgerType, ScoringType } from './JudgeConfig';
 import { useErrorMessageRenderer } from '../../components/form';
 import { SubmitButton, CancelButton } from '../../components/button';
-import { Form, Header, Divider, Button, Modal, Table } from 'semantic-ui-react';
+import {
+  Form,
+  Header,
+  Divider,
+  Button,
+  Modal,
+  Table,
+  Icon,
+} from 'semantic-ui-react';
 import { PutFileInput } from '../../page/common/inputs/PutFileInput';
 import { CustomJudger, TestPackage } from '.';
 import { BackEndConfig } from '../../config';
+import { TextFileOverviewContainer } from '../../components';
 
 const judgerOptions = JudgerType.values.map((type) => ({
   value: type,
@@ -218,41 +227,114 @@ export const TestPackageZoomButton: React.FC<{ testPackage: TestPackage }> = (
   const { testPackage } = props;
   const [open, setOpen] = React.useState<boolean>(false);
 
+  return (
+    <>
+      <Button type="button" icon="zoom" onClick={() => setOpen(true)} />
+      {open && (
+        <TestPackageModal
+          key={testPackage.id}
+          testPackage={testPackage}
+          onClose={() => setOpen(false)}
+        />
+      )}
+    </>
+  );
+};
+
+export const TestPackageModal: React.FC<{
+  testPackage: TestPackage;
+  onClose: () => void;
+}> = (props) => {
+  const { testPackage, onClose } = props;
+
   const sortedTests = React.useMemo(() => {
     return [...testPackage.tests].sort((a, b) => a.id - b.id);
   }, [testPackage.tests]);
 
+  const [expansionMap, setExpansionMap] = React.useState<
+    Record<number, boolean>
+  >(
+    testPackage.tests.reduce((res, test) => {
+      res[test.id] = false;
+      return res;
+    }, {})
+  );
+
+  const isAllExpanded = React.useMemo(
+    () => Object.values(expansionMap).every((item) => item == true),
+    [expansionMap]
+  );
+
+  const toggleAll = React.useCallback((expand: boolean) => {
+    setExpansionMap((map) => {
+      const newMap = { ...map };
+      for (const key in newMap) {
+        newMap[key] = expand;
+      }
+      return newMap;
+    });
+  }, []);
+
+  const toggleTest = React.useCallback((testId) => {
+    setExpansionMap((map) => ({ ...map, [testId]: !map[testId] }));
+  }, []);
+
   return (
-    <>
-      <Button type="button" icon="zoom" onClick={() => setOpen(true)} />
-      <Modal open={open} closeIcon onClose={() => setOpen(false)}>
-        <Modal.Header>
-          Test package: {testPackage.originalFileName}
-        </Modal.Header>
-        <Modal.Content>
-          <Table style={{ border: 'none' }}>
-            <Table.Header>
-              <Table.HeaderCell>ID</Table.HeaderCell>
-              <Table.HeaderCell>Input path</Table.HeaderCell>
-              <Table.HeaderCell>Output Path</Table.HeaderCell>
-            </Table.Header>
-            <Table.Body>
-              {sortedTests.map((test) => (
-                <Table.Row key={test.id}>
-                  <Table.Cell>{test.id}</Table.Cell>
-                  <Table.Cell>{test.input.path}</Table.Cell>
-                  <Table.Cell>{test.output.path}</Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button type="button" onClick={() => setOpen(false)}>
-            Thoát
-          </Button>
-        </Modal.Actions>
-      </Modal>
-    </>
+    <Modal open closeIcon onClose={onClose}>
+      <Modal.Header>
+        Gói tests: {testPackage.originalFileName}
+        <Button
+          icon
+          floated="right"
+          labelPosition="left"
+          onClick={() => toggleAll(!isAllExpanded)}
+        >
+          <Icon name={isAllExpanded ? 'caret up' : 'caret down'} />
+          Mở tất cả
+        </Button>
+      </Modal.Header>
+      <Modal.Content scrolling style={{ maxHeight: 520 }}>
+        <Table fixed>
+          <Table.Header>
+            <Table.HeaderCell width={1}>ID</Table.HeaderCell>
+            <Table.HeaderCell>Input path</Table.HeaderCell>
+            <Table.HeaderCell>Output Path</Table.HeaderCell>
+          </Table.Header>
+          <Table.Body>
+            {sortedTests.map((test) => (
+              <Table.Row
+                key={test.id}
+                verticalAlign="top"
+                style={{ cursor: 'pointer' }}
+                onClick={() => toggleTest(test.id)}
+              >
+                <Table.Cell>{test.id}</Table.Cell>
+                <Table.Cell>
+                  {test.input.path}
+                  {expansionMap[test.id] && (
+                    <TextFileOverviewContainer>
+                      {test.input.overview}
+                    </TextFileOverviewContainer>
+                  )}
+                </Table.Cell>
+                <Table.Cell>
+                  {test.output.path}
+                  {expansionMap[test.id] && (
+                    <TextFileOverviewContainer>
+                      {test.output.overview}
+                    </TextFileOverviewContainer>
+                  )}
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button type="button" onClick={onClose}>
+          Thoát
+        </Button>
+      </Modal.Actions>
+    </Modal>
   );
 };
