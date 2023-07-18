@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Lodash from 'lodash';
-import { ProblemService } from '../../../service/ProblemService';
+import { ProblemService } from '../../../services/ProblemService';
 import { SelectConfig } from '../../../components/select/SelectConfig';
 import { SearchInput } from '../../../components/input';
 import { ProblemDTO } from '../ProblemDTO';

@@ -6,7 +6,7 @@ import { Target } from '../../../store/reducers/target';
 import { LoadingState } from '../../../store/common';
 import { LoadingIndicator } from '../../../components/loading-indicator';
 import { TagSelectors } from '../../../store/selectors/TagSelectors';
-import { TagService } from '../../../service/TagService';
+import { TagService } from '../../../services/TagService';
 import { State } from '../../../store';
 
 export const EditTagForm: React.FC<{

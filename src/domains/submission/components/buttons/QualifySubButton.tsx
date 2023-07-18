@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Popup } from 'semantic-ui-react';
 import { submissionSchema } from '../../../../entity-schemas';
-import { SubmissionService } from '../../../../service/SubmissionService';
+import { SubmissionService } from '../../../../services/SubmissionService';
 import { updateEntity } from '../../../../store/actions';
 import { Submission } from '../../Submission';
 

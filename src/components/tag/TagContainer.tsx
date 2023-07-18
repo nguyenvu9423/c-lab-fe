@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Segment, Label, Accordion, Icon, Header } from 'semantic-ui-react';
 import { TagSelectors } from '../../store/selectors/TagSelectors';
-import { useLocalStorage } from '../../utility';
+import { useLocalStorage } from '../../utils';
 
 export namespace TagContainer {
   export interface Props {

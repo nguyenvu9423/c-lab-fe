@@ -1,6 +1,6 @@
 import * as uuid from 'uuid';
 import { NormalizedEntities } from './../../entity-schemas/types';
-import { Pageable } from './../../utility/Pageable';
+import { Pageable } from './../../utils/Pageable';
 import { createAction } from '@reduxjs/toolkit';
 import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
 import { Article } from '../../domains/article';

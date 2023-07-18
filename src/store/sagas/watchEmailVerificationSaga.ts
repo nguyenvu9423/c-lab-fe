@@ -1,7 +1,7 @@
 import { SagaIterator } from 'redux-saga';
 import { call, put, race, select, take, takeEvery } from 'redux-saga/effects';
 import { EmailVerificationDTO } from '../../domains/email-verification';
-import { EmailVerificationService } from '../../service/EmailVerificationService';
+import { EmailVerificationService } from '../../services/EmailVerificationService';
 import { refreshToken, verifyEmail } from '../actions';
 import { AuthenticationSelectors } from '../selectors';
 

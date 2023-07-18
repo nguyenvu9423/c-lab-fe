@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { Button, Container, Message, Segment } from 'semantic-ui-react';
-import { BaseException } from '../../exception';
+import { BaseException } from '../../shared/exceptions';
 
 export namespace ErrorFallbackPage {
   export interface Props {

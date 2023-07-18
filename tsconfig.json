@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "baseUrl": "./src",
         "outDir": "./lib",
         "strictNullChecks": true,
         "module": "ES6",

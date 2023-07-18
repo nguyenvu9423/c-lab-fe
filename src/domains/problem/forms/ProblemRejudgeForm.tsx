@@ -10,7 +10,7 @@ import {
 } from '../../../store/selectors';
 import { LoadingIndicator } from '../../../components/loading-indicator';
 import { ProblemRejudgeStatus } from '../../../domains/problem-rejudge';
-import { ProblemService } from '../../../service/ProblemService';
+import { ProblemService } from '../../../services/ProblemService';
 import { State } from '../../../store';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
 import { Target } from '../../../store/reducers/target';

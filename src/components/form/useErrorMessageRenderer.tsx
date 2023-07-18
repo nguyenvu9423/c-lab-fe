@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Lodash from 'lodash';
 import { FormErrorMessage } from './FormErrorMessage';
 import { FormikTouched, FormikErrors } from 'formik';
-import { FieldError } from '../../exception';
+import { FieldError } from '../../shared/exceptions';
 
 export function useErrorMessageRenderer<T>(params: {
   touched: FormikTouched<T>;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Label, Modal } from 'semantic-ui-react';
-import { FormModal } from '../../../common/types';
+import { FormModal } from '../../../shared/types';
 import { EditProblemForm } from '../forms';
 
 export const EditProblemModal: React.FC<

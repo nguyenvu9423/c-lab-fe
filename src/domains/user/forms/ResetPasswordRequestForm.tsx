@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import * as React from 'react';
 import { Button, Form } from 'semantic-ui-react';
-import { ResetPasswordService } from '../../../service/ResetPasswordService';
+import { ResetPasswordService } from '../../../services/ResetPasswordService';
 import { ResetPasswordResponseDTO } from '../ResetPasswordResponseDTO';
 
 export namespace ResetPasswordRequestForm {

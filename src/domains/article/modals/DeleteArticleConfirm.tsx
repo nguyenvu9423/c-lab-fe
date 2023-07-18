@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Confirm } from 'semantic-ui-react';
-import { FormModal } from '../../../common/types';
-import { ArticleService } from '../../../service/ArticleService';
+import { FormModal } from '../../../shared/types';
+import { ArticleService } from '../../../services/ArticleService';
 
 export const DeleteArticleConfirm: React.FC<
   FormModal.Props & { articleId: number }

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ProblemService } from '../../../service/ProblemService';
-import { ValidationException } from '../../../exception';
+import { ProblemService } from '../../../services/ProblemService';
+import { ValidationException } from '../../../shared/exceptions';
 import { ProblemForm } from './ProblemForm';
 import { FormikHelpers } from 'formik';
 

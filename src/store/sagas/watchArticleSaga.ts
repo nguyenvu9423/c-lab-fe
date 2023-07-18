@@ -1,6 +1,6 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
-import { ArticleService } from '../../service/ArticleService';
+import { ArticleService } from '../../services/ArticleService';
 import { articleSchema, articleArraySchema } from './../../domains/article';
 
 import { fetchArticle, fetchArticles } from '../actions';

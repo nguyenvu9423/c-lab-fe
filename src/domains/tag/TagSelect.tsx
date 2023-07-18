@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TagService } from '../../service/TagService';
+import { TagService } from '../../services/TagService';
 import { Dropdown } from 'semantic-ui-react';
 import { SelectConfig } from '../../components/select';
 import { OnlyNameTag } from './Tag';

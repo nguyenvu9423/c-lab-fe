@@ -18,12 +18,12 @@ import {
   ResetPasswordPageRouter,
   EmailVerificationPage,
   InfoPage,
-} from './page';
+} from './pages';
 import { Modal } from './components/modals';
 import { PrincipalSelectors } from './store/selectors';
 import { AppSideBar, ErrorBoundary, ToastGroup, TopNav } from './components';
 import MediaQuery from 'react-responsive';
-import { Breakpoint } from './utility';
+import { Breakpoint } from './utils';
 import { MobileTopNav } from './components/top-nav/MobileTopNav';
 
 const App: React.FC = () => {

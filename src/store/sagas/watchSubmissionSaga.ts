@@ -5,7 +5,7 @@ import {
 } from './../actions/submission';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { fetchSubmissions } from '../actions';
-import { SubmissionService } from '../../service/SubmissionService';
+import { SubmissionService } from '../../services/SubmissionService';
 import { normalize } from 'normalizr';
 import { submissionsSchema, detailedSubSchema } from '../../entity-schemas';
 import { PayloadAction } from '@reduxjs/toolkit';

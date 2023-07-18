@@ -1,9 +1,9 @@
-import { Jwt } from './../utility/Token';
+import { Jwt } from './../utils/Token';
 import { applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/rootSaga';
 import { rootReducer } from './reducers/rootReducer';
-import { AuthProvider } from '../authentication/tokenProvider';
+import { AuthProvider } from '../utils/authentication/tokenProvider';
 import { configureStore } from '@reduxjs/toolkit';
 import { DataHolder } from './reducers/data-holders/shared';
 export { State } from './state';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Lodash from 'lodash';
 import { Dropdown } from 'semantic-ui-react';
-import { UserService } from '../../service/UserService';
+import { UserService } from '../../services/UserService';
 import { SelectConfig } from '../../components/select';
 import { UserDTO } from '.';
 

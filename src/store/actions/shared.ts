@@ -1,4 +1,4 @@
-import { BaseException } from './../../exception/BaseException';
+import { BaseException } from '../../shared/exceptions/BaseException';
 export const defaultPayloadCreators = (payload) => payload;
 
 export function defaultPrepare(payload: any, meta?: any) {

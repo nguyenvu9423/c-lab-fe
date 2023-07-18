@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { Role } from './../../domains/role/Role';
 import { NormalizedEntities } from './../../entity-schemas/types';
 import { BaseFetchPayload, BaseFetchErrorPayload } from './shared';
-import { Pageable } from '../../utility';
+import { Pageable } from '../../utils';
 
 export namespace FetchRole {
   export interface RequestPayload extends BaseFetchPayload {

@@ -16,11 +16,11 @@ import {
   DetailedJudgeSelectors,
   DetailedJudgeConfigSelectors,
 } from '../../store/selectors';
-import { ProblemService } from '../../service/ProblemService';
+import { ProblemService } from '../../services/ProblemService';
 import { State } from '../../store';
 import { JudgeConfig } from './JudgeConfig';
 import { Button } from 'semantic-ui-react';
-import { ValidationException } from '../../exception';
+import { ValidationException } from '../../shared/exceptions';
 import { FormikHelpers } from 'formik';
 import { detailedProblemSchema } from '../problem';
 import { normalize } from 'normalizr';

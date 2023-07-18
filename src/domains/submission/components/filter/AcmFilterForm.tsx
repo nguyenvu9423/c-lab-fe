@@ -6,7 +6,7 @@ import { VerdictFilterTypes } from './options';
 
 import { languageOptions } from './shared';
 import { ValuePredicateInput } from './ValuePredicateInput';
-import { RsqlUtils } from '../../../../utility';
+import { RsqlUtils } from '../../../../utils';
 import { ComparisonOperator, ExpressionNode } from '@rsql/ast';
 
 const verdictOptions: { value?: string; text: string }[] = [

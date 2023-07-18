@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import { fetchJudgeConfig, FetchJudgeConfig } from './../actions/judge-config';
-import { ProblemService } from '../../service/ProblemService';
+import { ProblemService } from '../../services/ProblemService';
 import { judgeConfigSchema } from '../../domains/judge-config';
 
 function* fetchJudgeConfigSaga(

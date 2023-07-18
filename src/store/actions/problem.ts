@@ -2,7 +2,7 @@ import { Problem, DetailedProblem } from './../../domains/problem/Problem';
 import { NormalizedEntities } from './../../entity-schemas/types';
 import { createAction } from '@reduxjs/toolkit';
 import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
-import { Pageable } from '../../utility';
+import { Pageable } from '../../utils';
 
 export namespace FetchProblem {
   interface BaseRequestPayload extends BaseFetchPayload {

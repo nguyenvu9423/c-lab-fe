@@ -18,7 +18,7 @@ import { LoadingIndicator } from '../../../components/loading-indicator';
 import {
   formatResourceTime,
   formatResourceMemory,
-} from '../../../page/problems/utils';
+} from '../../../pages/problems/utils';
 import { Target } from '../../../store/reducers/target';
 import { JudgeSelectors } from '../../../store/selectors/JudgeSelectors';
 import { State } from '../../../store';
@@ -32,7 +32,7 @@ import {
 import { QualifySubButton } from './buttons';
 import { SubmissionStatusLabel } from './SubmissionStatusLabel';
 import { RejudgeSubButton } from './buttons/RejudgeSubButton';
-import { DateTimeUtils } from '../../../utility/data-type/DateTimeUtils';
+import { DateTimeUtils } from '../../../utils/data-type/DateTimeUtils';
 import { DateTimeFormat } from '../../../config';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';
 import { ResultLog } from './ResultLog';

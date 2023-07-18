@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Menu } from 'semantic-ui-react';
-import { LoginButton } from '../../page/common';
+import { LoginButton } from '../../pages/common';
 import { LoadingState } from '../../store/common';
 import { PrincipalSelectors } from '../../store/selectors';
 import { SearchBar } from '../search/SearchBar';

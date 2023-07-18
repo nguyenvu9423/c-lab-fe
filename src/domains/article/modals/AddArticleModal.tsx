@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Modal } from 'semantic-ui-react';
-import { FormModal } from '../../../common/types';
+import { FormModal } from '../../../shared/types';
 import { AddArticleForm } from '../forms';
 
 export const AddArticleModal: React.FC<FormModal.Props> = (props) => {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { LoadingIndicator } from '../../../components';
-import { UserService } from '../../../service/UserService';
+import { UserService } from '../../../services/UserService';
 import { State } from '../../../store';
 import { fetchUser, resetState } from '../../../store/actions';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dropdown, DropdownProps } from 'semantic-ui-react';
 import { PermissionDTO } from '.';
-import { PermissionService } from '../../service/PermissionService';
+import { PermissionService } from '../../services/PermissionService';
 
 export namespace PermissionSelect {
   export interface Props extends Omit<DropdownProps, 'onChange'> {

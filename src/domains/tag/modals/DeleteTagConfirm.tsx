@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Message, Modal, Button } from 'semantic-ui-react';
-import { TagService } from '../../../service/TagService';
+import { TagService } from '../../../services/TagService';
 import { CancelButton } from '../../../components/button';
-import { WarningRequestException } from '../../../exception/WarningRequestException';
+import { WarningRequestException } from '../../../shared/exceptions/WarningRequestException';
 import { LoadingIndicator } from '../../../components';
 
 export namespace DeleteTagConfirm {

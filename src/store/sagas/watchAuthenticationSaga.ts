@@ -12,9 +12,9 @@ import {
 } from 'redux-saga/effects';
 
 import { login, logout, setToken, refreshToken, resetState } from '../actions';
-import { AuthenticationService } from '../../service/AuthenticationService';
-import { AuthProvider } from '../../authentication/tokenProvider';
-import { Jwt } from '../../utility';
+import { AuthenticationService } from '../../services/AuthenticationService';
+import { AuthProvider } from '../../utils/authentication/tokenProvider';
+import { Jwt } from '../../utils';
 import { AuthenticationSelectors } from '../selectors';
 
 export function* refreshTokenSaga(): SagaIterator {

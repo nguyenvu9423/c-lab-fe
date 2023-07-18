@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Menu } from 'semantic-ui-react';
-import { LoginButton } from '../../page/common';
+import { LoginButton } from '../../pages/common';
 
 export const AnonymousControlMenu: React.FC = () => {
   return (

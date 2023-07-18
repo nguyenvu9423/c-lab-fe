@@ -5,7 +5,7 @@ import {
   AccessTokenPayload,
   RefreshTokenPayload,
   Jwt,
-} from './../../../utility/Token';
+} from './../../../utils/Token';
 import { refreshToken, setToken } from '../../actions';
 import { DataHolderState } from '../data-holders/shared';
 

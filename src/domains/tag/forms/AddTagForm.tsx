@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { TagForm } from '../TagForm';
-import { TagService } from '../../../service/TagService';
-import { FieldError, ValidationException } from '../../../exception';
+import { TagService } from '../../../services/TagService';
+import { FieldError, ValidationException } from '../../../shared/exceptions';
 
 export namespace AddTagForm {
   export interface Props {

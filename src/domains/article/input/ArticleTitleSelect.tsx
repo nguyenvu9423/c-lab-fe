@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Lodash from 'lodash';
-import { ArticleService } from '../../../service/ArticleService';
+import { ArticleService } from '../../../services/ArticleService';
 import { SelectConfig } from '../../../components/select/SelectConfig';
 import { SearchInput } from '../../../components/input';
 import { ArticleDTO } from '../ArticleDTO';

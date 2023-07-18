@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Button, Divider } from 'semantic-ui-react';
 import { EditorState, Editor, ContentState } from 'draft-js';
 
-import { Styleable } from '../../../common/types';
+import { Styleable } from '../../../shared/types';
 import { MarkdownView } from './MarkdownView';
 
 export namespace MarkdownEditor {

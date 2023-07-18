@@ -6,7 +6,7 @@ import { VerdictFilterTypes } from './options';
 import { languageOptions } from './shared';
 import { ValuePredicateInput } from './ValuePredicateInput';
 import { ComparisonOperator, ExpressionNode } from '@rsql/ast';
-import { RsqlUtils } from '../../../../utility';
+import { RsqlUtils } from '../../../../utils';
 
 const verdictOptions: DropdownItemProps[] = [{ key: '', text: '' }].concat(
   [VerdictFilterTypes.AC, VerdictFilterTypes.WA].map((type) => ({

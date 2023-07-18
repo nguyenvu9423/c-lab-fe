@@ -2,11 +2,11 @@ import * as React from 'react';
 import * as yup from 'yup';
 import { Form, Message } from 'semantic-ui-react';
 import { useFormik } from 'formik';
-import { SubmissionService } from '../../../service/SubmissionService';
+import { SubmissionService } from '../../../services/SubmissionService';
 import { CodeEditor } from '../../../components/editors';
 import { Problem } from '../../../domains/problem';
-import { FileUploadInput } from '../../../page/common/inputs/FileUploadInput';
-import { ResponseException } from '../../../exception';
+import { FileUploadInput } from '../../../pages/common/inputs/FileUploadInput';
+import { ResponseException } from '../../../shared/exceptions';
 import {
   SubmissionLangSelect,
   SubmissionLanguage,

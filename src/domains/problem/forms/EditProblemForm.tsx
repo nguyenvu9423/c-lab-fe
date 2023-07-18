@@ -2,7 +2,7 @@ import * as React from 'react';
 import { normalize } from 'normalizr';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { ProblemService } from '../../../service/ProblemService';
+import { ProblemService } from '../../../services/ProblemService';
 import { LoadingIndicator, useFormKey } from '../../../components';
 import { fetchProblem, resetState, updateEntity } from '../../../store/actions';
 import { LoadingState } from '../../../store/common';
@@ -15,7 +15,7 @@ import {
 } from '../../../store/selectors';
 import { TagSelectors } from '../../../store/selectors/TagSelectors';
 import { problemSchema } from '../problem-schemas';
-import { ValidationException } from '../../../exception';
+import { ValidationException } from '../../../shared/exceptions';
 import { FormikHelpers } from 'formik';
 
 export namespace EditProblemForm {

@@ -4,8 +4,8 @@ import { Button, Form, Input } from 'semantic-ui-react';
 import { FormikHelpers, useFormik } from 'formik';
 
 import { useErrorMessageRenderer } from '../../../components';
-import { RegisterService } from '../../../service/RegisterService';
-import { ValidationException } from '../../../exception';
+import { RegisterService } from '../../../services/RegisterService';
+import { ValidationException } from '../../../shared/exceptions';
 import { UserFieldSchemas } from './UserFormSchemas';
 
 export namespace RegisterForm {

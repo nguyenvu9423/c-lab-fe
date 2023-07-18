@@ -7,7 +7,7 @@ import { RoleSelectors } from '../../../store/selectors';
 import { LoadingState } from '../../../store/common';
 import { LoadingIndicator } from '../../../components';
 import { Target } from '../../../store/reducers/target';
-import { RoleService } from '../../../service/RoleService';
+import { RoleService } from '../../../services/RoleService';
 import { roleSchema } from '../../../entity-schemas';
 import { State } from '../../../store';
 import { DataHolder } from '../../../store/reducers/data-holders/shared';

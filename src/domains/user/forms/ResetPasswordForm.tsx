@@ -8,7 +8,7 @@ import {
   LoadingIndicator,
   useErrorMessageRenderer,
 } from '../../../components';
-import { ResetPasswordService } from '../../../service/ResetPasswordService';
+import { ResetPasswordService } from '../../../services/ResetPasswordService';
 import { SubmitButton } from '../../../components/button';
 import { UserFieldSchemas } from './UserFormSchemas';
 

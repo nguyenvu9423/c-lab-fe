@@ -6,7 +6,7 @@ import { PermissionMap } from '../../reducers/authentication';
 import { PrincipalSelectors } from './PrincipalSelectors';
 import { DataHolderState } from '../../reducers/data-holders/shared';
 import { Article } from '../../../domains/article';
-import { EntityRef } from '../../../common/types';
+import { EntityRef } from '../../../shared/types';
 
 export namespace AuthorizationSelectors {
   export function hasAdminRole(): Selector<State, boolean> {

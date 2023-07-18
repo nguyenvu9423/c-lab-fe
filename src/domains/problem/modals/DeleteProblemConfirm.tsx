@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Confirm } from 'semantic-ui-react';
-import { FormModal } from '../../../common/types';
-import { ProblemService } from '../../../service/ProblemService';
+import { FormModal } from '../../../shared/types';
+import { ProblemService } from '../../../services/ProblemService';
 
 export const DeleteProblemConfirm: React.FC<
   FormModal.Props & { problemCode: string }

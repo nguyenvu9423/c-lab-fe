@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Lodash from 'lodash';
-import { TagService } from '../../service/TagService';
+import { TagService } from '../../services/TagService';
 import { SelectConfig } from '../../components/select/SelectConfig';
 import { TagDTO } from '.';
 import { SearchInput } from '../../components/input';

@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Pageable } from './../../utility/Pageable';
+import { Pageable } from './../../utils/Pageable';
 import { Tag } from './../../domains/tag/Tag';
 import { BaseFetchPayload, BaseFetchErrorPayload } from './shared';
 import { NormalizedEntities } from '../../entity-schemas/types';

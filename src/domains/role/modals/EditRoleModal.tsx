@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Label, Modal } from 'semantic-ui-react';
-import { FormModal } from '../../../common/types';
+import { FormModal } from '../../../shared/types';
 import { EditRoleForm } from '../forms';
 
 export const EditRoleModal: React.FC<FormModal.Props & { roleId: number }> = (

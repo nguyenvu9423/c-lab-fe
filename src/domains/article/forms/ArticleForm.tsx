@@ -8,7 +8,7 @@ import { TagSelect, Tag } from '../../tag';
 import { SubmitButton, CancelButton } from '../../../components/button';
 import { useErrorMessageRenderer, RichTextEditor } from '../../../components';
 import { articleStatusValues } from '../ArticleStatus';
-import { FieldError } from '../../../exception';
+import { FieldError } from '../../../shared/exceptions';
 import { ImageUploader } from '../../../components/input';
 import { RawDraftContentState } from 'draft-js';
 

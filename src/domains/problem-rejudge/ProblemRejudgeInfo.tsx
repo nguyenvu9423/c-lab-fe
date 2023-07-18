@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Header, Progress, Statistic } from 'semantic-ui-react';
-import { ProblemRejudgeService } from '../../service/ProblemRejudgeService';
+import { ProblemRejudgeService } from '../../services/ProblemRejudgeService';
 import { ProblemRejudgeStatus } from './problem-rejudge-progress';
 import { ProblemRejudge } from './ProblemRejudge';
 import { useProblemRejudgeStream } from './useProblemRejudgeStream';

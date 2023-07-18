@@ -1,4 +1,4 @@
-import { Jwt } from './../../utility';
+import { Jwt } from './../../utils';
 import { createAction } from '@reduxjs/toolkit';
 import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
 

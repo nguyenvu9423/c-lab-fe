@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseException } from '../../exception';
+import { BaseException } from '../../shared/exceptions';
 import { ErrorFallbackPage } from './ErrorFallbackPage';
 
 export class ErrorBoundary extends React.Component<

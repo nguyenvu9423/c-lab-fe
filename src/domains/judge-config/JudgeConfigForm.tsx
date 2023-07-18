@@ -13,7 +13,7 @@ import {
   Table,
   Icon,
 } from 'semantic-ui-react';
-import { PutFileInput } from '../../page/common/inputs/PutFileInput';
+import { PutFileInput } from '../../pages/common/inputs/PutFileInput';
 import { CustomJudger, TestPackage } from '.';
 import { BackEndConfig } from '../../config';
 import { TextFileOverviewContainer } from '../../components';

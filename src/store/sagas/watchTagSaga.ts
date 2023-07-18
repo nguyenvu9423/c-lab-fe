@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { fetchTag, fetchTags, FetchTags, FetchTag } from '../actions';
-import { TagService } from '../../service/TagService';
+import { TagService } from '../../services/TagService';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { tagSchema, tagArraySchema } from '../../domains/tag';

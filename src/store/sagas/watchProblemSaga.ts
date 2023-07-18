@@ -7,7 +7,7 @@ import {
   FetchDetailedProblem,
 } from '../actions';
 import { takeEvery, call, put } from 'redux-saga/effects';
-import { ProblemService } from '../../service/ProblemService';
+import { ProblemService } from '../../services/ProblemService';
 import { normalize } from 'normalizr';
 import {
   problemSchema,

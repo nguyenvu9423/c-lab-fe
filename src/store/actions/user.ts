@@ -6,7 +6,7 @@ import {
   BaseFetchPayload,
   BaseFetchErrorPayload,
 } from './shared';
-import { Pageable } from '../../utility';
+import { Pageable } from '../../utils';
 
 export namespace FetchUser {
   export interface ByIdRequestPayload extends BaseFetchPayload {

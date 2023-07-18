@@ -1,6 +1,6 @@
 import { JudgeVerdict, TestVerdict } from './../../../judge';
 import { ExpressionNode } from '@rsql/ast';
-import { RsqlUtils } from '../../../../utility';
+import { RsqlUtils } from '../../../../utils';
 
 export enum VerdictFilterTypes {
   COMPILE_ERROR = 'COMPILE_ERROR',

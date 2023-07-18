@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Pageable } from '../../../utility';
-import { BaseException } from './../../../exception';
+import { Pageable } from '../../../utils';
+import { BaseException } from '../../../shared/exceptions';
 import { LoadingState } from './../../common';
 
 export type DataHolderState<

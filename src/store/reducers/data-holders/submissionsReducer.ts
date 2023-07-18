@@ -1,6 +1,6 @@
-import { BaseException } from './../../../exception/BaseException';
+import { BaseException } from '../../../shared/exceptions/BaseException';
 import { createReducer } from '@reduxjs/toolkit';
-import { Pageable } from './../../../utility/Pageable';
+import { Pageable } from './../../../utils/Pageable';
 import { LoadingState } from '../../common';
 import { resetState, fetchSubmissions } from '../../actions';
 

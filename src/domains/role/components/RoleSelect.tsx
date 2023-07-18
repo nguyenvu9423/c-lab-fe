@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RoleDTO } from '../dtos';
-import { RoleService } from '../../../service/RoleService';
+import { RoleService } from '../../../services/RoleService';
 import { Dropdown } from 'semantic-ui-react';
 
 export namespace RoleSelect {

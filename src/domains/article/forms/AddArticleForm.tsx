@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ArticleForm } from './ArticleForm';
-import { ArticleService } from '../../../service/ArticleService';
-import { useScrollToTop } from '../../../common/hooks';
+import { ArticleService } from '../../../services/ArticleService';
+import { useScrollToTop } from '../../../shared/hooks';
 
 export const AddArticleForm: React.FC<{
   onCancel?: () => void;

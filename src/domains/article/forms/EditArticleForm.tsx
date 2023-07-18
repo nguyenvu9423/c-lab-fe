@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ArticleForm } from './ArticleForm';
-import { ArticleService } from '../../../service/ArticleService';
+import { ArticleService } from '../../../services/ArticleService';
 import { fetchArticle, resetState } from '../../../store/actions';
 import { Target } from '../../../store/reducers/target';
 import { LoadingIndicator } from '../../../components';
@@ -12,7 +12,7 @@ import {
   AuthorizationSelectors,
 } from '../../../store/selectors';
 import { State } from '../../../store';
-import { FieldError, ValidationException } from '../../../exception';
+import { FieldError, ValidationException } from '../../../shared/exceptions';
 import { TagSelectors } from '../../../store/selectors/TagSelectors';
 
 export namespace EditArticleForm {

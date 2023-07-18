@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Tag } from './../../../domains/tag/Tag';
-import { Pageable } from './../../../utility/Pageable';
+import { Pageable } from './../../../utils/Pageable';
 import { NormalizedEntities } from './../../../entity-schemas/types';
 import { fetchTags, resetState } from '../../actions';
 import { LoadingState } from '../../common';

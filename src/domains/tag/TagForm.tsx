@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import { Form } from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import { CancelButton, SubmitButton } from '../../components/button';
-import { FieldError } from '../../exception';
+import { FieldError } from '../../shared/exceptions';
 import { useErrorMessageRenderer } from '../../components';
 import { Tag } from './Tag';
 

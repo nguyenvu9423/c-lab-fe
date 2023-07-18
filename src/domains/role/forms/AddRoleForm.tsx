@@ -4,7 +4,7 @@ import { normalize } from 'normalizr';
 import { useDispatch } from 'react-redux';
 import { RoleForm } from '../RoleForm';
 import { updateEntity } from '../../../store/actions';
-import { RoleService } from '../../../service/RoleService';
+import { RoleService } from '../../../services/RoleService';
 import { roleSchema } from '../../../entity-schemas';
 
 export function AddRoleForm(props) {
