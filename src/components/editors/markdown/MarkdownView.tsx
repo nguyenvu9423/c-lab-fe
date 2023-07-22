@@ -6,7 +6,7 @@ import gfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { Image } from 'semantic-ui-react';
 
-export const MarkdownView: React.FC<{ components?: Components }> = (props) => {
+export const MarkdownView: React.FC<{ components?: Components, children?: React.ReactNode }> = (props) => {
   const components = React.useMemo(
     () =>
       props.components
@@ -26,7 +26,7 @@ export const MarkdownView: React.FC<{ components?: Components }> = (props) => {
   );
 };
 
-const MarkdownTable: React.FC = (props) => (
+const MarkdownTable: React.FC<{children?: React.ReactNode}> = (props) => (
   <table className="ui table">{props.children}</table>
 );
 
@@ -34,7 +34,9 @@ const ImageContainer: React.FC = (props) => {
   return <Image {...props} centered />;
 };
 
+//TODO: re-enable
+//table: MarkdownTable,
+
 const baseComponents: Components = {
-  table: MarkdownTable,
   img: ImageContainer,
 };

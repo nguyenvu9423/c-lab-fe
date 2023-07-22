@@ -5,6 +5,7 @@ import { Article } from '@/domains/article';
 export namespace ArticlePageLink {
   export interface Props {
     article: number | Article;
+    children?: React.ReactNode;
   }
 }
 

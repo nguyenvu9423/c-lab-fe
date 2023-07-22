@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header, Segment, Pagination, Table } from 'semantic-ui-react';
+import { Header, Segment, Pagination, Table, PaginationProps } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubmissions, resetState } from '@/store/actions';
 import { SubmissionSelectors } from '@/store/selectors/SubmissionSelectors';
@@ -96,7 +96,7 @@ export const PrincipalProblemSubsCard: React.FC<
   );
 
   const handlePageChange = React.useCallback(
-    (event, { activePage }) => setPage(activePage),
+    (event, { activePage }: PaginationProps) => setPage(Number(activePage)),
     [setPage]
   );
 

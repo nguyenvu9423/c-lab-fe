@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, Grid } from 'semantic-ui-react';
+import { Card, Grid, PaginationProps } from 'semantic-ui-react';
 import { Helmet } from 'react-helmet';
 import QueryString from 'qs';
 
@@ -56,7 +56,7 @@ export const ArticlesPage: React.FC = () => {
   }, [load, dispatch]);
 
   const handlePageChange = React.useCallback(
-    (event, { activePage }) => {
+    (event, { activePage }: PaginationProps) => {
       navigate({ search: QueryString.stringify({ page: activePage, query }) });
     },
     [query, navigate]

@@ -35,7 +35,7 @@ export const SubmissionFormSchema = yup.object({
     is: (codeText) => {
       return codeText == null;
     },
-    then: yup.mixed().required('The code is required'),
+    then: (schema) => schema.required('The code is required'),
   }),
 });
 

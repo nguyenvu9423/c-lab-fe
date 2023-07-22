@@ -143,7 +143,7 @@ export namespace DataHolder {
       { pageable: Pageable; totalPages: number },
       { pageable: Pageable }
     >,
-    onReload?: ({ pageable: Pageable }) => void
+    onReload?: (params: { pageable: Pageable }) => void
   ): void {
     React.useEffect(() => {
       if (DataHolderState.isLoaded(state)) {

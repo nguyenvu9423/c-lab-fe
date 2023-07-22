@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Lodash from 'lodash';
 import { useLocation } from 'react-router';
 
-import { Grid, Pagination, Segment, Ref } from 'semantic-ui-react';
+import { Grid, Pagination, Segment, Ref, PaginationProps } from 'semantic-ui-react';
 
 import { SubmissionSelectors, PrincipalSelectors } from '@/store/selectors';
 import { fetchSubmissions } from '@/store/actions/submission';
@@ -122,8 +122,10 @@ export const PrincipalSubmissionTable: React.FC<
   useJudgesStream(submissions ? submissions.map((sub) => sub.judge) : []);
 
   const tableRef = React.useRef<HTMLElement>(null);
-  const handlePageChange = React.useCallback((event, { activePage }) => {
-    setPage(activePage);
+  const handlePageChange = React.useCallback((event, { activePage }: PaginationProps) => {
+    if (!activePage) return;
+
+    setPage(Number(activePage));
     if (tableRef.current) {
       scrollToElementTop(tableRef.current);
     }

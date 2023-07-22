@@ -3,7 +3,7 @@ import { BaseException } from '../../shared/exceptions';
 import { ErrorFallbackPage } from './ErrorFallbackPage';
 
 export class ErrorBoundary extends React.Component<
-  Record<string, unknown>,
+  { children?: React.ReactNode },
   { error?: BaseException }
 > {
   private shown: boolean;
@@ -18,7 +18,7 @@ export class ErrorBoundary extends React.Component<
     return { error: error as BaseException };
   }
 
-  render() {
+  render(): React.ReactNode {
     if (this.state.error) {
       return (
         <ErrorFallbackPage

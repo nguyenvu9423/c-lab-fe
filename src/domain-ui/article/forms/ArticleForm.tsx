@@ -55,10 +55,10 @@ export const ArticleFormSchema = yup.object({
       yup.object().shape({
         id: yup.number().required(),
         name: yup.string().trim().required(),
-      })
+      }),
     )
     .required(),
-}) as yup.SchemaOf<any>;
+}) as yup.Schema;
 
 export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
   const { initialValues, onSubmit, onCancel } = props;

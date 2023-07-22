@@ -15,7 +15,7 @@ export function useErrorMessageRenderer<T>(params: {
       if (Lodash.get(touched, name)) {
         const error = Lodash.get(errors, name);
         if (error) {
-          return <FormErrorMessage content={error} />;
+          return <FormErrorMessage content={error.toString()} />;
         }
       } else {
         if (status?.errors) {

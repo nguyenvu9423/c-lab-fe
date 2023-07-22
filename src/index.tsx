@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Helmet } from 'react-helmet';
 import 'semantic-ui-less/semantic.less';
 
@@ -8,7 +8,10 @@ import { Provider } from 'react-redux';
 import App from './app';
 import { store } from './store';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container!);
+
+root.render(
   <Provider store={store}>
     <BrowserRouter>
       <Helmet>
@@ -17,5 +20,4 @@ ReactDOM.render(
       <App />
     </BrowserRouter>
   </Provider>,
-  document.getElementById('root')
 );

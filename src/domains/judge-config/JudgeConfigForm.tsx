@@ -59,7 +59,7 @@ export const JudgeConfigFormSchema = yup.object({
     .max(1024, 'Giới hạn bộ nhớ không được quá 1024mb'),
   customJudger: yup.mixed().when('judgerType', {
     is: JudgerType.Custom,
-    then: yup.mixed().required('Vui lòng tải lên trình chấm'),
+    then: (schema) => schema.required('Vui lòng tải lên trình chấm'),
   }),
   testPackage: yup.mixed().required('Vui lòng tải lên bộ test'),
 });
@@ -76,7 +76,7 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
       testPackage: initialValues?.testPackage,
       customJudger: initialValues?.customJudger,
     }),
-    [initialValues]
+    [initialValues],
   );
 
   const {
@@ -222,7 +222,7 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
 };
 
 export const TestPackageZoomButton: React.FC<{ testPackage: TestPackage }> = (
-  props
+  props,
 ) => {
   const { testPackage } = props;
   const [open, setOpen] = React.useState<boolean>(false);
@@ -257,12 +257,12 @@ export const TestPackageModal: React.FC<{
     testPackage.tests.reduce((res, test) => {
       res[test.id] = false;
       return res;
-    }, {})
+    }, {}),
   );
 
   const isAllExpanded = React.useMemo(
     () => Object.values(expansionMap).every((item) => item == true),
-    [expansionMap]
+    [expansionMap],
   );
 
   const toggleAll = React.useCallback((expand: boolean) => {

@@ -7,6 +7,7 @@ import { AuthorizationSelectors } from '@/store/selectors';
 export namespace SubmissionDetailsLink {
   export interface Props {
     submission: Submission;
+    children?: React.ReactNode;
   }
 }
 

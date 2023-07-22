@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AND } from '@rsql/ast';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid, Segment, Ref } from 'semantic-ui-react';
+import { Grid, Segment, Ref, PaginationProps } from 'semantic-ui-react';
 
 import { Pagination, TagContainer } from '@/components';
 import { useJudgesStream } from '@/domain-ui/judge';
@@ -22,7 +22,7 @@ import { ProblemNavMenu } from '../components/ProblemNavMenu';
 import { SubmissionFilterCard } from '@/domain-ui/submission';
 
 export const ProblemSubmissionsContent: React.FC<{ problem: Problem }> = (
-  props
+  props,
 ) => {
   const { problem } = props;
   const [query, setQuery] = React.useState<string | undefined>();
@@ -58,14 +58,14 @@ export namespace ProblemSubmissionTable {
 const PAGE_SIZE = 10;
 
 export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
-  props
+  props,
 ) => {
   const { query } = props;
   const [page, setPage] = React.useState(1);
 
   const dispatch = useDispatch();
   const { data } = useSelector(
-    (state: State) => state.problemPageContents.submissions
+    (state: State) => state.problemPageContents.submissions,
   );
 
   const loadTotalPages = DataHolder.useTotalPages(data.submissions);
@@ -80,7 +80,7 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
         query,
         target: Target.ProblemPageContents.SUBMISSIONS,
         pageable: { page, size: PAGE_SIZE },
-      })
+      }),
     );
   }, [dispatch, query, page]);
 
@@ -94,19 +94,19 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
   const tableRef = React.useRef<HTMLElement>(null);
 
   const handlePageChange = React.useCallback(
-    (event, { activePage }) => {
-      setPage(activePage);
+    (event, { activePage }: PaginationProps) => {
+      setPage(Number(activePage));
       if (tableRef.current) {
         scrollToElementTop(tableRef.current);
       }
     },
-    [setPage]
+    [setPage],
   );
 
   const submissions = useSelector(
     DataHolderState.isLoaded(data.submissions)
       ? SubmissionSelectors.byIds(data.submissions.ids)
-      : () => undefined
+      : () => undefined,
   );
 
   useJudgesStream(
@@ -114,7 +114,7 @@ export const ProblemSubmissionTable: React.FC<ProblemSubmissionTable.Props> = (
       ? submissions
           .filter((sub): sub is Submission => sub !== undefined)
           .map((sub) => sub.judge)
-      : []
+      : [],
   );
 
   return (

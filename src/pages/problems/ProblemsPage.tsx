@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
-import { Table, Segment, Grid } from 'semantic-ui-react';
+import { Table, Segment, Grid, PaginationProps } from 'semantic-ui-react';
 import QueryString from 'qs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -61,7 +61,7 @@ export const ProblemsPage: React.FC = () => {
   );
 
   const handlePageChange = React.useCallback(
-    (event, { activePage }) => {
+    (event, { activePage }: PaginationProps) => {
       navigate({ search: QueryString.stringify({ page: activePage, query }) });
     },
     [query, navigate]
