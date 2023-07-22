@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-
 import { Segment, Header, Grid, Menu, Sticky, Ref } from 'semantic-ui-react';
-import { EditArticleForm } from '../../domains/article';
-import { addToast } from '../../store/actions';
-import { CRUDToastBuilder } from '../../components/toast';
-import { useScrollToTop } from '../../shared/hooks';
 import { useParams } from 'react-router';
-import { TOP_NAV_OFFSET } from '../../shared/variables';
+
+import { EditArticleForm } from '@/domain-ui/article';
+import { addToast } from '@/store/actions';
+import { CRUDToastBuilder } from '@/components/toast';
+import { useScrollToTop } from '@/shared/hooks';
+import { TOP_NAV_OFFSET } from '@/shared/variables';
 
 export const EditArticlePage: React.FC = () => {
   const { id } = useParams();

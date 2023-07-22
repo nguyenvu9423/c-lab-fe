@@ -1,21 +1,17 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Segment, Table } from 'semantic-ui-react';
-import { fetchTags, resetState } from '../../../../store/actions';
-import { Target } from '../../../../store/reducers/target';
-import { TagSelectors } from '../../../../store/selectors/TagSelectors';
-import {
-  DeleteTagConfirm,
-  AddTagModal,
-  EditTagModal,
-} from '../../../../domains/tag';
-import { Pagination } from '../../../../components';
+import { fetchTags, resetState } from '@/store/actions';
+import { Target } from '@/store/reducers/target';
+import { TagSelectors } from '@/store/selectors/TagSelectors';
+import { DeleteTagConfirm, AddTagModal, EditTagModal } from '@/domain-ui/tag';
+import { Pagination } from '@/components';
 import { AddButton, DeleteRowButton, EditRowButton } from '../shared';
-import { State } from '../../../../store';
-import { DataHolder } from '../../../../store/reducers/data-holders/shared';
-import { ConstSelectors } from '../../../../store/selectors';
+import { State } from '@/store';
+import { DataHolder } from '@/store/reducers/data-holders/shared';
+import { ConstSelectors } from '@/store/selectors';
 import { TagFilter } from './TagFilter';
-import { ErrorTableBody, LoadingTableBody } from '../../../../components/table';
+import { ErrorTableBody, LoadingTableBody } from '@/components/table';
 import { PageUtils } from '../../../shared';
 
 const PAGE_SIZE = 10;

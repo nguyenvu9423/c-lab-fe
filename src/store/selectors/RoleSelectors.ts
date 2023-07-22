@@ -1,4 +1,4 @@
-import { Role } from './../../domains/role/Role';
+import { Role } from '@/domains/role/Role';
 import { State } from './../state';
 import { roleEntityAdapter } from './../reducers/entity-reducers/roleEntityAdapter';
 import { Selector, EntityId } from '@reduxjs/toolkit';

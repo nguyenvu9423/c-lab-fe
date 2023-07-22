@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Label } from 'semantic-ui-react';
-import { TagSelectors } from '../../../store/selectors/TagSelectors';
+import { TagSelectors } from '@/store/selectors/TagSelectors';
 
 export const TagPanel: React.FC<{ tagIds: number[] }> = (props) => {
   const { tagIds } = props;

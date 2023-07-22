@@ -2,26 +2,23 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Segment, Table } from 'semantic-ui-react';
-import { Pagination } from '../../../../components';
-import { LoadingTableBody } from '../../../../components/table/LoadingTableBody';
-import { useJudgesStream } from '../../../../domains/judge';
+import { Pagination } from '@/components';
+import { LoadingTableBody } from '@/components/table';
+import { useJudgesStream } from '@/domain-ui/judge';
+import { Submission } from '@/domains/submission';
 import {
-  Submission,
+  QualifySubButton,
+  RejudgeSubButton,
   SubmissionDetailsLink,
-} from '../../../../domains/submission';
-import { QualifySubButton } from '../../../../domains/submission/components/buttons';
-import { RejudgeSubButton } from '../../../../domains/submission/components/buttons/RejudgeSubButton';
-import { SubmissionStatusLabel } from '../../../../domains/submission/components/SubmissionStatusLabel';
-import { State } from '../../../../store';
-import { fetchSubmissions, resetState } from '../../../../store/actions';
-import { DataHolder } from '../../../../store/reducers/data-holders/shared';
-import { Target } from '../../../../store/reducers/target';
-import {
-  ConstSelectors,
-  SubmissionSelectors,
-} from '../../../../store/selectors';
-import { PageUtils } from '../../../shared';
+  SubmissionStatusLabel,
+} from '@/domain-ui/submission';
+import { State } from '@/store';
+import { fetchSubmissions, resetState } from '@/store/actions';
+import { DataHolder } from '@/store/reducers/data-holders/shared';
+import { Target } from '@/store/reducers/target';
+import { ConstSelectors, SubmissionSelectors } from '@/store/selectors';
 import { SubmissionFilter } from './SubmissionFilter';
+import { PageUtils } from '../../../shared';
 
 const PAGE_SIZE = 10;
 

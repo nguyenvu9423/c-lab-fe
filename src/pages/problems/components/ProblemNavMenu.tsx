@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Menu } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Problem } from '../../../domains/problem';
-import { AuthenticationSelectors } from '../../../store/selectors';
+import { Problem } from '@/domains/problem';
+import { AuthenticationSelectors } from '@/store/selectors';
 
 export const ProblemNavMenu: React.FC<{ problem: Problem; tabName?: string }> =
   (props) => {

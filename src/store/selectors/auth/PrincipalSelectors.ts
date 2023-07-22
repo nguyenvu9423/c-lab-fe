@@ -1,4 +1,4 @@
-import { User } from './../../../domains/user/User';
+import { User } from '@/domains/user/User';
 import { UserSelectors } from '../UserSelectors';
 import { LoadingState } from '../../common';
 import { State } from '../..';

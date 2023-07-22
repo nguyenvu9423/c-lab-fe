@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { DetailedSubModal } from '../../domains/submission';
 import { State } from '../../store';
+import { DetailedSubModal } from '@/domain-ui/submission';
 
 export const Modal: React.FC = () => {
   const state = useSelector((state: State) => state.modal);

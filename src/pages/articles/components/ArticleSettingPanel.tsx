@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Article } from '../../../domains/article';
+import { Article } from '@/domains/article';
 import { Header, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 

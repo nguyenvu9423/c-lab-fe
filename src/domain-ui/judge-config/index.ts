@@ -1,0 +1,1 @@
+export { UpdateJudgeConfigForm } from './UpdateJudgeConfigForm';

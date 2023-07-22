@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { Article } from './../../../domains/article';
+import { Article } from '@/domains/article';
 
 export const articleEntityAdapter = createEntityAdapter<Article>();
 

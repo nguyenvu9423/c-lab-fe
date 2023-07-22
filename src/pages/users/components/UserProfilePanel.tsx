@@ -1,16 +1,15 @@
 import * as React from 'react';
-import * as moment from 'moment';
 import { Header, Table, Dimmer, Button } from 'semantic-ui-react';
 import { normalize } from 'normalizr';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateEntity } from '../../../store/actions';
+import { updateEntity } from '@/store/actions';
 import { DateFormat } from '../../../config';
-import { Avatar } from '../../../components/avatar/Avatar';
-import { UserService } from '../../../services/UserService';
+import { Avatar } from '@/components/avatar/Avatar';
+import { UserService } from '@/services/UserService';
 import { userSchema } from '../../../entity-schemas/userSchema';
-import { User } from '../../../domains/user';
+import { User } from '@/domains/user';
 import { DateTimeUtils } from '../../../utils/data-type/DateTimeUtils';
-import { ConstSelectors, PrincipalSelectors } from '../../../store/selectors';
+import { ConstSelectors, PrincipalSelectors } from '@/store/selectors';
 
 export namespace UserProfilePanel {
   export interface Props {

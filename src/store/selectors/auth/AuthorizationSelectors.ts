@@ -1,11 +1,11 @@
-import { RoleType } from './../../../domains/role/RoleType';
-import { PermissionType } from './../../../domains/role/PermissionType';
 import { Selector } from '@reduxjs/toolkit';
-import { State } from '../..';
+
+import { PermissionType, RoleType } from '@/domains/role';
+import { Article } from '@/domains/article';
+import { State } from '@/store';
 import { PermissionMap } from '../../reducers/authentication';
 import { PrincipalSelectors } from './PrincipalSelectors';
 import { DataHolderState } from '../../reducers/data-holders/shared';
-import { Article } from '../../../domains/article';
 import { EntityRef } from '../../../shared/types';
 
 export namespace AuthorizationSelectors {

@@ -1,5 +1,5 @@
-import { DetailedJudge } from './../../domains/judge';
-import { NormalizedEntities } from './../../entity-schemas/types';
+import { DetailedJudge } from '@/domains/judge';
+import { NormalizedEntities } from '../../entity-schemas';
 import { createAction } from '@reduxjs/toolkit';
 import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
 

@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 
 import { useScrollToTop } from '../../shared/hooks';
 import { addToast, logout } from '../../store/actions';
-import { AuthenticationSelectors } from '../../store/selectors';
+import { AuthenticationSelectors } from '@/store/selectors';
 import { LoginForm } from '../login';
 
 export const LogoutPage: React.FC = () => {

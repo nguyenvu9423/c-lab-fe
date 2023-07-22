@@ -1,5 +1,5 @@
-import { JudgeConfig } from './../../domains/judge-config';
-import { NormalizedEntities } from './../../entity-schemas/types';
+import { JudgeConfig } from '@/domains/judge-config';
+import { NormalizedEntities } from '../../entity-schemas';
 import { BaseFetchPayload, BaseFetchErrorPayload } from './shared';
 import { createAction } from '@reduxjs/toolkit';
 

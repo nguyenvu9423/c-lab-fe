@@ -1,6 +1,6 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { fetchDetailedJudge } from '../actions';
-import { JudgeService } from '../../services/JudgeService';
+import { JudgeService } from '../../services/judge/JudgeService';
 import { normalize } from 'normalizr';
 import { detailedJudgeSchema } from '../../entity-schemas';
 import { SagaIterator } from 'redux-saga';

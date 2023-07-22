@@ -12,7 +12,7 @@ import {
 } from 'redux-saga/effects';
 
 import { login, logout, setToken, refreshToken, resetState } from '../actions';
-import { AuthenticationService } from '../../services/AuthenticationService';
+import { AuthenticationService } from '../../services/auth/AuthenticationService';
 import { AuthProvider } from '../../utils/authentication/tokenProvider';
 import { Jwt } from '../../utils';
 import { AuthenticationSelectors } from '../selectors';

@@ -1,4 +1,4 @@
-import { DetailedSubModal } from './../../domains/submission/components/DetailedSubModal';
+import { DetailedSubModal } from '@/domain-ui/submission';
 import { createReducer } from '@reduxjs/toolkit';
 import { setModal } from '../actions';
 

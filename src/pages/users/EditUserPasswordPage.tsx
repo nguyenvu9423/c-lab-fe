@@ -5,13 +5,14 @@ import { Grid, Header, Segment } from 'semantic-ui-react';
 import { useNavigate, useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 
-import { EditUserPasswordForm } from '../../domains/user';
-import { ValidationException } from '../../shared/exceptions';
-import { UserService } from '../../services/UserService';
-import { addToast } from '../../store/actions';
-import { AuthenticationSelectors } from '../../store/selectors';
+import { EditUserPasswordForm } from '@/domain-ui/user';
+import { ValidationException } from '@/shared/exceptions';
+import { UserService } from '@/services';
+import { addToast } from '@/store/actions';
+import { AuthenticationSelectors } from '@/store/selectors';
+import { useScrollToTop } from '@/shared/hooks';
+
 import { PageErrorMessage } from '../shared';
-import { useScrollToTop } from '../../shared/hooks';
 
 export const EditUserPasswordPage: React.FC = () => {
   const { username: usernameParam } = useParams<'username'>();

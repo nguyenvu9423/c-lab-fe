@@ -4,8 +4,8 @@ import { Grid, Header, Segment } from 'semantic-ui-react';
 import { useLocation } from 'react-router';
 import { Helmet } from 'react-helmet';
 
-import { ResetPasswordForm } from '../../domains/user';
-import { useScrollToTop } from '../../shared/hooks';
+import { ResetPasswordForm } from '@/domain-ui/user';
+import { useScrollToTop } from '@/shared/hooks';
 
 export const ResetPasswordPage: React.FC = () => {
   const location = useLocation();

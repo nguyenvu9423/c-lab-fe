@@ -4,10 +4,11 @@ import { useParams } from 'react-router';
 import { Grid, Header, Segment } from 'semantic-ui-react';
 import { Helmet } from 'react-helmet';
 
-import { useScrollToTop } from '../../shared/hooks';
-import { EditUserInfoForm } from '../../domains/user';
-import { UnknownException } from '../../shared/exceptions/UnkownException';
-import { AuthenticationSelectors } from '../../store/selectors';
+import { useScrollToTop } from '@/shared/hooks';
+import { EditUserInfoForm } from '@/domain-ui/user';
+import { UnknownException } from '@/shared/exceptions';
+import { AuthenticationSelectors } from '@/store/selectors';
+
 import { PageErrorMessage } from '../shared';
 
 export const EditUserInfoPage: React.FC = () => {

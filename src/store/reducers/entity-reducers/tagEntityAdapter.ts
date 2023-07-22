@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { Tag } from './../../../domains/tag/Tag';
+import { Tag } from '@/domains/tag/Tag';
 
 export const tagEntityAdapter = createEntityAdapter<Tag>();
 

@@ -1,5 +1,5 @@
 import { apiCaller } from '../utils/Axios';
-import { ArticleDTO } from '../domains/article';
+import { ArticleDTO } from './dtos';
 import { Page, ServiceResponse } from './types';
 import { Pageable } from '../utils';
 

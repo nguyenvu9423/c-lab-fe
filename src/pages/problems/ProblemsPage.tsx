@@ -6,21 +6,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
-import { fetchProblems } from '../../store/actions/problem';
-import { PrincipalSelectors, ProblemSelectors } from '../../store/selectors';
-import { LoadingState } from '../../store/common';
-import { TagFilterCard, Pagination } from '../../components';
-import { Target } from '../../store/reducers/target';
-import { resetState } from '../../store/actions/state';
-import { State } from '../../store/state';
-import { DataHolder } from '../../store/reducers/data-holders/shared';
-import { RsqlUtils } from '../../utils';
-import { AcceptedLabel } from '../../domains/judge';
-import { ErrorTableBody, LoadingTableBody } from '../../components/table';
-import { useScrollToTop } from '../../shared/hooks';
+import { fetchProblems } from '@/store/actions';
+import { PrincipalSelectors, ProblemSelectors } from '@/store/selectors';
+import { LoadingState } from '@/store/common';
+import { Pagination } from '@/components';
+import { Target } from '@/store/reducers/target';
+import { resetState } from '@/store/actions/state';
+import { State } from '@/store';
+import { DataHolder } from '@/store/reducers/data-holders/shared';
+
+import { OnlyNameTag } from '@/domains/tag';
+import { RsqlUtils } from '@/utils';
+import { AcceptedLabel } from '@/domain-ui/judge';
+import { ErrorTableBody, LoadingTableBody } from '@/components/table';
+import { useScrollToTop } from '@/shared/hooks';
 import { ProblemPageLink } from './problem-page/ProblemPageLink';
 import { PageUtils } from '../shared';
-import { OnlyNameTag } from '../../domains/tag';
+import { TagFilterCard } from '@/domain-ui/tag';
 
 const PROBLEMS_PAGE_SIZE = 14;
 

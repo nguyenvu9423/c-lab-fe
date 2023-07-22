@@ -1,10 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { fetchTag, fetchTags, FetchTags, FetchTag } from '../actions';
-import { TagService } from '../../services/TagService';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
-import { tagSchema, tagArraySchema } from '../../domains/tag';
+
+import { TagService } from '@/services';
+import { tagArraySchema, tagSchema } from '@/entity-schemas';
 
 function* fetchTagsSaga(action: PayloadAction<FetchTags.RequestPayload>) {
   const { payload } = action;

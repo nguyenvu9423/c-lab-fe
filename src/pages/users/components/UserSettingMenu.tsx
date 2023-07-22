@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Header, Icon, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
-import { User } from '../../../domains/user';
+import { User } from '@/domains/user';
 
 export namespace UserSettingMenu {
   export interface Props {

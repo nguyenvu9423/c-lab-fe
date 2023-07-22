@@ -1,10 +1,10 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
-import { ArticleService } from '../../services/ArticleService';
-import { articleSchema, articleArraySchema } from './../../domains/article';
-
-import { fetchArticle, fetchArticles } from '../actions';
+import { ArticleService } from '@/services';
 import { SagaIterator } from 'redux-saga';
+
+import { articleSchema, articleArraySchema } from '@/entity-schemas';
+import { fetchArticle, fetchArticles } from '../actions';
 
 function* fetchArticleSaga(action) {
   const { id, target } = action.payload;

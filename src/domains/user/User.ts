@@ -1,4 +1,4 @@
-import { RoleDTO } from '../role';
+import { Role } from '../role';
 
 export interface User {
   id: number;
@@ -21,5 +21,5 @@ export interface User {
 
   banned: boolean;
 
-  role: RoleDTO;
+  role: Role;
 }

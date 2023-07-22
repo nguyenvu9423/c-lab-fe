@@ -1,4 +1,4 @@
-import { Tag } from './../../domains/tag/Tag';
+import { Tag } from '@/domains/tag/Tag';
 import { State } from './../state';
 import { tagEntityAdapter } from './../reducers/entity-reducers/tagEntityAdapter';
 import { Selector } from '@reduxjs/toolkit';

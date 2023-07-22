@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Button, Header, Progress, Statistic } from 'semantic-ui-react';
-import { ProblemRejudgeService } from '../../services/ProblemRejudgeService';
+import { ProblemRejudgeService } from '../../services/judge/ProblemRejudgeService';
 import { ProblemRejudgeStatus } from './problem-rejudge-progress';
 import { ProblemRejudge } from './ProblemRejudge';
-import { useProblemRejudgeStream } from './useProblemRejudgeStream';
+import { useProblemRejudgeStream } from '../../domain-ui/problem-rejudge/hooks/useProblemRejudgeStream';
 
 export namespace ProblemRejudgeInfo {
   export interface Props {

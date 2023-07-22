@@ -1,10 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Tag } from './../../../domains/tag/Tag';
-import { Pageable } from './../../../utils/Pageable';
-import { NormalizedEntities } from './../../../entity-schemas/types';
+import { Tag } from '@/domains/tag/Tag';
+import { Pageable } from '@/utils/Pageable';
+import { NormalizedEntities } from '@/entity-schemas';
+import { DataHolderState } from './shared';
 import { fetchTags, resetState } from '../../actions';
 import { LoadingState } from '../../common';
-import { DataHolderState } from './shared';
 
 export type TagsState = DataHolderState<
   { pageable: Pageable; query?: string },

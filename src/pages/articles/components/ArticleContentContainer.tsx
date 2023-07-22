@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RawDraftContentState } from 'draft-js';
-import { Article } from '../../../domains/article';
-import { UserSelectors } from '../../../store/selectors';
+import { Article } from '@/domains/article';
+import { UserSelectors } from '@/store/selectors';
 import { Divider, Header, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { Avatar } from '../../../components/avatar/Avatar';
+import { Avatar } from '@/components/avatar/Avatar';
 import { DateTimeUtils } from '../../../utils/data-type/DateTimeUtils';
 import { ArticleContentTable } from './ArticleContentTable';
 import { RichTextView } from '../../../components';

@@ -5,7 +5,7 @@ import { Search } from 'semantic-ui-react';
 import { LoadingState } from '../../store/common';
 import { fetchSearch } from '../../store/actions/search';
 import { State } from '../../store';
-import { SearchResult } from '../../domains/search/SearchResult';
+import { SearchResult } from '@/domains/search/SearchResult';
 import { useNavigate } from 'react-router';
 import { MarkdownView } from '../editors';
 

@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { Header, Segment } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
-import { AuthorizationSelectors } from '../../../store/selectors';
+import { AuthorizationSelectors } from '@/store/selectors';
 import { LoginButton } from '../../common';
-import {
-  SubmissionForm,
-  CompactSubmissionForm,
-} from '../../../domains/submission';
+import { SubmissionForm, CompactSubmissionForm } from '@/domain-ui/submission';
 
 export const SubmissionCard: React.FC<SubmissionForm.Props> = (props) => {
   const canSubmit = useSelector(AuthorizationSelectors.canSubmit());

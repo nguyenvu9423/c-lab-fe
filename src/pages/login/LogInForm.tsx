@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import { Button, Form, Input } from 'semantic-ui-react';
 import { FormikHelpers, useFormik } from 'formik';
-import { AuthenticationService } from '../../services/AuthenticationService';
-import { FormErrorMessage, useErrorMessageRenderer } from '../../components';
+import { AuthenticationService } from '../../services/auth/AuthenticationService';
+import { FormErrorMessage, useErrorMessageRenderer } from '@/components';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/actions';
 import { ValidationException } from '../../shared/exceptions';

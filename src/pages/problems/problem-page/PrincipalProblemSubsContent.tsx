@@ -1,29 +1,30 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Lodash from 'lodash';
+import { useLocation } from 'react-router';
 
 import { Grid, Pagination, Segment, Ref } from 'semantic-ui-react';
 
+import { SubmissionSelectors, PrincipalSelectors } from '@/store/selectors';
+import { fetchSubmissions } from '@/store/actions/submission';
+import { LoadingState } from '@/store/common';
+import { useJudgesStream } from '@/domain-ui/judge';
+import { Target } from '@/store/reducers/target';
+import { resetState } from '@/store/actions';
+import { Problem } from '@/domains/problem';
+import { User } from '@/domains/user';
+import { State } from '@/store';
+import { TagContainer } from '@/components';
+import { scrollToElementTop } from '@/utils';
+import { DataHolder } from '@/store/reducers/data-holders/shared';
+
 import {
-  SubmissionSelectors,
-  PrincipalSelectors,
-} from '../../../store/selectors';
-import { fetchSubmissions } from '../../../store/actions/submission';
-import { LoadingState } from '../../../store/common';
-import { useJudgesStream } from '../../../domains/judge';
-import { Target } from '../../../store/reducers/target';
-import { resetState } from '../../../store/actions';
-import { Problem } from '../../../domains/problem';
-import { User } from '../../../domains/user';
-import { State } from '../../../store';
-import { ProblemNavMenu } from '../components/ProblemNavMenu';
-import { SubmissionCard } from '../components/SubmissionCard';
-import { TagContainer } from '../../../components';
-import { SubmissionsTable } from '../components/SubmissionsTable';
-import { scrollToElementTop } from '../../../utils';
-import { DataHolder } from '../../../store/reducers/data-holders/shared';
-import { ProblemInfoCard } from '../components';
-import { useLocation } from 'react-router';
+  ProblemInfoCard,
+  ProblemNavMenu,
+  SubmissionCard,
+  SubmissionsTable,
+} from '../components';
+
 import { useHighlightSub } from '../useHighlightSub';
 import { PageUtils } from '../../shared';
 

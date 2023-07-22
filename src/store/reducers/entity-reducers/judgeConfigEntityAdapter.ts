@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { JudgeConfig } from '../../../domains/judge-config';
+import { JudgeConfig } from '@/domains/judge-config';
 
 export const judgeConfigEntityAdapter = createEntityAdapter<JudgeConfig>();
 

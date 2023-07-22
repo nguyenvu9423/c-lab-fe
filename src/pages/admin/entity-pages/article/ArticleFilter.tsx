@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Grid } from 'semantic-ui-react';
 import { ExpressionNode } from '@rsql/ast';
-import { BufferedInput } from '../../../../components/input';
-import { ArticleTitleSelect } from '../../../../domains/article/input/ArticleTitleSelect';
-import { OnlyNameTag, TagSelect } from '../../../../domains/tag';
-import { UserDTO } from '../../../../domains/user';
-import { UserSelect } from '../../../../domains/user/UserSelect';
-import { RsqlUtils } from '../../../../utils';
+import { BufferedInput } from '@/components/input';
+import { OnlyNameTag } from '@/domains/tag';
+import { UserDTO } from '@/services/dtos';
+import { RsqlUtils } from '@/utils';
+import { ArticleTitleSelect } from '@/domain-ui/article';
+import { UserSelect } from '@/domain-ui/user';
+import { TagSelect } from '@/domain-ui/tag';
 
 export namespace ArticleFilter {
   export interface Props {

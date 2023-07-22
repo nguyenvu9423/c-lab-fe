@@ -1,7 +1,7 @@
 import { getSelector, getValue, isComparisonNode } from '@rsql/ast';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { OnlyNameTag } from '../../domains/tag';
+import { OnlyNameTag } from '@/domains/tag';
 import { RsqlUtils } from '../../utils';
 
 export namespace PageUtils {

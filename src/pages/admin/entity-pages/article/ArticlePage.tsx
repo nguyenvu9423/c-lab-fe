@@ -2,26 +2,27 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Segment, Table } from 'semantic-ui-react';
 
-import { fetchArticles, resetState } from '../../../../store/actions';
-import { Target } from '../../../../store/reducers/target';
-import { ArticleSelectors } from '../../../../store/selectors/ArticleSelectors';
-import { Pagination } from '../../../../components';
-import { AddButton, EditRowButton, DeleteRowButton } from '../shared';
-import { LoadingState } from '../../../../store/common';
-import { State } from '../../../../store';
+import { fetchArticles, resetState } from '@/store/actions';
+import { Target } from '@/store/reducers/target';
+import { ArticleSelectors } from '@/store/selectors/ArticleSelectors';
+import { Pagination } from '@/components';
+import { LoadingState } from '@/store/common';
+import { State } from '@/store';
 import {
   DataHolder,
   DataHolderState,
-} from '../../../../store/reducers/data-holders/shared';
+} from '@/store/reducers/data-holders/shared';
 import { ArticleFilter } from './ArticleFilter';
 import {
   AddArticleModal,
   EditArticleModal,
   DeleteArticleConfirm,
-} from '../../../../domains/article';
-import { ErrorTableBody, LoadingTableBody } from '../../../../components/table';
-import { ArticlePageLink } from '../../..';
+} from '@/domain-ui/article';
+import { ErrorTableBody, LoadingTableBody } from '@/components/table';
+
+import { ArticlePageLink } from '../../../articles/ArticlePageLink';
 import { PageUtils } from '../../../shared';
+import { AddButton, EditRowButton, DeleteRowButton } from '../shared';
 
 const PAGE_SIZE = 10;
 

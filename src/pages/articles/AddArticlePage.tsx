@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Container, Segment, Header } from 'semantic-ui-react';
-import { useScrollToTop } from '../../shared/hooks';
-import { AddArticleForm } from '../../domains/article';
-import { AuthorizationSelectors } from '../../store/selectors';
+import { useScrollToTop } from '@/shared/hooks';
+import { AddArticleForm } from '@/domain-ui/article';
+import { AuthorizationSelectors } from '@/store/selectors';
 import { PageErrorMessage } from '../shared';
 
 export const AddArticlePage: React.FC = () => {

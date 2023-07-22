@@ -8,8 +8,8 @@ import { OverviewArticleCard } from './components/OverviewArticleCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { Target } from '../../store/reducers/target';
 import { LoadingState } from '../../store/common';
-import { LoadingIndicator, Pagination, TagFilterCard } from '../../components';
-import { ArticleSelectors } from '../../store/selectors';
+import { LoadingIndicator, Pagination } from '@/components';
+import { ArticleSelectors } from '@/store/selectors';
 import { State } from '../../store';
 import { DataHolder } from '../../store/reducers/data-holders/shared';
 import { resetState } from '../../store/actions';
@@ -17,8 +17,9 @@ import { useScrollToTop } from '../../shared/hooks';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { PageUtils } from '../shared';
-import { OnlyNameTag } from '../../domains/tag';
+import { OnlyNameTag } from '@/domains/tag';
 import { RsqlUtils } from '../../utils';
+import { TagFilterCard } from '@/domain-ui/tag';
 
 const ARTICLES_PAGE_SIZE = 10;
 

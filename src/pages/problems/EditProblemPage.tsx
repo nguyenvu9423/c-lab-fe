@@ -8,11 +8,11 @@ import {
   Ref,
   Sticky,
 } from 'semantic-ui-react';
-import { EditProblemForm, ProblemRejudgeForm } from '../../domains/problem';
-import { UpdateJudgeConfigForm } from '../../domains/judge-config/UpdateJudgeConfigForm';
+import { EditProblemForm, ProblemRejudgeForm } from '@/domain-ui/problem';
+import { UpdateJudgeConfigForm } from '@/domain-ui/judge-config';
 import { useDispatch } from 'react-redux';
-import { addToast } from '../../store/actions/toast';
-import { useScrollToTop } from '../../shared/hooks';
+import { addToast } from '@/store/actions/toast';
+import { useScrollToTop } from '@/shared/hooks';
 import { useMatch, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { UnknownException } from '../../shared/exceptions/UnkownException';

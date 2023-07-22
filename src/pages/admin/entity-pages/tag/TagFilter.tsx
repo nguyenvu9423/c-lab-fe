@@ -2,9 +2,9 @@ import * as React from 'react';
 import { ExpressionNode } from '@rsql/ast';
 import { Grid } from 'semantic-ui-react';
 
-import { BufferedInput } from '../../../../components/input';
-import { TagNameSelect } from '../../../../domains/tag';
-import { RsqlUtils } from '../../../../utils';
+import { TagNameSelect } from '@/domain-ui/tag';
+import { BufferedInput } from '@/components/input';
+import { RsqlUtils } from '@/utils';
 
 export namespace TagFilter {
   export interface Props {

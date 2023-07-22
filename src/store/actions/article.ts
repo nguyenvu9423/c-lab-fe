@@ -1,9 +1,9 @@
 import * as uuid from 'uuid';
-import { NormalizedEntities } from './../../entity-schemas/types';
+import { NormalizedEntities } from '../../entity-schemas';
 import { Pageable } from './../../utils/Pageable';
 import { createAction } from '@reduxjs/toolkit';
 import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
-import { Article } from '../../domains/article';
+import { Article } from '@/domains/article';
 
 export namespace FetchArticle {
   export interface RequestPayload extends BaseFetchPayload {

@@ -1,9 +1,9 @@
-import { Submission } from '../../domains/submission';
-import { NormalizedEntities } from './../../entity-schemas/types';
 import { createAction } from '@reduxjs/toolkit';
+
+import { Submission, DetailedSub } from '@/domains/submission';
+import { NormalizedEntities } from '../../entity-schemas';
 import { Pageable } from './../../utils/Pageable';
 import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
-import { DetailedSub } from '../../domains/submission';
 
 export namespace FetchSubmissions {
   export interface BaseRequestPayload extends BaseFetchPayload {

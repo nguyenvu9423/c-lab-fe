@@ -1,4 +1,4 @@
-import { ChangePasswordDTO, UserDTO } from '../domains/user';
+import { ChangePasswordDTO, UserDTO } from './dtos';
 import { Pageable } from '../utils';
 import { apiCaller } from '../utils/Axios';
 import { Page, ServiceResponse } from './types';

@@ -2,12 +2,14 @@ import * as React from 'react';
 import { Table, TableProps } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { JudgeSelectors } from '../../../store/selectors/JudgeSelectors';
-import { SubmissionDetailsLink, Submission } from '../../../domains/submission';
-import { JudgeStatusLabel } from '../../../domains/judge';
+import { SubmissionDetailsLink } from '@/domain-ui/submission';
+
+import { JudgeSelectors } from '@/store/selectors/JudgeSelectors';
+import { JudgeStatusLabel } from '@/domain-ui/judge';
 import { formatResourceTime, formatResourceMemory } from '../utils';
-import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
+import { ErrorTableBody, LoadingTableBody } from '@/components/table';
 import { DateTimeUtils } from '../../../utils/data-type/DateTimeUtils';
+import { Submission } from '@/domains/submission';
 
 export namespace SubmissionsTable {
   export interface Props extends TableProps {

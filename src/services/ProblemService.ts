@@ -1,9 +1,7 @@
 import { Pageable } from '../utils/Pageable';
 import { apiCaller } from '../utils/Axios';
 import { Page, ServiceResponse } from './types';
-import { ProblemDTO } from '../domains/problem/ProblemDTO';
-import { JudgeConfigDTO } from '../domains/judge-config/JudgeConfigDTO';
-import { ProblemRejudgeDTO } from '../domains/problem-rejudge/ProblemRejudgeDTO';
+import { JudgeConfigDTO, ProblemDTO, ProblemRejudgeDTO } from './dtos';
 
 const BASE_URL = '/problems';
 export namespace ProblemService {

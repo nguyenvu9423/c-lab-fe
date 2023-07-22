@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -13,6 +14,7 @@ module.exports = {
       '../../theme.config$': path.join(__dirname, '/semantic-ui/theme.config'),
       '../semantic-ui/site': path.join(__dirname, '/semantic-ui/site'),
     },
+    plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
   },
   module: {
     rules: [

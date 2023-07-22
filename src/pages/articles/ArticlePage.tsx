@@ -7,14 +7,11 @@ import { fetchArticle } from '../../store/actions/article';
 import { Grid, Ref, Sticky, Segment, Divider } from 'semantic-ui-react';
 import { ArticleContentTable } from './components/ArticleContentTable';
 import { LoadingState } from '../../store/common';
-import { ErrorMessage, LoadingIndicator } from '../../components';
-import {
-  ArticleSelectors,
-  AuthorizationSelectors,
-} from '../../store/selectors';
+import { ErrorMessage, LoadingIndicator } from '@/components';
+import { ArticleSelectors, AuthorizationSelectors } from '@/store/selectors';
 import { Target } from '../../store/reducers/target';
 import { State } from '../../store';
-import { Article } from '../../domains/article';
+import { Article } from '@/domains/article';
 import { ArticleSettingPanel } from './components/ArticleSettingPanel';
 import { resetState } from '../../store/actions';
 import { Breakpoint } from '../../utils';

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Header, Button } from 'semantic-ui-react';
-import { ButtonGroup } from '../../../components/button';
-import { Problem } from '../../../domains/problem';
+import { ButtonGroup } from '@/components/button';
+import { Problem } from '@/domains/problem';
 
 export namespace ProblemSettingPanel {
   export interface Props {

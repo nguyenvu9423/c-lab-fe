@@ -3,22 +3,23 @@ import { AND } from '@rsql/ast';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Segment, Ref } from 'semantic-ui-react';
 
-import { Pagination, TagContainer } from '../../../components';
-import { useJudgesStream } from '../../../domains/judge';
-import { Problem } from '../../../domains/problem';
-import { Submission, SubmissionFilterCard } from '../../../domains/submission';
-import { State } from '../../../store';
-import { fetchSubmissions, resetState } from '../../../store/actions';
+import { Pagination, TagContainer } from '@/components';
+import { useJudgesStream } from '@/domain-ui/judge';
+import { Problem } from '@/domains/problem';
+import { Submission } from '@/domains/submission';
+import { State } from '@/store';
+import { fetchSubmissions, resetState } from '@/store/actions';
 import {
   DataHolder,
   DataHolderState,
-} from '../../../store/reducers/data-holders/shared';
-import { Target } from '../../../store/reducers/target';
-import { SubmissionSelectors } from '../../../store/selectors';
-import { scrollToElementTop } from '../../../utils';
+} from '@/store/reducers/data-holders/shared';
+import { Target } from '@/store/reducers/target';
+import { SubmissionSelectors } from '@/store/selectors';
+import { scrollToElementTop } from '@/utils';
 import { PageUtils } from '../../shared';
 import { ProblemInfoCard, SubmissionsTable } from '../components';
 import { ProblemNavMenu } from '../components/ProblemNavMenu';
+import { SubmissionFilterCard } from '@/domain-ui/submission';
 
 export const ProblemSubmissionsContent: React.FC<{ problem: Problem }> = (
   props

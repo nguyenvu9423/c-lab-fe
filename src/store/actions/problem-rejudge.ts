@@ -1,5 +1,5 @@
-import { NormalizedEntities } from './../../entity-schemas/types';
-import { ProblemRejudge } from './../../domains/problem-rejudge/ProblemRejudge';
+import { NormalizedEntities } from '../../entity-schemas';
+import { ProblemRejudge } from '@/domains/problem-rejudge/ProblemRejudge';
 import { createAction } from '@reduxjs/toolkit';
 import { BaseFetchPayload, BaseFetchErrorPayload } from './shared';
 

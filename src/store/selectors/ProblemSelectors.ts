@@ -1,5 +1,5 @@
 import { State } from './../state';
-import { Problem } from './../../domains/problem/Problem';
+import { Problem } from '@/domains/problem/Problem';
 import { problemEntityAdapter } from './../reducers/entity-reducers/problemEntityAdapter';
 import { EntityId, Selector } from '@reduxjs/toolkit';
 

@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
 import { Helmet } from 'react-helmet';
 
-import { RegisterForm } from '../../domains/user/forms/RegisterForm';
-import { addToast } from '../../store/actions';
-import { AuthenticationSelectors } from '../../store/selectors';
-import { useScrollToTop } from '../../shared/hooks';
+import { RegisterForm } from '@/domain-ui/user';
+import { addToast } from '@/store/actions';
+import { AuthenticationSelectors } from '@/store/selectors';
+import { useScrollToTop } from '@/shared/hooks';
 
 export const RegisterPage: React.FC = () => {
   useScrollToTop();

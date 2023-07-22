@@ -1,16 +1,16 @@
-import { State } from '../../../store/state';
+import { State } from '@/store/state';
 import * as React from 'react';
-import { addToast, fetchRoles } from '../../../store/actions';
+import { addToast, fetchRoles } from '@/store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Target } from '../../../store/reducers/target';
+import { Target } from '@/store/reducers/target';
 import { Segment, Table, Button } from 'semantic-ui-react';
-import { ConstSelectors, RoleSelectors } from '../../../store/selectors';
+import { ConstSelectors, RoleSelectors } from '@/store/selectors';
 import { Pagination } from '../../../components';
-import { AddRoleModal, EditRoleModal } from '../../../domains/role';
-import { DataHolder } from '../../../store/reducers/data-holders/shared';
+import { AddRoleModal, EditRoleModal } from '@/domain-ui/role';
+import { DataHolder } from '@/store/reducers/data-holders/shared';
 import { PAGE_SIZE } from '../../problems/components';
-import { CRUDToastBuilder } from '../../../components/toast';
-import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
+import { CRUDToastBuilder } from '@/components/toast';
+import { ErrorTableBody, LoadingTableBody } from '@/components/table';
 import { PageUtils } from '../../shared';
 
 export const RolePage: React.FC = () => {

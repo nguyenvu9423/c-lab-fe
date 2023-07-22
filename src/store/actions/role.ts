@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Role } from './../../domains/role/Role';
-import { NormalizedEntities } from './../../entity-schemas/types';
+import { Role } from '@/domains/role';
+import { NormalizedEntities } from '../../entity-schemas';
 import { BaseFetchPayload, BaseFetchErrorPayload } from './shared';
 import { Pageable } from '../../utils';
 

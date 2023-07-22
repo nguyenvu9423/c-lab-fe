@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
-import { NormalizedEntities } from './../../entity-schemas/types';
-import { User } from './../../domains/user/User';
+import { NormalizedEntities } from '../../entity-schemas';
+import { User } from '@/domains/user/User';
 import {
   defaultPrepare,
   BaseFetchPayload,

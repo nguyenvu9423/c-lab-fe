@@ -1,9 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Role } from './../../../domains/role/Role';
+import { Role } from '@/domains/role/Role';
 import { DataHolderState } from './shared';
 import { LoadingState } from '../../common';
 import { fetchRole } from '../../actions';
-import { NormalizedEntities } from '../../../entity-schemas/types';
+import { NormalizedEntities } from '@/entity-schemas';
 
 export type RoleState = DataHolderState<
   Record<string, unknown>,

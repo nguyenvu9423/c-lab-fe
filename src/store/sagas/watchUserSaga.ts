@@ -1,10 +1,10 @@
+import { normalize } from 'normalizr';
+import { SagaIterator } from 'redux-saga';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, takeEvery, put, select } from 'redux-saga/effects';
 import { fetchUser, fetchUsers, FetchUsers, FetchUser } from '../actions';
-import { UserService } from '../../services/UserService';
-import { userSchema, usersSchema } from '../../entity-schemas/userSchema';
-import { normalize } from 'normalizr';
-import { SagaIterator } from 'redux-saga';
+import { UserService } from '../../services';
+import { userSchema, usersSchema } from '../../entity-schemas';
 import { AuthenticationSelectors } from '../selectors';
 
 function* fetchUsersSaga(action: PayloadAction<FetchUsers.RequestPayload>) {

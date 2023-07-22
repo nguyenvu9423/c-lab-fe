@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Segment, Table, Button } from 'semantic-ui-react';
-import { addToast, fetchProblems, resetState } from '../../../../store/actions';
-import { Target } from '../../../../store/reducers/target';
-import { ConstSelectors, ProblemSelectors } from '../../../../store/selectors';
+import { addToast, fetchProblems, resetState } from '@/store/actions';
+import { Target } from '@/store/reducers/target';
+import { CRUDToastBuilder } from '@/components/toast';
+import { ConstSelectors, ProblemSelectors } from '@/store/selectors';
 import { Pagination } from '../../../../components';
-import { CRUDToastBuilder } from '../../../../components/toast';
 
 import { State } from '../../../../store';
 import {
   DataHolder,
   DataHolderState,
-} from '../../../../store/reducers/data-holders/shared';
+} from '@/store/reducers/data-holders/shared';
 import { ProblemFilter } from './ProblemFilter';
 import { AddButton, DeleteRowButton, EditRowButton } from '../shared';
 import {
@@ -20,8 +20,8 @@ import {
   EditProblemModal,
   RejudgeProblemModal,
   UpdateJudgeConfigModal,
-} from '../../../../domains/problem';
-import { LoadingTableBody, ErrorTableBody } from '../../../../components/table';
+} from '@/domain-ui/problem';
+import { LoadingTableBody, ErrorTableBody } from '@/components/table';
 import { ProblemPageLink } from '../../../problems/problem-page/ProblemPageLink';
 import { PageUtils } from '../../../shared';
 

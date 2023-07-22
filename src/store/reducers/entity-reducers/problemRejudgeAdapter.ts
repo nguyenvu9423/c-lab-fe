@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { ProblemRejudge } from './../../../domains/problem-rejudge/ProblemRejudge';
+import { ProblemRejudge } from '@/domains/problem-rejudge';
 
 export const problemRejudgeEntityAdapter =
   createEntityAdapter<ProblemRejudge>();

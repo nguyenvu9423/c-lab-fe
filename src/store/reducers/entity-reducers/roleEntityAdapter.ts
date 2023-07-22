@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { Role } from './../../../domains/role/Role';
+import { Role } from '@/domains/role';
 
 export const roleEntityAdapter = createEntityAdapter<Role>();
 

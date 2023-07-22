@@ -1,6 +1,6 @@
 import { detailedProblemEntityAdapter } from './../reducers/entity-reducers/detailedProblemEntityAdapter';
 import { State } from './../state';
-import { DetailedProblem } from './../../domains/problem/Problem';
+import { DetailedProblem } from '@/domains/problem/Problem';
 import { EntityId, Selector } from '@reduxjs/toolkit';
 
 const entitySelectors = detailedProblemEntityAdapter.getSelectors(

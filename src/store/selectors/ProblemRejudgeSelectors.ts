@@ -1,5 +1,5 @@
 import { Selector } from '@reduxjs/toolkit';
-import { ProblemRejudge } from './../../domains/problem-rejudge/ProblemRejudge';
+import { ProblemRejudge } from '@/domains/problem-rejudge/ProblemRejudge';
 import { State } from './../state';
 import { problemRejudgeEntityAdapter } from './../reducers/entity-reducers/problemRejudgeAdapter';
 

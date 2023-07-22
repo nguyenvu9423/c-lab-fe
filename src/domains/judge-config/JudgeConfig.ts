@@ -1,6 +1,3 @@
-import { CustomJudger } from './custom-judger';
-import { TestPackage } from './test-package';
-
 export interface JudgeConfig {
   timeLimit: number;
 

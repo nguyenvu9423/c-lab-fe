@@ -4,23 +4,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router';
 import { Helmet } from 'react-helmet';
 
-import { fetchProblem } from '../../../store/actions/problem';
-import {
-  AuthorizationSelectors,
-  ProblemSelectors,
-} from '../../../store/selectors';
-import { LoadingState } from '../../../store/common';
+import { fetchProblem } from '@/store/actions/problem';
+import { AuthorizationSelectors, ProblemSelectors } from '@/store/selectors';
+import { LoadingState } from '@/store/common';
 import { ErrorMessage, LoadingIndicator } from '../../../components';
-import { Target } from '../../../store/reducers/target';
-import { State } from '../../../store/state';
+import { Target } from '@/store/reducers/target';
+import { State } from '@/store/state';
 import { ProblemSettingPanel } from '../components';
-import { DataHolderState } from '../../../store/reducers/data-holders/shared';
+import { DataHolderState } from '@/store/reducers/data-holders/shared';
 
 import { ProblemMainContent } from './ProblemMainContent';
 import { ProblemSubmitContent } from './ProblemSubmitContent';
 import { PrincipalProblemSubsContent } from './PrincipalProblemSubsContent';
 import { ProblemSubmissionsContent } from './ProblemSubmissionsContent';
-import { resetState } from '../../../store/actions';
+import { resetState } from '@/store/actions';
 import { useScrollToTop } from '../../../shared/hooks';
 import { useParams } from 'react-router';
 import { UnknownException } from '../../../shared/exceptions/UnkownException';

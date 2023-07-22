@@ -1,4 +1,4 @@
-import { SearchResult } from './../../domains/search/SearchResult';
+import { SearchResult } from '@/domains/search/SearchResult';
 import * as uuid from 'uuid';
 import { createAction } from '@reduxjs/toolkit';
 

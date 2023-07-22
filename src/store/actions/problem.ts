@@ -1,5 +1,5 @@
-import { Problem, DetailedProblem } from './../../domains/problem/Problem';
-import { NormalizedEntities } from './../../entity-schemas/types';
+import { Problem, DetailedProblem } from '@/domains/problem/Problem';
+import { NormalizedEntities } from '../../entity-schemas';
 import { createAction } from '@reduxjs/toolkit';
 import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
 import { Pageable } from '../../utils';

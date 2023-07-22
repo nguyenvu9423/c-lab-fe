@@ -9,7 +9,7 @@ import { TagPage } from './entity-pages/tag';
 import { ArticlePage } from './entity-pages/article';
 import { UserPage } from './entity-pages/user';
 import { RolePage } from './entity-pages/RolePage';
-import { AuthorizationSelectors } from '../../store/selectors';
+import { AuthorizationSelectors } from '@/store/selectors';
 import { PageErrorMessage } from '../shared';
 import { SubmissionPage } from './entity-pages/submission';
 import { ProblemPage } from './entity-pages/problem';

@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as yup from 'yup';
 import { useFormik, FormikHelpers } from 'formik';
 import { JudgerType, ScoringType } from './JudgeConfig';
-import { useErrorMessageRenderer } from '../../components/form';
-import { SubmitButton, CancelButton } from '../../components/button';
+import { useErrorMessageRenderer } from '@/components/form';
+import { SubmitButton, CancelButton } from '@/components/button';
 import {
   Form,
   Header,
@@ -16,7 +16,7 @@ import {
 import { PutFileInput } from '../../pages/common/inputs/PutFileInput';
 import { CustomJudger, TestPackage } from '.';
 import { BackEndConfig } from '../../config';
-import { TextFileOverviewContainer } from '../../components';
+import { TextFileOverviewContainer } from '@/components';
 
 const judgerOptions = JudgerType.values.map((type) => ({
   value: type,

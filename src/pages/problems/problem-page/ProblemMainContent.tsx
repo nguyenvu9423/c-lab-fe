@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Grid } from 'semantic-ui-react';
 import { TagContainer } from '../../../components';
-import { Problem } from '../../../domains/problem';
-import { PrincipalSelectors } from '../../../store/selectors';
+import { Problem } from '@/domains/problem';
+import { PrincipalSelectors } from '@/store/selectors';
 import {
   ProblemDetailCard,
   ProblemInfoCard,

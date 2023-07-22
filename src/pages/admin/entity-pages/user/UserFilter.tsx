@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { ExpressionNode } from '@rsql/ast';
 import { Grid } from 'semantic-ui-react';
-import { BufferedInput } from '../../../../components/input';
-import { UserSelect } from '../../../../domains/user';
-import { RsqlUtils } from '../../../../utils';
+import { BufferedInput } from '@/components/input';
+import { UserSelect } from '@/domain-ui/user';
+import { RsqlUtils } from '@/utils';
 
 export namespace UserFilter {
   export interface Props {

@@ -5,7 +5,7 @@ import { Button, Grid, Header, Segment } from 'semantic-ui-react';
 import { Helmet } from 'react-helmet';
 
 import { useScrollToTop } from '../../shared/hooks';
-import { ErrorMessage, LoadingIndicator } from '../../components';
+import { ErrorMessage, LoadingIndicator } from '@/components';
 import { PageErrorMessage } from '../shared';
 import { State } from '../../store';
 import { DataHolderState } from '../../store/reducers/data-holders/shared';

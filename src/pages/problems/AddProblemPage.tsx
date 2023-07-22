@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import { Container, Segment, Header } from 'semantic-ui-react';
-import { AddProblemForm } from '../../domains/problem';
+import { AddProblemForm } from '@/domain-ui/problem';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToast } from '../../store/actions/toast';
-import { useScrollToTop } from '../../shared/hooks';
+import { addToast } from '@/store/actions';
+import { useScrollToTop } from '@/shared/hooks';
 import { useNavigate } from 'react-router';
-import { CRUDToastBuilder } from '../../components/toast';
-import { AuthorizationSelectors } from '../../store/selectors';
+import { CRUDToastBuilder } from '@/components/toast';
+import { AuthorizationSelectors } from '@/store/selectors';
 import { PageErrorMessage } from '../shared';
 
 export const AddProblemPage: React.FC = () => {

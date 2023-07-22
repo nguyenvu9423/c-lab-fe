@@ -1,22 +1,23 @@
 import * as React from 'react';
 import { Header, Segment, Pagination, Table } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSubmissions, resetState } from '../../../store/actions';
-import { SubmissionSelectors } from '../../../store/selectors/SubmissionSelectors';
-import { Target } from '../../../store/reducers/target';
+import { fetchSubmissions, resetState } from '@/store/actions';
+import { SubmissionSelectors } from '@/store/selectors/SubmissionSelectors';
+import { Target } from '@/store/reducers/target';
 
-import { useJudgesStream } from '../../../domains/judge';
-import { State } from '../../../store/state';
+import { State } from '@/store/state';
+import { Submission } from '@/domains/submission';
+import { useJudgesStream } from '@/domain-ui/judge';
 import {
-  Submission,
   SubmissionDetailsLink,
   SubmissionStatusLabel,
-} from '../../../domains/submission';
+} from '@/domain-ui/submission';
+import { ErrorTableBody, LoadingTableBody } from '@/components/table';
 import {
   DataHolder,
   DataHolderState,
-} from '../../../store/reducers/data-holders/shared';
-import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
+} from '@/store/reducers/data-holders/shared';
+
 import { useHighlightSub } from '../useHighlightSub';
 import { PageUtils } from '../../shared';
 

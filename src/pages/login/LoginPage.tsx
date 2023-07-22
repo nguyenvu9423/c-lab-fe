@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 
 import { Grid, Header, Segment } from 'semantic-ui-react';
 import { LoginForm } from './LogInForm';
-import { AuthenticationSelectors } from '../../store/selectors';
+import { AuthenticationSelectors } from '@/store/selectors';
 import { useScrollToTop } from '../../shared/hooks';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router';

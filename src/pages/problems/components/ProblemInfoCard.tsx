@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { UserPageLink } from '../../../domains/user';
-import { Problem } from '../../../domains/problem';
+import { UserPageLink } from '@/domain-ui/user';
+import { Problem } from '@/domains/problem';
 import { Segment, Header, Table } from 'semantic-ui-react';
-import { JudgeConfigSelectors } from '../../../store/selectors';
+import { JudgeConfigSelectors } from '@/store/selectors';
 
 export namespace ProblemInfoCard {
   export interface Props {

@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Table } from 'semantic-ui-react';
-import { SubmissionDetailsLink, Submission } from '../../../domains/submission';
-import { SubmissionStatusLabel } from '../../../domains/submission/components/SubmissionStatusLabel';
+import {
+  SubmissionDetailsLink,
+  SubmissionStatusLabel,
+} from '@/domain-ui/submission';
+import { Submission } from '@/domains/submission';
 
 export namespace CompactSubmissionTable {
   export interface Props {

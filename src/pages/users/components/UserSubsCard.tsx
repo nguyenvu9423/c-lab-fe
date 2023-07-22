@@ -2,24 +2,26 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Header, Ref, Segment, Table } from 'semantic-ui-react';
-import { Pagination } from '../../../components';
-import { ErrorTableBody, LoadingTableBody } from '../../../components/table';
-import { JudgeStatusLabel, useJudgesStream } from '../../../domains/judge';
-import { Submission, SubmissionDetailsLink } from '../../../domains/submission';
-import { State } from '../../../store';
-import { fetchSubmissions, resetState } from '../../../store/actions';
+
+import { Pagination } from '@/components';
+import { ErrorTableBody, LoadingTableBody } from '@/components/table';
+import { JudgeStatusLabel, useJudgesStream } from '@/domain-ui/judge';
+import { Submission } from '@/domains/submission';
+import { State } from '@/store';
+import { fetchSubmissions, resetState } from '@/store/actions';
 import {
   DataHolder,
   DataHolderState,
-} from '../../../store/reducers/data-holders/shared';
-import { Target } from '../../../store/reducers/target';
-import { SubmissionSelectors } from '../../../store/selectors';
-import { JudgeSelectors } from '../../../store/selectors/JudgeSelectors';
-import { scrollToElementTop } from '../../../utils';
-import { DateTimeUtils } from '../../../utils/data-type/DateTimeUtils';
-import { SubmissionsTable } from '../../problems/components';
+} from '@/store/reducers/data-holders/shared';
+import { Target } from '@/store/reducers/target';
+import { SubmissionSelectors } from '@/store/selectors';
+import { JudgeSelectors } from '@/store/selectors/JudgeSelectors';
+import { scrollToElementTop } from '@/utils';
+import { DateTimeUtils } from '@/utils/data-type/DateTimeUtils';
 import { formatResourceMemory, formatResourceTime } from '../../problems/utils';
 import { PageUtils } from '../../shared';
+import { SubmissionDetailsLink } from '@/domain-ui/submission';
+import { SubmissionsTable } from '../../problems/components';
 
 export namespace UserSubsCard {
   export interface Props {

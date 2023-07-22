@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { ExpressionNode } from '@rsql/ast';
 import { Grid } from 'semantic-ui-react';
-import { BufferedInput } from '../../../../components/input';
-import { TagDTO, TagSelect } from '../../../../domains/tag';
-import { RsqlUtils } from '../../../../utils';
-import { ProblemCodeSelect } from '../../../../domains/problem';
-import { UserDTO, UserSelect } from '../../../../domains/user';
+
+import { TagSelect } from '@/domain-ui/tag';
+import { ProblemCodeSelect } from '@/domain-ui//problem';
+import { UserSelect } from '@/domain-ui/user';
+import { UserDTO, TagDTO } from '@/services/dtos';
+import { BufferedInput } from '@/components/input';
+import { RsqlUtils } from '@/utils';
 
 export namespace ProblemFilter {
   export interface Props {

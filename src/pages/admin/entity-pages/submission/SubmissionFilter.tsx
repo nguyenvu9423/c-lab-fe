@@ -2,12 +2,12 @@ import * as React from 'react';
 import { Dropdown, DropdownItemProps, Grid } from 'semantic-ui-react';
 import { ExpressionNode } from '@rsql/ast';
 
-import { BufferedInput } from '../../../../components/input';
-import { JudgeProgressStatus } from '../../../../domains/judge';
-import { ProblemCodeSelect } from '../../../../domains/problem';
-import { VerdictFilterTypes } from '../../../../domains/submission/components/filter/options';
-import { UserSelect } from '../../../../domains/user';
-import { RsqlUtils } from '../../../../utils';
+import { BufferedInput } from '@/components/input';
+import { JudgeProgressStatus } from '@/domains/judge';
+import { ProblemCodeSelect } from '@/domain-ui/problem';
+import { VerdictFilterTypes } from '@/domain-ui/submission/components/filter/options';
+import { UserSelect } from '@/domain-ui/user';
+import { RsqlUtils } from '@/utils';
 
 export namespace SubmissionFilter {
   export interface Props {

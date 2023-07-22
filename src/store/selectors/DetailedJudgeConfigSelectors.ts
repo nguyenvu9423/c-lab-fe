@@ -1,7 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { Selector } from 'react-redux';
 import { State } from '..';
-import { DetailedJudgeConfig } from '../../domains/judge-config';
+import { DetailedJudgeConfig } from '@/domains/judge-config';
 import { detailedJudgeConfigEntityAdapter } from '../reducers/entity-reducers/detailedJudgeConfigEntityAdapter';
 
 const detailedJudgeConfigEntitySelectors =

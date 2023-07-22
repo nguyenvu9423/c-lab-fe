@@ -1,4 +1,4 @@
-import { TagDTO } from '../domains/tag';
+import { TagDTO } from './dtos';
 import { Pageable } from '../utils';
 import { apiCaller } from '../utils/Axios';
 import { Page, ServiceResponse } from './types';

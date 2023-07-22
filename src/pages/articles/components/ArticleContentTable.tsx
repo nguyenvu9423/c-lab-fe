@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Header, List } from 'semantic-ui-react';
 import { HashLink } from 'react-router-hash-link';
 import { slugifyHeading } from '../utils';
-import { ArrayUtils } from '../../../utils';
+import { ArrayUtils } from '@/utils';
 import { RawDraftContentState } from 'draft-js';
 
 export namespace ArticleContentTable {

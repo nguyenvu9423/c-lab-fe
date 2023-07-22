@@ -13,7 +13,7 @@ import {
   problemSchema,
   problemArraySchema,
   detailedProblemSchema,
-} from '../../domains/problem';
+} from '@/entity-schemas';
 import { SagaIterator } from 'redux-saga';
 import { PayloadAction } from '@reduxjs/toolkit';
 

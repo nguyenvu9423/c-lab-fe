@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { Image, Card, Label, Header, Grid } from 'semantic-ui-react';
 import DefaultThumbnail from '../../../../public/images/default-thumbnail.png';
 import { ArrayUtils } from '../../../utils';
-import { Article } from '../../../domains/article';
+import { Article } from '@/domains/article';
 import { useSelector } from 'react-redux';
-import { TagSelectors } from '../../../store/selectors/TagSelectors';
-import { UserSelectors } from '../../../store/selectors';
+import { TagSelectors } from '@/store/selectors/TagSelectors';
+import { UserSelectors } from '@/store/selectors';
 import { BackEndConfig } from '../../../config';
 import { DateTimeUtils } from '../../../utils/data-type/DateTimeUtils';
-import { Avatar } from '../../../components/avatar/Avatar';
+import { Avatar } from '@/components/avatar/Avatar';
 import { ArticlePageLink } from '../ArticlePageLink';
 import { MarkdownView } from '../../../components';
 

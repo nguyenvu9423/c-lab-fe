@@ -2,11 +2,9 @@ import * as React from 'react';
 import { Grid, Header, Segment } from 'semantic-ui-react';
 import { Helmet } from 'react-helmet';
 
-import { useScrollToTop } from '../../shared/hooks';
-import {
-  ResetPasswordRequestForm,
-  ResetPasswordResponseDTO,
-} from '../../domains/user';
+import { useScrollToTop } from '@/shared/hooks';
+import { ResetPasswordRequestForm } from '@/domain-ui/user';
+import { ResetPasswordResponseDTO } from '@/services/dtos';
 
 export const ResetPasswordRequestPage: React.FC = () => {
   useScrollToTop();

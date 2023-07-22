@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Image } from 'semantic-ui-react';
 import AvatarPlaceholderImg from '../../../public/images/avatar-placeholder.png';
 import { BackEndConfig } from '../../config';
-import { User } from '../../domains/user';
+import { User } from '@/domains/user';
 
 export namespace Avatar {
   export interface Props {
