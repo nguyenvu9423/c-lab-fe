@@ -17,10 +17,10 @@ export const UserControlMenu: React.FC<{ user: User }> = (props) => {
   }, [navigate]);
 
   const canCreateArticle = useSelector(
-    AuthorizationSelectors.canCreateArticle()
+    AuthorizationSelectors.canCreateArticle(),
   );
   const canCreateProblem = useSelector(
-    AuthorizationSelectors.canCreateProblem()
+    AuthorizationSelectors.canCreateProblem(),
   );
   const hasAdminRole = useSelector(AuthorizationSelectors.hasAdminRole());
 

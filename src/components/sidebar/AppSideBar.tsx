@@ -16,7 +16,7 @@ export namespace AppSideBar {
 export const AppSideBar: React.FC<AppSideBar.Props> = (props) => {
   const { visible, onHide } = props;
   const { loadingState, principal } = useSelector(
-    PrincipalSelectors.principalDataHolder()
+    PrincipalSelectors.principalDataHolder(),
   );
   return (
     <div

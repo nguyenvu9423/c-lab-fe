@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useParams } from 'react-router';
 import { Grid, Container, Divider } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router';
@@ -7,19 +8,18 @@ import { Helmet } from 'react-helmet';
 import { fetchProblem } from '@/store/actions/problem';
 import { AuthorizationSelectors, ProblemSelectors } from '@/store/selectors';
 import { LoadingState } from '@/store/common';
-import { ErrorMessage, LoadingIndicator } from '../../../components';
+import { resetState } from '@/store/actions';
 import { Target } from '@/store/reducers/target';
 import { State } from '@/store/state';
-import { ProblemSettingPanel } from '../components';
 import { DataHolderState } from '@/store/reducers/data-holders/shared';
+import { ErrorMessage, LoadingIndicator } from '@/components';
 
 import { ProblemMainContent } from './ProblemMainContent';
 import { ProblemSubmitContent } from './ProblemSubmitContent';
 import { PrincipalProblemSubsContent } from './PrincipalProblemSubsContent';
 import { ProblemSubmissionsContent } from './ProblemSubmissionsContent';
-import { resetState } from '@/store/actions';
 import { useScrollToTop } from '../../../shared/hooks';
-import { useParams } from 'react-router';
+import { ProblemSettingPanel } from '../components';
 import { UnknownException } from '../../../shared/exceptions/UnkownException';
 
 export const ProblemPage: React.FC = () => {
@@ -35,7 +35,7 @@ export const ProblemPage: React.FC = () => {
   const problem = useSelector(
     data.problem.loadingState === LoadingState.LOADED
       ? ProblemSelectors.byId(data.problem.id)
-      : () => undefined
+      : () => undefined,
   );
 
   const load = React.useCallback(() => {
@@ -44,7 +44,7 @@ export const ProblemPage: React.FC = () => {
         type: 'byCode',
         code,
         target: Target.PROBLEM_PAGE,
-      })
+      }),
     );
   }, [dispatch, code]);
 
@@ -53,10 +53,10 @@ export const ProblemPage: React.FC = () => {
     return () => {
       dispatch(resetState({ target: Target.PROBLEM_PAGE }));
     };
-  }, [code]);
+  }, [code, load, dispatch]);
 
   const canUpdateProblem = useSelector(
-    problem ? AuthorizationSelectors.canUpdateProblem(problem) : () => false
+    problem ? AuthorizationSelectors.canUpdateProblem(problem) : () => false,
   );
 
   return (

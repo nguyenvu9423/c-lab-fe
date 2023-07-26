@@ -33,7 +33,7 @@ export const ProblemPage: React.FC = () => {
   const problems = useSelector(
     DataHolder.isLoaded(data.problems)
       ? ProblemSelectors.byIds(data.problems.result)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   const [openAddForm, setOpenAddForm] = React.useState(false);
@@ -58,7 +58,7 @@ export const ProblemPage: React.FC = () => {
         pageable: { page, size: PAGE_SIZE },
         query,
         target: Target.AdminPage.PROBLEM,
-      })
+      }),
     );
   }, [dispatch, page, query]);
 
@@ -169,8 +169,8 @@ export const ProblemPage: React.FC = () => {
               addToast(
                 new CRUDToastBuilder('bài tập', 'tạo')
                   .setStatus('success')
-                  .build()
-              )
+                  .build(),
+              ),
             );
           }}
         />
@@ -186,8 +186,8 @@ export const ProblemPage: React.FC = () => {
               addToast(
                 new CRUDToastBuilder('bài tập', 'sửa')
                   .setStatus('success')
-                  .build()
-              )
+                  .build(),
+              ),
             );
           }}
         />
@@ -203,8 +203,8 @@ export const ProblemPage: React.FC = () => {
               addToast(
                 new CRUDToastBuilder('cài đặt chấm', 'sửa')
                   .setStatus('success')
-                  .build()
-              )
+                  .build(),
+              ),
             );
           }}
         />
@@ -228,8 +228,8 @@ export const ProblemPage: React.FC = () => {
               addToast(
                 new CRUDToastBuilder('bài tập', 'xóa')
                   .setStatus('success')
-                  .build()
-              )
+                  .build(),
+              ),
             );
           }}
         />

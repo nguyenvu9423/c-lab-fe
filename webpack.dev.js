@@ -18,4 +18,5 @@ module.exports = merge(common, {
       },
     }),
   ],
+  devtool: 'eval-cheap-source-map',
 });
