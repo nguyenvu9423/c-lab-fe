@@ -13,13 +13,10 @@ export namespace SubmissionTestResultLabel {
 export const SubmissionTestResultLabel: React.FC<
   SubmissionTestResultLabel.Props
 > = (props) => {
-  const { testResult, compact } = props;
+  const { testResult } = props;
   const { verdict, testId } = testResult;
 
-  const message = `${TestVerdict.getMessage(
-    verdict,
-    compact,
-  )} on test ${testId}`;
+  const message = `${TestVerdict.getMessage(verdict)} on test ${testId}`;
 
   if (verdict === TestVerdict.AC) {
     return <AcceptedLabel message={message} />;

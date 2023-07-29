@@ -13,10 +13,6 @@ export namespace LoadingState {
   export const isInProgress = (loadingState: LoadingState): boolean => {
     return !isDone(loadingState);
   };
-
-  const isLoaded = (loadingState) => {
-    return loadingState === LoadingState.LOADED;
-  };
 }
 
 export enum LoadingState {
