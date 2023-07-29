@@ -6,7 +6,7 @@ import { RsqlUtils } from '../../utils';
 
 export namespace PageUtils {
   export function useTotalPages(
-    totalPages: number | undefined
+    totalPages: number | undefined,
   ): number | undefined {
     const [result, setResult] = React.useState<number | undefined>(undefined);
 
@@ -32,7 +32,7 @@ export namespace PageUtils {
   export function useCorrectPageListener(
     page: number,
     totalPages: number | undefined,
-    handler: (page: number) => void
+    handler: (page: number) => void,
   ) {
     React.useEffect(() => {
       if (totalPages === undefined) return;

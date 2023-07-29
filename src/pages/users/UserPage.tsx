@@ -33,7 +33,7 @@ export const UserPage: React.FC = () => {
   const user = useSelector(
     DataHolder.isLoaded(data.user)
       ? UserSelectors.selectById(data.user.result)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   React.useEffect(() => {
@@ -42,7 +42,7 @@ export const UserPage: React.FC = () => {
         type: 'byUsername',
         username,
         target: Target.USER_PAGE,
-      })
+      }),
     );
     return () => {
       dispatch(resetState({ target: Target.USER_PAGE }));
@@ -52,7 +52,7 @@ export const UserPage: React.FC = () => {
   const isPrincipal = useSelector(
     user
       ? PrincipalSelectors.isPrincipal(user)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   return (
@@ -104,8 +104,8 @@ export const UnverifiedEmailSection: React.FC = () => {
                 content: 'Email kích hoạt đã được gửi',
                 duration: 2500,
                 status: 'positive',
-              })
-            )
+              }),
+            ),
           );
         }}
       />

@@ -23,18 +23,18 @@ const resizeablePlugin = createResizeablePlugin();
 
 const decorator = composeDecorators(
   resizeablePlugin.decorator,
-  alignmentPlugin.decorator
+  alignmentPlugin.decorator,
 );
 
 const imagePlugin = createImagePlugin({ decorator });
 
 export const RichTextView: React.FC<{ contentState: RawDraftContentState }> = (
-  props
+  props,
 ) => {
   const [editorState, setEditorState] = React.useState<EditorState>(
     props.contentState
       ? EditorState.createWithContent(convertFromRaw(props.contentState))
-      : EditorState.createEmpty()
+      : EditorState.createEmpty(),
   );
 
   return (

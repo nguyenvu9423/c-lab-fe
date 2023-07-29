@@ -12,7 +12,7 @@ export const articleEntityReducer = createReducer(
         if (payload?.entities?.article) {
           articleEntityAdapter.upsertMany(state, payload.entities.article);
         }
-      }
+      },
     );
-  }
+  },
 );

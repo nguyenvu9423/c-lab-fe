@@ -4,7 +4,7 @@ import { roleEntityAdapter } from './../reducers/entity-reducers/roleEntityAdapt
 import { Selector, EntityId } from '@reduxjs/toolkit';
 
 const roleEntitySelectors = roleEntityAdapter.getSelectors(
-  (state: State) => state.entity.role
+  (state: State) => state.entity.role,
 );
 
 export namespace RoleSelectors {

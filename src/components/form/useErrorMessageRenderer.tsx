@@ -27,7 +27,7 @@ export function useErrorMessageRenderer<T>(params: {
       }
       return null;
     },
-    [touched, errors, status]
+    [touched, errors, status],
   );
 
   return renderer;

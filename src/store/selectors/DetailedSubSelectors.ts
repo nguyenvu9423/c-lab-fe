@@ -4,7 +4,7 @@ import { State } from './../state';
 import { DetailedSub } from '@/domains/submission';
 
 const detailedSubEntitySelectors = detailedSubEntityAdapter.getSelectors(
-  (state: State) => state.entity.detailedSub
+  (state: State) => state.entity.detailedSub,
 );
 
 export namespace DetailedSubSelectors {

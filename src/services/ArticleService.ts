@@ -7,9 +7,11 @@ const ARTICLE_API_URL = '/articles';
 
 export namespace ArticleService {
   export function createArticle(
-    formData: FormData
+    formData: FormData,
   ): ServiceResponse<ArticleDTO> {
-    return apiCaller.post(ARTICLE_API_URL, formData);
+    return apiCaller.post(ARTICLE_API_URL, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
   }
 
   export function getArticles(params: {
@@ -31,9 +33,11 @@ export namespace ArticleService {
 
   export function updateArticle(
     id: number,
-    formData: FormData
+    formData: FormData,
   ): ServiceResponse<ArticleDTO> {
-    return apiCaller.put(`${ARTICLE_API_URL}/${id}`, formData);
+    return apiCaller.put(`${ARTICLE_API_URL}/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
   }
 
   export function deleteArticle(id: number): ServiceResponse<void> {

@@ -27,7 +27,7 @@ export const useFetchTagBySearch = (props: {
         .then(({ data: { content } }) => {
           setTags((prevTags) => {
             const newTags = content.filter((prevTag) =>
-              prevTags.every((tag) => tag.name !== prevTag.name)
+              prevTags.every((tag) => tag.name !== prevTag.name),
             );
             return [...prevTags, ...newTags];
           });
@@ -59,7 +59,7 @@ export const TagSelect: React.FC<TagSelectProps> = (props) => {
 
   const value = React.useMemo(
     () => props.value ?? internalValue ?? [],
-    [props.value, internalValue]
+    [props.value, internalValue],
   );
 
   const { isFetching, tags, handleSearch } = useFetchTagBySearch({

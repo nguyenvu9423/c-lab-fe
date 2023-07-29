@@ -15,5 +15,5 @@ export const editProblemFormReducer = createFilteredReducer(
   combineReducers<EditProblemFormState>({
     data: combineReducers({ problem: problemReducer }),
   }),
-  TargetPredicates.equal(Target.EDIT_PROBLEM_FORM)
+  TargetPredicates.equal(Target.EDIT_PROBLEM_FORM),
 );

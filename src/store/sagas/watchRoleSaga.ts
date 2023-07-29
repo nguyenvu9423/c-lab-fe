@@ -18,7 +18,7 @@ function* handleFetchRoles(action) {
         entities,
         totalPages: data.totalPages,
         target,
-      })
+      }),
     );
   } catch (e) {
     yield put(fetchRoles.error({ error: e }));

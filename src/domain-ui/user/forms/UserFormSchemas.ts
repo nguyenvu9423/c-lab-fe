@@ -8,7 +8,7 @@ export namespace UserFieldSchemas {
     .max(24, 'Tên đăng nhập không được vượt quá 24 kí tự')
     .matches(
       /^(?![._])[a-zA-Z0-9._]+$/,
-      'Tên đăng nhập chỉ có thể chứa các chữ cái, số, . và _. Kí tự đầu tiên phải là một chữ cái.'
+      'Tên đăng nhập chỉ có thể chứa các chữ cái, số, . và _. Kí tự đầu tiên phải là một chữ cái.',
     );
 
   export const password = yup
@@ -18,7 +18,7 @@ export namespace UserFieldSchemas {
     .max(24, 'Mật khẩu không được vượt quá 24 kí tự')
     .matches(
       /^[a-zA-Z0-9._!@#$%^&*-]+$/,
-      'Mật khẩu chỉ có thứa các chữ cái, số và các kí tự đặc biệt: ._!@#$%^&*-'
+      'Mật khẩu chỉ có thứa các chữ cái, số và các kí tự đặc biệt: ._!@#$%^&*-',
     );
 
   export const firstName = yup

@@ -29,7 +29,7 @@ export const EditUserPasswordPage: React.FC = () => {
   const handleSubmit = React.useCallback(
     (
       value: EditUserPasswordForm.Value,
-      helpers: FormikHelpers<EditUserPasswordForm.Value>
+      helpers: FormikHelpers<EditUserPasswordForm.Value>,
     ) => {
       return UserService.updatePassword(usernameParam, {
         newPassword: value.newPassword,
@@ -42,7 +42,7 @@ export const EditUserPasswordPage: React.FC = () => {
               content: 'Mật khẩu của bạn đã được thanh đổi',
               duration: 2500,
               status: 'positive',
-            })
+            }),
           );
           navigate(`/users/${username}`);
         })
@@ -52,7 +52,7 @@ export const EditUserPasswordPage: React.FC = () => {
           }
         });
     },
-    [dispatch, usernameParam]
+    [dispatch, usernameParam],
   );
 
   if (username !== usernameParam) {

@@ -31,14 +31,14 @@ export namespace FetchProblemRejudge {
 export const fetchProblemRejudge = {
   request: createAction(
     'fetchProblemRejudge/request',
-    (payload: FetchProblemRejudge.RequestPayload) => ({ payload })
+    (payload: FetchProblemRejudge.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchProblemRejudge/response',
-    (payload: FetchProblemRejudge.ResponsePayload) => ({ payload })
+    (payload: FetchProblemRejudge.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchProblemRejudge/error',
-    (payload: FetchProblemRejudge.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchProblemRejudge.ErrorPayload) => ({ payload, error: true }),
   ),
 };

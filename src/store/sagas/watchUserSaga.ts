@@ -20,7 +20,7 @@ function* fetchUsersSaga(action: PayloadAction<FetchUsers.RequestPayload>) {
         entities,
         totalPages: data.totalPages,
         target,
-      })
+      }),
     );
   } catch (e) {
     yield put(fetchUsers.error({ error: e, target }));
@@ -38,7 +38,7 @@ function* fetchUserSaga(action: PayloadAction<FetchUser.RequestPayload>) {
       response = yield call(UserService.getByUsername, payload.username);
     } else if (payload.type === 'principal') {
       const username: string | undefined = yield select(
-        AuthenticationSelectors.username()
+        AuthenticationSelectors.username(),
       );
       if (!username) {
         throw new Error('User is not logged in');

@@ -8,7 +8,7 @@ const BASE_URL = '/users';
 export namespace UserService {
   export function getAll(
     query?: string,
-    pageable?: Pageable
+    pageable?: Pageable,
   ): ServiceResponse<Page<UserDTO>> {
     return apiCaller.get(BASE_URL, { params: { ...pageable, query } });
   }
@@ -23,36 +23,34 @@ export namespace UserService {
 
   export function update(
     username: string,
-    userDTO: UserDTO
+    userDTO: UserDTO,
   ): ServiceResponse<UserDTO> {
     return apiCaller.put(`${BASE_URL}/${username}`, userDTO);
   }
 
   export function updateInfo(
     username: string,
-    userDTO: UserDTO
+    userDTO: UserDTO,
   ): ServiceResponse<UserDTO> {
     return apiCaller.put(`${BASE_URL}/${username}/info`, userDTO);
   }
 
   export function updateAvatar(
     username: string,
-    formData: FormData
+    formData: FormData,
   ): ServiceResponse<UserDTO> {
     return apiCaller.post(`${BASE_URL}/${username}/avatar`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
   }
 
   export function updatePassword(
     username: string,
-    changePasswordDTO: ChangePasswordDTO
+    changePasswordDTO: ChangePasswordDTO,
   ): ServiceResponse<UserDTO> {
     return apiCaller.post(
       `${BASE_URL}/${username}/change-password`,
-      changePasswordDTO
+      changePasswordDTO,
     );
   }
 }

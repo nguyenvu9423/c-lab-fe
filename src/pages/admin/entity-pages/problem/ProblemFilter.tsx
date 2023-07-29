@@ -45,7 +45,7 @@ export const ProblemFilter: React.FC<ProblemFilter.Props> = (props) => {
       }
       if (filters.author) {
         predicates.push(
-          RsqlUtils.Builder.eq('author.username', filters.author.username)
+          RsqlUtils.Builder.eq('author.username', filters.author.username),
         );
       }
       if (filters.tags.length > 0) {
@@ -53,8 +53,8 @@ export const ProblemFilter: React.FC<ProblemFilter.Props> = (props) => {
           RsqlUtils.Builder.comparison(
             'tags',
             '=include=',
-            filters.tags.map((tag) => tag.name)
-          )
+            filters.tags.map((tag) => tag.name),
+          ),
         );
       }
       const query =
@@ -64,7 +64,7 @@ export const ProblemFilter: React.FC<ProblemFilter.Props> = (props) => {
 
       onChange?.(query);
     },
-    [onChange]
+    [onChange],
   );
 
   return (

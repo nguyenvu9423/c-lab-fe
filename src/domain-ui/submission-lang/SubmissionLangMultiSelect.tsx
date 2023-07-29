@@ -18,21 +18,22 @@ export namespace SubmissionLangMultiSelect {
   }
 }
 
-export const SubmissionLangMultiSelect: React.FC<SubmissionLangMultiSelect.Props> =
-  (props) => {
-    const { value, onChange, onBlur } = props;
+export const SubmissionLangMultiSelect: React.FC<
+  SubmissionLangMultiSelect.Props
+> = (props) => {
+  const { value, onChange, onBlur } = props;
 
-    return (
-      <Dropdown
-        selection
-        multiple
-        fluid
-        options={options}
-        value={value}
-        onChange={(event, data) => {
-          onChange?.(data.value as SubmissionLanguage);
-        }}
-        onBlur={onBlur}
-      />
-    );
-  };
+  return (
+    <Dropdown
+      selection
+      multiple
+      fluid
+      options={options}
+      value={value}
+      onChange={(event, data) => {
+        onChange?.(data.value as SubmissionLanguage);
+      }}
+      onBlur={onBlur}
+    />
+  );
+};

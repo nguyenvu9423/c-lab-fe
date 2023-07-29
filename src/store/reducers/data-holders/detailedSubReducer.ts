@@ -34,7 +34,7 @@ const detailedSubReducer = createReducer<DetailedSubState>(
         error: action.payload.error,
         loadingState: LoadingState.ERROR,
       }));
-  }
+  },
 );
 
 export { detailedSubReducer };

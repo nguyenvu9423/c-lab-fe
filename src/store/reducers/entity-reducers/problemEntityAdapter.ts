@@ -11,16 +11,16 @@ export const problemEntityReducer = createReducer(
         ({ payload }) => !!payload?.entities?.problem,
         (state, { payload }) => {
           problemEntityAdapter.upsertMany(state, payload.entities.problem);
-        }
+        },
       )
       .addMatcher(
         ({ payload }) => !!payload?.entities?.detailedProblem,
         (state, { payload }) => {
           problemEntityAdapter.upsertMany(
             state,
-            payload.entities.detailedProblem
+            payload.entities.detailedProblem,
           );
-        }
+        },
       );
-  }
+  },
 );

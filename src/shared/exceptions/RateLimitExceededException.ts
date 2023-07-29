@@ -10,7 +10,7 @@ export interface RateLimitExceededException extends BaseException {
 
 export namespace RateLimitExceededException {
   export function isInstance(
-    exception: BaseException
+    exception: BaseException,
   ): exception is RateLimitExceededException {
     return exception.type === 'RateLimitExceeded';
   }

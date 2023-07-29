@@ -37,5 +37,5 @@ export const detailedProblemReducer = createReducer<DetailedProblemState>(
         };
       })
       .addCase(resetState, () => initialState);
-  }
+  },
 );

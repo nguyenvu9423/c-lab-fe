@@ -52,7 +52,7 @@ export const ArticlePage: React.FC = () => {
         pageable: { page, size: PAGE_SIZE },
         query,
         target: Target.AdminPage.ARTICLE,
-      })
+      }),
     );
   }, [dispatch, page, query]);
 
@@ -66,7 +66,7 @@ export const ArticlePage: React.FC = () => {
   const articles = useSelector(
     data.articles.loadingState === LoadingState.LOADED
       ? ArticleSelectors.byIds(data.articles.result)
-      : () => undefined
+      : () => undefined,
   );
 
   return (
@@ -117,7 +117,7 @@ export const ArticlePage: React.FC = () => {
                         />
                       </Table.Cell>
                     </Table.Row>
-                  )
+                  ),
               )}
             </Table.Body>
           )}

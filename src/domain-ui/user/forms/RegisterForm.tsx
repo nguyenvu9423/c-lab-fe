@@ -20,7 +20,7 @@ export const RegisterForm: React.FC<RegisterForm.Props> = (props) => {
   const onSubmit = React.useCallback(
     (
       values: BaseRegisterForm.Value,
-      helpers: FormikHelpers<BaseRegisterForm.Value>
+      helpers: FormikHelpers<BaseRegisterForm.Value>,
     ) => {
       return RegisterService.register(values)
         .then(() => onSuccess?.())
@@ -30,7 +30,7 @@ export const RegisterForm: React.FC<RegisterForm.Props> = (props) => {
           }
         });
     },
-    [onSuccess]
+    [onSuccess],
   );
   return <BaseRegisterForm onSubmit={onSubmit} />;
 };

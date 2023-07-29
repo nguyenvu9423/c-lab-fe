@@ -4,7 +4,7 @@ import { tagEntityAdapter } from './../reducers/entity-reducers/tagEntityAdapter
 import { Selector } from '@reduxjs/toolkit';
 
 const tagEntitySelectors = tagEntityAdapter.getSelectors(
-  (state: State) => state.entity.tag
+  (state: State) => state.entity.tag,
 );
 
 export namespace TagSelectors {

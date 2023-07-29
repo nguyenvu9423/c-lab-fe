@@ -9,7 +9,7 @@ export namespace ProblemRejudgeService {
   export function getStream(ids: number[]): EventSource {
     const queryString = qs.stringify({ ids }, { arrayFormat: 'comma' });
     return new EventSource(
-      `${BackEndConfig.API_URL}${BASE_URL}/stream?${queryString}`
+      `${BackEndConfig.API_URL}${BASE_URL}/stream?${queryString}`,
     );
   }
 

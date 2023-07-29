@@ -21,7 +21,7 @@ export namespace RoleService {
 
   export function updateRole(
     id: number,
-    role: RoleDTO
+    role: RoleDTO,
   ): ServiceResponse<RoleDTO> {
     return apiCaller.put(`${BASE_URL}/${id}`, role);
   }

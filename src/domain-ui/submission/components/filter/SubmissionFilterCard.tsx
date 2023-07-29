@@ -17,13 +17,13 @@ export namespace SubmissionFilterCard {
 }
 
 export const SubmissionFilterCard: React.FC<SubmissionFilterCard.Props> = (
-  props
+  props,
 ) => {
   const { problem, onQueryChange } = props;
   const judgeConfig = useSelector(
     problem.judgeConfig
       ? JudgeConfigSelectors.selectById(problem.judgeConfig)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   if (!judgeConfig) return null;

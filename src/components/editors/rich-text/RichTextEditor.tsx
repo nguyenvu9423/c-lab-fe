@@ -54,7 +54,7 @@ const resizeablePlugin = createResizeablePlugin();
 const decorator = composeDecorators(
   resizeablePlugin.decorator,
   alignmentPlugin.decorator,
-  focusPlugin.decorator
+  focusPlugin.decorator,
 );
 const imagePlugin = createImagePlugin({ decorator });
 const plugins = [
@@ -78,7 +78,7 @@ export const RichTextEditor: React.FC<{
   const [editorState, setEditorState] = React.useState<EditorState>(
     props.initialValue
       ? EditorState.createWithContent(convertFromRaw(props.initialValue))
-      : EditorState.createEmpty()
+      : EditorState.createEmpty(),
   );
 
   const handleReturn = useReturnHandler(setEditorState);

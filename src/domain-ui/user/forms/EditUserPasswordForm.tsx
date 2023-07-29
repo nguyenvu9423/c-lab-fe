@@ -10,7 +10,7 @@ export namespace EditUserPasswordForm {
     initialValues?: Partial<Value>;
     onSubmit?(
       value: Value,
-      helpers: FormikHelpers<Value>
+      helpers: FormikHelpers<Value>,
     ): Promise<unknown> | void;
     onCancel?(): void;
   }
@@ -23,7 +23,7 @@ export namespace EditUserPasswordForm {
 }
 
 export const EditUserPasswordForm: React.FC<EditUserPasswordForm.Props> = (
-  props
+  props,
 ) => {
   const { initialValues, onSubmit, onCancel } = props;
 

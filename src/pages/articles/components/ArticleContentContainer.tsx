@@ -19,47 +19,48 @@ export namespace ArticleContentContainer {
   }
 }
 
-export const ArticleContentContainer: React.FC<ArticleContentContainer.Props> =
-  (props) => {
-    const { article, contentState, showContentTable } = props;
-    const author = useSelector(UserSelectors.selectById(article.author));
+export const ArticleContentContainer: React.FC<
+  ArticleContentContainer.Props
+> = (props) => {
+  const { article, contentState, showContentTable } = props;
+  const author = useSelector(UserSelectors.selectById(article.author));
 
-    return (
-      <div className="article-container text-container">
-        <Segment basic>
-          <Header as="h1">
-            {article.title}
-            <Header.Subheader>{article.subtitle}</Header.Subheader>
-          </Header>
-        </Segment>
-        <Segment className="additional-info" basic>
-          <Link to={`/users/${author.username}`}>
-            <Avatar user={author} />
+  return (
+    <div className="article-container text-container">
+      <Segment basic>
+        <Header as="h1">
+          {article.title}
+          <Header.Subheader>{article.subtitle}</Header.Subheader>
+        </Header>
+      </Segment>
+      <Segment className="additional-info" basic>
+        <Link to={`/users/${author.username}`}>
+          <Avatar user={author} />
+        </Link>
+        <span className="info-container">
+          <Link className="username-label" to={`/users/${author.username}`}>
+            {author.username}
           </Link>
-          <span className="info-container">
-            <Link className="username-label" to={`/users/${author.username}`}>
-              {author.username}
-            </Link>
-            <div className="created-at-label">
-              {DateTimeUtils.of(article.createdAt).fromNow()}
-            </div>
-          </span>
-        </Segment>
-        {showContentTable && (
-          <>
-            <Segment basic>
-              <ArticleContentTable contentState={contentState} />
-            </Segment>
-            <Divider />
-          </>
-        )}
-        <Segment basic>
-          <RichTextView contentState={contentState} />
-        </Segment>
+          <div className="created-at-label">
+            {DateTimeUtils.of(article.createdAt).fromNow()}
+          </div>
+        </span>
+      </Segment>
+      {showContentTable && (
+        <>
+          <Segment basic>
+            <ArticleContentTable contentState={contentState} />
+          </Segment>
+          <Divider />
+        </>
+      )}
+      <Segment basic>
+        <RichTextView contentState={contentState} />
+      </Segment>
 
-        <Segment vertical>
-          <TagPanel tagIds={article.tags} />
-        </Segment>
-      </div>
-    );
-  };
+      <Segment vertical>
+        <TagPanel tagIds={article.tags} />
+      </Segment>
+    </div>
+  );
+};

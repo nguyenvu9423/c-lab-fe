@@ -13,7 +13,7 @@ const verdictOptions: DropdownItemProps[] = [{ key: '', text: '' }].concat(
     key: type,
     value: type,
     text: VerdictFilterTypes.getProperties(type).text,
-  }))
+  })),
 );
 
 export namespace OIFilterForm {
@@ -50,8 +50,8 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
           RsqlUtils.Builder.comparison(
             'judge.result.score',
             operator,
-            Number(value) / 100
-          )
+            Number(value) / 100,
+          ),
         );
       }
 
@@ -62,7 +62,7 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
 
       onQueryChange?.(query ? query : undefined);
     },
-    [onQueryChange]
+    [onQueryChange],
   );
 
   const { values, setFieldValue, handleSubmit } = useFormik<OIFilterForm.Value>(
@@ -72,7 +72,7 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
         language: undefined,
       },
       onSubmit,
-    }
+    },
   );
 
   const handleChange = React.useCallback(
@@ -80,7 +80,7 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
       const { value, name } = data;
       setFieldValue(name, value);
     },
-    [setFieldValue]
+    [setFieldValue],
   );
 
   return (

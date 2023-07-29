@@ -19,7 +19,7 @@ export const AddArticleForm: React.FC<{
 
       formData.append(
         'article',
-        new Blob([JSON.stringify(article)], { type: 'application/json' })
+        new Blob([JSON.stringify(article)], { type: 'application/json' }),
       );
       if (thumbnail && thumbnail instanceof File) {
         formData.append('thumbnail', thumbnail);
@@ -29,7 +29,7 @@ export const AddArticleForm: React.FC<{
         onSuccess?.(data);
       });
     },
-    [onSuccess]
+    [onSuccess],
   );
   return <ArticleForm onSubmit={handleSubmit} onCancel={onCancel} />;
 };

@@ -45,12 +45,12 @@ export const ResetPasswordForm: React.FC<ResetPasswordForm.Props> = (props) => {
       return ResetPasswordService.resetPassword(
         id,
         token,
-        values.newPassword
+        values.newPassword,
       ).then(() => {
         onSuccess?.();
       });
     },
-    [id, token, onSuccess]
+    [id, token, onSuccess],
   );
 
   if (requestValidity === undefined) {
@@ -76,7 +76,7 @@ namespace BaseRequestPasswordForm {
 }
 
 const BaseRequestPasswordForm: React.FC<BaseRequestPasswordForm.Props> = (
-  props
+  props,
 ) => {
   const { onSubmit } = props;
 

@@ -17,7 +17,7 @@ export const ArticlePageLink: React.FC<ArticlePageLink.Props> = (props) => {
       typeof article === 'number'
         ? `articles/${article}`
         : `/articles/${article.id}/view/${article.slug}`,
-    [article]
+    [article],
   );
 
   return <Link to={url}>{props.children}</Link>;

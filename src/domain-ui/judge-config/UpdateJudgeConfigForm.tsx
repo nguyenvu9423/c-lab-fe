@@ -5,7 +5,7 @@ import {
   resetState,
   updateEntity,
 } from '../../store/actions';
-import { JudgeConfigForm } from '@/domains/judge-config/JudgeConfigForm';
+import { JudgeConfigForm } from './JudgeConfigForm';
 import { LoadingIndicator, useFormKey } from '@/components';
 import {
   ProblemSelectors,
@@ -32,7 +32,7 @@ export namespace UpdateJudgeConfigForm {
 }
 
 export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
-  props
+  props,
 ) => {
   const { problemCode, onSuccess } = props;
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
   const problem = useSelector(
     DataHolder.isLoaded(data.detailedProblem)
       ? ProblemSelectors.byId(data.detailedProblem.id)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   const detailedJudgeConfig: DetailedJudgeConfig | null | undefined =
@@ -50,7 +50,7 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
         ? problem.judgeConfig
           ? DetailedJudgeConfigSelectors.selectById(problem.judgeConfig)
           : ConstSelectors.value(null)
-        : ConstSelectors.value(undefined)
+        : ConstSelectors.value(undefined),
     );
 
   const load = React.useCallback(() => {
@@ -59,7 +59,7 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
         type: 'byCode',
         code: problemCode,
         target: Target.UPDATE_JUDGE_CONFIG_FORM,
-      })
+      }),
     );
   }, [dispatch, problemCode]);
 
@@ -71,7 +71,9 @@ export const UpdateJudgeConfigForm: React.FC<UpdateJudgeConfigForm.Props> = (
   }, [dispatch, load]);
 
   const canUpdate = useSelector(
-    problem ? AuthorizationSelectors.canUpdateProblem(problem) : () => undefined
+    problem
+      ? AuthorizationSelectors.canUpdateProblem(problem)
+      : () => undefined,
   );
 
   if (!canUpdate) {
@@ -103,13 +105,13 @@ function useSubmitJudgeConfig(props: {
   return React.useCallback(
     (
       values: JudgeConfigForm.Value,
-      helpers: FormikHelpers<JudgeConfigForm.Value>
+      helpers: FormikHelpers<JudgeConfigForm.Value>,
     ) => {
       const formData = new FormData();
       const { testPackage, customJudger, ...rest } = values;
       formData.append(
         'judgeConfig',
-        new Blob([JSON.stringify(rest)], { type: 'application/json' })
+        new Blob([JSON.stringify(rest)], { type: 'application/json' }),
       );
       if (testPackage && testPackage instanceof File) {
         formData.append('testPackage', testPackage);
@@ -129,7 +131,7 @@ function useSubmitJudgeConfig(props: {
           }
         });
     },
-    [problemCode]
+    [problemCode],
   );
 }
 

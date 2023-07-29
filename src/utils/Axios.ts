@@ -26,7 +26,7 @@ instance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 instance.interceptors.request.use(
@@ -43,7 +43,7 @@ instance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 instance.interceptors.response.use(
@@ -64,7 +64,7 @@ instance.interceptors.response.use(
     } else parsedError = UnknownException.createDefault();
 
     return Promise.reject(parsedError);
-  }
+  },
 );
 
 export const apiCaller = instance;

@@ -22,7 +22,7 @@ export const UserPage: React.FC = () => {
   const users = useSelector(
     DataHolder.isLoaded(data.users)
       ? UserSelectors.selectByIds(data.users.result)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   const [openEditForm, setOpenEditForm] = React.useState<
@@ -41,7 +41,7 @@ export const UserPage: React.FC = () => {
         pageable: { page, size: PAGE_SIZE },
         query,
         target: Target.AdminPage.USER,
-      })
+      }),
     );
   }, [dispatch, page, query]);
 
@@ -118,8 +118,8 @@ export const UserPage: React.FC = () => {
               addToast(
                 new CRUDToastBuilder('thông tin người dùng', 'sửa')
                   .setStatus('success')
-                  .build()
-              )
+                  .build(),
+              ),
             );
             load();
           }}

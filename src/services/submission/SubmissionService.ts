@@ -28,6 +28,7 @@ export namespace SubmissionService {
         problemCode,
         language,
       },
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
   }
 
@@ -37,7 +38,7 @@ export namespace SubmissionService {
       | { username: string }
       | { problemCode: string }
       | { username: string; problemCode: string },
-    pageable?: Pageable
+    pageable?: Pageable,
   ): ServiceResponse<Page<SubmissionDTO>> {
     const query =
       'query' in params && params.query && params.query.length !== 0
@@ -56,7 +57,7 @@ export namespace SubmissionService {
 
   export function getSubmission(
     submissionId: number,
-    detailed?: boolean
+    detailed?: boolean,
   ): ServiceResponse<DetailedSubDTO> {
     return apiCaller.get(`${BASE_URL}/${submissionId}`, {
       params: {
@@ -71,7 +72,7 @@ export namespace SubmissionService {
 
   export function updateDisqualified(
     id: number,
-    disqualified: boolean
+    disqualified: boolean,
   ): ServiceResponse<SubmissionDTO> {
     return apiCaller.post(`${BASE_URL}/${id}/update`, undefined, {
       params: {

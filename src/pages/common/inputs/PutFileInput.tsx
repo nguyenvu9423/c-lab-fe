@@ -24,7 +24,7 @@ export const PutFileInput: React.FC<PutFileInput.Props> = (props) => {
         onChange?.(files[0]);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   const handleReset = React.useCallback(() => {

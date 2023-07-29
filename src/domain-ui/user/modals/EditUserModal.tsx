@@ -4,7 +4,7 @@ import { FormModal } from '../../../shared/types';
 import { EditUserForm } from '../forms';
 
 export const EditUserModal: React.FC<FormModal.Props & { username: string }> = (
-  props
+  props,
 ) => {
   return (
     <Modal defaultOpen onClose={props.onCancel}>

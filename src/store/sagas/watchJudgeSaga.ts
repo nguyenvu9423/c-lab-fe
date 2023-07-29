@@ -13,7 +13,7 @@ function* fetchDetailedJudgeSaga(action): SagaIterator<void> {
     const { data: detailedJudge } = yield call(
       JudgeService.getBySubmission,
       submissionId,
-      true
+      true,
     );
 
     const { result, entities } = normalize(detailedJudge, detailedJudgeSchema);

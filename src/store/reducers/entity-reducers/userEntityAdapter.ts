@@ -10,7 +10,7 @@ export const userEntityReducer = createReducer(
       ({ payload }) => !!payload?.entities?.user,
       (state, { payload }) => {
         userEntityAdapter.upsertMany(state, payload.entities.user);
-      }
+      },
     );
-  }
+  },
 );

@@ -28,7 +28,7 @@ function* verifyEmailSaga(action): SagaIterator {
         user: emailVerification.user,
         hasRefreshedToken,
         target,
-      })
+      }),
     );
   } catch (error) {
     yield put(verifyEmail.error({ error, target }));

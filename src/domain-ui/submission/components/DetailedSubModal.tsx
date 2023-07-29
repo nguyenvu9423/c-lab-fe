@@ -47,25 +47,25 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
   const detailedSub = useSelector(
     data.detailedSub.loadingState === LoadingState.LOADED
       ? DetailedSubSelectors.byId(data.detailedSub.id)
-      : () => undefined
+      : () => undefined,
   );
 
   const submission = useSelector(
     data.detailedSub.loadingState === LoadingState.LOADED
       ? SubmissionSelectors.byId(data.detailedSub.id)
-      : () => undefined
+      : () => undefined,
   );
 
   const detailedJudge = useSelector(
     data.detailedJudge.loadingState === LoadingState.LOADED
       ? DetailedJudgeSelectors.byId(data.detailedJudge.result)
-      : () => undefined
+      : () => undefined,
   );
 
   const judge = useSelector(
     submission?.judge
       ? JudgeSelectors.byId(submission.judge)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   const detailedResult =
@@ -78,7 +78,7 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
       fetchDetailedSub.request({
         submissionId,
         target: Target.DETAILED_SUB_MODAL,
-      })
+      }),
     );
   }, []);
 
@@ -87,7 +87,7 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
       fetchDetailedJudge.request({
         submissionId,
         target: Target.DETAILED_SUB_MODAL,
-      })
+      }),
     );
   }, []);
 
@@ -102,7 +102,7 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
   const canUpdate = useSelector(
     submission
       ? AuthorizationSelectors.canUpdateSubmission(submission)
-      : ConstSelectors.value(false)
+      : ConstSelectors.value(false),
   );
 
   return (
@@ -156,7 +156,7 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
                     <Header as="h4">Thời điểm nộp</Header>
                     <span>
                       {DateTimeUtils.of(submission.submittedAt).format(
-                        DateTimeFormat.SHORT
+                        DateTimeFormat.SHORT,
                       )}
                     </span>
                   </Grid.Column>

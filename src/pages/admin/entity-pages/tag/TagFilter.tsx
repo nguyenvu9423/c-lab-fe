@@ -38,7 +38,7 @@ export const TagFilter: React.FC<TagFilter.Props> = (props) => {
 
       onChange?.(query);
     },
-    [onChange]
+    [onChange],
   );
 
   return (

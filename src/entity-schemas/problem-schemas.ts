@@ -21,7 +21,7 @@ export const detailedProblemSchema = new schema.Entity<DetailedProblem>(
     judgeConfig: detailedJudgeConfigSchema,
     tags: tagArraySchema,
     problemRejudge: problemRejudgeSchema,
-  }
+  },
 );
 
 export const problemArraySchema = new schema.Array(problemSchema);

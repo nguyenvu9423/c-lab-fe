@@ -17,7 +17,7 @@ function* fetchArticleSaga(action) {
         result: normalizedData.result,
         entities: normalizedData.entities,
         target,
-      })
+      }),
     );
   } catch (error) {
     yield put(fetchArticle.error({ error, target }));
@@ -40,7 +40,7 @@ function* fetchArticlesSaga(action) {
         entities: normalizedData.entities,
         totalPages: data.totalPages,
         target,
-      })
+      }),
     );
   } catch (error) {
     yield put(fetchArticles.error({ error, target }));

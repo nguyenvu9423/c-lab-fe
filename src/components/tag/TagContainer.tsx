@@ -15,12 +15,12 @@ export const TagContainer: React.FC<TagContainer.Props> = (props) => {
   const tags = useSelector(TagSelectors.selectTagsByIds(ids));
   const [expanded, setExpanded] = useLocalStorage(
     'tag-container-expanded',
-    true
+    true,
   );
 
   const toggleExpanded = React.useCallback(
     () => setExpanded((value) => !value),
-    []
+    [],
   );
 
   if (tags.length === 0) {

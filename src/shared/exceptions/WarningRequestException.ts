@@ -3,7 +3,7 @@ import { ResponseException } from './ResponseException';
 
 export namespace WarningRequestException {
   export function isInstance(
-    exception: BaseException
+    exception: BaseException,
   ): exception is WarningRequestException {
     return exception.type === 'WarningRequestException';
   }

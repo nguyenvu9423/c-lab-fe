@@ -17,7 +17,7 @@ export function* watchSubmissionSaga(): SagaIterator<void> {
 }
 
 function* fetchSubmissionsSaga(
-  action: PayloadAction<FetchSubmissions.RequestPayload>
+  action: PayloadAction<FetchSubmissions.RequestPayload>,
 ) {
   const { target } = action.payload;
   try {
@@ -32,7 +32,7 @@ function* fetchSubmissionsSaga(
         entities,
         totalPages,
         target,
-      })
+      }),
     );
   } catch (error) {
     yield put(fetchSubmissions.error({ error, target }));
@@ -40,14 +40,14 @@ function* fetchSubmissionsSaga(
 }
 
 function* fetchDetailedSubSaga(
-  action: PayloadAction<FetchDetailedSub.RequestPayload>
+  action: PayloadAction<FetchDetailedSub.RequestPayload>,
 ) {
   const { submissionId, target } = action.payload;
   try {
     const response = yield call(
       SubmissionService.getSubmission,
       submissionId,
-      true
+      true,
     );
     const { data } = response;
     const { result, entities } = normalize(data, detailedSubSchema);
@@ -58,7 +58,7 @@ function* fetchDetailedSubSaga(
 }
 
 function* getSubmissions(
-  payload: FetchSubmissions.RequestPayload
+  payload: FetchSubmissions.RequestPayload,
 ): SagaIterator {
   let response;
   const { pageable } = payload;
@@ -67,14 +67,14 @@ function* getSubmissions(
       response = yield call(
         SubmissionService.getSubmissions,
         { query: payload.query },
-        pageable
+        pageable,
       );
       break;
     case 'byProblem':
       response = yield call(
         SubmissionService.getSubmissions,
         { problemCode: payload.problemCode },
-        pageable
+        pageable,
       );
       break;
     case 'byUser':
@@ -83,7 +83,7 @@ function* getSubmissions(
         {
           username: payload.username,
         },
-        pageable
+        pageable,
       );
       break;
     case 'byUserAndProblem':
@@ -93,7 +93,7 @@ function* getSubmissions(
           username: payload.username,
           problemCode: payload.problemCode,
         },
-        pageable
+        pageable,
       );
       break;
     default:

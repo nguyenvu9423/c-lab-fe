@@ -16,7 +16,7 @@ export namespace ResetPasswordService {
         params: {
           username,
         },
-      }
+      },
     );
   }
 
@@ -24,7 +24,7 @@ export namespace ResetPasswordService {
     return apiCaller.post(
       `${BASE_URL}/${id}`,
       { newPassword },
-      { params: { token } }
+      { params: { token } },
     );
   }
 }

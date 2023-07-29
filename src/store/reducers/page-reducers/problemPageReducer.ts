@@ -15,5 +15,5 @@ export const problemPageReducer = createFilteredReducer(
       problem: problemReducer,
     }),
   }),
-  TargetPredicates.equal(Target.PROBLEM_PAGE)
+  TargetPredicates.equal(Target.PROBLEM_PAGE),
 );

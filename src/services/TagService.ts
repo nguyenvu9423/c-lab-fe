@@ -12,7 +12,7 @@ export namespace TagService {
 
   export function getTags(
     pageable?: Pageable,
-    query?: string
+    query?: string,
   ): ServiceResponse<Page<TagDTO>> {
     return apiCaller.get(BASE_URL, {
       params: {
@@ -25,7 +25,7 @@ export namespace TagService {
 
   export function getTagsByContainedText(
     text: string,
-    pageable?: Pageable
+    pageable?: Pageable,
   ): ServiceResponse<Page<TagDTO>> {
     return apiCaller.get(BASE_URL, {
       params: {
@@ -42,14 +42,14 @@ export namespace TagService {
 
   export function updateTag(
     id: number | string,
-    tag: TagDTO
+    tag: TagDTO,
   ): ServiceResponse<TagDTO> {
     return apiCaller.put(`${BASE_URL}/${id}`, tag);
   }
 
   export function deleteTag(
     id: number | string,
-    forced = false
+    forced = false,
   ): ServiceResponse<TagDTO> {
     return apiCaller.delete(`${BASE_URL}/${id}`, {
       params: {

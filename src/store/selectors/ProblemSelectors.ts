@@ -4,7 +4,7 @@ import { problemEntityAdapter } from './../reducers/entity-reducers/problemEntit
 import { EntityId, Selector } from '@reduxjs/toolkit';
 
 const problemEntitySelectors = problemEntityAdapter.getSelectors(
-  (state: State) => state.entity.problem
+  (state: State) => state.entity.problem,
 );
 
 export namespace ProblemSelectors {

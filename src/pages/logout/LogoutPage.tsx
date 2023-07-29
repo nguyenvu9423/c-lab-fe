@@ -17,7 +17,7 @@ export const LogoutPage: React.FC = () => {
   const isFirstRender = React.useRef(true);
 
   const isAuthenticated = useSelector(
-    AuthenticationSelectors.isAuthenticated()
+    AuthenticationSelectors.isAuthenticated(),
   );
 
   React.useEffect(() => {
@@ -29,7 +29,7 @@ export const LogoutPage: React.FC = () => {
           content: 'Bạn đã đang xuất thành công',
           duration: 2500,
           status: 'positive',
-        })
+        }),
       );
     }
   }, []);

@@ -3,7 +3,7 @@ export function formatResourceTime(time: number | undefined | null): string {
 }
 
 export function formatResourceMemory(
-  memory: number | undefined | null
+  memory: number | undefined | null,
 ): string {
   return memory != null ? `${memory}mb` : '--';
 }

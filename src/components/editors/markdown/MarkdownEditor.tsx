@@ -21,7 +21,7 @@ export const MarkdownEditor: React.FC<MarkdownEditor.Props> = (props) => {
   const [editorState, setEditorState] = React.useState(
     initialValue
       ? EditorState.createWithContent(ContentState.createFromText(initialValue))
-      : EditorState.createEmpty()
+      : EditorState.createEmpty(),
   );
 
   const [selectedTab, setSelectedTab] = React.useState('write');

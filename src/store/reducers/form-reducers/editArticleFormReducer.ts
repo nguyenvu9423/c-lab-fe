@@ -17,5 +17,5 @@ export const editArticleFormReducer = createFilteredReducer(
       article: articleReducer,
     }),
   }),
-  TargetPredicates.equal(Target.EDIT_ARTICLE_FORM)
+  TargetPredicates.equal(Target.EDIT_ARTICLE_FORM),
 );

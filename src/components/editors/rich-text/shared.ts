@@ -16,7 +16,7 @@ export const blockRenderMap: Draft.DraftBlockRenderMap =
       'code-block': {
         element: 'pre',
       },
-    })
+    }),
   );
 
 export type SetEditorState = React.Dispatch<React.SetStateAction<EditorState>>;

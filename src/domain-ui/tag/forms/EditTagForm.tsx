@@ -26,7 +26,7 @@ export const EditTagForm: React.FC<{
   const tag = useSelector(
     data.tag.loadingState === 'LOADED'
       ? TagSelectors.selectById(tagId)
-      : () => undefined
+      : () => undefined,
   );
 
   const handleSubmit = React.useCallback(
@@ -37,7 +37,7 @@ export const EditTagForm: React.FC<{
         })
         .catch((e) => console.log(e));
     },
-    [tagId, onSuccess]
+    [tagId, onSuccess],
   );
 
   if (LoadingState.isInProgress(data.tag.loadingState)) {

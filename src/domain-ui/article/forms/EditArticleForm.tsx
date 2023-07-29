@@ -28,11 +28,11 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
   const article = useSelector(
     data.article.loadingState === LoadingState.LOADED
       ? ArticleSelectors.byId(articleId)
-      : () => undefined
+      : () => undefined,
   );
 
   const tags = useSelector(
-    article ? TagSelectors.selectTagsByIds(article.tags) : () => undefined
+    article ? TagSelectors.selectTagsByIds(article.tags) : () => undefined,
   );
 
   const initialValues = React.useMemo(() => {
@@ -49,7 +49,7 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
 
   React.useEffect(() => {
     dispatch(
-      fetchArticle.request({ id: articleId, target: Target.EDIT_ARTICLE_FORM })
+      fetchArticle.request({ id: articleId, target: Target.EDIT_ARTICLE_FORM }),
     );
     return () => {
       dispatch(resetState({ target: Target.EDIT_ARTICLE_FORM }));
@@ -59,6 +59,7 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
   const handleSubmit = React.useCallback(
     (values) => {
       const { thumbnail, content, ...dto } = values;
+
       dto.content = JSON.stringify(content);
 
       const formData = new FormData();
@@ -71,7 +72,7 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
 
       formData.append(
         'article',
-        new Blob([JSON.stringify(dto)], { type: 'application/json' })
+        new Blob([JSON.stringify(dto)], { type: 'application/json' }),
       );
 
       return ArticleService.updateArticle(articleId, formData)
@@ -84,11 +85,13 @@ export const EditArticleForm: React.FC<EditArticleForm.Props> = (props) => {
           }
         });
     },
-    [articleId, onSuccess]
+    [articleId, onSuccess],
   );
 
   const canEdit = useSelector(
-    article ? AuthorizationSelectors.canUpdateArticle(article) : () => undefined
+    article
+      ? AuthorizationSelectors.canUpdateArticle(article)
+      : () => undefined,
   );
 
   if (canEdit === false) {

@@ -41,7 +41,7 @@ export const ArticlePage: React.FC = () => {
       fetchArticle.request({
         id: Number(params.id),
         target: Target.ARTICLE_PAGE,
-      })
+      }),
     );
     return () => {
       dispatch(resetState({ target: Target.ARTICLE_PAGE }));
@@ -84,7 +84,9 @@ export const LoadedArticleView: React.FC<{ article: Article }> = (props) => {
   });
 
   const canEdit = useSelector(
-    article ? AuthorizationSelectors.canUpdateArticle(article) : () => undefined
+    article
+      ? AuthorizationSelectors.canUpdateArticle(article)
+      : () => undefined,
   );
 
   React.useEffect(() => {
@@ -97,7 +99,7 @@ export const LoadedArticleView: React.FC<{ article: Article }> = (props) => {
 
   const rawContentState: RawDraftContentState = React.useMemo(
     () => JSON.parse(article.content),
-    [article?.content]
+    [article?.content],
   );
   return (
     <>

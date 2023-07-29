@@ -13,7 +13,7 @@ export namespace CompactSubmissionTable {
 }
 
 export const CompactSubmissionTable: React.FC<CompactSubmissionTable.Props> = (
-  props
+  props,
 ) => {
   const { submissions } = props;
   return (

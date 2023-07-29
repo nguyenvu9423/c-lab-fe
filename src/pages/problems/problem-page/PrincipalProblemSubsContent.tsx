@@ -3,7 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import Lodash from 'lodash';
 import { useLocation } from 'react-router';
 
-import { Grid, Pagination, Segment, Ref, PaginationProps } from 'semantic-ui-react';
+import {
+  Grid,
+  Pagination,
+  Segment,
+  Ref,
+  PaginationProps,
+} from 'semantic-ui-react';
 
 import { SubmissionSelectors, PrincipalSelectors } from '@/store/selectors';
 import { fetchSubmissions } from '@/store/actions/submission';
@@ -30,7 +36,7 @@ import { PageUtils } from '../../shared';
 
 const PAGE_SIZE = 10;
 export const PrincipalProblemSubsContent: React.FC<{ problem: Problem }> = (
-  props
+  props,
 ) => {
   const { problem } = props;
   const principal = useSelector(PrincipalSelectors.principal());
@@ -81,11 +87,11 @@ export const PrincipalSubmissionTable: React.FC<
   const [page, setPage] = React.useState(1);
 
   const { data } = useSelector(
-    (state: State) => state.problemPageContents.principalSubmissions
+    (state: State) => state.problemPageContents.principalSubmissions,
   );
 
   const uiHighlightSubId = useHighlightSub(
-    Lodash.get(location.state, 'highlightSubId')
+    Lodash.get(location.state, 'highlightSubId'),
   );
 
   const loadTotalPages = DataHolder.useTotalPages(data.submissions);
@@ -99,7 +105,7 @@ export const PrincipalSubmissionTable: React.FC<
         problemCode: problem.code,
         pageable: { page, size: PAGE_SIZE },
         target: Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS,
-      })
+      }),
     );
   }, [dispatch, user.username, problem.code, page]);
 
@@ -108,7 +114,9 @@ export const PrincipalSubmissionTable: React.FC<
     load();
     return () => {
       dispatch(
-        resetState({ target: Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS })
+        resetState({
+          target: Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS,
+        }),
       );
     };
   }, [load, dispatch]);
@@ -116,20 +124,23 @@ export const PrincipalSubmissionTable: React.FC<
   const submissions = useSelector(
     data.submissions.loadingState === LoadingState.LOADED
       ? SubmissionSelectors.byIds(data.submissions.ids)
-      : () => undefined
+      : () => undefined,
   );
 
   useJudgesStream(submissions ? submissions.map((sub) => sub.judge) : []);
 
   const tableRef = React.useRef<HTMLElement>(null);
-  const handlePageChange = React.useCallback((event, { activePage }: PaginationProps) => {
-    if (!activePage) return;
+  const handlePageChange = React.useCallback(
+    (event, { activePage }: PaginationProps) => {
+      if (!activePage) return;
 
-    setPage(Number(activePage));
-    if (tableRef.current) {
-      scrollToElementTop(tableRef.current);
-    }
-  }, []);
+      setPage(Number(activePage));
+      if (tableRef.current) {
+        scrollToElementTop(tableRef.current);
+      }
+    },
+    [],
+  );
 
   return (
     <Segment.Group>

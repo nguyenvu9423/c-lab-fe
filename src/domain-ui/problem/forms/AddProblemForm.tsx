@@ -28,7 +28,7 @@ export const AddProblemForm: React.FC<AddProblemForm.Props> = (props) => {
           }
         });
     },
-    []
+    [],
   );
 
   return (

@@ -31,7 +31,7 @@ export const PermissionSelect: React.FC<PermissionSelect.Props> = (props) => {
         value: permission.id,
         text: permission.name,
       })),
-    [permissions]
+    [permissions],
   );
 
   return (

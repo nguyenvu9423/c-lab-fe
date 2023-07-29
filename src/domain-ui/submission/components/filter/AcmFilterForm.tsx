@@ -16,7 +16,7 @@ const verdictOptions: { value?: string; text: string }[] = [
     key: type,
     value: type,
     text: VerdictFilterTypes.getProperties(type).text,
-  }))
+  })),
 );
 
 export namespace AcmFilterForm {
@@ -55,8 +55,8 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
           RsqlUtils.Builder.comparison(
             'judge.result.passedTestCount',
             operator,
-            value
-          )
+            value,
+          ),
         );
       }
       if (predicates.length > 0) {
@@ -66,7 +66,7 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
         onQueryChange?.(undefined);
       }
     },
-    [onQueryChange]
+    [onQueryChange],
   );
 
   const { values, setFieldValue, handleSubmit } =
@@ -80,7 +80,7 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
       const { value, name } = data;
       setFieldValue(name, value);
     },
-    [setFieldValue]
+    [setFieldValue],
   );
 
   return (

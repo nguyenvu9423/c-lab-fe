@@ -23,7 +23,7 @@ export const validationSchema = yup.object({
 });
 
 export const CompactSubmissionForm: React.FC<CompactSubmissionForm.Props> = (
-  props
+  props,
 ) => {
   const { problem, onSuccess } = props;
   const [overallError, setOverallError] = React.useState<
@@ -33,7 +33,7 @@ export const CompactSubmissionForm: React.FC<CompactSubmissionForm.Props> = (
   const onSubmitHanlder = React.useCallback(
     (
       values: CompactSubmissionForm.Value,
-      helpers: FormikHelpers<CompactSubmissionForm.Value>
+      helpers: FormikHelpers<CompactSubmissionForm.Value>,
     ) => {
       setOverallError(undefined);
       const { language, codeFile } = values;
@@ -50,11 +50,11 @@ export const CompactSubmissionForm: React.FC<CompactSubmissionForm.Props> = (
           setOverallError(err);
         });
     },
-    [problem.code, onSuccess]
+    [problem.code, onSuccess],
   );
 
   const initialLanguage = SubmissionLanguage.useInitial(
-    SubmissionLanguage.values
+    SubmissionLanguage.values,
   );
 
   const { values, touched, errors, handleSubmit, setFieldValue, isSubmitting } =

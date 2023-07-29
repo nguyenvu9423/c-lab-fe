@@ -29,7 +29,7 @@ export const EditRoleForm: React.FC<{
   const role = useSelector(
     data.role.loadingState === LoadingState.LOADED
       ? RoleSelectors.byId(data.role.result)
-      : () => undefined
+      : () => undefined,
   );
 
   React.useEffect(() => {
@@ -47,7 +47,7 @@ export const EditRoleForm: React.FC<{
         onSuccess?.();
       });
     },
-    [dispatch, roleId, onSuccess]
+    [dispatch, roleId, onSuccess],
   );
 
   if (DataHolder.isLoading(data.role)) {

@@ -10,7 +10,7 @@ export const roleEntityReducer = createReducer(
       ({ payload }) => !!payload?.entities?.role,
       (state, { payload }) => {
         roleEntityAdapter.upsertMany(state, payload.entities.role);
-      }
+      },
     );
-  }
+  },
 );

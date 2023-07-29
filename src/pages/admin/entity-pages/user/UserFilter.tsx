@@ -38,7 +38,7 @@ export const UserFilter: React.FC<UserFilter.Props> = (props) => {
           : undefined;
       onChange?.(query);
     },
-    [onChange]
+    [onChange],
   );
 
   return (

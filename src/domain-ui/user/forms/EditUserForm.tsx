@@ -26,7 +26,7 @@ export const EditUserForm: React.FC<EditUserForm.Props> = (props) => {
   const user = useSelector(
     DataHolderState.isLoaded(data.user)
       ? UserSelectors.selectById(data.user.result)
-      : () => undefined
+      : () => undefined,
   );
 
   React.useEffect(() => {
@@ -35,7 +35,7 @@ export const EditUserForm: React.FC<EditUserForm.Props> = (props) => {
         type: 'byUsername',
         username,
         target: Target.EDIT_USER_FORM,
-      })
+      }),
     );
   }, [dispatch, username]);
 
@@ -45,7 +45,7 @@ export const EditUserForm: React.FC<EditUserForm.Props> = (props) => {
         onSuccess?.();
       });
     },
-    [onSuccess, username]
+    [onSuccess, username],
   );
 
   if (LoadingState.isInProgress(data.user.loadingState) || !user) {

@@ -3,7 +3,7 @@ import { SetStateAction, Dispatch } from 'react';
 
 export function useLocalStorage<T = unknown>(
   key: string,
-  defaultValue: T
+  defaultValue: T,
 ): [T, Dispatch<SetStateAction<T>>] {
   const [storedValue, setStoredValue] = React.useState(() => {
     try {

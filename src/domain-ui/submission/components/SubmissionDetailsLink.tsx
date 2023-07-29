@@ -12,11 +12,11 @@ export namespace SubmissionDetailsLink {
 }
 
 export const SubmissionDetailsLink: React.FC<SubmissionDetailsLink.Props> = (
-  props
+  props,
 ) => {
   const { submission } = props;
   const canReadDetails = useSelector(
-    AuthorizationSelectors.canReadSubDetails(submission)
+    AuthorizationSelectors.canReadSubDetails(submission),
   );
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ export const SubmissionDetailsLink: React.FC<SubmissionDetailsLink.Props> = (
           setModal({
             type: 'DETAILED_SUB',
             props: { submissionId: submission.id },
-          })
+          }),
         );
       }}
     >

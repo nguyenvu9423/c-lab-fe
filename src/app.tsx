@@ -19,7 +19,7 @@ import {
   EmailVerificationPage,
   InfoPage,
 } from './pages';
-import { Modal } from './components/modals';
+import { Modal } from './domain-ui/modals';
 import { PrincipalSelectors } from './store/selectors';
 import { AppSideBar, ErrorBoundary, ToastGroup, TopNav } from './components';
 import MediaQuery from 'react-responsive';

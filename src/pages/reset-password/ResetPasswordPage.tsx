@@ -15,7 +15,7 @@ export const ResetPasswordPage: React.FC = () => {
 
   const { id, token } = React.useMemo(
     () => qs.parse(location.search, { ignoreQueryPrefix: true }),
-    [location.search]
+    [location.search],
   );
 
   const handleSuccess = React.useCallback(() => {

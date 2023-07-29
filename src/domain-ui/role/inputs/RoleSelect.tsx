@@ -34,7 +34,7 @@ export const RoleSelect: React.FC<RoleSelect.Props> = (props) => {
         text: role.name,
         value: role.id,
       })),
-    [roles]
+    [roles],
   );
 
   React.useEffect(() => {

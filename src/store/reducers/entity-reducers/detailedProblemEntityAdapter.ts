@@ -12,9 +12,9 @@ export const detailedProblemEntityReducer = createReducer(
       (state, { payload }) => {
         detailedProblemEntityAdapter.upsertMany(
           state,
-          payload.entities.detailedProblem
+          payload.entities.detailedProblem,
         );
-      }
+      },
     );
-  }
+  },
 );

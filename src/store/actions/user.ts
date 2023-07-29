@@ -39,11 +39,11 @@ export namespace FetchUser {
 export const fetchUser = {
   request: createAction(
     'fetchUser/request',
-    (payload: FetchUser.RequestPayload) => ({ payload })
+    (payload: FetchUser.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchUser/response',
-    (payload: FetchUser.ResponsePayload) => ({ payload })
+    (payload: FetchUser.ResponsePayload) => ({ payload }),
   ),
   error: createAction('fetchUser/error', (payload: FetchUser.ErrorPayload) => ({
     payload,
@@ -74,15 +74,15 @@ export const fetchUsers = {
         ...payload,
         query: payload.query ? payload.query : undefined,
       },
-    })
+    }),
   ),
   response: createAction(
     'fetchUsers/response',
-    (payload: FetchUsers.ResponsePayload) => ({ payload })
+    (payload: FetchUsers.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchUsers/error',
-    (payload: FetchUsers.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchUsers.ErrorPayload) => ({ payload, error: true }),
   ),
 };
 

@@ -18,7 +18,7 @@ export const ProblemInfoCard: React.FC<ProblemInfoCard.Props> = (props) => {
   const judgeConfig = useSelector(
     problem.judgeConfig
       ? JudgeConfigSelectors.selectById(problem.judgeConfig)
-      : () => undefined
+      : () => undefined,
   );
 
   return (

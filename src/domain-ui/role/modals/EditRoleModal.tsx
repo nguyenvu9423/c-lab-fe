@@ -4,7 +4,7 @@ import { FormModal } from '../../../shared/types';
 import { EditRoleForm } from '../forms';
 
 export const EditRoleModal: React.FC<FormModal.Props & { roleId: number }> = (
-  props
+  props,
 ) => {
   return (
     <Modal defaultOpen onClose={props.onCancel}>

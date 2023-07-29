@@ -10,7 +10,7 @@ export const tagEntityReducer = createReducer(
       ({ payload }) => !!payload?.entities?.tag,
       (state, { payload }) => {
         tagEntityAdapter.upsertMany(state, payload.entities.tag);
-      }
+      },
     );
-  }
+  },
 );

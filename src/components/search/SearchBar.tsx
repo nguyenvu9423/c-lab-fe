@@ -34,12 +34,12 @@ export const SearchBar: React.FC = () => {
       Lodash.debounce((value) => {
         dispatch(fetchSearch.request(value));
       }, DEBOUNCE_DURATION),
-    [dispatch]
+    [dispatch],
   );
 
   const clear = React.useCallback(
     () => dispatch(fetchSearch.clear()),
-    [dispatch]
+    [dispatch],
   );
 
   const handleSearchChange = React.useCallback(
@@ -51,7 +51,7 @@ export const SearchBar: React.FC = () => {
         clear();
       }
     },
-    [query, clear]
+    [query, clear],
   );
 
   const handleResultSelect = React.useCallback(
@@ -64,7 +64,7 @@ export const SearchBar: React.FC = () => {
         navigate(`/articles/${result.id}/view/${result.slug}`);
       }
     },
-    [clear, navigate]
+    [clear, navigate],
   );
 
   return (

@@ -71,7 +71,7 @@ export const ProblemRejudgeInfo: React.FC<ProblemRejudgeInfo.Props> = ({
 };
 
 const ProblemRejudgeResult: React.FC<{ problemRejudge: ProblemRejudge }> = (
-  props
+  props,
 ) => {
   const {
     total,

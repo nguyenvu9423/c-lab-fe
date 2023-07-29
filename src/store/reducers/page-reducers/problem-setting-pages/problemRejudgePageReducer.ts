@@ -19,5 +19,5 @@ export const problemRejudgeFormReducer = createFilteredReducer(
       detailedProblem: detailedProblemReducer,
     }),
   }),
-  TargetPredicates.equal(Target.PROBLEM_REJUDGE_FORM)
+  TargetPredicates.equal(Target.PROBLEM_REJUDGE_FORM),
 );

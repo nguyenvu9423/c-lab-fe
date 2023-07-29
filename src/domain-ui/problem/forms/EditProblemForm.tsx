@@ -31,11 +31,11 @@ export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
   const problem = useSelector(
     data.problem.loadingState === LoadingState.LOADED
       ? ProblemSelectors.byId(data.problem.id)
-      : () => undefined
+      : () => undefined,
   );
 
   const tags = useSelector(
-    problem ? TagSelectors.selectTagsByIds(problem.tags) : () => undefined
+    problem ? TagSelectors.selectTagsByIds(problem.tags) : () => undefined,
   );
 
   const initialValues: ProblemForm.Value | undefined =
@@ -49,7 +49,7 @@ export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
         type: 'byCode',
         code: problemCode,
         target: Target.EDIT_PROBLEM_FORM,
-      })
+      }),
     );
     return () => {
       dispatch(resetState({ target: Target.EDIT_PROBLEM_FORM }));
@@ -71,11 +71,13 @@ export const EditProblemForm: React.FC<EditProblemForm.Props> = (props) => {
           }
         });
     },
-    [problemCode]
+    [problemCode],
   );
 
   const canEdit = useSelector(
-    problem ? AuthorizationSelectors.canUpdateProblem(problem) : () => undefined
+    problem
+      ? AuthorizationSelectors.canUpdateProblem(problem)
+      : () => undefined,
   );
 
   if (canEdit === false) {

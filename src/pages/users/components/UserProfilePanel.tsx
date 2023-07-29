@@ -87,7 +87,7 @@ export const AvatarForm: React.FC<AvatarForm.Props> = (props) => {
         });
       }
     },
-    [dispatch, user]
+    [dispatch, user],
   );
 
   const handleRemove = React.useCallback(() => {
@@ -101,7 +101,7 @@ export const AvatarForm: React.FC<AvatarForm.Props> = (props) => {
   const isPrincipal = useSelector(
     user
       ? PrincipalSelectors.isPrincipal(user)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   return (

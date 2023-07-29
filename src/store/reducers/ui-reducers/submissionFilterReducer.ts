@@ -12,5 +12,5 @@ export const submissionFilterReducer = createReducer<SubmissionFilterState>(
       const { filters } = action.payload;
       return filters;
     });
-  }
+  },
 );

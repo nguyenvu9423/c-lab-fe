@@ -24,7 +24,7 @@ export const RegisterPage: React.FC = () => {
         content: 'Tài khoản của bạn đã được lập',
         duration: 2500,
         status: 'positive',
-      })
+      }),
     );
   }, [history]);
 

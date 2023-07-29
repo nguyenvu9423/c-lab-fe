@@ -11,12 +11,12 @@ export namespace SubmissionLangSelect {
 }
 
 export const SubmissionLangSelect: React.FC<SubmissionLangSelect.Props> = (
-  props
+  props,
 ) => {
   const { value, options: langs, onChange } = props;
   const sortedLangs = React.useMemo(
     () => SubmissionLanguage.sort(langs),
-    [langs]
+    [langs],
   );
 
   return (

@@ -40,18 +40,18 @@ export const SubmissionFilter: React.FC<SubmissionFilter.Props> = (props) => {
       }
       if (filters.problemCode) {
         predicates.push(
-          RsqlUtils.Builder.eq('problem.code', `*${filters.problemCode}*`)
+          RsqlUtils.Builder.eq('problem.code', `*${filters.problemCode}*`),
         );
       }
       if (filters.username) {
         predicates.push(
-          RsqlUtils.Builder.eq('user.username', filters.username)
+          RsqlUtils.Builder.eq('user.username', filters.username),
         );
       }
 
       if (filters.disqualified !== undefined) {
         predicates.push(
-          RsqlUtils.Builder.eq('disqualified', String(filters.disqualified))
+          RsqlUtils.Builder.eq('disqualified', String(filters.disqualified)),
         );
       }
 
@@ -70,7 +70,7 @@ export const SubmissionFilter: React.FC<SubmissionFilter.Props> = (props) => {
         onChange?.(query);
       } else onChange?.(undefined);
     },
-    [onChange]
+    [onChange],
   );
 
   return (
@@ -122,7 +122,7 @@ export const SubmissionFilter: React.FC<SubmissionFilter.Props> = (props) => {
             options={judgeStatusOptions}
             onChange={(e, { value }) => {
               const match = judgeStatusOptions.find(
-                (option) => option.value === value
+                (option) => option.value === value,
               );
               handleFitlersChange({
                 ...filters,
@@ -156,7 +156,7 @@ const verdictOptions: DropdownItemProps[] = [{ key: '', text: '' }].concat(
   VerdictFilterTypes.values.map((type) => {
     const props = VerdictFilterTypes.getProperties(type);
     return { key: type, value: type, text: props.text };
-  })
+  }),
 );
 
 const disqualifiedOptions: DropdownItemProps[] = [
@@ -187,7 +187,7 @@ const judgeStatusOptions: (DropdownItemProps & {
     value: 'in_progress',
     rsqlNode: RsqlUtils.Builder.in(
       'judge.progress.status',
-      JudgeProgressStatus.InProgressValues
+      JudgeProgressStatus.InProgressValues,
     ),
   },
   {
@@ -196,7 +196,7 @@ const judgeStatusOptions: (DropdownItemProps & {
     value: 'success',
     rsqlNode: RsqlUtils.Builder.eq(
       'judge.progress.status',
-      JudgeProgressStatus.SUCCESS
+      JudgeProgressStatus.SUCCESS,
     ),
   },
   {
@@ -205,7 +205,7 @@ const judgeStatusOptions: (DropdownItemProps & {
     value: 'cancelled',
     rsqlNode: RsqlUtils.Builder.eq(
       'judge.progress.status',
-      JudgeProgressStatus.CANCELLED
+      JudgeProgressStatus.CANCELLED,
     ),
   },
   {
@@ -214,7 +214,7 @@ const judgeStatusOptions: (DropdownItemProps & {
     value: 'rejected',
     rsqlNode: RsqlUtils.Builder.eq(
       'judge.progress.status',
-      JudgeProgressStatus.REJECTED
+      JudgeProgressStatus.REJECTED,
     ),
   },
   {
@@ -223,7 +223,7 @@ const judgeStatusOptions: (DropdownItemProps & {
     value: 'error',
     rsqlNode: RsqlUtils.Builder.eq(
       'judge.progress.status',
-      JudgeProgressStatus.ERROR
+      JudgeProgressStatus.ERROR,
     ),
   },
 ];

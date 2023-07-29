@@ -16,13 +16,13 @@ export namespace EmailVerification {
 
 export const verifyEmail = {
   request: createAction<EmailVerification.RequestPayload>(
-    'emailVerification/request'
+    'emailVerification/request',
   ),
   response: createAction<EmailVerification.ResponsePayload>(
-    'emailVerification/response'
+    'emailVerification/response',
   ),
   error: createAction(
     'emailVerification/error',
-    (payload: EmailVerification.ErrorPayload) => ({ payload, error: true })
+    (payload: EmailVerification.ErrorPayload) => ({ payload, error: true }),
   ),
 };

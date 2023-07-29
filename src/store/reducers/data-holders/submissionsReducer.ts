@@ -80,5 +80,5 @@ export const submissionsReducer = createReducer<SubmissionsState>(
         };
       })
       .addCase(resetState, () => initialState);
-  }
+  },
 );

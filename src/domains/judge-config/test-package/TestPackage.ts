@@ -1,4 +1,4 @@
-import { Test } from '../../judge';
+import { Test } from '../../judge/test/Test';
 
 export interface TestPackage {
   id: number;

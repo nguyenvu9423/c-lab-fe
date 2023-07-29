@@ -29,7 +29,7 @@ export const SubmissionPage: React.FC = () => {
   const submissions = useSelector(
     DataHolder.isLoaded(data.submissions)
       ? SubmissionSelectors.byIds(data.submissions.ids)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   const [page, setPage] = React.useState(1);
@@ -46,7 +46,7 @@ export const SubmissionPage: React.FC = () => {
         pageable: { page, size: PAGE_SIZE },
         query: query,
         target: Target.AdminPage.SUBMISSION,
-      })
+      }),
     );
   }, [dispatch, page, query]);
 
@@ -62,7 +62,7 @@ export const SubmissionPage: React.FC = () => {
       ? submissions
           .filter((sub): sub is Submission => sub !== undefined)
           .map((sub) => sub.judge)
-      : []
+      : [],
   );
 
   return (

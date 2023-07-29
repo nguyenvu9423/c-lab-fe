@@ -10,7 +10,7 @@ export namespace JudgeInProgressLabel {
 }
 
 export const JudgeInProgressLabel: React.FC<JudgeInProgressLabel.Props> = (
-  props
+  props,
 ) => {
   const { progress } = props;
   const { status, runningTest } = progress;

@@ -18,7 +18,7 @@ export const AddArticlePage: React.FC = () => {
   const handleCancel = () => navigate(-1);
 
   const canCreateArticle = useSelector(
-    AuthorizationSelectors.canCreateArticle()
+    AuthorizationSelectors.canCreateArticle(),
   );
 
   if (!canCreateArticle) {

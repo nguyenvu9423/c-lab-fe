@@ -19,7 +19,7 @@ export const RolePage: React.FC = () => {
   const roles = useSelector(
     DataHolder.isLoaded(data.roles)
       ? RoleSelectors.selectByIds(data.roles.result)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   const [page, setPage] = React.useState(1);
@@ -32,7 +32,7 @@ export const RolePage: React.FC = () => {
       fetchRoles.request({
         pageable: { page, size: PAGE_SIZE },
         target: Target.AdminPage.ROLE,
-      })
+      }),
     );
   }, [dispatch, page]);
 
@@ -103,8 +103,8 @@ export const RolePage: React.FC = () => {
               addToast(
                 new CRUDToastBuilder('vai trò', 'tạo')
                   .setStatus('success')
-                  .build()
-              )
+                  .build(),
+              ),
             );
             load();
           }}
@@ -121,8 +121,8 @@ export const RolePage: React.FC = () => {
               addToast(
                 new CRUDToastBuilder('vài trò', 'sửa')
                   .setStatus('success')
-                  .build()
-              )
+                  .build(),
+              ),
             );
             load();
           }}

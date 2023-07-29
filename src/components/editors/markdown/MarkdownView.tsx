@@ -6,13 +6,16 @@ import gfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { Image } from 'semantic-ui-react';
 
-export const MarkdownView: React.FC<{ components?: Components, children?: React.ReactNode }> = (props) => {
+export const MarkdownView: React.FC<{
+  components?: Components;
+  children?: React.ReactNode;
+}> = (props) => {
   const components = React.useMemo(
     () =>
       props.components
         ? { ...baseComponents, ...props.components }
         : baseComponents,
-    [props.components]
+    [props.components],
   );
   return (
     <ReactMarkdown
@@ -26,7 +29,7 @@ export const MarkdownView: React.FC<{ components?: Components, children?: React.
   );
 };
 
-const MarkdownTable: React.FC<{children?: React.ReactNode}> = (props) => (
+const MarkdownTable: React.FC<{ children?: React.ReactNode }> = (props) => (
   <table className="ui table">{props.children}</table>
 );
 

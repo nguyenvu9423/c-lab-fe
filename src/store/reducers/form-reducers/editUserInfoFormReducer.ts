@@ -17,5 +17,5 @@ export const editUserInfoFormReducer = createFilteredReducer(
       user: userReducer,
     }),
   }),
-  TargetPredicates.equal(Target.EDIT_USER_INFO_FORM)
+  TargetPredicates.equal(Target.EDIT_USER_INFO_FORM),
 );

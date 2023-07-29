@@ -9,7 +9,7 @@ const BASE_URL = '/judges';
 export namespace JudgeService {
   export function getBySubmission(
     submissionId: number,
-    detailed?: boolean
+    detailed?: boolean,
   ): ServiceResponse<DetailedJudgeDTO> {
     return apiCaller.get(`${BASE_URL}`, {
       params: { submissionId, detailed },
@@ -19,10 +19,10 @@ export namespace JudgeService {
   export function getJudgesStream(judgeIds: number[]): EventSource {
     const queryString = qs.stringify(
       { ids: judgeIds },
-      { arrayFormat: 'comma' }
+      { arrayFormat: 'comma' },
     );
     return new EventSource(
-      `${BackEndConfig.API_URL}${BASE_URL}/stream?${queryString}`
+      `${BackEndConfig.API_URL}${BASE_URL}/stream?${queryString}`,
     );
   }
 

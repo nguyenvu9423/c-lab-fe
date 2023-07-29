@@ -41,5 +41,5 @@ export const problemRejudgeReducer = createReducer<ProblemRejudgeState>(
         }
         return state;
       });
-  }
+  },
 );

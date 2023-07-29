@@ -47,7 +47,7 @@ const OIJudgeResultLabel: React.FC<{ result: JudgeResult }> = (props) => {
 };
 
 const AcmJudgeResultLabel: React.FC<{ result: JudgeResult } & LabelProps> = (
-  props
+  props,
 ) => {
   const { result, compact } = props;
   const { verdict, testError } = result;

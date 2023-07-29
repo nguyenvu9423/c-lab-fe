@@ -4,7 +4,9 @@ import { HeadingProps } from 'react-markdown/lib/ast-to-react';
 import { MarkdownView } from '../../../components';
 import { slugifyHeading } from '../utils';
 
-export const ArticleMarkdownView: React.FC<{ children?: React.ReactNode }> = (props) => {
+export const ArticleMarkdownView: React.FC<{ children?: React.ReactNode }> = (
+  props,
+) => {
   return (
     <MarkdownView components={anchorHeadingComponents}>
       {props.children}

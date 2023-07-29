@@ -17,5 +17,5 @@ export const updateJudgeConfigFormReducer = createFilteredReducer(
   combineReducers<UpdateJudgeConfigFormState>({
     data: combineReducers({ detailedProblem: detailedProblemReducer }),
   }),
-  TargetPredicates.equal(Target.UPDATE_JUDGE_CONFIG_FORM)
+  TargetPredicates.equal(Target.UPDATE_JUDGE_CONFIG_FORM),
 );

@@ -33,7 +33,7 @@ export interface InProgressJudge extends Judge {
 export namespace InProgressJudge {
   export function isInstance(judge: Judge): judge is InProgressJudge {
     return JudgeProgressStatus.InProgressValues.some(
-      (value) => value === judge.progress.status
+      (value) => value === judge.progress.status,
     );
   }
 }

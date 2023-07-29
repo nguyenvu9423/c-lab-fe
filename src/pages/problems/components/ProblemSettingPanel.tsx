@@ -11,7 +11,7 @@ export namespace ProblemSettingPanel {
 }
 
 export const ProblemSettingPanel: React.FC<ProblemSettingPanel.Props> = (
-  props
+  props,
 ) => {
   const { problem } = props;
 

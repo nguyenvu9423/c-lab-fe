@@ -1,9 +1,5 @@
 import * as React from 'react';
 import * as yup from 'yup';
-import { useFormik, FormikHelpers } from 'formik';
-import { JudgerType, ScoringType } from './JudgeConfig';
-import { useErrorMessageRenderer } from '@/components/form';
-import { SubmitButton, CancelButton } from '@/components/button';
 import {
   Form,
   Header,
@@ -13,10 +9,19 @@ import {
   Table,
   Icon,
 } from 'semantic-ui-react';
-import { PutFileInput } from '../../pages/common/inputs/PutFileInput';
-import { CustomJudger, TestPackage } from '.';
-import { BackEndConfig } from '../../config';
+import { useFormik, FormikHelpers } from 'formik';
+
+import { useErrorMessageRenderer } from '@/components/form';
+import { SubmitButton, CancelButton } from '@/components/button';
 import { TextFileOverviewContainer } from '@/components';
+import {
+  JudgerType,
+  ScoringType,
+} from '../../domains/judge-config/JudgeConfig';
+import { PutFileInput } from '../../pages/common/inputs/PutFileInput';
+import { TestPackage } from '../../domains/judge-config/test-package';
+import { CustomJudger } from '../../domains/judge-config/custom-judger';
+import { BackEndConfig } from '../../config';
 
 const judgerOptions = JudgerType.values.map((type) => ({
   value: type,

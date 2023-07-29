@@ -19,15 +19,15 @@ export namespace FetchDetailedJudge {
 const fetchDetailedJudge = {
   request: createAction(
     'fetchDetailedJudge/request',
-    (payload: FetchDetailedJudge.RequestPayload) => ({ payload })
+    (payload: FetchDetailedJudge.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchDetailedJudge/response',
-    (payload: FetchDetailedJudge.ResponsePayload) => ({ payload })
+    (payload: FetchDetailedJudge.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchDetailedJudge/error',
-    (payload: FetchDetailedJudge.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchDetailedJudge.ErrorPayload) => ({ payload, error: true }),
   ),
 };
 

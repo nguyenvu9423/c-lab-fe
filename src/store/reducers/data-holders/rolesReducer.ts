@@ -54,5 +54,5 @@ export const rolesReducer = createReducer<RolesState>(
         }
         return state;
       });
-  }
+  },
 );

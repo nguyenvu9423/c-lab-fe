@@ -24,7 +24,7 @@ export function useKeyHandler(setEditorState: SetEditorState) {
             break;
           case 'toggle-underline':
             setEditorState(
-              RichUtils.toggleInlineStyle(editorState, 'UNDERLINE')
+              RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'),
             );
             break;
           default:
@@ -32,7 +32,7 @@ export function useKeyHandler(setEditorState: SetEditorState) {
         }
         return 'handled';
       },
-      [setEditorState]
+      [setEditorState],
     );
 
   const keyBindingFn: Draft.EditorProps['keyBindingFn'] = (event) => {
@@ -56,7 +56,7 @@ export function useKeyHandler(setEditorState: SetEditorState) {
 }
 
 export function useReturnHandler(
-  setEditorState: SetEditorState
+  setEditorState: SetEditorState,
 ): Draft.EditorProps['handleReturn'] {
   return React.useCallback(
     (evt, editorState) => {
@@ -67,12 +67,12 @@ export function useReturnHandler(
       setEditorState(newState);
       return 'handled';
     },
-    [setEditorState]
+    [setEditorState],
   );
 }
 
 export function useTabHandler(
-  setEditorState: SetEditorState
+  setEditorState: SetEditorState,
 ): Draft.EditorProps['onTab'] {
   const handleTab: Draft.EditorProps['onTab'] = React.useCallback((e) => {
     e.preventDefault();
@@ -93,13 +93,13 @@ export function useTabHandler(
         const newContentState = Modifier.replaceText(
           currentState.getCurrentContent(),
           currentState.getSelection(),
-          '    '
+          '    ',
         );
 
         return EditorState.push(
           currentState,
           newContentState,
-          'insert-characters'
+          'insert-characters',
         );
       }
     });

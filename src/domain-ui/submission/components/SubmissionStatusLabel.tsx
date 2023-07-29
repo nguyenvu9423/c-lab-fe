@@ -10,7 +10,7 @@ export namespace SubmissionStatusLabel {
 }
 
 export const SubmissionStatusLabel: React.FC<SubmissionStatusLabel.Props> = (
-  props
+  props,
 ) => {
   const { submission, compact } = props;
   if (submission.disqualified) {

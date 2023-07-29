@@ -63,5 +63,5 @@ export const problemsReducer = createReducer<ProblemsState>(
         return state;
       })
       .addCase(resetState, () => initialState);
-  }
+  },
 );

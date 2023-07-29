@@ -52,5 +52,5 @@ export const searchReducer = createReducer<SearchState>(
         }
         return state;
       });
-  }
+  },
 );

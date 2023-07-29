@@ -25,14 +25,14 @@ export const TagNameSelect: React.FC<TagNameSelect.Props> = (props) => {
           setLoading(true);
           TagService.getTags(
             { page: 0, size: 10 },
-            `name==*${searchQuery}*`
+            `name==*${searchQuery}*`,
           ).then(({ data: { content } }) => {
             setTags(content);
             setLoading(false);
           });
         }
       }, SelectConfig.DELAY),
-    []
+    [],
   );
   const tagOptions = React.useMemo(
     () =>
@@ -40,7 +40,7 @@ export const TagNameSelect: React.FC<TagNameSelect.Props> = (props) => {
         key: tag.id,
         title: tag.name,
       })),
-    [tags]
+    [tags],
   );
 
   return (

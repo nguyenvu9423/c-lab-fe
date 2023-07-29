@@ -44,7 +44,7 @@ export const LoginForm: React.FC<LoginForm.Props> = (props) => {
           }
         });
     },
-    [dispatch, onSuccess]
+    [dispatch, onSuccess],
   );
 
   const {

@@ -1,7 +1,13 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Header, PaginationProps, Ref, Segment, Table } from 'semantic-ui-react';
+import {
+  Header,
+  PaginationProps,
+  Ref,
+  Segment,
+  Table,
+} from 'semantic-ui-react';
 
 import { Pagination } from '@/components';
 import { ErrorTableBody, LoadingTableBody } from '@/components/table';
@@ -45,7 +51,7 @@ export const UserSubsCard: React.FC<UserSubsCard.Props> = (props) => {
   const submissions = useSelector(
     DataHolderState.isLoaded(data.submissions)
       ? SubmissionSelectors.byIds(data.submissions.ids)
-      : () => undefined
+      : () => undefined,
   );
 
   const load = React.useCallback(() => {
@@ -55,7 +61,7 @@ export const UserSubsCard: React.FC<UserSubsCard.Props> = (props) => {
         username,
         pageable: { page, size: PAGE_SIZE },
         target: Target.USER_PAGE,
-      })
+      }),
     );
   }, [dispatch, username, page]);
 
@@ -73,7 +79,7 @@ export const UserSubsCard: React.FC<UserSubsCard.Props> = (props) => {
         scrollToElementTop(tableRef.current);
       }
     },
-    [setPage]
+    [setPage],
   );
 
   useJudgesStream(
@@ -81,7 +87,7 @@ export const UserSubsCard: React.FC<UserSubsCard.Props> = (props) => {
       ? submissions
           .filter((sub): sub is Submission => sub !== undefined)
           .map((sub) => sub.judge)
-      : []
+      : [],
   );
 
   return (

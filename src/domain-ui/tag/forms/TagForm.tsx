@@ -26,7 +26,7 @@ export const TagFormSchema = yup.object({
     .required('Vui lòng điền tên')
     .matches(
       /^[a-z0-9-]*$/,
-      'Tên chỉ có thể chứa chữ cái thường, số và dấu "-"'
+      'Tên chỉ có thể chứa chữ cái thường, số và dấu "-"',
     )
     .min(3, 'Tên phải có ít nhất 3 kí tự')
     .max(24, 'Tên không được vượt quá 24 kí tự'),

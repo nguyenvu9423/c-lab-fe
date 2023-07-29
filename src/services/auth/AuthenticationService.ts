@@ -25,10 +25,8 @@ export namespace AuthenticationService {
         scope: 'any',
       }),
       {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      },
     );
   }
 
@@ -42,10 +40,8 @@ export namespace AuthenticationService {
         scope: 'any',
       }),
       {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      },
     );
   }
 }

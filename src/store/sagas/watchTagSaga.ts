@@ -20,7 +20,7 @@ function* fetchTagsSaga(action: PayloadAction<FetchTags.RequestPayload>) {
         entities,
         totalPages: data.totalPages,
         target,
-      })
+      }),
     );
   } catch (e) {
     yield put(fetchTags.error({ error: e, target }));
@@ -39,7 +39,7 @@ function* fetchTagSaga(action: PayloadAction<FetchTag.RequestPayload>) {
         result,
         entities,
         target,
-      })
+      }),
     );
   } catch (e) {
     yield put(fetchTag.error({ error: e, target }));

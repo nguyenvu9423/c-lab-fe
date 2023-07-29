@@ -10,7 +10,7 @@ export const judgeEntityReducer = createReducer(
       ({ payload }) => !!payload?.entities?.judge,
       (state, { payload }) => {
         judgeEntityAdapter.upsertMany(state, payload.entities.judge);
-      }
+      },
     );
-  }
+  },
 );

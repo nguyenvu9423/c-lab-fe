@@ -4,7 +4,7 @@ import { submissionEntityAdapter } from '../reducers/entity-reducers/submissionE
 import { Selector } from '@reduxjs/toolkit';
 
 const submissionEntitySelectors = submissionEntityAdapter.getSelectors(
-  (state: State) => state.entity.submission
+  (state: State) => state.entity.submission,
 );
 
 export namespace SubmissionSelectors {

@@ -15,7 +15,7 @@ export namespace MobileTopNav {
 
 export const MobileTopNav: React.FC<MobileTopNav.Props> = (props) => {
   const { loadingState, principal } = useSelector(
-    PrincipalSelectors.principalDataHolder()
+    PrincipalSelectors.principalDataHolder(),
   );
 
   return (

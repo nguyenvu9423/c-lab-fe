@@ -19,7 +19,7 @@ export namespace ValuePredicateInput {
 }
 
 export const ValuePredicateInput: React.FC<ValuePredicateInput.Props> = (
-  props
+  props,
 ) => {
   const { value, onChange } = props;
   return (

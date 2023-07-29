@@ -22,11 +22,11 @@ export const fetchSearch = {
   })),
   response: createAction(
     'fetchSearch/response',
-    (payload: FetchSearch.ResponsePayload) => ({ payload })
+    (payload: FetchSearch.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchSearch/error',
-    (payload: FetchSearch.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchSearch.ErrorPayload) => ({ payload, error: true }),
   ),
   clear: createAction('fetchSearch/clear'),
 };

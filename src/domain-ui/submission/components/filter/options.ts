@@ -27,7 +27,7 @@ export namespace VerdictFilterTypes {
   }
 
   export function getProperties(
-    verdict: VerdictFilterTypes
+    verdict: VerdictFilterTypes,
   ): VerdictFilterTypes.Properties {
     return verdictMap[verdict];
   }
@@ -38,42 +38,42 @@ export namespace VerdictFilterTypes {
         text: 'Accepted',
         rsqlNode: RsqlUtils.Builder.eq(
           'judge.result.verdict',
-          JudgeVerdict.ACCEPTED
+          JudgeVerdict.ACCEPTED,
         ),
       },
       [VerdictFilterTypes.COMPILE_ERROR]: {
         text: 'Compile error',
         rsqlNode: RsqlUtils.Builder.eq(
           'judge.result.verdict',
-          JudgeVerdict.COMPILE_ERROR
+          JudgeVerdict.COMPILE_ERROR,
         ),
       },
       [VerdictFilterTypes.WA]: {
         text: 'Wrong answer',
         rsqlNode: RsqlUtils.Builder.eq(
           'judge.result.testError.verdict',
-          TestVerdict.WA
+          TestVerdict.WA,
         ),
       },
       [VerdictFilterTypes.TLE]: {
         text: 'Time limit exceeded',
         rsqlNode: RsqlUtils.Builder.eq(
           'judge.result.testError.verdict',
-          TestVerdict.TLE
+          TestVerdict.TLE,
         ),
       },
       [VerdictFilterTypes.MLE]: {
         text: 'Memory limit exceeded',
         rsqlNode: RsqlUtils.Builder.eq(
           'judge.result.testError.verdict$',
-          TestVerdict.MLE
+          TestVerdict.MLE,
         ),
       },
       [VerdictFilterTypes.RE]: {
         text: 'Runtime error',
         rsqlNode: RsqlUtils.Builder.eq(
           'judge.result.testError.verdict',
-          TestVerdict.RE
+          TestVerdict.RE,
         ),
       },
     };

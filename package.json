@@ -9,6 +9,7 @@
     "compile": "tsc",
     "check-compile": "tsc --noEmit",
     "lint": "eslint ./src --ext .js,.ts,.tsx",
+    "lint-fix": "eslint --fix ./src --ext .js,.ts,.tsx",
     "start": "webpack serve --config webpack.dev.js"
   },
   "dependencies": {

@@ -13,7 +13,7 @@ import { UserControlMenu } from './UserControlMenu';
 
 export const TopNav: React.FC = () => {
   const { loadingState, principal } = useSelector(
-    PrincipalSelectors.principalDataHolder()
+    PrincipalSelectors.principalDataHolder(),
   );
 
   return (

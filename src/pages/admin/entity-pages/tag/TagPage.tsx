@@ -22,7 +22,7 @@ export const TagPage: React.FC = () => {
   const tags = useSelector(
     DataHolder.isLoaded(data.tags)
       ? TagSelectors.selectByIds(data.tags.result)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
   const [openAddForm, setOpenAddForm] = React.useState(false);
   const [editedTagId, setEditedTagId] = React.useState<number | undefined>();
@@ -41,9 +41,9 @@ export const TagPage: React.FC = () => {
           pageable: { page, size: PAGE_SIZE },
           query: params.query ?? query,
           target: Target.AdminPage.TAG,
-        })
+        }),
       ),
-    [dispatch, page, query]
+    [dispatch, page, query],
   );
 
   React.useEffect(() => {

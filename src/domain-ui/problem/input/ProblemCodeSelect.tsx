@@ -31,7 +31,7 @@ export const ProblemCodeSelect: React.FC<ProblemCodeSelect.Props> = (props) => {
             });
         }
       }, SelectConfig.DELAY),
-    []
+    [],
   );
 
   const problemOptions = React.useMemo(
@@ -40,7 +40,7 @@ export const ProblemCodeSelect: React.FC<ProblemCodeSelect.Props> = (props) => {
         key: problem.id,
         title: problem.code,
       })),
-    [problems]
+    [problems],
   );
 
   return (

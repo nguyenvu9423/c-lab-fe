@@ -33,7 +33,7 @@ export const DeleteTagConfirm: React.FC<DeleteTagConfirm.Props> = (props) => {
           }
         });
     },
-    [tagId, onSuccess]
+    [tagId, onSuccess],
   );
 
   return (

@@ -11,9 +11,9 @@ export const detailedSubEntityReducer = createReducer(
       (state, { payload }) => {
         detailedSubEntityAdapter.upsertMany(
           state,
-          payload.entities.detailedSub
+          payload.entities.detailedSub,
         );
-      }
+      },
     );
-  }
+  },
 );

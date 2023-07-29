@@ -26,7 +26,7 @@ export namespace ProblemService {
 
   export function getProblem(
     code: string,
-    detailed?: boolean
+    detailed?: boolean,
   ): ServiceResponse<ProblemDTO> {
     return apiCaller.get(`${BASE_URL}/${code}`, {
       params: {
@@ -36,30 +36,31 @@ export namespace ProblemService {
   }
 
   export function getJudgeConfig(
-    code: string
+    code: string,
   ): ServiceResponse<JudgeConfigDTO> {
     return apiCaller.get(`${BASE_URL}/${code}/judge-config`);
   }
 
   export function getProblemRejudge(
-    code: string
+    code: string,
   ): ServiceResponse<ProblemRejudgeDTO> {
     return apiCaller.get(`${BASE_URL}/${code}/rejudge`);
   }
 
   export function updateProblem(
     code: string,
-    problem: Partial<ProblemDTO>
+    problem: Partial<ProblemDTO>,
   ): ServiceResponse<ProblemDTO> {
     return apiCaller.put(`${BASE_URL}/${code}`, problem);
   }
 
   export function updateJudgeConfig(
     code: string,
-    formData: FormData
+    formData: FormData,
   ): ServiceResponse<ProblemDTO> {
     return apiCaller.post(`${BASE_URL}/${code}/judge-config`, formData, {
       timeout: 120000,
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
   }
 

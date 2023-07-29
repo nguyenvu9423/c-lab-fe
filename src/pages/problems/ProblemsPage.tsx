@@ -50,21 +50,21 @@ export const ProblemsPage: React.FC = () => {
         pageable: { page, size: PROBLEMS_PAGE_SIZE },
         query,
         target: Target.PROBLEMS_PAGE,
-      })
+      }),
     );
   }, [dispatch, page, query]);
 
   const problems = useSelector(
     data.problems.loadingState === LoadingState.LOADED
       ? ProblemSelectors.byIds(data.problems.result)
-      : () => undefined
+      : () => undefined,
   );
 
   const handlePageChange = React.useCallback(
     (event, { activePage }: PaginationProps) => {
       navigate({ search: QueryString.stringify({ page: activePage, query }) });
     },
-    [query, navigate]
+    [query, navigate],
   );
 
   const handleFilterChange = React.useCallback(
@@ -75,13 +75,13 @@ export const ProblemsPage: React.FC = () => {
               RsqlUtils.Builder.comparison(
                 'tags',
                 '=include=',
-                tags.map((tag) => tag.name)
-              )
+                tags.map((tag) => tag.name),
+              ),
             )
           : undefined;
       navigate({ search: QueryString.stringify({ page, query: newQuery }) });
     },
-    [page, navigate]
+    [page, navigate],
   );
 
   React.useEffect(() => {
@@ -93,7 +93,7 @@ export const ProblemsPage: React.FC = () => {
 
   const initialTags: OnlyNameTag[] = React.useMemo(
     () => (query ? PageUtils.getTagsFromQuery(query) : []),
-    []
+    [],
   );
 
   return (

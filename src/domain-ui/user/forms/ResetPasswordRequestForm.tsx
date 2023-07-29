@@ -14,47 +14,48 @@ export namespace ResetPasswordRequestForm {
   }
 }
 
-export const ResetPasswordRequestForm: React.FC<ResetPasswordRequestForm.Props> =
-  (props) => {
-    const { onSuccess } = props;
+export const ResetPasswordRequestForm: React.FC<
+  ResetPasswordRequestForm.Props
+> = (props) => {
+  const { onSuccess } = props;
 
-    const onSubmit = React.useCallback(
-      (values: ResetPasswordRequestForm.Value) => {
-        return ResetPasswordService.requestResetPassword(values.username).then(
-          (response) => {
-            onSuccess?.(response.data);
-          }
-        );
-      },
-      []
-    );
-
-    const { values, isSubmitting, handleChange, handleBlur, handleSubmit } =
-      useFormik<ResetPasswordRequestForm.Value>({
-        initialValues: {
-          username: '',
+  const onSubmit = React.useCallback(
+    (values: ResetPasswordRequestForm.Value) => {
+      return ResetPasswordService.requestResetPassword(values.username).then(
+        (response) => {
+          onSuccess?.(response.data);
         },
-        onSubmit,
-      });
+      );
+    },
+    [],
+  );
 
-    return (
-      <Form
-        className="clear-fix-container"
-        loading={isSubmitting}
-        onSubmit={handleSubmit}
-      >
-        <Form.Field>
-          <label>Username</label>
-          <Form.Input
-            name="username"
-            value={values.username}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Button primary content="Submit" floated="right" />
-        </Form.Field>
-      </Form>
-    );
-  };
+  const { values, isSubmitting, handleChange, handleBlur, handleSubmit } =
+    useFormik<ResetPasswordRequestForm.Value>({
+      initialValues: {
+        username: '',
+      },
+      onSubmit,
+    });
+
+  return (
+    <Form
+      className="clear-fix-container"
+      loading={isSubmitting}
+      onSubmit={handleSubmit}
+    >
+      <Form.Field>
+        <label>Username</label>
+        <Form.Input
+          name="username"
+          value={values.username}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </Form.Field>
+      <Form.Field>
+        <Button primary content="Submit" floated="right" />
+      </Form.Field>
+    </Form>
+  );
+};

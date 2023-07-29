@@ -21,11 +21,11 @@ export const AddProblemPage: React.FC = () => {
       navigate(`/problems/${problem.code}`);
       dispatch(
         addToast(
-          new CRUDToastBuilder('bài tập', 'tạo').setStatus('success').build()
-        )
+          new CRUDToastBuilder('bài tập', 'tạo').setStatus('success').build(),
+        ),
       );
     },
-    [dispatch, navigate]
+    [dispatch, navigate],
   );
 
   const canAddProblem = useSelector(AuthorizationSelectors.canCreateProblem());

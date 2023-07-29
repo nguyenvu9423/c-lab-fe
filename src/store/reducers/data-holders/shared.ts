@@ -6,7 +6,7 @@ import { LoadingState } from './../../common';
 export type DataHolderState<
   LoadingState extends Record<string, any> = Record<string, any>,
   LoadedState extends Record<string, any> = Record<string, any>,
-  ErrorState extends Record<string, any> = Record<string, any>
+  ErrorState extends Record<string, any> = Record<string, any>,
 > =
   | DataHolderState.Without
   | DataHolderState.LoadNeeded
@@ -42,7 +42,7 @@ export namespace DataHolderState {
   }
 
   export function isLoadRequested(
-    state: DataHolderState
+    state: DataHolderState,
   ): state is
     | DataHolderState.Loading
     | DataHolderState.Loaded
@@ -55,19 +55,19 @@ export namespace DataHolderState {
   }
 
   export function isLoading(
-    state: DataHolderState
+    state: DataHolderState,
   ): state is DataHolderState.Loading {
     return state.loadingState === LoadingState.LOADING;
   }
 
   export function isError(
-    state: DataHolderState
+    state: DataHolderState,
   ): state is DataHolderState.Error {
     return state.loadingState === LoadingState.ERROR;
   }
 
   export function isLoaded(
-    state: DataHolderState
+    state: DataHolderState,
   ): state is DataHolderState.Loaded {
     return state.loadingState === LoadingState.LOADED;
   }
@@ -75,7 +75,7 @@ export namespace DataHolderState {
 
 export namespace DataHolder {
   export function isLoadRequested(
-    state: DataHolderState
+    state: DataHolderState,
   ): state is
     | DataHolderState.Loading
     | DataHolderState.Loaded
@@ -88,25 +88,25 @@ export namespace DataHolder {
   }
 
   export function isLoading(
-    state: DataHolderState
+    state: DataHolderState,
   ): state is DataHolderState.Loading {
     return state.loadingState === LoadingState.LOADING;
   }
 
   export function isError(
-    state: DataHolderState
+    state: DataHolderState,
   ): state is DataHolderState.Error {
     return state.loadingState === LoadingState.ERROR;
   }
 
   export function isLoaded(
-    state: DataHolderState
+    state: DataHolderState,
   ): state is DataHolderState.Loaded {
     return state.loadingState === LoadingState.LOADED;
   }
 
   export function useTotalPages(
-    state: DataHolderState<Record<string, any>, { totalPages: number }>
+    state: DataHolderState<Record<string, any>, { totalPages: number }>,
   ): number | undefined {
     if (DataHolderState.isLoaded(state)) {
       return state.totalPages;
@@ -120,7 +120,7 @@ export namespace DataHolder {
       { pageable: Pageable },
       { pageable: Pageable }
     >,
-    initialPageable: Pageable
+    initialPageable: Pageable,
   ): Pageable {
     return DataHolderState.isLoadRequested(state)
       ? state.pageable
@@ -132,7 +132,7 @@ export namespace DataHolder {
       { query?: string },
       { query?: string },
       { query?: string }
-    >
+    >,
   ): string | undefined {
     return DataHolderState.isLoadRequested(state) ? state.query : undefined;
   }
@@ -143,7 +143,7 @@ export namespace DataHolder {
       { pageable: Pageable; totalPages: number },
       { pageable: Pageable }
     >,
-    onReload?: (params: { pageable: Pageable }) => void
+    onReload?: (params: { pageable: Pageable }) => void,
   ): void {
     React.useEffect(() => {
       if (DataHolderState.isLoaded(state)) {

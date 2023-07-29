@@ -10,7 +10,7 @@ export namespace ArticleSettingPanel {
 }
 
 export const ArticleSettingPanel: React.FC<ArticleSettingPanel.Props> = (
-  props
+  props,
 ) => {
   const { article } = props;
   return (

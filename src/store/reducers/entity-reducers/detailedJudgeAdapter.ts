@@ -11,9 +11,9 @@ export const detailedJudgeEntityReducer = createReducer(
       (state, { payload }) => {
         detailedJudgeEntityAdapter.upsertMany(
           state,
-          payload.entities.detailedJudge
+          payload.entities.detailedJudge,
         );
-      }
+      },
     );
-  }
+  },
 );

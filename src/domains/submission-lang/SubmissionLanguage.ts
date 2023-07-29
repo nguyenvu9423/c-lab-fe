@@ -31,7 +31,7 @@ export namespace SubmissionLanguage {
 
   export const cmp = (
     l1: SubmissionLanguage,
-    l2: SubmissionLanguage
+    l2: SubmissionLanguage,
   ): number => {
     return (
       SubmissionLanguage.values.indexOf(l1) -
@@ -44,17 +44,17 @@ export namespace SubmissionLanguage {
   }
 
   export function useInitial(
-    allowedLangs: SubmissionLanguage[]
+    allowedLangs: SubmissionLanguage[],
   ): SubmissionLanguage {
     const sortedLangs = React.useMemo(
       () => [...allowedLangs].sort(SubmissionLanguage.cmp),
-      [allowedLangs]
+      [allowedLangs],
     );
 
     const storedLang = localStorage.getItem('latestSubmissionLang');
     const matchedStoredLang = React.useMemo(
       () => allowedLangs.find((lang) => lang === storedLang),
-      [allowedLangs, storedLang]
+      [allowedLangs, storedLang],
     );
 
     return matchedStoredLang ?? sortedLangs[0];

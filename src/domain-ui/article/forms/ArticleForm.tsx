@@ -94,7 +94,6 @@ export const ArticleForm: React.FC<ArticleForm.Props> = (props) => {
     status: props.status,
   });
 
-  console.log(errors);
   return (
     <Form
       className={'article clear-fix-container'}

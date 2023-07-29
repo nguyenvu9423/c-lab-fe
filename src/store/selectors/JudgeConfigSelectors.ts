@@ -4,7 +4,7 @@ import { judgeConfigEntityAdapter } from '../reducers/entity-reducers/judgeConfi
 import { JudgeConfig } from '@/domains/judge-config';
 
 const judgeConfigEntitySelectors = judgeConfigEntityAdapter.getSelectors(
-  (state: State) => state.entity.judgeConfig
+  (state: State) => state.entity.judgeConfig,
 );
 
 export namespace JudgeConfigSelectors {

@@ -4,7 +4,7 @@ import { FormModal } from '../../../shared/types';
 import { EditTagForm } from '../forms';
 
 export const EditTagModal: React.FC<FormModal.Props & { tagId: number }> = (
-  props
+  props,
 ) => {
   const { tagId } = props;
   return (

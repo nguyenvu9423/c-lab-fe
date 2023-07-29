@@ -12,7 +12,7 @@ export namespace ArticleTitleSelect {
 }
 
 export const ArticleTitleSelect: React.FC<ArticleTitleSelect.Props> = (
-  props
+  props,
 ) => {
   const { onChange } = props;
   const [articles, setArticles] = React.useState<ArticleDTO[]>([]);
@@ -31,7 +31,7 @@ export const ArticleTitleSelect: React.FC<ArticleTitleSelect.Props> = (
           });
         }
       }, SelectConfig.DELAY),
-    []
+    [],
   );
 
   const articleOptions = React.useMemo(
@@ -40,7 +40,7 @@ export const ArticleTitleSelect: React.FC<ArticleTitleSelect.Props> = (
         key: article.id,
         title: article.title,
       })),
-    [articles]
+    [articles],
   );
 
   return (

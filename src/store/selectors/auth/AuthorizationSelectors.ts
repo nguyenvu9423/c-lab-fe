@@ -2,9 +2,9 @@ import { Selector } from '@reduxjs/toolkit';
 
 import { PermissionType, RoleType } from '@/domains/role';
 import { Article } from '@/domains/article';
-import { State } from '@/store';
-import { PermissionMap } from '../../reducers/authentication';
 import { PrincipalSelectors } from './PrincipalSelectors';
+import { State } from '../../state';
+import { PermissionMap } from '../../reducers/authentication';
 import { DataHolderState } from '../../reducers/data-holders/shared';
 import { EntityRef } from '../../../shared/types';
 

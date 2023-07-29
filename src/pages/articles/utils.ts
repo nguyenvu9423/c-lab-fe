@@ -7,7 +7,7 @@ export namespace ArticleUtils {
     $('h2,h3,h4').each((index, element) => {
       const id = slugifyHeading($(element).text());
       $(element).prepend(
-        `<span class="anchor-tag" id="${id}"><a href="#${id}">#</a></span>`
+        `<span class="anchor-tag" id="${id}"><a href="#${id}">#</a></span>`,
       );
     });
     return $.html();

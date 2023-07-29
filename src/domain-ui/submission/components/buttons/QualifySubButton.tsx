@@ -9,7 +9,7 @@ import { updateEntity } from '@/store/actions';
 import { Submission } from '@/domains/submission';
 
 export const QualifySubButton: React.FC<{ submission: Submission }> = (
-  props
+  props,
 ) => {
   const { submission } = props;
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ export const QualifySubButton: React.FC<{ submission: Submission }> = (
           setLoading(false);
         });
     },
-    [dispatch]
+    [dispatch],
   );
   return submission.disqualified ? (
     <Popup

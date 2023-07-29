@@ -44,7 +44,7 @@ export const ProblemEditPage: React.FC = () => {
                   content: 'Bạn đã cập nhật đề bài thành công',
                   duration: 2500,
                   status: 'positive',
-                })
+                }),
               )
             }
           />
@@ -64,7 +64,7 @@ export const ProblemEditPage: React.FC = () => {
                   content: 'Bạn đã cài đặt chấm bài thành công',
                   duration: 2500,
                   status: 'positive',
-                })
+                }),
               );
             }}
           />
@@ -102,7 +102,7 @@ export const ProblemEditPage: React.FC = () => {
 };
 
 const SectionMenu: React.FC<{ problemCode: string; activePage: string }> = (
-  props
+  props,
 ) => {
   const { problemCode, activePage } = props;
   const baseURL = `/problems/${problemCode}/edit`;

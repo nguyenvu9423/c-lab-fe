@@ -45,8 +45,8 @@ export const EditArticlePage: React.FC = () => {
                     addToast(
                       new CRUDToastBuilder('bài viết', 'sửa')
                         .setStatus('success')
-                        .build()
-                    )
+                        .build(),
+                    ),
                   );
                 }}
               />

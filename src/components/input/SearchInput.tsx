@@ -25,7 +25,7 @@ export const SearchInput: React.FC<SearchInput.Props> = (props) => {
       submittedValueRef.current = value;
       onSubmit?.(value);
     },
-    [onSubmit]
+    [onSubmit],
   );
 
   const handleValueChange = React.useCallback(
@@ -33,7 +33,7 @@ export const SearchInput: React.FC<SearchInput.Props> = (props) => {
       onChange?.(value);
       setInternalValue(value);
     },
-    [onChange]
+    [onChange],
   );
 
   const handleKeyDown = React.useCallback(
@@ -42,7 +42,7 @@ export const SearchInput: React.FC<SearchInput.Props> = (props) => {
         submit(value);
       }
     },
-    [value, submit]
+    [value, submit],
   );
 
   const handleResultSelect = React.useCallback(
@@ -51,7 +51,7 @@ export const SearchInput: React.FC<SearchInput.Props> = (props) => {
       handleValueChange(result.title);
       submit(result.title);
     },
-    [submit, handleValueChange]
+    [submit, handleValueChange],
   );
 
   const handleBlur = React.useCallback(() => {
@@ -65,7 +65,7 @@ export const SearchInput: React.FC<SearchInput.Props> = (props) => {
       handleValueChange(value);
       setOpenDropdown(true);
     },
-    [handleValueChange]
+    [handleValueChange],
   );
 
   return (

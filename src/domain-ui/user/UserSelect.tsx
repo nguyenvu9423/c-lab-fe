@@ -19,7 +19,7 @@ export const UserSelect: React.FC<UserSelect.Props> = (props) => {
   const [users, setUsers] = React.useState<UserDTO[]>([]);
   const [loading, setLoading] = React.useState<boolean>();
   const [searchQuery, setSearchQuery] = React.useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   const load = React.useMemo(
@@ -37,7 +37,7 @@ export const UserSelect: React.FC<UserSelect.Props> = (props) => {
             });
         }
       }, SelectConfig.DELAY),
-    []
+    [],
   );
 
   React.useEffect(() => load(''), []);
@@ -49,7 +49,7 @@ export const UserSelect: React.FC<UserSelect.Props> = (props) => {
         value: user.id,
         text: user.username,
       })),
-    [users]
+    [users],
   );
 
   return (

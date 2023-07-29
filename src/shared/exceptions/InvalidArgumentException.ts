@@ -15,7 +15,7 @@ export interface FieldError {
 
 export namespace ValidationException {
   export function isInstance(
-    exception: unknown
+    exception: unknown,
   ): exception is ValidationException {
     if (
       exception instanceof Object &&
@@ -27,7 +27,7 @@ export namespace ValidationException {
   }
 
   export function convertToFormikErrors(
-    exception: ValidationException
+    exception: ValidationException,
   ): FormikErrors<Record<string, unknown>> {
     const result = {};
     exception.errors.forEach((fieldError) => {

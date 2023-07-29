@@ -63,7 +63,7 @@ export const SubmissionsTable: React.FC<SubmissionsTable.Props> = (props) => {
 };
 
 const SubmissionRow: React.FC<{ submission: Submission; active?: boolean }> = (
-  props
+  props,
 ) => {
   const { active, submission } = props;
   const { user } = submission;

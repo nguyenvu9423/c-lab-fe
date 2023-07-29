@@ -25,7 +25,7 @@ export const EditUserInfoForm: React.FC<EditUserInfoForm.Props> = (props) => {
   const user = useSelector(
     DataHolder.isLoaded(data.user)
       ? UserSelectors.selectById(data.user.result)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   const load = React.useCallback(() => {
@@ -34,7 +34,7 @@ export const EditUserInfoForm: React.FC<EditUserInfoForm.Props> = (props) => {
         type: 'byUsername',
         username,
         target: Target.EDIT_USER_INFO_FORM,
-      })
+      }),
     );
   }, [dispatch, username]);
 
@@ -53,7 +53,7 @@ export const EditUserInfoForm: React.FC<EditUserInfoForm.Props> = (props) => {
         });
       }
     },
-    [user]
+    [user],
   );
 
   return (

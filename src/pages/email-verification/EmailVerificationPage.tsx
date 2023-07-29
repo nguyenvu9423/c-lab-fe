@@ -23,7 +23,7 @@ export const EmailVerificationPage: React.FC = () => {
   React.useEffect(() => {
     if (id && typeof id === 'string') {
       dispatch(
-        verifyEmail.request({ id, target: Target.EMAIL_VERIFICATION_PAGE })
+        verifyEmail.request({ id, target: Target.EMAIL_VERIFICATION_PAGE }),
       );
     }
   }, [id, dispatch]);

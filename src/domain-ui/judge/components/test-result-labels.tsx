@@ -10,22 +10,23 @@ export namespace SubmissionTestResultLabel {
   }
 }
 
-export const SubmissionTestResultLabel: React.FC<SubmissionTestResultLabel.Props> =
-  (props) => {
-    const { testResult, compact } = props;
-    const { verdict, testId } = testResult;
+export const SubmissionTestResultLabel: React.FC<
+  SubmissionTestResultLabel.Props
+> = (props) => {
+  const { testResult, compact } = props;
+  const { verdict, testId } = testResult;
 
-    const message = `${TestVerdict.getMessage(
-      verdict,
-      compact
-    )} on test ${testId}`;
+  const message = `${TestVerdict.getMessage(
+    verdict,
+    compact,
+  )} on test ${testId}`;
 
-    if (verdict === TestVerdict.AC) {
-      return <AcceptedLabel message={message} />;
-    } else {
-      return <ErrorLabel message={message} />;
-    }
-  };
+  if (verdict === TestVerdict.AC) {
+    return <AcceptedLabel message={message} />;
+  } else {
+    return <ErrorLabel message={message} />;
+  }
+};
 
 export const TestResultLabel: React.FC<{
   testResult: DetailedTestResult;

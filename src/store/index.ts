@@ -12,7 +12,6 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
   reducer: rootReducer,
-  // @ts-ignore
   enhancers: [applyMiddleware(sagaMiddleware)],
 });
 

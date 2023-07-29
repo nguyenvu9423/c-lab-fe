@@ -1,4 +1,3 @@
-import { DetailedSubModal } from '@/domain-ui/submission';
 import { createReducer } from '@reduxjs/toolkit';
 import { setModal } from '../actions';
 
@@ -11,7 +10,9 @@ export type DefinedModalState<T extends string, P = unknown> = {
 
 export type DetailedSubModalState = DefinedModalState<
   'DETAILED_SUB',
-  DetailedSubModal.Props
+  {
+    submissionId: number;
+  }
 >;
 
 const initialState: ModalState = null;
@@ -19,9 +20,9 @@ const initialState: ModalState = null;
 export const modalReducer = createReducer<ModalState>(
   initialState,
   (builder) => {
-    builder.addCase(setModal, (state, action) => {
+    builder.addCase(setModal, (state, action: any) => {
       const modalState = action.payload;
       return modalState;
     });
-  }
+  },
 );

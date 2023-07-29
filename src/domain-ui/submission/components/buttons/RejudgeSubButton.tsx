@@ -12,7 +12,7 @@ import { InProgressJudge } from '@/domains/judge';
 import { Submission } from '@/domains/submission';
 
 export const RejudgeSubButton: React.FC<{ submission: Submission }> = (
-  props
+  props,
 ) => {
   const { submission } = props;
   const dispatch = useDispatch();

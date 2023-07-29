@@ -33,13 +33,13 @@ export namespace ArticleContentTable {
 }
 
 export const ArticleContentTable: React.FC<ArticleContentTable.Props> = (
-  props
+  props,
 ) => {
   const { contentState } = props;
 
   const rootNode = React.useMemo(
     () => getContentTable(contentState),
-    [contentState]
+    [contentState],
   );
 
   return (
@@ -69,7 +69,7 @@ function renderNode(node: ArticleContentTable.Node) {
 }
 
 function getContentTable(
-  content: RawDraftContentState
+  content: RawDraftContentState,
 ): ArticleContentTable.RootNode {
   const result: ArticleContentTable.RootNode = { parent: null, children: [] };
   let nearestNode: ArticleContentTable.Node = result;

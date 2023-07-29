@@ -8,7 +8,7 @@ const resetState = createAction(
   'resetState',
   (payload?: ResetStatePayload) => ({
     payload: payload ?? {},
-  })
+  }),
 );
 
 export { resetState };

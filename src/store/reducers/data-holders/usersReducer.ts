@@ -50,5 +50,5 @@ export const usersReducer = createReducer<UsersState>(
         return state;
       })
       .addCase(resetState, () => initialState);
-  }
+  },
 );

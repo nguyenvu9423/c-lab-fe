@@ -23,11 +23,11 @@ export namespace RefreshToken {
 
 export const refreshToken = {
   request: createAction<RefreshToken.RequestPayload | undefined>(
-    'refreshToken/request'
+    'refreshToken/request',
   ),
   response: createAction<RefreshToken.ResponsePayload>('refreshToken/response'),
   failed: createAction(
     'refreshToken/failed',
-    (payload: RefreshToken.ErrorPayload) => ({ payload, error: true })
+    (payload: RefreshToken.ErrorPayload) => ({ payload, error: true }),
   ),
 };

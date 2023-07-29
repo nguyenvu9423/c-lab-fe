@@ -12,9 +12,9 @@ export const problemRejudgeEntityReducer = createReducer(
       (state, { payload }) => {
         problemRejudgeEntityAdapter.upsertMany(
           state,
-          payload.entities.problemRejudge
+          payload.entities.problemRejudge,
         );
-      }
+      },
     );
-  }
+  },
 );

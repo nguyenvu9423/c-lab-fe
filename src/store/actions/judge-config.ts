@@ -19,14 +19,14 @@ export namespace FetchJudgeConfig {
 export const fetchJudgeConfig = {
   request: createAction(
     'fetchJudgeConfig/request',
-    (payload: FetchJudgeConfig.RequestPayload) => ({ payload })
+    (payload: FetchJudgeConfig.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchJudgeConfig/response',
-    (payload: FetchJudgeConfig.ResponsePayload) => ({ payload })
+    (payload: FetchJudgeConfig.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchJudgeConfig/error',
-    (payload: FetchJudgeConfig.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchJudgeConfig.ErrorPayload) => ({ payload, error: true }),
   ),
 };

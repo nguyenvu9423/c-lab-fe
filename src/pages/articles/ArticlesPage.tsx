@@ -44,7 +44,7 @@ export const ArticlesPage: React.FC = () => {
         pageable: { page, size: ARTICLES_PAGE_SIZE },
         query,
         target: Target.ARTICLES_PAGE,
-      })
+      }),
     );
   }, [dispatch, page, query]);
 
@@ -59,7 +59,7 @@ export const ArticlesPage: React.FC = () => {
     (event, { activePage }: PaginationProps) => {
       navigate({ search: QueryString.stringify({ page: activePage, query }) });
     },
-    [query, navigate]
+    [query, navigate],
   );
 
   const handleFilterChange = React.useCallback(
@@ -70,24 +70,24 @@ export const ArticlesPage: React.FC = () => {
               RsqlUtils.Builder.comparison(
                 'tags',
                 '=include=',
-                tags.map((tag) => tag.name)
-              )
+                tags.map((tag) => tag.name),
+              ),
             )
           : undefined;
       navigate({ search: QueryString.stringify({ page, query: newQuery }) });
     },
-    [page, navigate]
+    [page, navigate],
   );
 
   const initialTags: OnlyNameTag[] = React.useMemo(
     () => (query ? PageUtils.getTagsFromQuery(query) : []),
-    []
+    [],
   );
 
   const articles = useSelector(
     data.articles.loadingState === LoadingState.LOADED
       ? ArticleSelectors.byIds(data.articles.result)
-      : () => undefined
+      : () => undefined,
   );
 
   return (
@@ -111,7 +111,7 @@ export const ArticlesPage: React.FC = () => {
                               key={article.id}
                               article={article}
                             />
-                          )
+                          ),
                       )
                     : null}
                 </Card.Group>

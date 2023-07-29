@@ -23,7 +23,7 @@ export namespace ProblemRejudgeForm {
 }
 
 export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
-  props
+  props,
 ) => {
   const { problemCode } = props;
 
@@ -34,7 +34,7 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
   const detailedProblem = useSelector(
     DataHolder.isLoaded(data.detailedProblem)
       ? DetailedProblemSelectors.selectById(data.detailedProblem.id)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   const problemRejudge = useSelector(
@@ -42,7 +42,7 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
       ? detailedProblem?.problemRejudge
         ? ProblemRejudgeSelectors.byId(detailedProblem.problemRejudge)
         : ConstSelectors.value(null)
-      : ConstSelectors.value(undefined)
+      : ConstSelectors.value(undefined),
   );
 
   const load = React.useCallback(() => {
@@ -51,7 +51,7 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
         type: 'byCode',
         code: problemCode,
         target: Target.PROBLEM_REJUDGE_FORM,
-      })
+      }),
     );
   }, [dispatch, problemCode]);
 
@@ -71,7 +71,7 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
   const canRejudge = useSelector(
     detailedProblem
       ? AuthorizationSelectors.canUpdateProblem(detailedProblem)
-      : () => undefined
+      : () => undefined,
   );
 
   if (canRejudge === false) {

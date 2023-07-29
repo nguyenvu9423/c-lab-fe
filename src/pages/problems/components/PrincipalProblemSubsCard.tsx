@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { Header, Segment, Pagination, Table, PaginationProps } from 'semantic-ui-react';
+import {
+  Header,
+  Segment,
+  Pagination,
+  Table,
+  PaginationProps,
+} from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubmissions, resetState } from '@/store/actions';
 import { SubmissionSelectors } from '@/store/selectors/SubmissionSelectors';
@@ -42,13 +48,13 @@ export const PrincipalProblemSubsCard: React.FC<
 
   const { problemCode, username } = props;
   const { data } = useSelector(
-    (state: State) => state.principalProblemSubsCard
+    (state: State) => state.principalProblemSubsCard,
   );
 
   const submissions = useSelector(
     DataHolderState.isLoaded(data.submissions)
       ? SubmissionSelectors.byIds(data.submissions.ids)
-      : () => undefined
+      : () => undefined,
   );
 
   const [page, setPage] = React.useState(1);
@@ -69,13 +75,13 @@ export const PrincipalProblemSubsCard: React.FC<
           username,
           pageable: { page, size: PAGE_SIZE },
           target: Target.PRINCIPAL_PROBLEM_SUBS_CARD,
-        })
+        }),
       );
       if (params?.highlightSubId) {
         setHighLightSubId(params.highlightSubId);
       }
     },
-    [dispatch, username, problemCode, page]
+    [dispatch, username, problemCode, page],
   );
 
   React.useEffect(() => {
@@ -92,12 +98,12 @@ export const PrincipalProblemSubsCard: React.FC<
             return sub !== undefined;
           })
           .map((sub) => sub.judge)
-      : []
+      : [],
   );
 
   const handlePageChange = React.useCallback(
     (event, { activePage }: PaginationProps) => setPage(Number(activePage)),
-    [setPage]
+    [setPage],
   );
 
   React.useImperativeHandle(
@@ -105,7 +111,7 @@ export const PrincipalProblemSubsCard: React.FC<
     () => ({
       reload: load,
     }),
-    [load]
+    [load],
   );
 
   const uiHighlightSubId = useHighlightSub(highlightSubId);
