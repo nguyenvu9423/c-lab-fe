@@ -1,4 +1,4 @@
-import { DetailedSub } from '../../../domains/submission';
+import { DetailedSub } from '@/domains/submission';
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
 
 export const detailedSubEntityAdapter = createEntityAdapter<DetailedSub>();
@@ -11,9 +11,9 @@ export const detailedSubEntityReducer = createReducer(
       (state, { payload }) => {
         detailedSubEntityAdapter.upsertMany(
           state,
-          payload.entities.detailedSub
+          payload.entities.detailedSub,
         );
-      }
+      },
     );
-  }
+  },
 );

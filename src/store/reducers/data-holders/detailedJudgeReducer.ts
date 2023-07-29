@@ -34,5 +34,5 @@ export const detailedJudgeReducer = createReducer<DetailedJudgeState>(
         error: action.payload.error,
         loadingState: LoadingState.ERROR,
       }));
-  }
+  },
 );

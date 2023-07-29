@@ -1,10 +1,10 @@
 import { detailedJudgeEntityAdapter } from './../reducers/entity-reducers/detailedJudgeAdapter';
 import { State } from './../state';
 import { Selector } from '@reduxjs/toolkit';
-import { DetailedJudge } from './../../domains/judge';
+import { DetailedJudge } from '@/domains/judge';
 
 const detailedJudgeEntitySelectors = detailedJudgeEntityAdapter.getSelectors(
-  (state: State) => state.entity.detailedJudge
+  (state: State) => state.entity.detailedJudge,
 );
 
 export namespace DetailedJudgeSelectors {

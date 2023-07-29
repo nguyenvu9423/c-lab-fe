@@ -12,14 +12,14 @@ import {
 } from 'redux-saga/effects';
 
 import { login, logout, setToken, refreshToken, resetState } from '../actions';
-import { AuthenticationService } from '../../service/AuthenticationService';
-import { AuthProvider } from '../../authentication/tokenProvider';
-import { Jwt } from '../../utility';
+import { AuthenticationService } from '../../services/auth/AuthenticationService';
+import { AuthProvider } from '../../utils/authentication/tokenProvider';
+import { Jwt } from '../../utils';
 import { AuthenticationSelectors } from '../selectors';
 
 export function* refreshTokenSaga(): SagaIterator {
   const currentToken: Jwt | undefined = yield select(
-    AuthenticationSelectors.token()
+    AuthenticationSelectors.token(),
   );
   try {
     if (!currentToken) {
@@ -27,7 +27,7 @@ export function* refreshTokenSaga(): SagaIterator {
     }
     const response = yield call(
       AuthenticationService.refreshToken,
-      currentToken.refresh_token
+      currentToken.refresh_token,
     );
 
     const newToken = response.data;
@@ -44,7 +44,7 @@ function* initToken(): SagaIterator {
     try {
       const response = yield call(
         AuthenticationService.refreshToken,
-        storedToken.refresh_token
+        storedToken.refresh_token,
       );
       newToken = response.data;
     } catch (e) {

@@ -1,7 +1,7 @@
-import { User } from './../../../domains/user/User';
+import { User } from '@/domains/user/User';
 import { UserSelectors } from '../UserSelectors';
 import { LoadingState } from '../../common';
-import { State } from '../..';
+import { State } from '../../state';
 import { Selector } from '@reduxjs/toolkit';
 import { DataHolder } from '../../reducers/data-holders/shared';
 

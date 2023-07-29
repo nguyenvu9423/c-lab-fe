@@ -1,10 +1,10 @@
 import { detailedProblemEntityAdapter } from './../reducers/entity-reducers/detailedProblemEntityAdapter';
 import { State } from './../state';
-import { DetailedProblem } from './../../domains/problem/Problem';
+import { DetailedProblem } from '@/domains/problem/Problem';
 import { EntityId, Selector } from '@reduxjs/toolkit';
 
 const entitySelectors = detailedProblemEntityAdapter.getSelectors(
-  (state: State) => state.entity.detailedProblem
+  (state: State) => state.entity.detailedProblem,
 );
 
 export namespace DetailedProblemSelectors {
@@ -19,7 +19,7 @@ export namespace DetailedProblemSelectors {
   }
 
   export function selectByIds(
-    ids: EntityId[]
+    ids: EntityId[],
   ): Selector<State, DetailedProblem[]> {
     return (state) =>
       ids.map((id) => {

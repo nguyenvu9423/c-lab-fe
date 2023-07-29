@@ -1,10 +1,10 @@
 import { Selector } from '@reduxjs/toolkit';
 import { detailedSubEntityAdapter } from './../reducers/entity-reducers/detailedSubEntityAdapter';
 import { State } from './../state';
-import { DetailedSub } from './../../domains/submission';
+import { DetailedSub } from '@/domains/submission';
 
 const detailedSubEntitySelectors = detailedSubEntityAdapter.getSelectors(
-  (state: State) => state.entity.detailedSub
+  (state: State) => state.entity.detailedSub,
 );
 
 export namespace DetailedSubSelectors {

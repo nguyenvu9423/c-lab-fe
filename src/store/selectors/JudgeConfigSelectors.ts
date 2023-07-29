@@ -1,10 +1,10 @@
 import { EntityId, Selector } from '@reduxjs/toolkit';
 import { State } from './../state';
 import { judgeConfigEntityAdapter } from '../reducers/entity-reducers/judgeConfigEntityAdapter';
-import { JudgeConfig } from '../../domains/judge-config';
+import { JudgeConfig } from '@/domains/judge-config';
 
 const judgeConfigEntitySelectors = judgeConfigEntityAdapter.getSelectors(
-  (state: State) => state.entity.judgeConfig
+  (state: State) => state.entity.judgeConfig,
 );
 
 export namespace JudgeConfigSelectors {

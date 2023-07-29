@@ -1,10 +1,10 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
-import { ArticleService } from '../../service/ArticleService';
-import { articleSchema, articleArraySchema } from './../../domains/article';
-
-import { fetchArticle, fetchArticles } from '../actions';
+import { ArticleService } from '@/services';
 import { SagaIterator } from 'redux-saga';
+
+import { articleSchema, articleArraySchema } from '@/entity-schemas';
+import { fetchArticle, fetchArticles } from '../actions';
 
 function* fetchArticleSaga(action) {
   const { id, target } = action.payload;
@@ -17,7 +17,7 @@ function* fetchArticleSaga(action) {
         result: normalizedData.result,
         entities: normalizedData.entities,
         target,
-      })
+      }),
     );
   } catch (error) {
     yield put(fetchArticle.error({ error, target }));
@@ -40,7 +40,7 @@ function* fetchArticlesSaga(action) {
         entities: normalizedData.entities,
         totalPages: data.totalPages,
         target,
-      })
+      }),
     );
   } catch (error) {
     yield put(fetchArticles.error({ error, target }));

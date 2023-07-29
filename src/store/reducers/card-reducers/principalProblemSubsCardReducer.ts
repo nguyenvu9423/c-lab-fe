@@ -15,5 +15,5 @@ export const principalProblemSubsCardReducer = createFilteredReducer(
       submissions: submissionsReducer,
     }),
   }),
-  TargetPredicates.equal(Target.PRINCIPAL_PROBLEM_SUBS_CARD)
+  TargetPredicates.equal(Target.PRINCIPAL_PROBLEM_SUBS_CARD),
 );

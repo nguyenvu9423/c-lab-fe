@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Lodash from 'lodash';
 import { FormErrorMessage } from './FormErrorMessage';
 import { FormikTouched, FormikErrors } from 'formik';
-import { FieldError } from '../../exception';
+import { FieldError } from '../../shared/exceptions';
 
 export function useErrorMessageRenderer<T>(params: {
   touched: FormikTouched<T>;
@@ -15,7 +15,7 @@ export function useErrorMessageRenderer<T>(params: {
       if (Lodash.get(touched, name)) {
         const error = Lodash.get(errors, name);
         if (error) {
-          return <FormErrorMessage content={error} />;
+          return <FormErrorMessage content={error.toString()} />;
         }
       } else {
         if (status?.errors) {
@@ -27,7 +27,7 @@ export function useErrorMessageRenderer<T>(params: {
       }
       return null;
     },
-    [touched, errors, status]
+    [touched, errors, status],
   );
 
   return renderer;

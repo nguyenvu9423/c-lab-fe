@@ -1,8 +1,8 @@
-import { Problem, DetailedProblem } from './../../domains/problem/Problem';
-import { NormalizedEntities } from './../../entity-schemas/types';
+import { Problem, DetailedProblem } from '@/domains/problem/Problem';
+import { NormalizedEntities } from '../../entity-schemas';
 import { createAction } from '@reduxjs/toolkit';
 import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
-import { Pageable } from '../../utility';
+import { Pageable } from '../../utils';
 
 export namespace FetchProblem {
   interface BaseRequestPayload extends BaseFetchPayload {
@@ -32,15 +32,15 @@ export namespace FetchProblem {
 export const fetchProblem = {
   request: createAction(
     'fetchProblem/request',
-    (payload: FetchProblem.RequestPayload) => ({ payload })
+    (payload: FetchProblem.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchProblem/response',
-    (payload: FetchProblem.ResponsePayload) => ({ payload })
+    (payload: FetchProblem.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchProblem/error',
-    (payload: FetchProblem.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchProblem.ErrorPayload) => ({ payload, error: true }),
   ),
 };
 
@@ -72,15 +72,15 @@ export namespace FetchDetailedProblem {
 export const fetchDetailedProblem = {
   request: createAction(
     'fetchDetailedProblem/request',
-    (payload: FetchProblem.RequestPayload) => ({ payload })
+    (payload: FetchProblem.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchDetailedProblem/response',
-    (payload: FetchProblem.ResponsePayload) => ({ payload })
+    (payload: FetchProblem.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchDetailedProblem/error',
-    (payload: FetchProblem.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchProblem.ErrorPayload) => ({ payload, error: true }),
   ),
 };
 
@@ -104,16 +104,16 @@ export const fetchProblems = {
     'fetchProblems/request',
     (payload: FetchProblems.RequestPayload) => ({
       payload: { ...payload, query: payload.query ? payload.query : undefined },
-    })
+    }),
   ),
 
   response: createAction(
     'fetchProblems/response',
-    (payload: FetchProblems.ResponsePayload) => ({ payload })
+    (payload: FetchProblems.ResponsePayload) => ({ payload }),
   ),
 
   error: createAction(
     'fetchProblems/error',
-    (payload: FetchProblems.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchProblems.ErrorPayload) => ({ payload, error: true }),
   ),
 };

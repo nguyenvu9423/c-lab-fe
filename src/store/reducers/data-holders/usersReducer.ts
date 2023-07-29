@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { LoadingState } from '../../common';
 import { fetchUsers, resetState } from '../../actions';
 import { DataHolderState } from './shared';
-import { Pageable } from '../../../utility';
+import { Pageable } from '../../../utils';
 
 export type UsersState = DataHolderState<
   { pageable: Pageable; query?: string },
@@ -50,5 +50,5 @@ export const usersReducer = createReducer<UsersState>(
         return state;
       })
       .addCase(resetState, () => initialState);
-  }
+  },
 );

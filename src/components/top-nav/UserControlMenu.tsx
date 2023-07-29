@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Dropdown, Menu } from 'semantic-ui-react';
-import { User } from '../../domains/user';
-import { AuthorizationSelectors } from '../../store/selectors';
+import { User } from '@/domains/user';
+import { AuthorizationSelectors } from '@/store/selectors';
 import { Avatar } from '../avatar/Avatar';
 
 export const UserControlMenu: React.FC<{ user: User }> = (props) => {
@@ -17,10 +17,10 @@ export const UserControlMenu: React.FC<{ user: User }> = (props) => {
   }, [navigate]);
 
   const canCreateArticle = useSelector(
-    AuthorizationSelectors.canCreateArticle()
+    AuthorizationSelectors.canCreateArticle(),
   );
   const canCreateProblem = useSelector(
-    AuthorizationSelectors.canCreateProblem()
+    AuthorizationSelectors.canCreateProblem(),
   );
   const hasAdminRole = useSelector(AuthorizationSelectors.hasAdminRole());
 

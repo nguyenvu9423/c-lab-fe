@@ -1,10 +1,10 @@
+import { normalize } from 'normalizr';
+import { SagaIterator } from 'redux-saga';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, takeEvery, put, select } from 'redux-saga/effects';
 import { fetchUser, fetchUsers, FetchUsers, FetchUser } from '../actions';
-import { UserService } from '../../service/UserService';
-import { userSchema, usersSchema } from '../../entity-schemas/userSchema';
-import { normalize } from 'normalizr';
-import { SagaIterator } from 'redux-saga';
+import { UserService } from '../../services';
+import { userSchema, usersSchema } from '../../entity-schemas';
 import { AuthenticationSelectors } from '../selectors';
 
 function* fetchUsersSaga(action: PayloadAction<FetchUsers.RequestPayload>) {
@@ -20,7 +20,7 @@ function* fetchUsersSaga(action: PayloadAction<FetchUsers.RequestPayload>) {
         entities,
         totalPages: data.totalPages,
         target,
-      })
+      }),
     );
   } catch (e) {
     yield put(fetchUsers.error({ error: e, target }));
@@ -38,7 +38,7 @@ function* fetchUserSaga(action: PayloadAction<FetchUser.RequestPayload>) {
       response = yield call(UserService.getByUsername, payload.username);
     } else if (payload.type === 'principal') {
       const username: string | undefined = yield select(
-        AuthenticationSelectors.username()
+        AuthenticationSelectors.username(),
       );
       if (!username) {
         throw new Error('User is not logged in');

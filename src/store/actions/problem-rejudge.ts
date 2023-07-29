@@ -1,5 +1,5 @@
-import { NormalizedEntities } from './../../entity-schemas/types';
-import { ProblemRejudge } from './../../domains/problem-rejudge/ProblemRejudge';
+import { NormalizedEntities } from '../../entity-schemas';
+import { ProblemRejudge } from '@/domains/problem-rejudge/ProblemRejudge';
 import { createAction } from '@reduxjs/toolkit';
 import { BaseFetchPayload, BaseFetchErrorPayload } from './shared';
 
@@ -31,14 +31,14 @@ export namespace FetchProblemRejudge {
 export const fetchProblemRejudge = {
   request: createAction(
     'fetchProblemRejudge/request',
-    (payload: FetchProblemRejudge.RequestPayload) => ({ payload })
+    (payload: FetchProblemRejudge.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchProblemRejudge/response',
-    (payload: FetchProblemRejudge.ResponsePayload) => ({ payload })
+    (payload: FetchProblemRejudge.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchProblemRejudge/error',
-    (payload: FetchProblemRejudge.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchProblemRejudge.ErrorPayload) => ({ payload, error: true }),
   ),
 };

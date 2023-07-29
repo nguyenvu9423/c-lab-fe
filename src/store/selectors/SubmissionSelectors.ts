@@ -1,10 +1,10 @@
-import { Submission } from '../../domains/submission';
+import { Submission } from '@/domains/submission';
 import { State } from './../state';
 import { submissionEntityAdapter } from '../reducers/entity-reducers/submissionEntityAdapter';
 import { Selector } from '@reduxjs/toolkit';
 
 const submissionEntitySelectors = submissionEntityAdapter.getSelectors(
-  (state: State) => state.entity.submission
+  (state: State) => state.entity.submission,
 );
 
 export namespace SubmissionSelectors {

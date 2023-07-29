@@ -17,7 +17,7 @@ export const ImageUploader: React.FC<{
           ? URL.createObjectURL(value)
           : BackEndConfig.API_URL + value
         : undefined,
-    [value]
+    [value],
   );
 
   const inputRef = React.useRef<HTMLInputElement | null>(null);

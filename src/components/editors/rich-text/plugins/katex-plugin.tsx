@@ -22,7 +22,7 @@ export const ReadonlyKatexDecorator: DraftDecorator = {
 
 function canHandleKatex(
   block: ContentBlock,
-  callback: (start: number, end: number) => void
+  callback: (start: number, end: number) => void,
 ) {
   block.findStyleRanges((character) => {
     return character.hasStyle('KATEX');

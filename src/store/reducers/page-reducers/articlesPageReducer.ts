@@ -16,5 +16,5 @@ export const articlesPageReducer = createFilteredReducer(
       articles: articlesReducer,
     }),
   }),
-  TargetPredicates.equal(Target.ARTICLES_PAGE)
+  TargetPredicates.equal(Target.ARTICLES_PAGE),
 );

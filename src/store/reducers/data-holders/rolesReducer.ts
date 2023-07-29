@@ -1,6 +1,6 @@
 import { EntityId, createReducer } from '@reduxjs/toolkit';
 import { DataHolderState } from './shared';
-import { Pageable } from '../../../utility';
+import { Pageable } from '../../../utils';
 import { LoadingState } from '../../common';
 import { fetchRoles } from '../../actions';
 
@@ -54,5 +54,5 @@ export const rolesReducer = createReducer<RolesState>(
         }
         return state;
       });
-  }
+  },
 );

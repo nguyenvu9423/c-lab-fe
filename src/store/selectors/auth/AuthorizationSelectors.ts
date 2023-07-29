@@ -1,12 +1,12 @@
-import { RoleType } from './../../../domains/role/RoleType';
-import { PermissionType } from './../../../domains/role/PermissionType';
 import { Selector } from '@reduxjs/toolkit';
-import { State } from '../..';
-import { PermissionMap } from '../../reducers/authentication';
+
+import { PermissionType, RoleType } from '@/domains/role';
+import { Article } from '@/domains/article';
 import { PrincipalSelectors } from './PrincipalSelectors';
+import { State } from '../../state';
+import { PermissionMap } from '../../reducers/authentication';
 import { DataHolderState } from '../../reducers/data-holders/shared';
-import { Article } from '../../../domains/article';
-import { EntityRef } from '../../../common/types';
+import { EntityRef } from '../../../shared/types';
 
 export namespace AuthorizationSelectors {
   export function hasAdminRole(): Selector<State, boolean> {

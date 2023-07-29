@@ -39,7 +39,7 @@ export const principalReducer = createReducer<PrincipalState>(
             loadingState: LoadingState.LOADED,
             id: result,
           };
-        }
+        },
       );
-  }
+  },
 );

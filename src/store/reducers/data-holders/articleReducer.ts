@@ -42,5 +42,5 @@ export const articleReducer = createReducer<ArticleState>(
         return state;
       })
       .addCase(resetState, () => initialState);
-  }
+  },
 );

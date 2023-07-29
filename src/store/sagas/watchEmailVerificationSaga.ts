@@ -1,9 +1,9 @@
 import { SagaIterator } from 'redux-saga';
 import { call, put, race, select, take, takeEvery } from 'redux-saga/effects';
-import { EmailVerificationDTO } from '../../domains/email-verification';
-import { EmailVerificationService } from '../../service/EmailVerificationService';
+import { EmailVerificationService } from '../../services/auth/EmailVerificationService';
 import { refreshToken, verifyEmail } from '../actions';
 import { AuthenticationSelectors } from '../selectors';
+import { EmailVerificationDTO } from '@/services/dtos';
 
 function* verifyEmailSaga(action): SagaIterator {
   const { id, target } = action.payload;
@@ -28,7 +28,7 @@ function* verifyEmailSaga(action): SagaIterator {
         user: emailVerification.user,
         hasRefreshedToken,
         target,
-      })
+      }),
     );
   } catch (error) {
     yield put(verifyEmail.error({ error, target }));

@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { Article } from './../../../domains/article';
+import { Article } from '@/domains/article';
 
 export const articleEntityAdapter = createEntityAdapter<Article>();
 
@@ -12,7 +12,7 @@ export const articleEntityReducer = createReducer(
         if (payload?.entities?.article) {
           articleEntityAdapter.upsertMany(state, payload.entities.article);
         }
-      }
+      },
     );
-  }
+  },
 );

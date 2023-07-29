@@ -39,5 +39,5 @@ export const judgeConfigReducer = createReducer<JudgeConfigState>(
           };
         }
       });
-  }
+  },
 );

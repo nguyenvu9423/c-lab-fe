@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Pageable } from './../../../utility/Pageable';
+import { Pageable } from './../../../utils/Pageable';
 import { DataHolderState } from './shared';
 import { LoadingState } from '../../common';
 import { fetchArticles } from '../../actions/article';
@@ -51,5 +51,5 @@ export const articlesReducer = createReducer<ArticlesState>(
         return state;
       })
       .addCase(resetState, () => initialState);
-  }
+  },
 );

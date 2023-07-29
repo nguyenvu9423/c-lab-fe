@@ -3,15 +3,17 @@ import { Container, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { SearchBar, LogoWithName } from '../../components';
-import { PrincipalSelectors } from '../../store/selectors';
-import { LoadingState } from '../../store/common';
+import { SearchBar } from '../search';
+import { LogoWithName } from '../logo';
+
+import { PrincipalSelectors } from '@/store/selectors';
+import { LoadingState } from '@/store/common';
 import { AnonymousControlMenu } from './AnonymousControlMenu';
 import { UserControlMenu } from './UserControlMenu';
 
 export const TopNav: React.FC = () => {
   const { loadingState, principal } = useSelector(
-    PrincipalSelectors.principalDataHolder()
+    PrincipalSelectors.principalDataHolder(),
   );
 
   return (

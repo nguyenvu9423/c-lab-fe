@@ -7,18 +7,18 @@ import {
   FetchDetailedProblem,
 } from '../actions';
 import { takeEvery, call, put } from 'redux-saga/effects';
-import { ProblemService } from '../../service/ProblemService';
+import { ProblemService } from '../../services/ProblemService';
 import { normalize } from 'normalizr';
 import {
   problemSchema,
   problemArraySchema,
   detailedProblemSchema,
-} from '../../domains/problem';
+} from '@/entity-schemas';
 import { SagaIterator } from 'redux-saga';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 function* fetchProblemsSaga(
-  action: PayloadAction<FetchProblems.RequestPayload>
+  action: PayloadAction<FetchProblems.RequestPayload>,
 ) {
   const { payload } = action;
   const { pageable, query, requestId, target } = payload;
@@ -35,7 +35,7 @@ function* fetchProblemsSaga(
         totalPages: data.totalPages,
         requestId,
         target,
-      })
+      }),
     );
   } catch (e) {
     yield put(
@@ -43,13 +43,13 @@ function* fetchProblemsSaga(
         error: e,
         requestId,
         target,
-      })
+      }),
     );
   }
 }
 
 function* fetchDetailedProblemSaga(
-  action: PayloadAction<FetchDetailedProblem.RequestPayload>
+  action: PayloadAction<FetchDetailedProblem.RequestPayload>,
 ) {
   const { payload } = action;
   const { target } = payload;

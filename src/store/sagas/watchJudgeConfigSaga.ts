@@ -3,16 +3,16 @@ import { SagaIterator } from 'redux-saga';
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
 import { fetchJudgeConfig, FetchJudgeConfig } from './../actions/judge-config';
-import { ProblemService } from '../../service/ProblemService';
-import { judgeConfigSchema } from '../../domains/judge-config';
+import { ProblemService } from '@/services/ProblemService';
+import { judgeConfigSchema } from '@/entity-schemas';
 
 function* fetchJudgeConfigSaga(
-  action: PayloadAction<FetchJudgeConfig.RequestPayload>
+  action: PayloadAction<FetchJudgeConfig.RequestPayload>,
 ) {
   const { problemCode, target } = action.payload;
   const { data, error } = yield call(
     ProblemService.getJudgeConfig,
-    problemCode
+    problemCode,
   );
   if (data) {
     const normalizedData = normalize(data, judgeConfigSchema);
@@ -21,7 +21,7 @@ function* fetchJudgeConfigSaga(
         result: normalizedData.result,
         entities: normalizedData.entities,
         target,
-      })
+      }),
     );
   } else {
     yield put(fetchJudgeConfig.error({ error, target }));

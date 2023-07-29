@@ -23,5 +23,5 @@ export const userPageReducer = createFilteredReducer(
       submissions: submissionsReducer,
     }),
   }),
-  TargetPredicates.equal(Target.USER_PAGE)
+  TargetPredicates.equal(Target.USER_PAGE),
 );

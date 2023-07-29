@@ -57,31 +57,31 @@ export const adminPageReducer = combineReducers<AdminPageState>({
         users: usersReducer,
       }),
     }),
-    TargetPredicates.equal(Target.AdminPage.USER)
+    TargetPredicates.equal(Target.AdminPage.USER),
   ),
   tag: createFilteredReducer(
     combineReducers({
       data: combineReducers({ tags: tagsReducer }),
     }),
-    TargetPredicates.equal(Target.AdminPage.TAG)
+    TargetPredicates.equal(Target.AdminPage.TAG),
   ),
   article: createFilteredReducer(
     combineReducers({
       data: combineReducers({ articles: articlesReducer }),
     }),
-    TargetPredicates.equal(Target.AdminPage.ARTICLE)
+    TargetPredicates.equal(Target.AdminPage.ARTICLE),
   ),
   problem: createFilteredReducer(
     combineReducers({
       data: combineReducers({ problems: problemsReducer }),
     }),
-    TargetPredicates.equal(Target.AdminPage.PROBLEM)
+    TargetPredicates.equal(Target.AdminPage.PROBLEM),
   ),
   submission: createFilteredReducer(
     combineReducers({
       data: combineReducers({ submissions: submissionsReducer }),
     }),
-    TargetPredicates.equal(Target.AdminPage.SUBMISSION)
+    TargetPredicates.equal(Target.AdminPage.SUBMISSION),
   ),
   role: createFilteredReducer(
     combineReducers({
@@ -89,6 +89,6 @@ export const adminPageReducer = combineReducers<AdminPageState>({
         roles: rolesReducer,
       }),
     }),
-    TargetPredicates.equal(Target.AdminPage.ROLE)
+    TargetPredicates.equal(Target.AdminPage.ROLE),
   ),
 });

@@ -1,6 +1,6 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { fetchDetailedJudge } from '../actions';
-import { JudgeService } from '../../service/JudgeService';
+import { JudgeService } from '../../services/judge/JudgeService';
 import { normalize } from 'normalizr';
 import { detailedJudgeSchema } from '../../entity-schemas';
 import { SagaIterator } from 'redux-saga';
@@ -13,7 +13,7 @@ function* fetchDetailedJudgeSaga(action): SagaIterator<void> {
     const { data: detailedJudge } = yield call(
       JudgeService.getBySubmission,
       submissionId,
-      true
+      true,
     );
 
     const { result, entities } = normalize(detailedJudge, detailedJudgeSchema);

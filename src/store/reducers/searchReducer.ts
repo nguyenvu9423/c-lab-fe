@@ -1,4 +1,4 @@
-import { SearchResult } from './../../domains/search/SearchResult';
+import { SearchResult } from '@/domains/search/SearchResult';
 import { createReducer } from '@reduxjs/toolkit';
 import { fetchSearch } from './../actions/search';
 import { LoadingState } from '../common';
@@ -52,5 +52,5 @@ export const searchReducer = createReducer<SearchState>(
         }
         return state;
       });
-  }
+  },
 );

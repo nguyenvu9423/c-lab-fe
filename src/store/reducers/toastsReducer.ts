@@ -15,5 +15,5 @@ export const toastsReducer = createReducer<ToastsState>(
       .addCase(removeToast, (state, action) => {
         return state.filter((toast) => toast.id !== action.payload.id);
       });
-  }
+  },
 );

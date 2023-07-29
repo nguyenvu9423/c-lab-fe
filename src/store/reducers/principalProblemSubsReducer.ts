@@ -15,5 +15,5 @@ export const principalProblemSubsReducer = createFilteredReducer(
       submissions: submissionsReducer,
     }),
   }),
-  TargetPredicates.equal(Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS)
+  TargetPredicates.equal(Target.ProblemPageContents.PRINCIPAL_SUBMISSIONS),
 );

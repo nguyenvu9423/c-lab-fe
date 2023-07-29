@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { DetailedJudgeConfig } from '../../../domains/judge-config';
+import { DetailedJudgeConfig } from '@/domains/judge-config';
 
 export const detailedJudgeConfigEntityAdapter =
   createEntityAdapter<DetailedJudgeConfig>();
@@ -12,9 +12,9 @@ export const detailedJudgeConfigEntityReducer = createReducer(
       (state, { payload }) => {
         detailedJudgeConfigEntityAdapter.upsertMany(
           state,
-          payload.entities.detailedJudgeConfig
+          payload.entities.detailedJudgeConfig,
         );
-      }
+      },
     );
-  }
+  },
 );

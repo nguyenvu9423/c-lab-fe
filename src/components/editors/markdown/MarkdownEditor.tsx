@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Button, Divider } from 'semantic-ui-react';
 import { EditorState, Editor, ContentState } from 'draft-js';
 
-import { Styleable } from '../../../common/types';
+import { Styleable } from '../../../shared/types';
 import { MarkdownView } from './MarkdownView';
 
 export namespace MarkdownEditor {
@@ -21,7 +21,7 @@ export const MarkdownEditor: React.FC<MarkdownEditor.Props> = (props) => {
   const [editorState, setEditorState] = React.useState(
     initialValue
       ? EditorState.createWithContent(ContentState.createFromText(initialValue))
-      : EditorState.createEmpty()
+      : EditorState.createEmpty(),
   );
 
   const [selectedTab, setSelectedTab] = React.useState('write');

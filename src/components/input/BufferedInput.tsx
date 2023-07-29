@@ -11,7 +11,7 @@ export namespace BufferedInput {
 export const BufferedInput: React.FC<BufferedInput.Props> = (props) => {
   const { onChange, ...restProps } = props;
   const [internalValue, setInternalValue] = React.useState(
-    props.initialValue ?? ''
+    props.initialValue ?? '',
   );
   const [submittedValue, setSubmittedValue] = React.useState('');
 
@@ -22,7 +22,7 @@ export const BufferedInput: React.FC<BufferedInput.Props> = (props) => {
         onChange?.(internalValue);
       }
     },
-    [submittedValue, internalValue, onChange]
+    [submittedValue, internalValue, onChange],
   );
 
   return (

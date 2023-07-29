@@ -2,7 +2,7 @@ import { fetchSearch } from './../actions/search';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { FetchSearch } from '../actions/search';
-import { SearchService } from '../../service/SearchService';
+import { SearchService } from '../../services/SearchService';
 import { SagaIterator } from 'redux-saga';
 
 function* fetchSearchSaga(action: PayloadAction<FetchSearch.RequestPayload>) {

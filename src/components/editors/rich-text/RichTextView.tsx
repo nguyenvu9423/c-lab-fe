@@ -11,7 +11,7 @@ import createLinkPlugin from '@draft-js-plugins/anchor';
 import createAlignmentPlugin from '@draft-js-plugins/alignment';
 import createResizeablePlugin from '@draft-js-plugins/resizeable';
 import { ReadonlyKatexDecorator } from './plugins';
-import { slugifyHeading } from '../../../page/articles/utils';
+import { slugifyHeading } from '../../../pages/articles/utils';
 
 import '@draft-js-plugins/image/lib/plugin.css';
 import '@draft-js-plugins/alignment/lib/plugin.css';
@@ -23,18 +23,18 @@ const resizeablePlugin = createResizeablePlugin();
 
 const decorator = composeDecorators(
   resizeablePlugin.decorator,
-  alignmentPlugin.decorator
+  alignmentPlugin.decorator,
 );
 
 const imagePlugin = createImagePlugin({ decorator });
 
 export const RichTextView: React.FC<{ contentState: RawDraftContentState }> = (
-  props
+  props,
 ) => {
   const [editorState, setEditorState] = React.useState<EditorState>(
     props.contentState
       ? EditorState.createWithContent(convertFromRaw(props.contentState))
-      : EditorState.createEmpty()
+      : EditorState.createEmpty(),
   );
 
   return (

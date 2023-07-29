@@ -6,7 +6,7 @@ export interface UpdateEntityPayload {
 
 const updateEntity = createAction(
   'updateEntity',
-  (payload: UpdateEntityPayload) => ({ payload })
+  (payload: UpdateEntityPayload) => ({ payload }),
 );
 
 export { updateEntity };

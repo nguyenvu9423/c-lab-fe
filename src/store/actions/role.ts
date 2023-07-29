@@ -1,8 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Role } from './../../domains/role/Role';
-import { NormalizedEntities } from './../../entity-schemas/types';
+import { Role } from '@/domains/role';
+import { NormalizedEntities } from '../../entity-schemas';
 import { BaseFetchPayload, BaseFetchErrorPayload } from './shared';
-import { Pageable } from '../../utility';
+import { Pageable } from '../../utils';
 
 export namespace FetchRole {
   export interface RequestPayload extends BaseFetchPayload {
@@ -20,11 +20,11 @@ export namespace FetchRole {
 const fetchRole = {
   request: createAction(
     'fetchRole/request',
-    (payload: FetchRole.RequestPayload) => ({ payload })
+    (payload: FetchRole.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchRole/response',
-    (payload: FetchRole.ResponsePayload) => ({ payload })
+    (payload: FetchRole.ResponsePayload) => ({ payload }),
   ),
   error: createAction('fetchRole/error', (payload: FetchRole.ErrorPayload) => ({
     payload,
@@ -49,18 +49,18 @@ export namespace FetchRoles {
 const fetchRoles = {
   request: createAction(
     'fetchRoles/request',
-    (payload: FetchRoles.RequestPayload) => ({ payload })
+    (payload: FetchRoles.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchRoles/response',
-    (payload: FetchRoles.ResponsePayload) => ({ payload })
+    (payload: FetchRoles.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchRoles/error',
     (payload: FetchRoles.ErrorPayload) => ({
       payload,
       error: true,
-    })
+    }),
   ),
 };
 

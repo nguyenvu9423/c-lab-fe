@@ -1,7 +1,7 @@
 import { normalize } from 'normalizr';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { fetchRoles, fetchRole, FetchRole } from '../actions';
-import { RoleService } from '../../service/RoleService';
+import { RoleService } from '../../services/auth/RoleService';
 import { roleArraySchema, roleSchema } from '../../entity-schemas';
 import { SagaIterator } from 'redux-saga';
 import { PayloadAction } from '@reduxjs/toolkit';
@@ -18,7 +18,7 @@ function* handleFetchRoles(action) {
         entities,
         totalPages: data.totalPages,
         target,
-      })
+      }),
     );
   } catch (e) {
     yield put(fetchRoles.error({ error: e }));

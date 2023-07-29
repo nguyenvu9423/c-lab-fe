@@ -1,4 +1,4 @@
-import { SearchResult } from './../../domains/search/SearchResult';
+import { SearchResult } from '@/domains/search/SearchResult';
 import * as uuid from 'uuid';
 import { createAction } from '@reduxjs/toolkit';
 
@@ -22,11 +22,11 @@ export const fetchSearch = {
   })),
   response: createAction(
     'fetchSearch/response',
-    (payload: FetchSearch.ResponsePayload) => ({ payload })
+    (payload: FetchSearch.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchSearch/error',
-    (payload: FetchSearch.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchSearch.ErrorPayload) => ({ payload, error: true }),
   ),
   clear: createAction('fetchSearch/clear'),
 };

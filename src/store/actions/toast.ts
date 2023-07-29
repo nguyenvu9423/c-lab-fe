@@ -24,7 +24,7 @@ export const addToast = createAction(
     } else {
       return { payload: { toast: { id: uuid.v4(), ...toast } } };
     }
-  }
+  },
 );
 
 export interface RemoveToastPayload {
@@ -33,5 +33,5 @@ export interface RemoveToastPayload {
 
 export const removeToast = createAction(
   'removeToast',
-  (payload: RemoveToastPayload) => ({ payload })
+  (payload: RemoveToastPayload) => ({ payload }),
 );

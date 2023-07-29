@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
-import { LoadingState } from '../../store/common';
-import { PrincipalSelectors } from '../../store/selectors';
-import { LogoWithName } from '..';
+import { LoadingState } from '@/store/common';
+import { PrincipalSelectors } from '@/store/selectors';
+import { LogoWithName } from '../logo';
 
 export namespace AppSideBar {
   export interface Props {
@@ -16,7 +16,7 @@ export namespace AppSideBar {
 export const AppSideBar: React.FC<AppSideBar.Props> = (props) => {
   const { visible, onHide } = props;
   const { loadingState, principal } = useSelector(
-    PrincipalSelectors.principalDataHolder()
+    PrincipalSelectors.principalDataHolder(),
   );
   return (
     <div

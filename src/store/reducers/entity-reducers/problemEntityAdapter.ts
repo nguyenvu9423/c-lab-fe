@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { Problem } from './../../../domains/problem/Problem';
+import { Problem } from '@/domains/problem/Problem';
 
 export const problemEntityAdapter = createEntityAdapter<Problem>();
 
@@ -11,16 +11,16 @@ export const problemEntityReducer = createReducer(
         ({ payload }) => !!payload?.entities?.problem,
         (state, { payload }) => {
           problemEntityAdapter.upsertMany(state, payload.entities.problem);
-        }
+        },
       )
       .addMatcher(
         ({ payload }) => !!payload?.entities?.detailedProblem,
         (state, { payload }) => {
           problemEntityAdapter.upsertMany(
             state,
-            payload.entities.detailedProblem
+            payload.entities.detailedProblem,
           );
-        }
+        },
       );
-  }
+  },
 );

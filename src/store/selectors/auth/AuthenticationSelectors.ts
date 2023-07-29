@@ -1,6 +1,6 @@
 import { Selector } from '@reduxjs/toolkit';
-import { State } from '../..';
-import { Jwt } from '../../../utility';
+import { Jwt } from '@/utils';
+import { State } from '../../state';
 import { LoadingState } from '../../common';
 import { DataHolder } from '../../reducers/data-holders/shared';
 

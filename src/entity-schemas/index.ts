@@ -4,3 +4,8 @@ export * from './submission-schemas';
 export * from './userSchema';
 export * from './roleSchema';
 export * from './judge-schemas';
+export * from './tag-schemas';
+export * from './types';
+export * from './problem-schemas';
+export * from './articleSchema';
+export * from './judge-config-schemas';

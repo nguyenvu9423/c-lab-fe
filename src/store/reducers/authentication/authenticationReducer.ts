@@ -5,7 +5,7 @@ import {
   AccessTokenPayload,
   RefreshTokenPayload,
   Jwt,
-} from './../../../utility/Token';
+} from './../../../utils/Token';
 import { refreshToken, setToken } from '../../actions';
 import { DataHolderState } from '../data-holders/shared';
 
@@ -36,10 +36,10 @@ export const authenticationReducer = createReducer<AuthenticationState>(
         const { token } = action.payload;
         if (token) {
           const accessTokenPayload = jwtDecode<AccessTokenPayload>(
-            token.access_token
+            token.access_token,
           );
           const refreshTokenPayload = jwtDecode<RefreshTokenPayload>(
-            token.refresh_token
+            token.refresh_token,
           );
 
           const { authorities } = accessTokenPayload;
@@ -62,7 +62,7 @@ export const authenticationReducer = createReducer<AuthenticationState>(
             loadingState: LoadingState.WITHOUT,
           };
         }
-      }
+      },
     );
-  }
+  },
 );

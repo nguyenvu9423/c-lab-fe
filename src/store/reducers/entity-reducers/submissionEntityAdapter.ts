@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { Submission } from '../../../domains/submission';
+import { Submission } from '@/domains/submission';
 
 export const submissionEntityAdapter = createEntityAdapter<Submission>();
 
@@ -12,18 +12,18 @@ export const submissionEntityReducer = createReducer(
         (state, { payload }) => {
           submissionEntityAdapter.upsertMany(
             state,
-            payload.entities.submission
+            payload.entities.submission,
           );
-        }
+        },
       )
       .addMatcher(
         ({ payload }) => !!payload?.entities?.detailedSub,
         (state, { payload }) => {
           submissionEntityAdapter.upsertMany(
             state,
-            payload.entities.detailedSub
+            payload.entities.detailedSub,
           );
-        }
+        },
       );
-  }
+  },
 );

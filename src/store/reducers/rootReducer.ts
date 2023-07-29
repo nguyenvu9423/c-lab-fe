@@ -1,5 +1,5 @@
 import { editUserInfoFormReducer } from './form-reducers/editUserInfoFormReducer';
-import { combineReducers, AnyAction, Reducer } from 'redux';
+import { combineReducers, Reducer } from 'redux';
 import { entityReducer } from './entity-reducers';
 import {
   principalProblemSubsReducer,

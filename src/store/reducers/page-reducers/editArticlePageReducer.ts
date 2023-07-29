@@ -17,5 +17,5 @@ export const editArticlePageReducer = createFilteredReducer(
       article: articleReducer,
     }),
   }),
-  TargetPredicates.equal(Target.EDIT_ARTICLE_PAGE)
+  TargetPredicates.equal(Target.EDIT_ARTICLE_PAGE),
 );

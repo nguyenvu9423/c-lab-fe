@@ -1,12 +1,12 @@
 import { createAction } from '@reduxjs/toolkit';
-import { NormalizedEntities } from './../../entity-schemas/types';
-import { User } from './../../domains/user/User';
+import { NormalizedEntities } from '../../entity-schemas';
+import { User } from '@/domains/user/User';
 import {
   defaultPrepare,
   BaseFetchPayload,
   BaseFetchErrorPayload,
 } from './shared';
-import { Pageable } from '../../utility';
+import { Pageable } from '../../utils';
 
 export namespace FetchUser {
   export interface ByIdRequestPayload extends BaseFetchPayload {
@@ -39,11 +39,11 @@ export namespace FetchUser {
 export const fetchUser = {
   request: createAction(
     'fetchUser/request',
-    (payload: FetchUser.RequestPayload) => ({ payload })
+    (payload: FetchUser.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchUser/response',
-    (payload: FetchUser.ResponsePayload) => ({ payload })
+    (payload: FetchUser.ResponsePayload) => ({ payload }),
   ),
   error: createAction('fetchUser/error', (payload: FetchUser.ErrorPayload) => ({
     payload,
@@ -74,15 +74,15 @@ export const fetchUsers = {
         ...payload,
         query: payload.query ? payload.query : undefined,
       },
-    })
+    }),
   ),
   response: createAction(
     'fetchUsers/response',
-    (payload: FetchUsers.ResponsePayload) => ({ payload })
+    (payload: FetchUsers.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchUsers/error',
-    (payload: FetchUsers.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchUsers.ErrorPayload) => ({ payload, error: true }),
   ),
 };
 

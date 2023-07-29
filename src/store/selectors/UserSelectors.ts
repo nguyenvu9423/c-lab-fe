@@ -1,10 +1,10 @@
-import { User } from './../../domains/user/User';
+import { User } from '@/domains/user/User';
 import { State } from './../state';
 import { userEntityAdapter } from '../reducers/entity-reducers/userEntityAdapter';
 import { Selector, EntityId } from '@reduxjs/toolkit';
 
 const userEntitySelectors = userEntityAdapter.getSelectors(
-  (state: State) => state.entity.user
+  (state: State) => state.entity.user,
 );
 
 export namespace UserSelectors {

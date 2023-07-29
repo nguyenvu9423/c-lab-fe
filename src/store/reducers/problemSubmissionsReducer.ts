@@ -23,5 +23,5 @@ export const problemSubmissionsReducer = createFilteredReducer(
       filters: submissionFilterReducer,
     }),
   }),
-  TargetPredicates.equal(Target.ProblemPageContents.SUBMISSIONS)
+  TargetPredicates.equal(Target.ProblemPageContents.SUBMISSIONS),
 );

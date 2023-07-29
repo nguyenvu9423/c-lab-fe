@@ -1,10 +1,10 @@
 import { EditUserInfoFormState } from './reducers/form-reducers/editUserInfoFormReducer';
 import { EntityState } from '@reduxjs/toolkit';
 
-import { Tag } from './../domains/tag/Tag';
-import { Role } from './../domains/role/Role';
-import { User } from './../domains/user/User';
-import { Article } from '../domains/article';
+import { Tag } from '@/domains/tag/Tag';
+import { Role } from '@/domains/role/Role';
+import { User } from '@/domains/user/User';
+import { Article } from '@/domains/article';
 
 import { PrincipalProblemSubsCardState } from './reducers/card-reducers/principalProblemSubsCardReducer';
 import { EditUserFormState } from './reducers/form-reducers/editUserFormReducer';
@@ -16,14 +16,14 @@ import { EditRoleFormState } from './reducers/form-reducers/editRoleFormReducer'
 import { AdminPageState } from './reducers/page-reducers/adminPageReducer';
 import { ArticlePageState } from './reducers/page-reducers/articlePageReducer';
 
-import { ProblemRejudge } from './../domains/problem-rejudge/ProblemRejudge';
-import { DetailedJudge, Judge } from './../domains/judge';
+import { ProblemRejudge } from '@/domains/problem-rejudge/ProblemRejudge';
+import { DetailedJudge, Judge } from '@/domains/judge';
 import { DetailedSubModalState } from './reducers/modal-reducers/detailedSubModalReducer';
-import { Submission, DetailedSub } from '../domains/submission';
+import { Submission, DetailedSub } from '@/domains/submission';
 import { PrincipalProblemSubsState } from './reducers/principalProblemSubsReducer';
 import { ProblemPageState } from './reducers/page-reducers/problemPageReducer';
 import { ProblemsPageState } from './reducers/page-reducers/problemsPageReducer';
-import { Problem, DetailedProblem } from './../domains/problem/Problem';
+import { Problem, DetailedProblem } from '@/domains/problem/Problem';
 import { ProblemSubmissionsState } from './reducers/problemSubmissionsReducer';
 
 import {
@@ -36,7 +36,7 @@ import {
   EditProblemFormState,
   UpdateJudgeConfigFormState,
 } from './reducers/form-reducers';
-import { DetailedJudgeConfig, JudgeConfig } from '../domains/judge-config';
+import { DetailedJudgeConfig, JudgeConfig } from '@/domains/judge-config';
 import { ToastsState } from './reducers/toastsReducer';
 import { SearchState } from './reducers/searchReducer';
 import { AuthenticationState } from './reducers/authentication/authenticationReducer';

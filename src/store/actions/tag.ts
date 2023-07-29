@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Pageable } from './../../utility/Pageable';
-import { Tag } from './../../domains/tag/Tag';
+import { Pageable } from './../../utils/Pageable';
+import { Tag } from '@/domains/tag/Tag';
 import { BaseFetchPayload, BaseFetchErrorPayload } from './shared';
 import { NormalizedEntities } from '../../entity-schemas/types';
 
@@ -20,11 +20,11 @@ export namespace FetchTag {
 export const fetchTag = {
   request: createAction(
     'fetchTag/request',
-    (payload: FetchTag.RequestPayload) => ({ payload })
+    (payload: FetchTag.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchTag/response',
-    (payload: FetchTag.ResponsePayload) => ({ payload })
+    (payload: FetchTag.ResponsePayload) => ({ payload }),
   ),
   error: createAction('fetchTag/error', (payload: FetchTag.ErrorPayload) => ({
     payload,
@@ -50,11 +50,11 @@ export namespace FetchTags {
 export const fetchTags = {
   request: createAction(
     'fetchTags/request',
-    (payload: FetchTags.RequestPayload) => ({ payload })
+    (payload: FetchTags.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchTags/response',
-    (payload: FetchTags.ResponsePayload) => ({ payload })
+    (payload: FetchTags.ResponsePayload) => ({ payload }),
   ),
   error: createAction('fetchTags/error', (payload: FetchTags.ErrorPayload) => ({
     payload,

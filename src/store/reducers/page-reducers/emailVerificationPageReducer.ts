@@ -41,7 +41,7 @@ export const emailVerificationReducer = createReducer<EmailVerificationState>(
         }
         return state;
       })
-      .addCase(resetState, () => initialState)
+      .addCase(resetState, () => initialState),
 );
 
 export interface EmailVerificationPageState {
@@ -56,5 +56,5 @@ export const emailVerificationPageReducer = createFilteredReducer(
       emailVerification: emailVerificationReducer,
     }),
   }),
-  TargetPredicates.equal(Target.EMAIL_VERIFICATION_PAGE)
+  TargetPredicates.equal(Target.EMAIL_VERIFICATION_PAGE),
 );

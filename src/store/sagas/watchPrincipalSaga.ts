@@ -8,7 +8,7 @@ function* fetchPrincipalSaga(action: PayloadAction<SetTokenPayload>) {
   const { token } = action.payload;
   if (token) {
     yield put(
-      fetchUser.request({ type: 'principal', target: Target.PRINCIPAL })
+      fetchUser.request({ type: 'principal', target: Target.PRINCIPAL }),
     );
   }
 }

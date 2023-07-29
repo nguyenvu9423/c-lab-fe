@@ -1,9 +1,9 @@
 import * as uuid from 'uuid';
-import { NormalizedEntities } from './../../entity-schemas/types';
-import { Pageable } from './../../utility/Pageable';
+import { NormalizedEntities } from '../../entity-schemas';
+import { Pageable } from './../../utils/Pageable';
 import { createAction } from '@reduxjs/toolkit';
 import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
-import { Article } from '../../domains/article';
+import { Article } from '@/domains/article';
 
 export namespace FetchArticle {
   export interface RequestPayload extends BaseFetchPayload {
@@ -21,15 +21,15 @@ export namespace FetchArticle {
 export const fetchArticle = {
   request: createAction(
     'fetchArticle/request',
-    (payload: FetchArticle.RequestPayload) => ({ payload })
+    (payload: FetchArticle.RequestPayload) => ({ payload }),
   ),
   response: createAction(
     'fetchArticle/response',
-    (payload: FetchArticle.ResponsePayload) => ({ payload })
+    (payload: FetchArticle.ResponsePayload) => ({ payload }),
   ),
   error: createAction(
     'fetchArticle/error',
-    (payload: FetchArticle.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchArticle.ErrorPayload) => ({ payload, error: true }),
   ),
 };
 
@@ -53,15 +53,15 @@ export const fetchArticles = {
     'fetchArticles/request',
     (payload: FetchArticles.RequestPayload) => ({
       payload: { ...payload, requestId: uuid.v4() },
-    })
+    }),
   ),
   response: createAction(
     'fetchArticles/response',
-    (payload: FetchArticles.ResponsePayload) => ({ payload })
+    (payload: FetchArticles.ResponsePayload) => ({ payload }),
   ),
 
   error: createAction(
     'fetchArticles/error',
-    (payload: FetchArticles.ErrorPayload) => ({ payload, error: true })
+    (payload: FetchArticles.ErrorPayload) => ({ payload, error: true }),
   ),
 };

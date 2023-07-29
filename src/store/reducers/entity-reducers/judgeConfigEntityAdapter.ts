@@ -1,5 +1,5 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
-import { JudgeConfig } from '../../../domains/judge-config';
+import { JudgeConfig } from '@/domains/judge-config';
 
 export const judgeConfigEntityAdapter = createEntityAdapter<JudgeConfig>();
 
@@ -12,18 +12,18 @@ export const judgeConfigEntityReducer = createReducer(
         (state, { payload }) => {
           judgeConfigEntityAdapter.upsertMany(
             state,
-            payload.entities.judgeConfig
+            payload.entities.judgeConfig,
           );
-        }
+        },
       )
       .addMatcher(
         (action) => !!action.payload?.entities?.detailedJudgeConfig,
         (state, { payload }) => {
           judgeConfigEntityAdapter.upsertMany(
             state,
-            payload.entities.detailedJudgeConfig
+            payload.entities.detailedJudgeConfig,
           );
-        }
+        },
       );
-  }
+  },
 );

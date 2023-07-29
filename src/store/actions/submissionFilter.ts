@@ -5,7 +5,7 @@ export interface SetSubmissionFilterPayload {
 }
 
 const setSubmissionFilter = createAction<SetSubmissionFilterPayload>(
-  'setSubmissionFilter'
+  'setSubmissionFilter',
 );
 
 export { setSubmissionFilter };
