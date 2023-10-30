@@ -8,7 +8,7 @@ on:
 env:
   BUILD_NUMBER: ${{ github.sha }}
   IMAGE_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/c-lab-frontend
-  IMAGE_TAG: nightly-${{ env.BUILD_NUMBER }}
+  IMAGE_TAG: nightly-${{ github.sha }}
 
 jobs:
   nightly-build:
