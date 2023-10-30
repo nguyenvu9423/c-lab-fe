@@ -16,7 +16,7 @@ export namespace UserForm {
     firstName: string;
     lastName: string;
     email: string;
-    birthDay?: string;
+    birthday?: string;
     workplace?: string;
     banned: boolean;
     emailVerified: boolean;
@@ -38,7 +38,7 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
       firstName: initialValues.firstName ?? '',
       lastName: initialValues.lastName ?? '',
       email: initialValues.email ?? '',
-      birthDay: initialValues.birthDay,
+      birthday: initialValues.birthday,
       workplace: initialValues.workplace,
       emailVerified: initialValues.emailVerified ?? false,
       banned: initialValues.banned ?? false,
@@ -110,8 +110,8 @@ export const UserForm: React.FC<UserForm.Props> = (props) => {
           <Input
             placeholder="01/01/1970"
             type="date"
-            name="birthDay"
-            value={values.birthDay}
+            name="birthday"
+            value={values.birthday}
             onChange={handleChange}
             onBlur={handleBlur}
           />

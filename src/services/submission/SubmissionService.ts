@@ -80,8 +80,4 @@ export namespace SubmissionService {
       },
     });
   }
-
-  export function cancelJudge(submissionId: number): ServiceResponse<void> {
-    return apiCaller.post(`${BASE_URL}/${submissionId}/cancel-judge`);
-  }
 }
