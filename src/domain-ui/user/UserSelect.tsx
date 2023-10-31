@@ -40,7 +40,7 @@ export const UserSelect: React.FC<UserSelect.Props> = (props) => {
     [],
   );
 
-  React.useEffect(() => load(''), []);
+  React.useEffect(() => load(searchQuery ?? ''), [searchQuery]);
 
   const userOptions = React.useMemo(
     () =>

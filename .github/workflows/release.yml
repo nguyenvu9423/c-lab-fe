@@ -5,6 +5,9 @@ on:
     tags:
       - v*
 
+env:
+  IMAGE_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/c-lab-frontend
+
 jobs:
   release:
     runs-on: ubuntu-20.04
@@ -26,27 +29,18 @@ jobs:
       - name: dist
         run: yarn run build
 
-      - name: configure amazon ecr account
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Docker Login
+        uses: docker/login-action@v3.0.0
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: login to amazon ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        id: login-ecr
-
-      - name: build and push docker image
-        id: build-image
-        env:
-          IMAGE_REPO: ${{ steps.login-ecr.outputs.registry }}/c-lab-frontend
-          IMAGE_TAG: ${{ env.RELEASE_VERSION }}
-        run: |
-          docker build -t ${IMAGE_REPO}:${IMAGE_TAG} .
-          docker push ${IMAGE_REPO}:${IMAGE_TAG}
-          echo "image_repo=${IMAGE_REPO}" >> $GITHUB_OUTPUT
-          echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_REPO }}:${{ env.RELEASE_VERSION }}
 
       - name: '[Deploy to server] login to docker'
         uses: appleboy/ssh-action@v0.1.7
@@ -55,10 +49,7 @@ jobs:
           port: ${{ vars.SERVER_PORT }}
           username: ${{ vars.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: >
-            docker login ${{ steps.login-ecr.outputs.registry }}
-            -u ${{ steps.login-ecr.outputs.docker_username_449313530982_dkr_ecr_us_east_2_amazonaws_com }}
-            -p ${{ steps.login-ecr.outputs.docker_password_449313530982_dkr_ecr_us_east_2_amazonaws_com }}
+          script: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: '[Deploy to server] run the image'
         uses: appleboy/ssh-action@v0.1.7
@@ -71,6 +62,6 @@ jobs:
             cd ./c-lab-frontend
             docker compose down
             docker system prune -a -f
-            export IMAGE_REPO=${{ steps.build-image.outputs.image_repo }} 
-            export IMAGE_TAG=${{ steps.build-image.outputs.image_tag }} 
+            export IMAGE_REPO=${{ env.IMAGE_REPO }}  
+            export IMAGE_TAG=${{ env.RELEASE_VERSION }} 
             docker compose up -d
