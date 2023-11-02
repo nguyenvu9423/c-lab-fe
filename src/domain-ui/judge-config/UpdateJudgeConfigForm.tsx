@@ -108,11 +108,14 @@ function useSubmitJudgeConfig(props: {
       helpers: FormikHelpers<JudgeConfigForm.Value>,
     ) => {
       const formData = new FormData();
-      const { testPackage, customJudger, ...rest } = values;
+
+      const { testPackage, customJudger } = values;
+
       formData.append(
         'judgeConfig',
-        new Blob([JSON.stringify(rest)], { type: 'application/json' }),
+        new Blob([JSON.stringify(values)], { type: 'application/json' }),
       );
+
       if (testPackage && testPackage instanceof File) {
         formData.append('testPackage', testPackage);
       }
