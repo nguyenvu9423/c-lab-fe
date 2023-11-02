@@ -58,9 +58,9 @@ export const SearchBar: React.FC = () => {
     (event, { result }) => {
       setValue('');
       clear();
-      if (result.type === 'problem') {
+      if (result.type === 'PROBLEM') {
         navigate(`/problems/${result.code}`);
-      } else if (result.type === 'article') {
+      } else if (result.type === 'ARTICLE') {
         navigate(`/articles/${result.id}/view/${result.slug}`);
       }
     },

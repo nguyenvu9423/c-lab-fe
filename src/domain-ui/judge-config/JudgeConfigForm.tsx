@@ -62,10 +62,13 @@ export const JudgeConfigFormSchema = yup.object({
     .required('Vui lòng điền giới hạn bộ nhớ ')
     .min(1, 'Giới hạn bộ nhớ phải lớn hơn 0mb')
     .max(1024, 'Giới hạn bộ nhớ không được quá 1024mb'),
-  customJudger: yup.mixed().when('judgerType', {
-    is: JudgerType.Custom,
-    then: (schema) => schema.required('Vui lòng tải lên trình chấm'),
-  }),
+  customJudger: yup
+    .mixed()
+    .nullable()
+    .when('judgerType', {
+      is: JudgerType.Custom,
+      then: (schema) => schema.required('Vui lòng tải lên trình chấm'),
+    }),
   testPackage: yup.mixed().required('Vui lòng tải lên bộ test'),
 });
 
@@ -96,7 +99,9 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
   } = useFormik<JudgeConfigForm.Value>({
     initialValues: mergedInitialValues,
     validationSchema: JudgeConfigFormSchema,
-    onSubmit: (values, helpers) => onSubmit?.(values, helpers),
+    onSubmit: (values, helpers) => {
+      onSubmit?.(values, helpers);
+    },
   });
 
   const handleTestPackageChange = React.useCallback((file) => {
@@ -113,6 +118,8 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
     <Form
       error={true}
       onSubmit={() => {
+        console.log('error', errors);
+        console.log('value', values);
         handleSubmit();
       }}
       className={'article clear-fix-container'}
