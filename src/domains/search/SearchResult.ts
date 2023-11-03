@@ -6,13 +6,13 @@ export interface BaseSearchResult {
 }
 
 export interface ProblemSearchResult extends BaseSearchResult {
-  type: 'problem';
+  type: 'PROBLEM';
   code: string;
   title: string;
 }
 
 export interface ArticleSearchResult extends BaseSearchResult {
-  type: 'article';
+  type: 'ARTICLE';
   title: string;
   description: string;
 }

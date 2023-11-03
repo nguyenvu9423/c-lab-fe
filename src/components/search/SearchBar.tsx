@@ -97,7 +97,7 @@ function convertToResults(searchResults: SearchResult[]): CategorizedResults {
 }
 
 const resultRenderer = (result: SearchResult) => {
-  if (result.type === 'problem') {
+  if (result.type === 'PROBLEM') {
     return (
       <div className="content">
         <div className="title">{result.code}</div>
