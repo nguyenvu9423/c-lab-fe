@@ -2,14 +2,14 @@ import * as React from 'react';
 import { Divider, Header, List, Message, Segment } from 'semantic-ui-react';
 import { TextFileOverviewContainer, TextFileOverview } from '@/components';
 import { DetailedJudgeResult, JudgeVerdict } from '@/domains/judge';
-import { ScoringType } from '@/domains/judge-config';
+import { JudgeType } from '@/domains/judge-config';
 import { ErrorLabel, TestResultLabel } from '../../judge';
 
 export const ResultLog: React.FC<{
   detailedResult: DetailedJudgeResult;
-  scoringType: ScoringType;
+  judgeType: JudgeType;
 }> = (props) => {
-  const { detailedResult, scoringType } = props;
+  const { detailedResult, judgeType } = props;
   const { verdict, testResults } = detailedResult;
 
   if (verdict === JudgeVerdict.COMPILE_ERROR) {
@@ -37,7 +37,7 @@ export const ResultLog: React.FC<{
                     <Header as="h4">Test {test.id}</Header>:{' '}
                     <TestResultLabel
                       testResult={testResult}
-                      scoringType={scoringType}
+                      judgeType={judgeType}
                     />
                   </div>
                   <Segment.Group>

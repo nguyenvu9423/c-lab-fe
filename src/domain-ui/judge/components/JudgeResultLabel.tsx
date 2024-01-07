@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ErrorLabel, ScoreLabel, AcceptedLabel } from './ui-labels';
 import { SubmissionTestResultLabel } from './test-result-labels';
-import { ScoringType } from '@/domains/judge-config';
+import { JudgeType } from '@/domains/judge-config';
 import { LabelStyles } from './shared';
 import { LabelProps } from 'semantic-ui-react';
 import { JudgeResult, JudgeVerdict } from '@/domains/judge';
@@ -9,22 +9,22 @@ import { JudgeResult, JudgeVerdict } from '@/domains/judge';
 export namespace JudgeResultLabel {
   export interface Props extends LabelStyles {
     result: JudgeResult;
-    scoringType: ScoringType;
+    judgeType: JudgeType;
   }
 }
 
 export const JudgeResultLabel: React.FC<JudgeResultLabel.Props> = (props) => {
-  const { result, scoringType, compact } = props;
+  const { result, judgeType, compact } = props;
   const { verdict } = result;
   switch (verdict) {
     case JudgeVerdict.COMPILE_ERROR:
       return <ErrorLabel message="Compile error" />;
     case JudgeVerdict.ACCEPTED:
     case JudgeVerdict.TEST_ERROR:
-      switch (scoringType) {
-        case ScoringType.OI:
+      switch (judgeType) {
+        case JudgeType.OI:
           return <OIJudgeResultLabel result={result} />;
-        case ScoringType.ACM:
+        case JudgeType.ACM:
           return <AcmJudgeResultLabel result={result} compact={compact} />;
         default:
           return null;

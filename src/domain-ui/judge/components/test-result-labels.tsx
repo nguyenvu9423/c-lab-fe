@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AcceptedLabel, ErrorLabel, ScoreLabel } from './ui-labels';
-import { ScoringType } from '@/domains/judge-config';
+import { JudgeType } from '@/domains/judge-config';
 import { DetailedTestResult, TestResult, TestVerdict } from '@/domains/judge';
 import { LabelStyles } from './shared';
 
@@ -27,12 +27,12 @@ export const SubmissionTestResultLabel: React.FC<
 
 export const TestResultLabel: React.FC<{
   testResult: DetailedTestResult;
-  scoringType: ScoringType;
+  judgeType: JudgeType;
 }> = (props) => {
-  const { testResult, scoringType } = props;
+  const { testResult, judgeType } = props;
 
-  switch (scoringType) {
-    case ScoringType.OI: {
+  switch (judgeType) {
+    case JudgeType.OI: {
       const { score, resource } = testResult;
       return (
         <span>
@@ -41,7 +41,7 @@ export const TestResultLabel: React.FC<{
         </span>
       );
     }
-    case ScoringType.ACM: {
+    case JudgeType.ACM: {
       const { verdict, resource } = testResult;
       const message = TestVerdict.getMessage(verdict);
 

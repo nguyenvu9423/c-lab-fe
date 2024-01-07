@@ -1,4 +1,5 @@
 import { JudgeConfig } from '../judge-config';
+import { JudgeError } from './JudgeError';
 import {
   JudgeProgress,
   TypedJudgeProgress,
@@ -16,6 +17,8 @@ export interface Judge {
   progress: JudgeProgress;
 
   result?: JudgeResult;
+
+  error?: JudgeError;
 }
 
 export interface InProgressJudge extends Judge {
@@ -50,14 +53,16 @@ export namespace SuccessJudge {
   }
 }
 
-export interface SystemErrorJudge extends Judge {
+export interface ErrorJudge extends Judge {
   progress: TypedJudgeProgress<JudgeProgressStatus.ERROR>;
 
   result: undefined;
+
+  error: JudgeError;
 }
 
-export namespace SystemErrorJudge {
-  export function isInstance(judge: Judge): judge is SystemErrorJudge {
+export namespace ErrorJudge {
+  export function isInstance(judge: Judge): judge is ErrorJudge {
     return judge.progress.status === JudgeProgressStatus.ERROR;
   }
 }

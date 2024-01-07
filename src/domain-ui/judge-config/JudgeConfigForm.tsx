@@ -15,20 +15,20 @@ import { useErrorMessageRenderer } from '@/components/form';
 import { SubmitButton, CancelButton } from '@/components/button';
 import { TextFileOverviewContainer } from '@/components';
 import {
-  JudgerType,
-  ScoringType,
+  TestJudgeType,
+  JudgeType,
 } from '../../domains/judge-config/JudgeConfig';
 import { PutFileInput } from '../../pages/common/inputs/PutFileInput';
 import { TestPackage } from '../../domains/judge-config/test-package';
-import { CustomJudger } from '../../domains/judge-config/custom-judger';
+import { CustomTestJudger } from '../../domains/judge-config/custom-judger';
 import { BackEndConfig } from '../../config';
 
-const judgerOptions = JudgerType.values.map((type) => ({
+const testJudgeTypeOptions = TestJudgeType.values.map((type) => ({
   value: type,
   text: type,
 }));
 
-const scoringTypeOptions = ScoringType.values.map((type) => ({
+const judgeTypeOptions = JudgeType.values.map((type) => ({
   value: type,
   text: type,
 }));
@@ -44,10 +44,10 @@ export namespace JudgeConfigForm {
   export interface Value {
     timeLimit: number;
     memoryLimit: number;
-    judgerType: JudgerType;
-    scoringType: ScoringType;
+    testJudgeType: TestJudgeType;
+    judgeType: JudgeType;
     testPackage?: TestPackage | File;
-    customJudger?: CustomJudger | File;
+    customTestJudger?: CustomTestJudger | File;
   }
 }
 
@@ -62,11 +62,11 @@ export const JudgeConfigFormSchema = yup.object({
     .required('Vui lòng điền giới hạn bộ nhớ ')
     .min(1, 'Giới hạn bộ nhớ phải lớn hơn 0mb')
     .max(1024, 'Giới hạn bộ nhớ không được quá 1024mb'),
-  customJudger: yup
+  customTestJudger: yup
     .mixed()
     .nullable()
-    .when('judgerType', {
-      is: JudgerType.Custom,
+    .when('testJudgeType', {
+      is: TestJudgeType.Custom,
       then: (schema) => schema.required('Vui lòng tải lên trình chấm'),
     }),
   testPackage: yup.mixed().required('Vui lòng tải lên bộ test'),
@@ -79,10 +79,11 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
     () => ({
       timeLimit: initialValues?.timeLimit ?? 2000,
       memoryLimit: initialValues?.memoryLimit ?? 256,
-      judgerType: initialValues?.judgerType ?? JudgerType.LinesWordsCase,
-      scoringType: initialValues?.scoringType ?? ScoringType.ACM,
+      testJudgeType:
+        initialValues?.testJudgeType ?? TestJudgeType.LinesWordsCase,
+      judgeType: initialValues?.judgeType ?? JudgeType.ACM,
       testPackage: initialValues?.testPackage,
-      customJudger: initialValues?.customJudger,
+      customTestJudger: initialValues?.customTestJudger,
     }),
     [initialValues],
   );
@@ -109,7 +110,7 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
   }, []);
 
   const handleCustomJudgerChange = React.useCallback((file) => {
-    setFieldValue('customJudger', file);
+    setFieldValue('customTestJudger', file);
   }, []);
 
   const errorMessageRenderer = useErrorMessageRenderer({ touched, errors });
@@ -132,20 +133,20 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
         <Form.Field width={8}>
           <label>Kiểu chấm</label>
           <Form.Select
-            compact
-            name="judger"
-            value={values.judgerType}
-            options={judgerOptions}
-            onChange={(e, { value }) => setFieldValue('judgerType', value)}
+            value={values.judgeType}
+            options={judgeTypeOptions}
+            onBlur={handleBlur}
+            onChange={(e, { value }) => setFieldValue('judgeType', value)}
           />
         </Form.Field>
         <Form.Field width={8}>
-          <label>Kiểu chấm điểm</label>
+          <label>Kiểu chấm test</label>
           <Form.Select
-            value={values.scoringType}
-            options={scoringTypeOptions}
-            onBlur={handleBlur}
-            onChange={(e, { value }) => setFieldValue('scoringType', value)}
+            compact
+            name="testJudgeType"
+            value={values.testJudgeType}
+            options={testJudgeTypeOptions}
+            onChange={(e, { value }) => setFieldValue('testJudgeType', value)}
           />
         </Form.Field>
       </Form.Group>
@@ -174,24 +175,24 @@ export const JudgeConfigForm: React.FC<JudgeConfigForm.Props> = (props) => {
         </Form.Field>
       </Form.Group>
 
-      {values.judgerType === JudgerType.Custom && (
+      {values.testJudgeType === TestJudgeType.Custom && (
         <Form.Field width={8}>
           <label>Trình chấm tự chọn</label>
           <PutFileInput
             file={
-              values.customJudger
-                ? values.customJudger instanceof File
-                  ? values.customJudger
+              values.customTestJudger
+                ? values.customTestJudger instanceof File
+                  ? values.customTestJudger
                   : {
-                      name: values.customJudger.originalFileName,
+                      name: values.customTestJudger.originalFileName,
                       uploaded: true,
-                      downloadLink: `/api/custom-judger/${values.customJudger.id}/file`,
+                      downloadLink: `${BackEndConfig.API_URL}/custom-test-judger/${values.customTestJudger.id}/file`,
                     }
                 : undefined
             }
             onChange={handleCustomJudgerChange}
           />
-          {errorMessageRenderer('customJudger')}
+          {errorMessageRenderer('customTestJudger')}
         </Form.Field>
       )}
       <Divider horizontal>

@@ -46,7 +46,7 @@ export const ProblemInfoCard: React.FC<ProblemInfoCard.Props> = (props) => {
             <Table.Row>
               <Table.Cell>Kiểu bài</Table.Cell>
               <Table.Cell>
-                {judgeConfig?.scoringType ?? 'Chưa thiết lập'}
+                {judgeConfig?.judgeType ?? 'Chưa thiết lập'}
               </Table.Cell>
             </Table.Row>
             <Table.Row>

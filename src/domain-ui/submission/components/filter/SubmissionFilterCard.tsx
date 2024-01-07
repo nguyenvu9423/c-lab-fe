@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Header, Segment } from 'semantic-ui-react';
 import { ConstSelectors, JudgeConfigSelectors } from '@/store/selectors';
-import { ScoringType } from '@/domains/judge-config';
+import { JudgeType } from '@/domains/judge-config';
 import { Problem } from '@/domains/problem';
 
 import { AcmFilterForm } from './AcmFilterForm';
@@ -34,7 +34,7 @@ export const SubmissionFilterCard: React.FC<SubmissionFilterCard.Props> = (
         Lọc
       </Header>
       <Segment attached="bottom" clearing>
-        {judgeConfig.scoringType === ScoringType.ACM ? (
+        {judgeConfig.judgeType === JudgeType.ACM ? (
           <AcmFilterForm onQueryChange={onQueryChange} />
         ) : (
           <OIFilterForm onQueryChange={onQueryChange} />

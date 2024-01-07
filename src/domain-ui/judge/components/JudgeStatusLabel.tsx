@@ -6,7 +6,7 @@ import { JudgeErrorLabel } from './JudgeErrorLabel';
 import { JudgeSelectors } from '@/store/selectors/JudgeSelectors';
 import {
   SuccessJudge,
-  SystemErrorJudge,
+  ErrorJudge,
   InProgressJudge,
   CancelledJudge,
   RejectedJudge,
@@ -34,11 +34,11 @@ export const JudgeStatusLabel: React.FC<JudgeStatusLabel.Props> = (props) => {
       <JudgeResultLabel
         compact={compact}
         result={judge.result}
-        scoringType={config.scoringType}
+        judgeType={config.judgeType}
       />
     );
-  } else if (SystemErrorJudge.isInstance(judge)) {
-    return <JudgeErrorLabel compact={compact} progress={progress} />;
+  } else if (ErrorJudge.isInstance(judge)) {
+    return <JudgeErrorLabel compact={compact} error={judge.error} />;
   } else if (CancelledJudge.isInstance(judge)) {
     return <ErrorLabel message="Cancelled" />;
   } else if (RejectedJudge.isInstance(judge)) {
