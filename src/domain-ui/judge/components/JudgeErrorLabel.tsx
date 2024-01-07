@@ -1,24 +1,22 @@
 import * as React from 'react';
 import { ErrorLabel } from './ui-labels';
-import { JudgeProgress, JudgeProgressStatus } from '@/domains/judge';
+import { JudgeError, JudgeErrorType } from '@/domains/judge';
 import { LabelStyles } from './shared';
 
 export namespace JudgeErrorLabel {
   export interface Props extends LabelStyles {
-    progress: JudgeProgress;
+    error: JudgeError;
   }
 }
 export const JudgeErrorLabel: React.FC<JudgeErrorLabel.Props> = (props) => {
-  const {
-    progress: { status },
-  } = props;
+  const { error } = props;
   let message;
-  switch (status) {
-    case JudgeProgressStatus.ERROR:
-      message = 'System error';
+  switch (error.type) {
+    case JudgeErrorType.TEST_OUTPUT_JUDGER_ERROR:
+      message = 'Lỗi trình chấm';
       break;
     default:
-      message = '';
+      message = 'System error';
   }
   return <ErrorLabel message={message} />;
 };

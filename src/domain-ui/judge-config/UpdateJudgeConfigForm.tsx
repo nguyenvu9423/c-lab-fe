@@ -109,7 +109,7 @@ function useSubmitJudgeConfig(props: {
     ) => {
       const formData = new FormData();
 
-      const { testPackage, customJudger } = values;
+      const { testPackage, customTestJudger } = values;
 
       formData.append(
         'judgeConfig',
@@ -120,8 +120,8 @@ function useSubmitJudgeConfig(props: {
         formData.append('testPackage', testPackage);
       }
 
-      if (customJudger && customJudger instanceof File) {
-        formData.append('customJudger', customJudger);
+      if (customTestJudger && customTestJudger instanceof File) {
+        formData.append('customTestJudger', customTestJudger);
       }
 
       return ProblemService.updateJudgeConfig(problemCode, formData)

@@ -3,23 +3,23 @@ export interface JudgeConfig {
 
   memoryLimit: number;
 
-  scoringType: ScoringType;
+  judgeType: JudgeType;
 }
 
-export enum JudgerType {
+export enum TestJudgeType {
   LinesWordsCase = 'LinesWordsCase',
   Custom = 'Custom',
 }
 
-export namespace JudgerType {
-  export const values = [JudgerType.LinesWordsCase, JudgerType.Custom];
+export namespace TestJudgeType {
+  export const values = [TestJudgeType.LinesWordsCase, TestJudgeType.Custom];
 }
 
-export enum ScoringType {
+export enum JudgeType {
   ACM = 'ACM',
   OI = 'OI',
 }
 
-export namespace ScoringType {
-  export const values = [ScoringType.ACM, ScoringType.OI];
+export namespace JudgeType {
+  export const values = [JudgeType.ACM, JudgeType.OI];
 }

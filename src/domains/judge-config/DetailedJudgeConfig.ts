@@ -1,11 +1,11 @@
-import { CustomJudger } from './custom-judger';
+import { CustomTestJudger } from './custom-judger';
 import { TestPackage } from './test-package';
-import { JudgeConfig, JudgerType } from './JudgeConfig';
+import { JudgeConfig, TestJudgeType } from './JudgeConfig';
 
 export interface DetailedJudgeConfig extends JudgeConfig {
-  judgerType: JudgerType;
+  testJudgeType: TestJudgeType;
 
   testPackage: TestPackage;
 
-  customJudger: CustomJudger;
+  customTestJudger: CustomTestJudger;
 }

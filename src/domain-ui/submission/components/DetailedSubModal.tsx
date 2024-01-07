@@ -177,7 +177,7 @@ export const DetailedSubModal: React.FC<DetailedSubModal.Props> = (props) => {
                       <Header as="h4">Result Log</Header>
                       <ResultLog
                         detailedResult={detailedResult}
-                        scoringType={judge.config.scoringType}
+                        judgeType={judge.config.judgeType}
                       />
                     </Grid.Column>
                   </Grid.Row>
