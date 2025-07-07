@@ -30,6 +30,7 @@ export const Target = {
     USER: 'adminPage.user',
     ARTICLE: 'adminPage.article',
     PROBLEM: 'adminPage.problem',
+    CONTEST: 'adminPage.contest',
     SUBMISSION: 'adminPage.submission',
     TAG: 'adminPage.tag',
     ROLE: 'adminPage.role',
@@ -38,6 +39,22 @@ export const Target = {
   EDIT_USER_FORM: 'editUserForm',
   EDIT_ROLE_FORM: 'editRoleForm',
   DETAILED_SUB_MODAL: 'detailedSubModal',
+
+  ContestsPage: {
+    UPCOMING_CONTESTS: 'contestsPage.upcomingContests',
+    FINISHED_CONTESTS: 'contestsPage.finishedContests',
+  },
+  CONTEST_PAGE: 'contestPage',
+  ContestPageContents: {
+    SUBMISSIONS: 'contestPageContents.submissions',
+    PRINCIPAL_SUBMISSIONS: 'contestPageContents.principalSubmissions',
+    SCOREBOARD: 'contestPageContents.scoreboard',
+    PARTICIPANTS: 'contestPageContents.participants',
+  },
+  EDIT_CONTEST_FORM: 'EDIT_CONTEST_FORM',
+  EDIT_CONTEST_JUDGE_CONFIG_FORM: 'EDIT_CONTEST_JUDGE_CONFIG_FORM',
+  CONTEST_REJUDGE_FORM: 'CONTEST_REJUDGE_FORM',
+  CONTEST_PROBLEM_REJUDGE_FORM: 'CONTEST_PROBLEM_REJUDGE_FORM',
 };
 
 export namespace TargetPredicates {

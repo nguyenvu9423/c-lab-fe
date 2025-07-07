@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { FormikHelpers } from 'formik';
 import { ProblemService } from '@/services/ProblemService';
 import { ValidationException } from '../../../shared/exceptions';
 import { ProblemForm } from './ProblemForm';
-import { FormikHelpers } from 'formik';
 
 export namespace AddProblemForm {
   export interface Props {
@@ -28,7 +28,7 @@ export const AddProblemForm: React.FC<AddProblemForm.Props> = (props) => {
           }
         });
     },
-    [],
+    [onSuccess],
   );
 
   return (

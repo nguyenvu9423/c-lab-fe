@@ -9,7 +9,7 @@ export const DeleteProblemConfirm: React.FC<
   return (
     <Confirm
       defaultOpen
-      header="Delete problem"
+      header="Xóa bài tập"
       onCancel={props.onCancel}
       onConfirm={() => {
         ProblemService.deleteProblem(props.problemCode).then(() => {

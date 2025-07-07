@@ -12,8 +12,6 @@ export interface Problem {
   judgeConfig?: number;
 
   tags: number[];
-
-  solvedByPrincipal?: boolean;
 }
 
 export interface DetailedProblem extends Problem {

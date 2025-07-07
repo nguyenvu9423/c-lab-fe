@@ -1,4 +1,4 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createAction, EntityId } from '@reduxjs/toolkit';
 
 export interface UpdateEntityPayload {
   entities: any;
@@ -9,4 +9,13 @@ const updateEntity = createAction(
   (payload: UpdateEntityPayload) => ({ payload }),
 );
 
-export { updateEntity };
+export interface DeleteEntityPayload {
+  id: EntityId;
+}
+
+const deleteEntity = createAction(
+  'deleteEntity',
+  (payload: DeleteEntityPayload) => ({ payload }),
+);
+
+export { updateEntity, deleteEntity };

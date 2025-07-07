@@ -13,6 +13,12 @@ import { watchJudgeSaga } from './watchJudgeSaga';
 import { watchPrincipalSaga } from './watchPrincipalSaga';
 import { watchJudgeConfigSaga } from './watchJudgeConfigSaga';
 import { watchEmailVerificationSaga } from './watchEmailVerificationSaga';
+import { watchContestSaga } from './watchContestSaga';
+import { watchUserProblemResultSaga } from './watchUserProblemResultSaga';
+import { watchContestSubmissionSaga } from './watchContestSubmissionSaga';
+import { watchContestUserResultsSaga } from './watchContestUserResultSaga';
+import { watchContestRegistrationSaga } from './watchContestRegistrationSaga';
+import { watchContestProblemRejudgeSaga } from './watchContestProblemRejudge';
 
 function* rootSaga(): SagaIterator {
   yield all([
@@ -29,6 +35,12 @@ function* rootSaga(): SagaIterator {
     call(watchJudgeSaga),
     call(watchJudgeConfigSaga),
     call(watchEmailVerificationSaga),
+    call(watchContestSaga),
+    call(watchContestSubmissionSaga),
+    call(watchUserProblemResultSaga),
+    call(watchContestUserResultsSaga),
+    call(watchContestRegistrationSaga),
+    call(watchContestProblemRejudgeSaga),
   ]);
 }
 

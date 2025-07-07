@@ -5,65 +5,29 @@ import { DropdownItemProps, Form } from 'semantic-ui-react';
 import { VerdictFilterTypes } from './options';
 import { languageOptions } from './shared';
 import { ValuePredicateInput } from './ValuePredicateInput';
-import { ComparisonOperator, ExpressionNode } from '@rsql/ast';
-import { RsqlUtils } from '../../../../utils';
-
-const verdictOptions: DropdownItemProps[] = [{ key: '', text: '' }].concat(
-  [VerdictFilterTypes.AC, VerdictFilterTypes.WA].map((type) => ({
-    key: type,
-    value: type,
-    text: VerdictFilterTypes.getProperties(type).text,
-  })),
-);
+import { ComparisonOperator } from '@rsql/ast';
 
 export namespace OIFilterForm {
   export interface Props {
-    onQueryChange?(query?: string): void;
+    problemOptions?: ProblemOption[];
+    onSubmit?: (value: Value) => void;
   }
+
   export interface Value {
+    problem?: string;
     verdict?: VerdictFilterTypes;
     language?: string;
     score?: { operator: ComparisonOperator; value: number };
   }
+
+  interface ProblemOption {
+    value: string | undefined;
+    text: string;
+  }
 }
 
 export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
-  const { onQueryChange } = props;
-
-  const onSubmit = React.useCallback(
-    (values: OIFilterForm.Value) => {
-      const predicates: ExpressionNode[] = [];
-
-      if (values.language && values.language !== 'ANY') {
-        predicates.push(RsqlUtils.Builder.eq('language', values.language));
-      }
-
-      if (values.verdict) {
-        const filterProps = VerdictFilterTypes.getProperties(values.verdict);
-        if (filterProps.rsqlNode) {
-          predicates.push(filterProps.rsqlNode);
-        }
-      }
-      if (values.score) {
-        const { operator, value } = values.score;
-        predicates.push(
-          RsqlUtils.Builder.comparison(
-            'judge.result.score',
-            operator,
-            Number(value) / 100,
-          ),
-        );
-      }
-
-      const query =
-        predicates.length > 0
-          ? RsqlUtils.emit(RsqlUtils.Builder.and(...predicates))
-          : undefined;
-
-      onQueryChange?.(query ? query : undefined);
-    },
-    [onQueryChange],
-  );
+  const { problemOptions, onSubmit } = props;
 
   const { values, setFieldValue, handleSubmit } = useFormik<OIFilterForm.Value>(
     {
@@ -71,7 +35,7 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
         verdict: undefined,
         language: undefined,
       },
-      onSubmit,
+      onSubmit: (value) => onSubmit?.(value),
     },
   );
 
@@ -85,6 +49,16 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
 
   return (
     <Form error onSubmit={handleSubmit}>
+      <Form.Field>
+        <label>Bài tập</label>
+        <Form.Select
+          placeholder="Bài tập"
+          value={values.problem}
+          options={problemOptions ?? []}
+          name="problem"
+          onChange={handleChange}
+        />
+      </Form.Field>
       <Form.Field>
         <label>Kết quả</label>
         <Form.Select
@@ -126,3 +100,11 @@ export const OIFilterForm: React.FC<OIFilterForm.Props> = (props) => {
     </Form>
   );
 };
+
+const verdictOptions: DropdownItemProps[] = [{ key: '', text: '' }].concat(
+  [VerdictFilterTypes.AC, VerdictFilterTypes.WA].map((type) => ({
+    key: type,
+    value: type,
+    text: VerdictFilterTypes.getProperties(type).text,
+  })),
+);

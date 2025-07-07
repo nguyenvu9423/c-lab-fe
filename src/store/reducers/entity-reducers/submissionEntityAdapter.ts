@@ -17,6 +17,15 @@ export const submissionEntityReducer = createReducer(
         },
       )
       .addMatcher(
+        ({ payload }) => !!payload?.entities?.contestSubmission,
+        (state, { payload }) => {
+          submissionEntityAdapter.upsertMany(
+            state,
+            payload.entities.contestSubmission,
+          );
+        },
+      )
+      .addMatcher(
         ({ payload }) => !!payload?.entities?.detailedSub,
         (state, { payload }) => {
           submissionEntityAdapter.upsertMany(

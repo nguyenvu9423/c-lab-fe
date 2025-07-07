@@ -23,7 +23,7 @@ export namespace AuthenticationSelectors {
   export function username(): Selector<State, string | undefined> {
     return (state) => {
       if (DataHolder.isLoaded(state.authentication)) {
-        return state.authentication.accessTokenPayload.user_name;
+        return state.authentication.accessTokenPayload.sub;
       }
     };
   }

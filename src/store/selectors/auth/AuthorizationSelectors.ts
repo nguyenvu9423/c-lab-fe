@@ -7,12 +7,9 @@ import { State } from '../../state';
 import { PermissionMap } from '../../reducers/authentication';
 import { DataHolderState } from '../../reducers/data-holders/shared';
 import { EntityRef } from '../../../shared/types';
+import { ContestRegistrationSelectors } from '../ContestRegistrationSelectors';
 
 export namespace AuthorizationSelectors {
-  export function hasAdminRole(): Selector<State, boolean> {
-    return (state) => has(RoleType.ADMIN)(state);
-  }
-
   export function canCreateArticle(): Selector<State, boolean> {
     return (state) => has('CREATE_ARTICLE')(state);
   }
@@ -35,7 +32,7 @@ export namespace AuthorizationSelectors {
   }
 
   export function canCreateProblem(): Selector<State, boolean> {
-    return (state) => this.has('CREATE_PROBLEM')(state);
+    return (state) => has('CREATE_PROBLEM')(state);
   }
 
   export function canUpdateProblem(problem: {
@@ -85,21 +82,63 @@ export namespace AuthorizationSelectors {
     };
   }
 
-  export function permissions(): Selector<State, PermissionMap | undefined> {
+  export function canCreateContest(): Selector<State, boolean> {
+    return (state) => has(PermissionType.CREATE_CONTEST)(state);
+  }
+
+  export function canUpdateContest(contest: {
+    author: EntityRef;
+  }): Selector<State, boolean> {
     return (state) => {
-      if (DataHolderState.isLoaded(state.authentication)) {
-        return state.authentication.permissions;
-      } else {
-        return undefined;
+      if (has(PermissionType.UPDATE_ANY_CONTEST)(state)) return true;
+      const authorId = EntityRef.getId(contest.author);
+
+      if (has(PermissionType.UPDATE_OWN_CONTEST)) {
+        const principal = PrincipalSelectors.principal()(state);
+        if (principal?.id === authorId) {
+          return true;
+        }
       }
+      return false;
     };
   }
 
-  export function has(permission: string): Selector<State, boolean> {
+  export function canCreateContestSubmission(
+    contestId: number,
+  ): Selector<State, boolean> {
     return (state) => {
-      const pers = permissions()(state);
-      if (!pers) return false;
-      return !!pers[permission];
+      if (!has(PermissionType.SUBMIT)(state)) return false;
+      if (!has(PermissionType.CREATE_CONTEST_SUBMISSION)) return false;
+      const principal = PrincipalSelectors.principal()(state);
+      if (!principal) return false;
+      const registration = ContestRegistrationSelectors.byUserAndContest(
+        principal.id,
+        contestId,
+      )(state);
+
+      return !!registration;
     };
   }
+
+  export function hasAdminRole(): Selector<State, boolean> {
+    return (state) => has(RoleType.ADMIN)(state);
+  }
+}
+
+function permissions(): Selector<State, PermissionMap | undefined> {
+  return (state) => {
+    if (DataHolderState.isLoaded(state.authentication)) {
+      return state.authentication.permissions;
+    } else {
+      return undefined;
+    }
+  };
+}
+
+function has(permission: string): Selector<State, boolean> {
+  return (state) => {
+    const pers = permissions()(state);
+    if (!pers) return false;
+    return !!pers[permission];
+  };
 }

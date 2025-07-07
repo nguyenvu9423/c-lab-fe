@@ -67,11 +67,15 @@ export const ProblemForm: React.FC<ProblemForm.Props> = (props) => {
     onSubmit: (value, helpers) => onSubmit?.(value, helpers),
   });
 
-  const handleCodeChange = React.useCallback((event, data) => {
-    setFieldValue('code', data.value.toUpperCase());
-  }, []);
+  const handleCodeChange = React.useCallback(
+    (event, data) => {
+      setFieldValue('code', data.value.toUpperCase());
+    },
+    [setFieldValue],
+  );
 
   const errorMessageRenderer = useErrorMessageRenderer({ touched, errors });
+
   return (
     <Dimmer.Dimmable dimmed={isSubmitting}>
       <Form

@@ -119,7 +119,7 @@ export const SubmissionPage: React.FC = () => {
           activePage={page}
           totalPages={totalPages || 0}
           floated="right"
-          onPageChange={(event, { activePage }) => setPage(Number(activePage))}
+          onPageChange={(_event, { activePage }) => setPage(Number(activePage))}
         />
       </Segment>
     </Segment>

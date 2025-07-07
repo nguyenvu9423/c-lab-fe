@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import { submissionsReducer, SubmissionsState } from './data-holders';
-import { Target, TargetPredicates } from './target';
-import { createFilteredReducer } from './utils/createFilteredReducer';
+import { submissionsReducer, SubmissionsState } from '../data-holders';
+import { Target, TargetPredicates } from '../target';
+import { createFilteredReducer } from '../utils/createFilteredReducer';
 
 export interface PrincipalProblemSubsState {
   data: {

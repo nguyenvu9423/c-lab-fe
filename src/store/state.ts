@@ -19,20 +19,31 @@ import { ArticlePageState } from './reducers/page-reducers/articlePageReducer';
 import { ProblemRejudge } from '@/domains/problem-rejudge/ProblemRejudge';
 import { DetailedJudge, Judge } from '@/domains/judge';
 import { DetailedSubModalState } from './reducers/modal-reducers/detailedSubModalReducer';
-import { Submission, DetailedSub } from '@/domains/submission';
-import { PrincipalProblemSubsState } from './reducers/principalProblemSubsReducer';
+import {
+  Submission,
+  DetailedSub,
+  UserProblemResult,
+} from '@/domains/submission';
+import { PrincipalProblemSubsState } from './reducers/page-reducers/principalProblemSubsReducer';
 import { ProblemPageState } from './reducers/page-reducers/problemPageReducer';
 import { ProblemsPageState } from './reducers/page-reducers/problemsPageReducer';
 import { Problem, DetailedProblem } from '@/domains/problem/Problem';
-import { ProblemSubmissionsState } from './reducers/problemSubmissionsReducer';
+import { ProblemSubmissionsState } from './reducers/page-reducers/problemSubmissionsReducer';
 
 import {
   ArticlesPageState,
+  ContestPageState,
+  ContestScoreboardPageState,
   EditProblemPageState,
+  PrincipalContestSubsState,
   ProblemRejudgeFormState,
   UserPageState,
 } from './reducers/page-reducers';
 import {
+  ContestProblemRejudgeFormState,
+  ContestRejudgeFormState,
+  EditContestFormState,
+  EditContestJudgeConfigFormState,
   EditProblemFormState,
   UpdateJudgeConfigFormState,
 } from './reducers/form-reducers';
@@ -42,6 +53,16 @@ import { SearchState } from './reducers/searchReducer';
 import { AuthenticationState } from './reducers/authentication/authenticationReducer';
 import { ModalState } from './reducers/modalReducer';
 import { EmailVerificationPageState } from './reducers/page-reducers/emailVerificationPageReducer';
+import { ContestsPageState } from './reducers/page-reducers/contestsPageReducer';
+import {
+  Contest,
+  ContestProblemRejudge,
+  ContestSubmission,
+  UserContestRegistration,
+} from '@/domains/contest';
+import { ContestUserResult } from '@/domains/contest/ContestUserResult';
+import { ContestParticipantsPageState } from './reducers/page-reducers/contest/contestParticipantsPageReducer';
+import { ContestSubmissionsPageState } from './reducers/page-reducers/contest/contestSubmissionsPageReducer';
 
 export interface State {
   entity: {
@@ -49,6 +70,10 @@ export interface State {
     role: EntityState<Role>;
     article: EntityState<Article>;
     problem: EntityState<Problem>;
+    contest: EntityState<Contest>;
+    contestSubmission: EntityState<ContestSubmission>;
+    contestUserResult: EntityState<ContestUserResult>;
+    contestProblemRejudge: EntityState<ContestProblemRejudge>;
     detailedProblem: EntityState<DetailedProblem>;
     problemRejudge: EntityState<ProblemRejudge>;
     submission: EntityState<Submission>;
@@ -58,6 +83,8 @@ export interface State {
     judgeConfig: EntityState<JudgeConfig>;
     detailedJudgeConfig: EntityState<DetailedJudgeConfig>;
     tag: EntityState<Tag>;
+    userProblemResult: EntityState<UserProblemResult>;
+    userContestRegistration: EntityState<UserContestRegistration>;
   };
   authentication: AuthenticationState;
   principal: PrincipalState;
@@ -80,6 +107,19 @@ export interface State {
   articlesPage: ArticlesPageState;
   editArticlePage: EditArticlePageState;
 
+  contestsPage: ContestsPageState;
+  contestPage: ContestPageState;
+  contestPageContents: {
+    submissions: ContestSubmissionsPageState;
+    principalSubmissions: PrincipalContestSubsState;
+    scoreboard: ContestScoreboardPageState;
+    participants: ContestParticipantsPageState;
+  };
+  editContestForm: EditContestFormState;
+  editContestJudgeConfigForm: EditContestJudgeConfigFormState;
+  contestRejudgeForm: ContestRejudgeFormState;
+  contestProblemRejudgeForm: ContestProblemRejudgeFormState;
+
   emailVerificationPage: EmailVerificationPageState;
 
   detailedSubModal: DetailedSubModalState;
@@ -88,10 +128,12 @@ export interface State {
   editUserForm: EditUserFormState;
   editArticleForm: EditArticleFormState;
   editProblemForm: EditProblemFormState;
+
   editRoleForm: EditRoleFormState;
   editTagForm: EditTagFormState;
   updateJudgeConfigForm: UpdateJudgeConfigFormState;
   problemRejudgeForm: ProblemRejudgeFormState;
+
   modal: ModalState;
 
   toasts: ToastsState;

@@ -3,6 +3,7 @@ export * from './utils';
 
 export * from './ArticleSelectors';
 export * from './ProblemSelectors';
+export * from './ContestSelectors';
 export * from './DetailedProblemSelectors';
 export * from './ProblemRejudgeSelectors';
 export * from './SubmissionSelectors';
@@ -12,3 +13,7 @@ export * from './DetailedJudgeSelectors';
 export * from './JudgeConfigSelectors';
 export * from './DetailedJudgeConfigSelectors';
 export * from './JudgeSelectors';
+export * from './ContestUserResultSelectors';
+export * from './UserProblemResultSelectors';
+export * from './ContestProblemRejudgeSelectors';
+export * from './ContestSubmissionSelectors';

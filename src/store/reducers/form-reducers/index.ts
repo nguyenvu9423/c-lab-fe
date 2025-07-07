@@ -4,3 +4,7 @@ export * from './editArticleFormReducer';
 export * from './editUserFormReducer';
 export * from './editRoleFormReducer';
 export * from './updateJudgeConfigFormReducer';
+export * from './editContestFormReducer';
+export * from './editContestJudgeConfigFormReducer';
+export * from './contestRejudgeFormReducer';
+export * from './contestProblemRejudgeFormReducer';

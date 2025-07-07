@@ -1,35 +1,15 @@
-import * as qs from 'qs';
+import QueryString, * as qs from 'qs';
 import { apiCaller } from '../../utils/Axios';
 import { ServiceResponse } from '../types';
 import { Jwt } from '../../utils';
+import { PkceUtils } from '@/utils/Pkce';
+import { BackEndConfig } from 'src/config';
 
-const BASE_URL = '/oauth';
+const BASE_URL = '/oauth2';
 
-const client_id = 'log-n';
+const client_id = 'c-lab';
 
 export namespace AuthenticationService {
-  export function login({
-    username,
-    password,
-  }: {
-    username: string;
-    password: string;
-  }): ServiceResponse<Jwt> {
-    return apiCaller.post(
-      `${BASE_URL}/token`,
-      qs.stringify({
-        client_id,
-        grant_type: 'password',
-        username,
-        password,
-        scope: 'any',
-      }),
-      {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      },
-    );
-  }
-
   export function refreshToken(refreshToken: string): ServiceResponse<Jwt> {
     return apiCaller.post(
       `${BASE_URL}/token`,
@@ -37,11 +17,50 @@ export namespace AuthenticationService {
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
         client_id,
-        scope: 'any',
+        scope: 'openid',
       }),
       {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       },
     );
+  }
+
+  export function authorize(
+    authCode: string,
+    codeVerifier: string,
+  ): ServiceResponse {
+    const payload = QueryString.stringify({
+      grant_type: 'authorization_code',
+      client_id: 'c-lab',
+      code: authCode,
+      code_verifier: codeVerifier,
+      redirect_uri: 'https://localhost:3000/authorized',
+      scope: 'openid',
+    });
+
+    return apiCaller.post(`${BASE_URL}/token`, payload, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+  }
+
+  export async function login(codeVerifier: string): Promise<void> {
+    const codeChallenge = await PkceUtils.generateCodeChallenge(codeVerifier);
+
+    const query = QueryString.stringify({
+      response_type: 'code',
+      code_challenge: codeChallenge,
+      code_challenge_method: 'S256',
+      client_id: 'c-lab',
+      redirect_uri: `${window.location.origin}/authorized`,
+      scope: 'openid',
+    });
+
+    window.location.href = `${BackEndConfig.API_URL}/oauth2/authorize?` + query;
+  }
+
+  export function logout(): ServiceResponse {
+    return apiCaller.post(`/logout`, undefined, { withCredentials: true });
   }
 }

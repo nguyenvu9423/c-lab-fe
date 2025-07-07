@@ -6,10 +6,14 @@ import { SubmissionDetailsLink } from '@/domain-ui/submission';
 
 import { JudgeSelectors } from '@/store/selectors/JudgeSelectors';
 import { JudgeStatusLabel } from '@/domain-ui/judge';
-import { formatResourceTime, formatResourceMemory } from '../utils';
-import { ErrorTableBody, LoadingTableBody } from '@/components/table';
-import { DateTimeUtils } from '../../../utils/data-type/DateTimeUtils';
 import { Submission } from '@/domains/submission';
+import { formatResourceTime, formatResourceMemory } from '../utils';
+import {
+  EmptyTableBody,
+  ErrorTableBody,
+  LoadingTableBody,
+} from '@/components/table';
+import { DateTimeUtils } from '../../../utils/data-type/DateTimeUtils';
 
 export namespace SubmissionsTable {
   export interface Props extends TableProps {
@@ -22,6 +26,8 @@ export namespace SubmissionsTable {
 
 export const SubmissionsTable: React.FC<SubmissionsTable.Props> = (props) => {
   const { loading, errorMessage, submissions, highlightSubId, ...rest } = props;
+  const hasSubmissions = submissions && submissions.length > 0;
+
   return (
     <Table basic fixed singleLine style={{ border: 'none' }} {...rest}>
       <Table.Header>
@@ -45,9 +51,9 @@ export const SubmissionsTable: React.FC<SubmissionsTable.Props> = (props) => {
         <LoadingTableBody />
       ) : errorMessage ? (
         <ErrorTableBody message={errorMessage} />
-      ) : (
+      ) : hasSubmissions ? (
         <Table.Body>
-          {submissions?.map((submission) => {
+          {submissions.map((submission) => {
             return (
               <SubmissionRow
                 key={submission.id}
@@ -57,6 +63,8 @@ export const SubmissionsTable: React.FC<SubmissionsTable.Props> = (props) => {
             );
           })}
         </Table.Body>
+      ) : (
+        <EmptyTableBody content="Chưa có bài nộp" />
       )}
     </Table>
   );

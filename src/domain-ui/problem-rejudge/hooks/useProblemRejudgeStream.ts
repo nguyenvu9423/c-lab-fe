@@ -4,7 +4,7 @@ import { ProblemRejudgeService } from '@/services/judge/ProblemRejudgeService';
 import { ArrayUtils } from '../../../utils';
 import { normalize } from 'normalizr';
 import { updateEntity } from '@/store/actions';
-import { ProblemRejudgeArraySchema } from '../../../entity-schemas/problemRejudge';
+import { ProblemRejudgeArraySchema } from '../../../entity-schemas/problem-rejudge-schemas';
 
 export function useProblemRejudgeStream(ids: number[]): void {
   const dispatch = useDispatch();

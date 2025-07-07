@@ -5,7 +5,7 @@ import 'semantic-ui-less/semantic.less';
 
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import App from './app';
+import { App } from './app';
 import { store } from './store';
 
 const container = document.getElementById('root');

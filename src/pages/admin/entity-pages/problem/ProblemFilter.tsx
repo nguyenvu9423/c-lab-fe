@@ -32,7 +32,7 @@ export const ProblemFilter: React.FC<ProblemFilter.Props> = (props) => {
 
   const { onChange } = props;
 
-  const handleFitlersChange = React.useCallback(
+  const handleFiltersChange = React.useCallback(
     (filters) => {
       setFilters(filters);
       const predicates: ExpressionNode[] = [];
@@ -76,13 +76,13 @@ export const ProblemFilter: React.FC<ProblemFilter.Props> = (props) => {
             name="id"
             placeholder="ID"
             fluid
-            onChange={(value) => handleFitlersChange({ ...filters, id: value })}
+            onChange={(value) => handleFiltersChange({ ...filters, id: value })}
           />
         </Grid.Column>
         <Grid.Column width={4}>
           <ProblemCodeSelect
             onChange={(value) => {
-              handleFitlersChange({ ...filters, code: value });
+              handleFiltersChange({ ...filters, code: value });
             }}
           />
         </Grid.Column>
@@ -90,14 +90,14 @@ export const ProblemFilter: React.FC<ProblemFilter.Props> = (props) => {
           <UserSelect
             placeholder="Người tạo"
             onChange={(value) =>
-              handleFitlersChange({ ...filters, author: value })
+              handleFiltersChange({ ...filters, author: value })
             }
           />
         </Grid.Column>
         <Grid.Column width={6}>
           <TagSelect
             onChange={(value) =>
-              handleFitlersChange({ ...filters, tags: value })
+              handleFiltersChange({ ...filters, tags: value })
             }
           />
         </Grid.Column>

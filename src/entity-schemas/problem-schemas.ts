@@ -6,7 +6,7 @@ import {
 } from './judge-config-schemas';
 import { tagArraySchema } from './tag-schemas';
 import { Problem, DetailedProblem } from '@/domains/problem';
-import { problemRejudgeSchema } from './problemRejudge';
+import { problemRejudgeSchema } from './problem-rejudge-schemas';
 
 export const problemSchema = new schema.Entity<Problem>('problem', {
   author: userSchema,

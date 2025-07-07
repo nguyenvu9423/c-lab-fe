@@ -13,6 +13,4 @@ export interface ProblemDTO {
   definition: string;
 
   tags: TagDTO[];
-
-  solvedByPrincipal?: boolean;
 }

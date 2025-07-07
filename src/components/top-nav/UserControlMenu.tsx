@@ -46,6 +46,12 @@ export const UserControlMenu: React.FC<{ user: User }> = (props) => {
                   icon="tasks"
                 />
               )}
+              <Dropdown.Item
+                as={Link}
+                to="/contests/add"
+                text="Kỳ thi"
+                icon="trophy"
+              />
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Item>

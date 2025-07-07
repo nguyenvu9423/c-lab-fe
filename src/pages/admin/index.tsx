@@ -10,9 +10,10 @@ import { ArticlePage } from './entity-pages/article';
 import { UserPage } from './entity-pages/user';
 import { RolePage } from './entity-pages/RolePage';
 import { AuthorizationSelectors } from '@/store/selectors';
-import { PageErrorMessage } from '../shared';
 import { SubmissionPage } from './entity-pages/submission';
 import { ProblemPage } from './entity-pages/problem';
+import { ContestPage } from './entity-pages/contest';
+import { PageErrorMessage } from '../shared';
 import { useScrollToTop } from '../../shared/hooks';
 import { TOP_NAV_OFFSET } from '../../shared/variables';
 
@@ -34,6 +35,9 @@ export const AdminPage: React.FC = () => {
       break;
     case 'problems':
       content = <ProblemPage />;
+      break;
+    case 'contests':
+      content = <ContestPage />;
       break;
     case 'users':
       content = <UserPage />;
@@ -95,6 +99,13 @@ function ControlMenu(props) {
             content="Bài tập"
             to={`${baseURL}/problems`}
             active={activePage === 'problems'}
+          />
+          <Menu.Item
+            as={Link}
+            link
+            content="Kỳ thi"
+            to={`${baseURL}/contests`}
+            active={activePage === 'contests'}
           />
           <Menu.Item
             as={Link}

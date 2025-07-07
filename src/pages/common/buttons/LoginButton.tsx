@@ -1,27 +1,25 @@
 import * as React from 'react';
 import { Button, ButtonProps } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router';
+import { AuthenticationService } from '@/services/auth';
+import { AuthRequest } from '@/domains/auth';
+import { PkceUtils } from '@/utils/Pkce';
 
 export const LoginButton: React.FC<ButtonProps> = (props) => {
-  const location = useLocation();
+  const handleClick = React.useCallback(() => {
+    const currentUrl = window.location.pathname;
+    const request: AuthRequest = {
+      codeVerifier: PkceUtils.generateCodeVerifier(),
+      redirectUrl: shouldGoBack(currentUrl) ? currentUrl : '/',
+    };
+    sessionStorage.setItem('authRequest', JSON.stringify(request));
+    AuthenticationService.login(request.codeVerifier);
+  }, []);
 
-  const prevPath = location.pathname;
-
-  return (
-    <Button
-      as={Link}
-      to="/login"
-      state={{ prevPath: shouldGoBack(prevPath) ? prevPath : undefined }}
-      content="Đăng nhập"
-      {...props}
-    />
-  );
+  return <Button content="Đăng nhập" {...props} onClick={handleClick} />;
 };
 
 function shouldGoBack(url: string) {
   return !(
-    url.startsWith('/login') ||
     url.startsWith('/logout') ||
     url.startsWith('/email-verification') ||
     url.startsWith('/reset-password')

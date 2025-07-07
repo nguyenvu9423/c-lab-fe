@@ -1,19 +1,17 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router';
+import { Navigate } from 'react-router';
 import { Grid, Header, Loader, Segment } from 'semantic-ui-react';
 import { Helmet } from 'react-helmet';
 
 import { useScrollToTop } from '../../shared/hooks';
 import { addToast, logout } from '../../store/actions';
 import { AuthenticationSelectors } from '@/store/selectors';
-import { LoginForm } from '../login';
 
 export const LogoutPage: React.FC = () => {
   useScrollToTop();
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const isFirstRender = React.useRef(true);
 
   const isAuthenticated = useSelector(
@@ -57,13 +55,7 @@ export const LogoutPage: React.FC = () => {
             <Header as="h4" attached="top" block>
               Đăng nhập
             </Header>
-            <Segment attached>
-              <LoginForm
-                onSuccess={() => {
-                  navigate('/');
-                }}
-              />
-            </Segment>
+            <Segment attached>Logged out</Segment>
           </Grid.Column>
         </Grid.Row>
       </Grid>

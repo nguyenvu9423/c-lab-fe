@@ -5,13 +5,13 @@ export interface Jwt {
 }
 
 export interface AccessTokenPayload {
-  user_name: string;
+  sub: string;
   exp: number;
   authorities?: string[];
 }
 
 export interface RefreshTokenPayload {
-  user_name: string;
+  sub: string;
   exp: number;
   authorities?: string[];
 }

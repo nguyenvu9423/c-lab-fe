@@ -153,7 +153,7 @@ export const ProblemPage: React.FC = () => {
         <Segment vertical>
           <Pagination
             floated="right"
-            totalPages={totalPages || 0}
+            totalPages={totalPages ?? 0}
             activePage={page}
             onPageChange={(e, { activePage }) => setPage(Number(activePage))}
           />

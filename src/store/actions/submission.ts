@@ -8,7 +8,6 @@ import { BaseFetchErrorPayload, BaseFetchPayload } from './shared';
 export namespace FetchSubmissions {
   export interface BaseRequestPayload extends BaseFetchPayload {
     type?: string;
-    target?: string;
     query?: string;
     pageable: Pageable;
   }

@@ -6,25 +6,21 @@ import { VerdictFilterTypes } from './options';
 
 import { languageOptions } from './shared';
 import { ValuePredicateInput } from './ValuePredicateInput';
-import { RsqlUtils } from '../../../../utils';
-import { ComparisonOperator, ExpressionNode } from '@rsql/ast';
-
-const verdictOptions: { value?: string; text: string }[] = [
-  { key: '', text: '' },
-].concat(
-  VerdictFilterTypes.values.map((type) => ({
-    key: type,
-    value: type,
-    text: VerdictFilterTypes.getProperties(type).text,
-  })),
-);
+import { ComparisonOperator } from '@rsql/ast';
 
 export namespace AcmFilterForm {
   export interface Props {
-    onQueryChange?(query: string | undefined): void;
+    problemOptions?: ProblemOption[];
+    onSubmit?: (value: Value) => void;
+  }
+
+  interface ProblemOption {
+    value: string | undefined;
+    text: string;
   }
 
   export interface Value {
+    problem?: string;
     verdict?: VerdictFilterTypes;
     language?: string;
     passedTestCount?: { operator: ComparisonOperator; value: number };
@@ -32,47 +28,12 @@ export namespace AcmFilterForm {
 }
 
 export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
-  const { onQueryChange } = props;
-
-  const onSubmit = React.useCallback(
-    (values: AcmFilterForm.Value) => {
-      const predicates: ExpressionNode[] = [];
-
-      if (values.language && values.language !== 'ANY') {
-        predicates.push(RsqlUtils.Builder.eq('language', values.language));
-      }
-
-      if (values.verdict) {
-        const filterProps = VerdictFilterTypes.getProperties(values.verdict);
-        if (filterProps.rsqlNode) {
-          predicates.push(filterProps.rsqlNode);
-        }
-      }
-
-      if (values.passedTestCount) {
-        const { operator, value } = values.passedTestCount;
-        predicates.push(
-          RsqlUtils.Builder.comparison(
-            'judge.result.passedTestCount',
-            operator,
-            value,
-          ),
-        );
-      }
-      if (predicates.length > 0) {
-        const andPredicates = RsqlUtils.Builder.and(...predicates);
-        onQueryChange?.(RsqlUtils.emit(andPredicates));
-      } else {
-        onQueryChange?.(undefined);
-      }
-    },
-    [onQueryChange],
-  );
+  const { problemOptions, onSubmit } = props;
 
   const { values, setFieldValue, handleSubmit } =
     useFormik<AcmFilterForm.Value>({
       initialValues: {},
-      onSubmit,
+      onSubmit: (value) => onSubmit?.(value),
     });
 
   const handleChange = React.useCallback(
@@ -85,6 +46,18 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
 
   return (
     <Form onSubmit={handleSubmit}>
+      {problemOptions && (
+        <Form.Field>
+          <label>Bài tập</label>
+          <Form.Select
+            placeholder="Bài tập"
+            value={values.problem}
+            options={problemOptions}
+            name="problem"
+            onChange={handleChange}
+          />
+        </Form.Field>
+      )}
       <Form.Field>
         <label>Kết quả</label>
         <Form.Select
@@ -123,3 +96,13 @@ export const AcmFilterForm: React.FC<AcmFilterForm.Props> = (props) => {
     </Form>
   );
 };
+
+const verdictOptions: { value?: string; text: string }[] = [
+  { key: '', text: '' },
+].concat(
+  VerdictFilterTypes.values.map((type) => ({
+    key: type,
+    value: type,
+    text: VerdictFilterTypes.getProperties(type).text,
+  })),
+);

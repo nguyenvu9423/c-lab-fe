@@ -13,7 +13,14 @@ export namespace UserPageLink {
 
 export const UserPageLink: React.FC<UserPageLink.Props> = (props) => {
   return 'username' in props ? (
-    <Link to={`/users/${props.username}`}>{props.username}</Link>
+    <Link
+      to={`/users/${props.username}`}
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+    >
+      {props.username}
+    </Link>
   ) : (
     <UserPageLinkWithId userId={props.userId} />
   );
@@ -21,5 +28,14 @@ export const UserPageLink: React.FC<UserPageLink.Props> = (props) => {
 
 const UserPageLinkWithId: React.FC<UserPageLink.PropsWithId> = ({ userId }) => {
   const user = useSelector(UserSelectors.selectById(userId));
-  return <Link to={`/users/${user.username}`}>{user.username}</Link>;
+  return (
+    <Link
+      to={`/users/${user.username}`}
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+    >
+      {user.username}
+    </Link>
+  );
 };

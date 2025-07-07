@@ -7,3 +7,7 @@ export * from './articlesPageReducer';
 export * from './userPageReducer';
 export * from './adminPageReducer';
 export * from './problem-setting-pages/problemRejudgePageReducer';
+export * from './contestPageReducer';
+export * from './contestsPageReducer';
+export * from './contest/principalContestSubsReducer';
+export * from './contest';

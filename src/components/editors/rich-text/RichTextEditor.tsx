@@ -70,7 +70,7 @@ const { Toolbar } = toolbarPlugin;
 const { AlignmentTool } = alignmentPlugin;
 
 export const RichTextEditor: React.FC<{
-  className: string;
+  className?: string;
   initialValue?: RawDraftContentState;
   onChange?: (state: RawDraftContentState) => void;
   readonly?: boolean;

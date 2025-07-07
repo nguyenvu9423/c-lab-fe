@@ -1,0 +1,1 @@
+export { UpdateContestJudgeConfigForm } from './UpdateContestJudgeConfigForm';

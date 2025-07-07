@@ -11,10 +11,12 @@ import {
 import { LoadingIndicator } from '@/components/loading-indicator';
 import { ProblemRejudgeStatus } from '@/domains/problem-rejudge';
 import { ProblemService } from '@/services/ProblemService';
-import { State } from '../../../store';
+import { ProblemRejudgeService } from '@/services/judge';
 import { DataHolder } from '@/store/reducers/data-holders/shared';
 import { Target } from '@/store/reducers/target';
+import { State } from '@/store/state';
 import { ProblemRejudgeInfo } from '@/domains/problem-rejudge';
+import { useProblemRejudgeStream } from '@/domain-ui/problem-rejudge';
 
 export namespace ProblemRejudgeForm {
   export interface Props {
@@ -45,6 +47,8 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
       : ConstSelectors.value(undefined),
   );
 
+  useProblemRejudgeStream(problemRejudge ? [problemRejudge.id] : []);
+
   const load = React.useCallback(() => {
     dispatch(
       fetchDetailedProblem.request({
@@ -60,6 +64,11 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
       load();
     });
   }, [load, problemCode]);
+
+  const cancel = React.useCallback(() => {
+    if (!problemRejudge) return;
+    return ProblemRejudgeService.cancel(problemRejudge.id);
+  }, [problemRejudge]);
 
   React.useEffect(() => {
     load();
@@ -97,7 +106,10 @@ export const ProblemRejudgeForm: React.FC<ProblemRejudgeForm.Props> = (
       {problemRejudge && (
         <>
           <Divider />
-          <ProblemRejudgeInfo problemRejudge={problemRejudge} />
+          <ProblemRejudgeInfo
+            problemRejudge={problemRejudge}
+            onCancel={cancel}
+          />
         </>
       )}
     </>

@@ -1,11 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
 import { LoadingState } from './../../common';
-import {
-  AccessTokenPayload,
-  RefreshTokenPayload,
-  Jwt,
-} from './../../../utils/Token';
+import { AccessTokenPayload, Jwt } from './../../../utils/Token';
 import { refreshToken, setToken } from '../../actions';
 import { DataHolderState } from '../data-holders/shared';
 
@@ -15,7 +11,6 @@ export type AuthenticationState = DataHolderState<
     token: Jwt;
     permissions: PermissionMap;
     accessTokenPayload: AccessTokenPayload;
-    refreshTokenPayload: RefreshTokenPayload;
   }
 >;
 
@@ -38,9 +33,6 @@ export const authenticationReducer = createReducer<AuthenticationState>(
           const accessTokenPayload = jwtDecode<AccessTokenPayload>(
             token.access_token,
           );
-          const refreshTokenPayload = jwtDecode<RefreshTokenPayload>(
-            token.refresh_token,
-          );
 
           const { authorities } = accessTokenPayload;
 
@@ -55,7 +47,6 @@ export const authenticationReducer = createReducer<AuthenticationState>(
             token,
             permissions,
             accessTokenPayload,
-            refreshTokenPayload,
           };
         } else {
           return {

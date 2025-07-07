@@ -86,8 +86,9 @@ export const fetchDetailedProblem = {
 
 export namespace FetchProblems {
   export interface RequestPayload extends BaseFetchPayload {
-    query?: string;
     pageable: Pageable;
+
+    query?: string;
   }
 
   export interface ResponsePayload extends BaseFetchPayload {

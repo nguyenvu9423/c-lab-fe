@@ -14,3 +14,4 @@ export { ProblemService } from './ProblemService';
 export { SearchService } from './SearchService';
 export { TagService } from './TagService';
 export { UserService } from './UserService';
+export { ContestService } from './contest';

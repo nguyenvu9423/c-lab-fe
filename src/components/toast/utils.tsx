@@ -5,6 +5,7 @@ export class CRUDToastBuilder {
   entity: string;
   operation: 'tạo' | 'sửa' | 'xóa';
   status?: 'success' | 'failed';
+  message?: string;
 
   constructor(entity: string, operation: 'tạo' | 'sửa' | 'xóa') {
     this.entity = entity;
@@ -15,7 +16,8 @@ export class CRUDToastBuilder {
     return {
       id: uuid.v4(),
       header: capitalize(`${this.operation} ${this.entity} thành công`),
-      content: capitalize(`${this.entity} đã được ${this.operation}`),
+      content:
+        this.message ?? capitalize(`${this.entity} đã được ${this.operation}`),
       status:
         this.status === 'success'
           ? 'positive'
@@ -28,6 +30,11 @@ export class CRUDToastBuilder {
 
   setStatus(status: 'success' | 'failed' | undefined): CRUDToastBuilder {
     this.status = status;
+    return this;
+  }
+
+  setMessage(message: string): CRUDToastBuilder {
+    this.message = message;
     return this;
   }
 }

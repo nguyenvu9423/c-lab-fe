@@ -12,6 +12,8 @@ import {
   ArticlesState,
   SubmissionsState,
   submissionsReducer,
+  ContestsState,
+  contestsReducer,
 } from '../data-holders';
 
 import { Target, TargetPredicates } from '../target';
@@ -31,6 +33,11 @@ export interface AdminPageState {
   problem: {
     data: {
       problems: ProblemsState;
+    };
+  };
+  contest: {
+    data: {
+      contests: ContestsState;
     };
   };
   submission: {
@@ -76,6 +83,12 @@ export const adminPageReducer = combineReducers<AdminPageState>({
       data: combineReducers({ problems: problemsReducer }),
     }),
     TargetPredicates.equal(Target.AdminPage.PROBLEM),
+  ),
+  contest: createFilteredReducer(
+    combineReducers({
+      data: combineReducers({ contests: contestsReducer }),
+    }),
+    TargetPredicates.equal(Target.AdminPage.CONTEST),
   ),
   submission: createFilteredReducer(
     combineReducers({

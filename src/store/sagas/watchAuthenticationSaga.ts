@@ -57,6 +57,7 @@ function* initToken(): SagaIterator {
 function* autoRefreshToken() {
   while (true) {
     const currentToken = yield select(AuthenticationSelectors.token());
+
     if (!currentToken) {
       throw new Error();
     }
@@ -88,6 +89,7 @@ export function* watchAuthFlowSaga(): SagaIterator {
 function* handleLogout(): SagaIterator<void> {
   yield put(resetState());
   yield put(setToken({ token: null }));
+  yield call(AuthenticationService.logout);
 }
 
 export function* watchAuthenticationSaga() {

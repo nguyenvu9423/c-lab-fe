@@ -4,7 +4,7 @@ import { entityReducer } from './entity-reducers';
 import {
   principalProblemSubsReducer,
   PrincipalProblemSubsState,
-} from './principalProblemSubsReducer';
+} from './page-reducers/principalProblemSubsReducer';
 import { toastsReducer } from './toastsReducer';
 import { principalProblemSubsCardReducer } from './card-reducers/principalProblemSubsCardReducer';
 import { State } from './../state';
@@ -12,7 +12,7 @@ import { detailedSubModalReducer } from './modal-reducers/detailedSubModalReduce
 import {
   problemSubmissionsReducer,
   ProblemSubmissionsState,
-} from './problemSubmissionsReducer';
+} from './page-reducers/problemSubmissionsReducer';
 import { modalReducer } from './modalReducer';
 import {
   problemPageReducer,
@@ -24,6 +24,11 @@ import {
   userPageReducer,
   adminPageReducer,
   problemRejudgeFormReducer,
+  contestPageReducer,
+  PrincipalContestSubsState,
+  principalContestSubsReducer,
+  ContestScoreboardPageState,
+  contestScoreboardPageReducer,
 } from './page-reducers';
 import {
   editProblemFormReducer,
@@ -32,11 +37,24 @@ import {
   editUserFormReducer,
   updateJudgeConfigFormReducer,
   editRoleFormReducer,
+  editContestFormReducer,
+  editContestJudgeConfigFormReducer,
+  contestRejudgeFormReducer,
+  contestProblemRejudgeFormReducer,
 } from './form-reducers';
 import { searchReducer } from './searchReducer';
 import { authenticationReducer, principalReducer } from './authentication';
 import { resetState } from '../actions';
 import { emailVerificationPageReducer } from './page-reducers/emailVerificationPageReducer';
+import { contestsPageReducer } from './page-reducers/contestsPageReducer';
+import {
+  contestParticipantsPageReducer,
+  ContestParticipantsPageState,
+} from './page-reducers/contest/contestParticipantsPageReducer';
+import {
+  contestSubmissionsPageReducer,
+  ContestSubmissionsPageState,
+} from './page-reducers/contest/contestSubmissionsPageReducer';
 
 const rootReducer: Reducer<State> = (state, action) => {
   if (resetState.match(action) && action.payload.target === undefined) {
@@ -72,6 +90,25 @@ const appReducer = combineReducers<State>({
   articlesPage: articlesPageReducer,
   editArticlePage: editArticlePageReducer,
   editArticleForm: editArticleFormReducer,
+
+  contestsPage: contestsPageReducer,
+  contestPage: contestPageReducer,
+  contestPageContents: combineReducers<{
+    submissions: ContestSubmissionsPageState;
+    principalSubmissions: PrincipalContestSubsState;
+    scoreboard: ContestScoreboardPageState;
+    participants: ContestParticipantsPageState;
+  }>({
+    submissions: contestSubmissionsPageReducer,
+    principalSubmissions: principalContestSubsReducer,
+    scoreboard: contestScoreboardPageReducer,
+    participants: contestParticipantsPageReducer,
+  }),
+
+  editContestForm: editContestFormReducer,
+  editContestJudgeConfigForm: editContestJudgeConfigFormReducer,
+  contestRejudgeForm: contestRejudgeFormReducer,
+  contestProblemRejudgeForm: contestProblemRejudgeFormReducer,
 
   emailVerificationPage: emailVerificationPageReducer,
 

@@ -1,27 +1,22 @@
 import * as React from 'react';
 import { Button, Header, Progress, Statistic } from 'semantic-ui-react';
-import { ProblemRejudgeService } from '../../services/judge/ProblemRejudgeService';
 import { ProblemRejudgeStatus } from './problem-rejudge-progress';
 import { ProblemRejudge } from './ProblemRejudge';
-import { useProblemRejudgeStream } from '../../domain-ui/problem-rejudge/hooks/useProblemRejudgeStream';
 
 export namespace ProblemRejudgeInfo {
   export interface Props {
     problemRejudge: ProblemRejudge;
+
+    onCancel?: () => void;
   }
 }
 
 export const ProblemRejudgeInfo: React.FC<ProblemRejudgeInfo.Props> = ({
   problemRejudge,
+  onCancel,
 }) => {
   const { progress, total } = problemRejudge;
   const { status, doneCount } = progress;
-
-  useProblemRejudgeStream([problemRejudge.id]);
-
-  const cancel = React.useCallback(() => {
-    return ProblemRejudgeService.cancel(problemRejudge.id);
-  }, [problemRejudge.id]);
 
   return (
     <div>
@@ -44,7 +39,7 @@ export const ProblemRejudgeInfo: React.FC<ProblemRejudgeInfo.Props> = ({
           icon="cancel"
           floated="right"
           content="Dừng"
-          onClick={cancel}
+          onClick={onCancel}
         />
       )}
 

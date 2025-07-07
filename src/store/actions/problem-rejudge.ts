@@ -1,6 +1,6 @@
-import { NormalizedEntities } from '../../entity-schemas';
-import { ProblemRejudge } from '@/domains/problem-rejudge/ProblemRejudge';
 import { createAction } from '@reduxjs/toolkit';
+import { ContestProblemRejudge } from '@/domains/contest';
+import { NormalizedEntities } from '../../entity-schemas';
 import { BaseFetchPayload, BaseFetchErrorPayload } from './shared';
 
 export namespace FetchProblemRejudge {
@@ -22,7 +22,7 @@ export namespace FetchProblemRejudge {
 
   export interface ResponsePayload extends BaseFetchPayload {
     result: number;
-    entities: NormalizedEntities<ProblemRejudge>;
+    entities: NormalizedEntities<ContestProblemRejudge>;
   }
 
   export type ErrorPayload = BaseFetchErrorPayload;
