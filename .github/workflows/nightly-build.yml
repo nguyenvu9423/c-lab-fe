@@ -12,7 +12,7 @@ env:
 
 jobs:
   nightly-build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: logging
@@ -27,13 +27,13 @@ jobs:
 
       - name: dist
         run: yarn run build
-        
+
       - name: Docker Login
         uses: docker/login-action@v3.0.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          
+
       - name: Build and push Docker images
         uses: docker/build-push-action@v5.0.0
         with:
